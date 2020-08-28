@@ -1,0 +1,548 @@
+import React from 'react'
+import { StyleSheet, View, Text, Image, Picker, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHome, faBars, faTimes, faCaretDown, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import * as ImagePicker from 'expo-image-picker'
+import axios from 'axios'
+import { Camera } from 'expo-camera'
+import { connect } from 'react-redux'
+import Bdd from '../API/Bdd'
+import TopMenu from "./Menu/TopMenu"
+import BottomMenu from "./Menu/BottomMenu"
+import RNPickerSelect from 'react-native-picker-select';
+import { ScrollView } from 'react-native-gesture-handler';
+class Document extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rollGranted: true,
+      cameraGranted: false,
+      uri_pict: null,
+      pict_name: null,
+      uri_doc: null,
+      isCamera: false,
+      base64Img: null,
+      doc: {},
+      name: "",
+      isLoading: false,
+      docCategorie :  ""
+    }
+    
+
+  }
+  _menu = null;
+
+    
+    
+  setMenuRef = ref => {
+    this._menu = ref;
+  };
+ 
+  hideMenu = () => {
+    this._menu.hide();
+  };
+ 
+  showMenu = () => {
+    this._menu.show();
+  };
+
+  componentDidMount() {
+    this.getCameraPermissions();
+    // console.log('user',this.props.user.user.data.user[0].id)
+  }
+
+  goToCam = () => {
+    // console.log(this.props.navigation);
+    //this.props.navigation.push("Cam")
+    this.setState({ isCamera: true });
+  }
+
+  goToMapping() {
+    this.props.navigation.navigate("Mapping")
+  }
+
+
+  goToDocumentMenu() {
+    this.props.navigation.navigate("DocumentMenu")
+  }
+
+
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true
+    });
+
+    //console.log(result)
+
+    if (!result.cancelled) {
+      this.setState({ uri_doc: result.uri, uri_pict: null, base64Img: `data:image/jpg;base64,${result.base64}` })
+
+      //   let base64Img = `data:image/jpg;base64,${result.base64}`
+
+      //Add your cloud name
+
+    }
+
+  }
+
+  saveImg() {
+    this.setState({ isLoading: true });
+    let apiUrl = 'https://api.cloudinary.com/v1_1/hb314jso8/image/upload';
+    if (this.state.uri_doc !== null) {
+      let data = {
+        "file": this.state.base64Img,
+        "upload_preset": 'aoknragz'
+      }
+
+      fetch(apiUrl, {
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+      }).then(async r => {
+        let data = await r.json()
+        //   console.log(data)
+
+        if (data.error) {
+          console.log('pas enregistré')
+          return;
+        }
+
+
+        let specialTempDocName = this.state.name + "__" + this.state.docCategorie
+
+        let doc = {
+          name: specialTempDocName,
+          url: '/' + data.public_id + '.' + data.format,
+          user_id: this.props.second.second_users[this.props.second.indexSelected].id,
+          public_id: data.public_id
+        }
+
+        //  console.log('doc', doc);
+
+        axios.post(Bdd.api_url + '/api/document/add', doc)
+          .then((response) => {
+            //console.log('res document',response);
+            if (response.data.status === 200) {
+              this.goToDocumentMenu()
+            }
+          })
+
+
+        return data.secure_url
+      }).catch(err => console.log("misy olana ", err))
+    } else if (this.state.uri_pict !== null) {
+      let data = {
+        "file": this.state.base64Img,
+        "upload_preset": 'aoknragz'
+      }
+
+      fetch(apiUrl, {
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+      }).then(async r => {
+        let data = await r.json()
+        //     console.log('les data photo', data);
+
+        if (data.error) {
+          return;
+        }
+        let doc = {
+          name: this.state.name,
+          url: '/' + data.public_id + '.' + data.format,
+          user_id: this.props.second.second_users[this.props.second.indexSelected].id,
+          public_id: data.public_id
+        }
+
+        axios.post(Bdd.api_url + '/api/document/add', doc)
+          .then((response) => {
+            //  console.log('res document',response);
+            if (response.data.status === 200) {
+              this.setState({ isLoading: false })
+              this.goToDocumentMenu()
+            }
+          })
+
+
+        return data.secure_url
+      }).catch(err => console.log(err))
+    } else {
+      console.log('rien')
+    }
+
+  }
+
+  /***********************CAMERA !!!!!!!!! */
+  getCamera() {
+    return (
+      <View style={styles.container}>
+        {this.state.isLoading && <View style={styles.loading_container}>
+          <ActivityIndicator size="large" />
+        </View>}
+        {this.state.uri_pict === null && <Camera
+          type={Camera.Constants.Type.back}
+          style={{ flex: 1 }}
+          ref={ref => {
+            this.camera = ref;
+          }}
+        />}
+        {this.state.uri_pict === null && <TouchableOpacity
+          onPress={() =>
+            this.state.rollGranted && this.state.cameraGranted
+              ? this.takePictureAndCreateAlbum()
+              : Alert.alert('Permissions not granted')
+          }
+          style={styles.buttonContainer}>
+          <View style={styles.buttonRond}>
+
+          </View>
+        </TouchableOpacity>}
+        {this.state.uri_pict === null && <TouchableOpacity
+          onPress={() =>
+            this.setState({ isCamera: false })
+          }
+          style={styles.buttonContainer2}>
+          <View style={styles.buttonBack}>
+            <Text style={styles.textBack}>
+              retour
+                  </Text>
+          </View>
+        </TouchableOpacity>}
+        {this.state.uri_pict !== null && <Image
+          style={{ marginLeft: wp('0%'), marginTop: hp('10%'), width: wp('100%'), height: wp('125%') }}
+          source={{ uri: this.state.uri_pict }}
+        />}
+        {this.state.uri_pict !== null && <TouchableOpacity
+          onPress={() =>
+            this.setState({ uri_pict: null })
+          }
+          style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>
+              back
+                  </Text>
+          </View>
+        </TouchableOpacity>}
+        {this.state.uri_pict !== null && <TouchableOpacity
+          onPress={() =>
+            this.setState({ isCamera: false, uri_doc: null })
+          }
+          style={styles.buttonContainer3}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>
+              Sauvegarder
+                  </Text>
+          </View>
+        </TouchableOpacity>}
+      </View>
+    );
+  }
+
+  async getCameraPermissions() {
+    //const { Permissions } = Expo;
+    // const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status } = await Camera.requestPermissionsAsync();
+    if (status === 'granted') {
+      this.setState({ cameraGranted: true });
+    } else {
+      this.setState({ cameraGranted: false });
+      console.log('Uh oh! The user has not granted us permission.');
+    }
+    //this.getCameraRollPermissions();
+  }
+
+  async getCameraRollPermissions() {
+    //const { Permissions } = Expo;
+    //const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    const { status } = await Camera.getPermissionsAsync();
+    if (status === 'granted') {
+      this.setState({ rollGranted: true });
+    } else {
+      console.log('Uh oh! The user has not granted us permission.');
+      this.setState({ rollGranted: false });
+    }
+  }
+
+  takePictureAndCreateAlbum = async () => {
+    console.log('tpaca');
+    await this.setState({ isLoading: true });
+
+    const result = await this.camera.takePictureAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true
+    });
+
+    //  console.log('uri', result);
+    let pict_name = result.uri.split('/');
+    //    console.log(pict_name[pict_name.length - 1])
+
+    this.setState({ isLoading: false, uri_pict: result.uri, pict_name: pict_name[pict_name.length - 1], base64Img: `data:image/jpg;base64,${result.base64}` }, () => {
+      console.log('state after pict', this.state);
+    })
+    // const asset = await MediaLibrary.createAssetAsync(uri);
+    // console.log('asset', asset);
+    // MediaLibrary.createAlbumAsync('Expo', asset)
+    //   .then(() => {
+    //     Alert.alert('Album created!')
+    //   })
+    //   .catch(error => {
+    //     Alert.alert('An Error Occurred!')
+    //   });
+  };
+  /********************** RENDER !!!!!!!!! *****/
+
+  render() {
+   
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+        {this.state.isLoading && <View style={styles.loading_container}>
+          <ActivityIndicator size="large" />
+        </View>}
+        {this.state.isCamera === true && this.getCamera()}
+        {this.state.isCamera === false && <View >
+          <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
+          <TopMenu navigation={this.props.navigation} />
+        </View>
+          <View
+            style={styles.link}
+          >
+            <Image
+              style={styles.imgLink}
+              source={require('../images/Icone_Documents.png')}
+            />
+            <Text style={styles.imgText}>Documents</Text>
+          </View>
+          <View style={styles.docView}>
+            <TextInput
+              placeholder="Nom du document"
+              style={{ backgroundColor: "white", width: wp('70%'), textAlign: "center", color: "#008AC8", paddingTop: hp('2%'), paddingBottom: hp('2%') }}
+              value={this.state.name}
+              onChangeText={(txt) => {
+                this.setState({ name: txt })
+              }}
+            />
+          </View>
+          <View >
+          <RNPickerSelect
+            
+            onValueChange={(value) =>this.setState({docCategorie : value})}
+            items={[
+                { label: 'Ordonnance', value: 'ordo' },
+                { label: 'Certificat', value: 'cert' },
+                { label: 'Attestation', value: 'atte' },
+                { label : "Compte-Rendu",value : "cptr"}
+            ]}
+        />
+          </View>
+          <View style={styles.docView}>
+            <TouchableOpacity
+              style={styles.docButton}
+              onPress={() => {
+                this._pickImage()
+              }}
+            >
+              <Image
+                style={{ width: wp('10%'), height: wp('10%') }}
+                source={require('../images/icone_upload.png')}
+              />
+              <Text style={styles.docText}>Télélecharger le fichier</Text>
+              {this.state.uri_doc !== null && <Text style={styles.docText}>Votre document est sélectionné</Text>}
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.docView}>
+            <TouchableOpacity
+              style={styles.docButton}
+              onPress={() => {
+                this.goToCam()
+              }}
+            >
+              <Image
+                style={{ width: wp('10%'), height: wp('10%') }}
+                source={require('../images/Icone_Camerawhite.png')}
+              />
+              <Text style={styles.docText}>Prendre une photo :</Text>
+              {this.state.uri_pict !== null && <Text style={styles.docText}>Votre photo est sélectionné</Text>}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonSave}
+              onPress={() => {
+                this.saveImg();
+              }}
+            >
+              <Text style={styles.docText2}>Sauvegarder le document</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>}
+        </ScrollView>
+        
+        <BottomMenu navigation={this.props.navigation}  />
+
+      </View>
+    )
+  }
+
+
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "grey"
+  },
+  under3: {
+    flexDirection: 'row',
+    paddingTop: 40,
+    width: wp('100%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+
+
+  },
+  link: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: wp('25%'),
+    paddingTop: hp("7%"),
+    paddingBottom: hp("1%")
+  },
+  imgLink: {
+    width: wp('15%'),
+    height: wp('15%'),
+    backgroundColor: '#008AC8',
+    borderRadius: 400 / 2,
+    marginRight: wp('2%')
+  },
+  imgText: {
+    color: "white",
+    fontSize: 24
+  },
+  docView: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: hp("2%"),
+    paddingBottom: hp("2%"),
+  },
+  docButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "white",
+    borderStyle: 'dashed',
+    borderRadius: 1,
+    paddingTop: hp("2%"),
+    paddingBottom: hp("2%"),
+    width: wp('70%')
+  },
+  docText: {
+    color: "white"
+  },
+  buttonSave: {
+    backgroundColor: "#00C1B4",
+    marginTop: hp('5%'),
+    width: wp('70%'),
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: hp("2%"),
+    paddingBottom: hp("2%"),
+
+  },
+  docText2: {
+    color: "white",
+    fontSize: 18
+
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 90,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  buttonContainer2: {
+    position: 'absolute',
+    top: 50,
+    left: 30,
+    alignItems: 'center',
+  },
+  buttonContainer3: {
+    position: 'absolute',
+    bottom: 30,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  button: {
+    width: 200,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    paddingVertical: 4,
+    borderWidth: 1.5,
+    borderColor: '#fff',
+  },
+  buttonText: {
+    fontSize: 24,
+    color: '#fff',
+  },
+  buttonRond: {
+    width: 80,
+    height: 80,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 80 / 2,
+    paddingVertical: 4,
+    borderWidth: 5,
+    borderColor: '#fff',
+  },
+  buttonBack: {
+
+  },
+  textBack: {
+    fontSize: 16,
+    color: '#fff',
+  },
+  loading_container: {
+    position: 'absolute',
+    zIndex: 10,
+    left: 0,
+    right: 0,
+    top: 100,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
+
+
+const mapStateToProps = (store) => {
+  return {
+    user: store.user,
+    contact: store.contact,
+    favorite: store.favorite,
+    second: store.second
+  }
+}
+
+const mapDispatchToProps = {
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Document);

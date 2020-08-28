@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Best4Sante",
+    "slug": "Best4Sante",
+    "sdkVersion":"37.0.0",
+    "android" :{
+      "package": "com.acadys.Best4Sante",
+      "versionCode" :1,
+      "config": {
+        "googleMaps": { "apiKey": "AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs" }   
+     },
+     "permissions" : ["READ_CALENDAR","WRITE_CALENDAR","ACCESS_FINE_LOCATION","C2D_MESSAGE","CAMERA","CAMERA_ROLL","READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"],
+    "icon": "./assets/splash.png",
+    "splash": {
+      "image":"./assets/images/Splash(FondBlanc).png",
+      "resizeMode":"contain",
+      "backgroundColor":"#00C1BC"
+    }
+  },
+  "ios" : {
+    "bundleIdentifier": "com.acadys.Best4Sante",
+    "buildNumber": "1.0.0"
+  }
+
+}
+}
