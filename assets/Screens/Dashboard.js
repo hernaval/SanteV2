@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     borderRadius : 10,
     paddingLeft : 10,
     paddingRight : 5,
-    paddingTop : 20,
+    paddingTop : -20,
     paddingBottom : 20,
     backgroundColor: "white",
     margin: 10,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
    
   },
   cardText : {
-     marginTop : 20,
+     marginTop : 10,
     // marginLeft : 10,
     fontSize : 14,
     textShadowColor: 'rgba(255, 255, 255, 0.75)',
