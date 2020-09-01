@@ -105,11 +105,14 @@ const styles = StyleSheet.create({
     under: {
         backgroundColor : "#00C1B4",
         flexDirection: 'row',
-        paddingTop: hp("5%"),
+         paddingTop: hp("5%"),
         width: wp('100%'),
+        height : hp("20%"),
         textAlign: 'center',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'space-around',
+        borderBottomLeftRadius : 10,
+        borderBottomRightRadius : 10
         
     },
     title1: {

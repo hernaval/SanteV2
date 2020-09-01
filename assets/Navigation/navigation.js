@@ -208,7 +208,8 @@ const NavigationBest4Sante=createStackNavigator(
         Login :{
             screen :Login,
             navigationOption:{
-                title: 'Login'
+                title: 'Login',
+                
             }
         },
         SignUp :{
@@ -305,7 +306,8 @@ const NavigationBest4Sante=createStackNavigator(
          RegisterDoctor : {
              screen : RegisterDoctor,
              navigationOption : {
-                 title : "RegisterDoctor"
+                 title : "RegisterDoctor",
+                
              }
          },
          SecondAdd : {
@@ -359,11 +361,12 @@ const NavigationBest4Sante=createStackNavigator(
          SecondInfoPerso : {
              screen : SecondInfoPerso,
              navigationOption : {
-                 title : "SecondInfoPerso"
+                 title : "SecondInfoPerso",
              }
          }
     },{
         initialRouteName : "Login",
-        headerMode: 'none'}
+         headerMode : "none"
+        }
 )
 export default createAppContainer(NavigationBest4Sante)

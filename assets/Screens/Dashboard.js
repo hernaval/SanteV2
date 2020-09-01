@@ -72,10 +72,10 @@ class Menu extends Component {
           <TopMenu navigation={this.props.navigation} />
         </View>
 
-        <View style={{marginTop : 50}}>
+        <View style={{marginTop : hp("2%")}}>
 
           <Grid>
-          <Col>
+          <Col >
               <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faSearch } />
               <Text style={styles.cardText}>Rechercher PS</Text>
@@ -131,12 +131,12 @@ const styles = StyleSheet.create({
  
   cardContainer: {
     height : hp("25%"),
-    borderRadius : 5,
+    borderRadius : 10,
     paddingLeft : 10,
     paddingRight : 5,
     paddingTop : 20,
     paddingBottom : 20,
-    backgroundColor: "#00C1B4",
+    backgroundColor: "white",
     margin: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -145,21 +145,26 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
+    justifyContent : "center",
+   
   },
   cardText : {
-    marginTop : 20,
-    marginLeft : 10,
-    color : "white",
+     marginTop : 20,
+    // marginLeft : 10,
     fontSize : 14,
     textShadowColor: 'rgba(255, 255, 255, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10,
-    fontSize : 17
+    fontSize : 17,
+    alignSelf : "center",
+    textAlign : "center",
+    fontWeight : "600"
+    
   },
   iconCard : {
-    color : "white",
-    
+    color : "#008AC8",
+   alignSelf : "center"
   },
   container: {
     backgroundColor: '#fff',
@@ -167,10 +172,7 @@ const styles = StyleSheet.create({
 
     flex: 1
   },
-  main: {
-
-
-  },
+  
   footer: {
     height: hp("10%"),
 
