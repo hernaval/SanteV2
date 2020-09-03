@@ -8,7 +8,9 @@ import { connect } from 'react-redux';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen'
+} from 'react-native-responsive-screen';
+import * as Facebook from 'expo-facebook';
+
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -42,6 +44,42 @@ class Login extends React.Component {
   }
   goToForgotPassword = () => {
     this.props.navigation.navigate("Forgot")
+  }
+
+  async logInFacebook() {
+    try {
+      await Facebook.initializeAsync('600064420613606','Best4Sante');
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile', 'email'],
+      });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,picture.type(large)`);
+        
+        const userInfo = await response.json();
+        console.log(userInfo);
+        // userInfo.picture.data.url
+        // userInfo.name
+        // userInfo.id
+        // Alert.alert('Logged in!', `Hi ${userInfo.name}!`);
+        this.props.navigation.navigate("Menu", 
+          {
+            user: userInfo
+          });
+      } else {
+        // type === 'cancel'
+        Alert.alert('Connexion annulée');
+      }
+    } catch ({ message }) {
+      console.log(message);
+      alert(`Erreur de connexion Facebook: ${message}`);
+    }
   }
 
   Connect() {
@@ -136,7 +174,7 @@ class Login extends React.Component {
               <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.Connect()}>
                 <Text style={styles.signUpText}>Se connecter</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={[styles.buttonContainerF, styles.signupButtonF]} onPress={() => this.Connect()}>
+              <TouchableHighlight style={[styles.buttonContainerF, styles.signupButtonF]} onPress={() => this.logInFacebook()}>
                 <Text style={styles.signUpTextF}>Connexion avec Facebook</Text>
               </TouchableHighlight>
               <View style={styles.textLink}>

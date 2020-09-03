@@ -20,7 +20,10 @@
   "ios" : {
     "bundleIdentifier": "com.acadys.Best4Sante",
     "buildNumber": "1.0.0"
-  }
+  },
+  "facebookScheme": "fb600064420613606",
+  "facebookAppId": "600064420613606",
+  "facebookDisplayName": "best4sante"
 
 }
 }
