@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet,Image, TouchableHighlight, Platform } from 'react-native'
+import { Text, View, StyleSheet,Image, TouchableHighlight, Dimensions, Platform, PixelRatio } from 'react-native'
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -22,15 +22,29 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
         this.state = {
             isOpen : false,
             photoUri : "",
-            id: ""
-
+            id: "",
+            size: 23
         }
+
+        this.width = Dimensions.get('window').width;
+        this.height = Dimensions.get('window').height;
     }
     componentDidMount = async() =>{
-       
-        
+        const taille = this.normalize(23);
+        this.setState({
+            size: taille
+        })
     }
 
+    normalize(size) {
+        const scale = this.width / 320;
+        const newSize = size * scale 
+        if (Platform.OS === 'ios') {
+          return Math.round(PixelRatio.roundToNearestPixel(newSize))
+        } else {
+          return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
+        }
+      }
     
 
     _menu = null;
@@ -70,7 +84,9 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                         source={require('../../images/icon_point.jpeg')}
                     />
                    
-                    <Text   style={styles.title1}>Best4Santé</Text> 
+                    <Text style={[styles.title1, {fontSize: this.state.size}]}>
+                    Best4Santé
+                    </Text> 
 
                     </View>
 
@@ -185,7 +201,6 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     title1: {
-        fontSize: 26,
         color: "white",
         textAlign: "center",
         fontWeight: "bold"

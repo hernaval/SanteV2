@@ -16,11 +16,13 @@ class ActiveAccount extends React.Component{
 
     resendCode = async () =>{
         let email = this.props.navigation.state.params.tempEmail
-        
+        console.log(email)
          await axios.post(`${Bdd.api_url}/resend/${email}`)
             .then( res=>{
                 console.log(res)
-            }) 
+            }).catch(
+                (error) => console.log('erreur resend code ', error)
+            );
     }
 
     validate = async  () =>{
@@ -66,7 +68,7 @@ class ActiveAccount extends React.Component{
                     </Text>
                     <TouchableOpacity
                         onPress={()=> this.resendCode()}
-                     style={{padding : 10, backgroundColor : "#008ac8"}}>
+                     style={{padding : 10, backgroundColor : "#008ac8", marginTop: 10}}>
                         <Text style={{textAlign : "center", color :"white"}}>Renvoyer</Text>
                     </TouchableOpacity>
                 </View>

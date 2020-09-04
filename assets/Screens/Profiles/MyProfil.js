@@ -45,12 +45,13 @@ const firebaseConfig = {
 class MyProfil extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props);
         this.state = {
-            firstName: this.props.user.user.nomUser,
-            lastName: this.props.user.user.prenomUser,
-            id: this.props.user.user.idUser,
+            firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
+            lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
+            id: this.props.user.user != null ? this.props.user.user.idUser : 0,
             uri_doc: null,
-            photoUri: this.props.user.user.imageUser,
+            photoUri: this.props.user.user != null ? this.props.user.user.imageUser : '',
             isLoading: false,
             isFirst: false,
             blood: '', 
@@ -316,8 +317,7 @@ class MyProfil extends Component {
                     <SafeAreaView style={styles.main_profil_2}>
                         <Text style={styles.title_main_profil_2}>Recommender Best4Santé</Text>
                         <Text style={styles.descr_main_profil_2}>
-                            Lorem Ipsum dolor sit amer, consectetur adipiscing elit, 
-                            sed do eiusmod tempor incididunt
+                            Best4Santé est un application de santé, proposée pour tous.
                         </Text>
 
                         <TouchableOpacity style={styles.touch_share} onPress={() => this.shareLink()}>
@@ -328,8 +328,7 @@ class MyProfil extends Component {
 
                         <Text style={styles.title_main_profil_2}>Suivez-nous</Text>
                         <Text style={styles.descr_main_profil_2}>
-                            Lorem Ipsum dolor sit amer, consectetur adipiscing elit, 
-                            sed do eiusmod tempor incididunt
+                            Suivez-nous sur Facebook, Twitter et Instagram.
                         </Text>
 
                         <View style={styles.list_icon}>

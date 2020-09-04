@@ -11,7 +11,7 @@ import {getCurrentLocation} from "../services/location"
 import { faUserCircle, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function(ChildComponent) {
-	class RequireAuthentification extends Component {
+	class IsAuth extends Component {
 
 		constructor(props) {
 			super(props);
@@ -37,7 +37,8 @@ export default function(ChildComponent) {
 				.then(async (res)=>{
 					
 					if(res.status !== 200) {
-						this.props.navigation.push("Login");
+                        // this.props.navigation.push("Login");
+                        console.log('status 200')
 					}
 
 					else {
@@ -55,15 +56,16 @@ export default function(ChildComponent) {
 						let socketSrv = new SocketService("samaritain")
 						socketSrv.emitEvent("status_change",{token : value, socketListenId : socketListenId, coords : coords, type  :"join"})
 						
-						this.props.setUserInfo(token)
-						this.props.mySecondProfil(token)
+						this.props.setUserInfo(token);
+                        this.props.mySecondProfil(token);
+                        this.props.navigation.navigate("Menu");
 					}
 				})
 				.catch((err)=>{
 					console.log(err)
 				})
 			  } else {
-				this.props.navigation.navigate("Login");
+				console.log('stay here to Login')
 			   
 			  }
 			} catch (error) {
@@ -97,6 +99,6 @@ export default function(ChildComponent) {
 
 	
 
-	return connect(mapStateToProps, mapDispatchToProps)(RequireAuthentification);
+	return connect(mapStateToProps, mapDispatchToProps)(IsAuth);
 }
 

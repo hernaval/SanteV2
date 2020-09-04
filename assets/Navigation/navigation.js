@@ -53,6 +53,7 @@ import AddEvent from "../Screens/Rappel/AddEvent"
 import EventTraitement from "../Screens/Rappel/EventTraitement"
 import UserConnected from "../Screens/Samaritain/UserConnected"
 import RequireAuthentification from '../Helpers/requireAuth';
+import IsAuth from '../Helpers/isAuth';
 
 
 import Calendars from "../Screens/Rappel/Calendars"
@@ -213,7 +214,7 @@ const NavigationBest4Sante=createStackNavigator(
              }
          },
         Login :{
-            screen :Login,
+            screen :IsAuth(Login),
             navigationOption:{
                 title: 'Login',
                 
@@ -372,8 +373,8 @@ const NavigationBest4Sante=createStackNavigator(
              }
          }
     },{
-        initialRouteName : "Menu",
+        initialRouteName : "Login",
          headerMode : "none"
-        }
+    }
 )
 export default createAppContainer(NavigationBest4Sante)
