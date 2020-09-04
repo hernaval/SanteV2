@@ -3,20 +3,19 @@ import { Card, Input } from 'react-native-elements'
 import {
     BackHandler,
     Image,
-    ImageBackground,
-    Platform,
     ScrollView,
     StyleSheet,
     Text,
     View,
     Switch,
-    ActivityIndicator
+    ActivityIndicator,
+    Alert
 } from 'react-native'
 
 import { connect } from 'react-redux'
 import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo } from '../../Action'
 
-import TopMenu from '../../component/Menu/TopMenu'
+// import TopMenu from '../../component/Menu/TopMenu'
 import * as firebase from 'firebase'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
@@ -28,23 +27,27 @@ import {
 import axios from 'axios'
 import Bdd from '../../API/Bdd'
 import RNPickerSelect from 'react-native-picker-select'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faAngleLeft, faFilePdf, faShareAlt as faShare } from '@fortawesome/free-solid-svg-icons'
 const DEFAUTL_USER = 'https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg'
 
 class MySante extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isModifbegin: false,
             isSelectedProfile: false,
-            id: this.props.user.user.idUser,
+            id: null,
 
-            blood: '',
-            size: 0,
-            weight: 0,
+            blood: 'B+',
+            size: 150,
+            weight: 60,
             donate: false,
             secu: null,
             idFiche: null,
 
-            photoUri: this.props.user.user.imageUser,
+            photoUri: '',
 
             medecin: '',
             allergies: '',
@@ -56,30 +59,37 @@ class MySante extends Component {
 
             isLoading: false,
 
-            isModifbegin: false,
             isFirst: false,
-            ficheSante: {}
+            ficheSante: {},
+            bloodAnnex: { label: 'B+', value: 2 }
 
         }
         this.ref = firebase.firestore().collection('profile')
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this)
     }
 
-    componentDidMount = async () => {
-        this.setState({ isLoading: true })
+    async componentDidMount () {
+        this.setState({
+            isLoading: true,
+            photeUri: this.props.user.user.imageUser,
+            id: this.props.user.user.idUser
+        })
         await this.fetchSante()
         await this.getCameraPermissions()
         this.setState({ isLoading: false })
         if (this.props.navigation.state.params.profil !== undefined) {
             this.setState({ photoUri: this.props.navigation.state.params.profil })
         }
+        this.setState({
+            isLoading: false
+        })
     }
 
     componentWillMount () {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick)
     }
 
-    componentWillUnmount () {
+    UNSAFE_componentWillUnmount () {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick)
     }
 
@@ -88,7 +98,7 @@ class MySante extends Component {
         return true
     }
 
-    fetchSante = async () => {
+    async fetchSante () {
         await axios.get(`${Bdd.api_url}/fiche-sante/list?idUser=${this.state.id}`)
             .then(async res => {
                 if (await !res) {
@@ -116,7 +126,7 @@ class MySante extends Component {
             })
     }
 
-    getCameraPermissions = async () => {
+    async getCameraPermissions () {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
         if (status !== 'granted') {
             Alert('permission not granteed')
@@ -132,7 +142,7 @@ class MySante extends Component {
         }
     }
 
-    _pickImage = async () => {
+    async _pickImage () {
         // launchCameraAsync
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
@@ -147,7 +157,7 @@ class MySante extends Component {
         this._handleImagePicked(result)
     }
 
-    _handleImagePicked = async pickerResult => {
+    async _handleImagePicked (pickerResult) {
         let uploadUrl = ''
         try {
             this.setState({ isLoading: true })
@@ -170,11 +180,11 @@ class MySante extends Component {
         }
     }
 
-    saveProfileImageInfo = (data) => {
+    saveProfileImageInfo (data) {
         this.props.ModifyPhoto(data)
     }
 
-    uploadImageAsync = async (uri) => {
+    async uploadImageAsync (uri) {
         // Why are we using XMLHttpRequest? See:
         // https://github.com/expo/expo/issues/2402#issuecomment-443726662
         const blob = await new Promise((resolve, reject) => {
@@ -203,40 +213,71 @@ class MySante extends Component {
         return await snapshot.ref.getDownloadURL()
     }
 
-    renderHeader = () => {
-        console.log(DEFAUTL_USER)
-
+    renderHeader () {
         return (
-            <View style={styles.headerContainer}>
-                <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                    <TopMenu navigation={this.props.navigation} />
+            <View>
+                <View style={ styles.under}>
+                    {
+                        this.state.isModifbegin
+                            ? <TouchableOpacity
+                                style={{ padding: 10 }}
+                                onPress={() => this.setState({ isModifbegin: false })} >
+                                <Text style={styles.header}>Annuler</Text>
+                            </TouchableOpacity>
+                            : <TouchableOpacity
+                                style={{ flexDirection: 'row', alignItems: 'center' }}
+                                onPress={() => this.props.navigation.navigate('Menu')} >
+                                <FontAwesomeIcon
+                                    icon={faAngleLeft}
+                                    color="white"
+                                    size={24}
+                                />
+                                <Text style={styles.header}>Profil</Text>
+                            </TouchableOpacity>
+                    }
+                    <Text style={styles.header}>Ma Fiche Sante</Text>
+                    {
+                        this.state.isModifbegin
+                            ? <TouchableOpacity
+                                style={{ padding: 10 }}
+                                onPress={() => this.setState({ isModifbegin: false })} >
+                                <Text style={styles.header}>Enregistrer</Text>
+                            </TouchableOpacity>
+                            : <TouchableOpacity
+                                style={{ padding: 10 }}
+                                onPress={() => this.setState({ isModifbegin: true })} >
+                                <Text style={styles.header}>Modifier</Text>
+                            </TouchableOpacity>
+                    }
+
+                    {/* <TopMenu navigation={this.props.navigation} /> */}
                 </View>
 
-                <ImageBackground
+                <View
                     style={styles.headerBackgroundImage}
-                    blurRadius={10}
-                    source={{ uri: this.state.photoUri == '' ? DEFAUTL_USER : this.state.photoUri }}
                 >
                     <View style={styles.headerColumn}>
                         <Image
                             style={styles.userImage}
                             source={{
-                                uri: this.state.photoUri == '' || this.state.photeUri
+                                uri: this.state.photoUri === '' || this.state.photeUri
                                     ? DEFAUTL_USER
                                     : this.state.photoUri
                             }}
                         />
-                        <Text style={styles.userNameText}>
-                            {this.props.user.user.nomUser}
-                            {this.props.user.user.prenomUser}
-                        </Text>
+                        <View>
+                            <Text style={styles.userNameText}>
+                                {this.props.user.user.nomUser}
+                                {this.props.user.user.prenomUser}
+                            </Text>
+                        </View>
                     </View>
-                </ImageBackground>
+                </View>
             </View>
         )
     }
 
-    addFiche = () => {
+    addFiche () {
         this.setState({ isLoading: true })
         const data = {
             idUser: this.props.user.user.idUser,
@@ -260,7 +301,6 @@ class MySante extends Component {
     modifFiche () {
         this.setState({ isLoading: true })
         const userModified = {
-
             groupeSanguin: this.state.blood,
             taille: this.state.size,
             poids: this.state.weight,
@@ -269,40 +309,32 @@ class MySante extends Component {
             medecinTraitant: this.state.medecin,
             allergies: this.state.allergies
         }
-
-        userModified.groupeSanguin = this.state.blood
-        userModified.taille = this.state.size
-        userModified.poids = this.state.weight
-        userModified.numSecu = this.state.secu
-        userModified.donnateur = this.state.donate
-        userModified.allergies = this.state.allergies
-
         // this.saveAutre(this.state.medecin, this.state.allergies, this.state.traitement)
         axios.put(`${Bdd.api_url}/fiche-sante/${this.state.idFiche}`, userModified)
             .then(res => {
                 this.setState({ isLoading: false, isModifbegin: false })
             })
-            .catch(err => console.log(err))
-        this.setState({ isLoading: false, isModifbegin: false })
+            .catch(err => {
+                this.setState({ isLoading: false, isModifbegin: false })
+                console.log(err)
+            })
     }
 
-    createTaille = () => {
-        taille = []
-        for (i = 50; i <= 210; i++) {
+    createTaille () {
+        const taille = []
+        for (let i = 50; i <= 210; i++) {
             const item = {
                 label: i + ' cm',
                 value: i
             }
             taille.push(item)
         }
-
         return taille
     }
 
-    createPoids = () => {
-        poids = []
-
-        for (i = 1; i <= 180; i++) {
+    createPoids () {
+        const poids = []
+        for (let i = 1; i <= 180; i++) {
             const item = {
                 label: i + ' kg',
                 value: i
@@ -323,133 +355,228 @@ class MySante extends Component {
             { label: 'O+', value: 6 },
             { label: 'O-', value: 7 }
         ]
-        var tailleCm = this.createTaille()
-        var poidsKg = this.createPoids()
         return (
             <ScrollView style={styles.scroll}>
                 <View style={styles.container}>
-
-                    {this.state.isLoading && <View style={styles.loading_container}>
-                        <ActivityIndicator size="large" />
-                    </View>}
+                    {
+                        this.state.isLoading &&
+                        <View style={styles.loading_container}>
+                            <ActivityIndicator size="large" />
+                        </View>
+                    }
 
                     <Card containerStyle={styles.cardContainer}>
                         {this.renderHeader()}
                     </Card>
 
                     <View style={styles.infoContainer}>
-
                         <View>
                             <Text style={styles.labelText}>Groupe Sanguin</Text>
-                            {this.state.isModifbegin === true && <RadioForm
-                                formHorizontal={true}
-                                labelHorizontal={false}
-                                radio_props={groupeSanguin}
-                                initial={-1}
-                                onPress={(value) => { this.setState({ blood: groupeSanguin[value].label }) }}
-                            />
-
-                            }
-                            {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.blood}</Text>
+                            {
+                                this.state.isModifbegin
+                                    ? <RadioForm
+                                        formHorizontal={true}
+                                        labelHorizontal={false}
+                                        radio_props={groupeSanguin}
+                                        value={groupeSanguin[this.state.bloodAnnex]}
+                                        initial={-1}
+                                        onPress={(value) => this.setState({ blood: groupeSanguin[value].label, bloodAnnex: value })}
+                                    />
+                                    : <Text style={styles.labelValue}>
+                                        {this.state.bloodAnnex.label}
+                                    </Text>
                             }
                         </View>
                         <View>
                             <Text style={styles.labelText}>Taille</Text>
-                            {this.state.isModifbegin === true && <View>
-
-                                <RNPickerSelect
-                                    placeholder={{
-                                        label: 'Taille en cm'
-                                    }}
-                                    onValueChange={(value) => this.setState({ size: value })}
-                                    items={tailleCm}
-                                />
-
-                            </View>
-
-                            }
-                            {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.size} cm</Text>
+                            {
+                                this.state.isModifbegin
+                                    ? <View>
+                                        <RNPickerSelect
+                                            placeholder={{
+                                                label: 'Taille en cm'
+                                            }}
+                                            value={this.state.size}
+                                            onValueChange={(value) => this.setState({ size: value })}
+                                            items={this.createTaille()}
+                                        />
+                                    </View>
+                                    : <Text style={styles.labelValue}>
+                                        {this.state.size} cm
+                                    </Text>
                             }
                         </View>
 
                         <View>
                             <Text style={styles.labelText}>Poids</Text>
-                            {this.state.isModifbegin === true && <View>
-                                <RNPickerSelect
-                                    placeholder={{
-                                        label: 'Poids en kg'
-                                    }}
-                                    onValueChange={(value) => this.setState({ weight: value })}
-                                    items={poidsKg}
-                                />
-
-                            </View>
-                            }
-                            {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.weight} kg</Text>
+                            {
+                                this.state.isModifbegin
+                                    ? <View>
+                                        <RNPickerSelect
+                                            placeholder={{
+                                                label: 'Poids en kg'
+                                            }}
+                                            value={this.state.weight}
+                                            onValueChange={(value) => this.setState({ weight: value })}
+                                            items={this.createPoids()}
+                                        />
+                                    </View>
+                                    : <Text style={styles.labelValue}>
+                                        {this.state.weight} kg
+                                    </Text>
                             }
                         </View>
                         <View>
                             <Text style={styles.labelText}>Donneur d'organe</Text>
-                            {this.state.isModifbegin === true && <Switch
-                                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                                thumbColor={this.state.donate ? '#f5dd4b' : '#f4f3f4'}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={(value) => {
-                                    if (value === true) this.setState({ donate: true })
-                                    else this.setState({ donate: false })
-                                }}
-                                value={this.state.donate}
-                                style={styles.switch}
-                            />
-                            }
-                            {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.donate === true ? 'OUI' : 'NON'}</Text>
+                            {
+                                this.state.isModifbegin
+                                    ? <Switch
+                                        trackColor={{ false: '#767577', true: '#81b0ff' }}
+                                        thumbColor={this.state.donate ? '#f5dd4b' : '#f4f3f4'}
+                                        ios_backgroundColor="#3e3e3e"
+                                        onValueChange={(value) => {
+                                            if (value === true) this.setState({ donate: true })
+                                            else this.setState({ donate: false })
+                                        }}
+                                        value={this.state.donate}
+                                        style={styles.switch}
+                                    />
+                                    : <Text style={styles.labelValue}>
+                                        {this.state.donate === true ? 'OUI' : 'NON'}
+                                    </Text>
                             }
                         </View>
                         <View>
                             <Text style={styles.labelText}>Numéro de la sécurité sociale</Text>
-                            {this.state.isModifbegin === true && <Input
-                                keyboardType={'numeric'}
-                                onChangeText={(text) => this.setState({ secu: text })}
-                                value={this.state.secu}
-                            />
-                            }
-                            {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.secu}</Text>
+                            {
+                                this.state.isModifbegin
+                                    ? <Input
+                                        keyboardType={'numeric'}
+                                        onChangeText={(text) => this.setState({ secu: text })}
+                                        value={this.state.secu}
+                                    />
+                                    : <Text style={styles.labelValue}>
+                                        {this.state.secu}
+                                    </Text>
                             }
                         </View>
 
                         <View>
                             <Text style={styles.labelText}>Médecin traitant</Text>
-                            {this.state.isModifbegin === true && <Input
-
-                                onChangeText={(text) => this.setState({ medecin: text })}
-                                value={this.state.medecin}
-                            />
-                            }
-                            {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.medecin}</Text>
+                            {
+                                this.state.isModifbegin
+                                    ? <Input
+                                        onChangeText={(text) => this.setState({ medecin: text })}
+                                        value={this.state.medecin}
+                                    />
+                                    : <Text style={styles.labelValue}>
+                                        {this.state.medecin}
+                                    </Text>
                             }
                         </View>
-
                         <View>
                             <Text style={styles.labelText}>Allergies</Text>
-                            {this.state.isModifbegin === true && <Input
-
-                                onChangeText={(text) => this.setState({ allergies: text })}
-                                value={this.state.allergies}
-                            />
-                            }
-                            {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.allergies}</Text>
+                            {
+                                this.state.isModifbegin
+                                    ? <Input
+                                        onChangeText={(text) => this.setState({ allergies: text })}
+                                        value={this.state.allergies}
+                                    />
+                                    : <Text style={styles.labelValue}>
+                                        {this.state.allergies}
+                                    </Text>
                             }
                         </View>
+                        <View style={{ marginTop: 20 }}>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between'
+                                }}
+                            >
+                                <Text style={{ color: '#62c9c2' }}>Mon Rapport Medical</Text>
+                                <TouchableOpacity
+                                    style={{
+                                        backgroundColor: '#0389c2',
+                                        padding: 5,
+                                        borderRadius: 5
+                                    }}
+                                >
+                                    <Text style={{ color: 'white' }}>Inserer PDF</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ marginTop: 10 }}>
+                                <View
+                                    style={{
+                                        padding: 10,
+                                        borderWidth: 1,
+                                        borderColor: '#ddd',
+                                        borderBottomWidth: 0,
+                                        shadowColor: '#000',
+                                        shadowOffset: { width: 0, height: 2 },
+                                        shadowOpacity: 0.8,
+                                        shadowRadius: 2,
+                                        elevation: 1,
+                                        marginLeft: 5,
+                                        marginRight: 5,
+                                        marginTop: 10,
+                                        width: 150,
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-around',
+                                        alignItems: 'center',
+                                        borderRadius: 10
+                                    }}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faFilePdf}
+                                        color="#518cb4"
+                                        size={20}
+                                    />
 
+                                    <Text style={{ color: '#518cb4' }}>Mon Fichier PDF</Text>
+                                </View>
+                            </View>
+                            <View
+                                style={{
+                                    marginTop: 20,
+                                    marginBottom: 20,
+                                    marginRight: 50
+                                }}
+                            >
+                                <Text>
+                                    Partagez en toute sécurité avec votre
+                                    médecin, coach ou famile votre rapport
+                                    médical
+                                </Text>
+                            </View>
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: '#0389c2',
+                                    padding: 10,
+                                    borderRadius: 5,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <FontAwesomeIcon
+                                    icon={faShare}
+                                    color="#eee"
+                                    size={20}
+                                />
+                                <Text>  </Text>
+                                <Text
+                                    style={{
+                                        color: 'white',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    Partagez Maintenant
+                                </Text>
+                            </TouchableOpacity>
+
+                        </View>
                     </View>
-
                 </View>
             </ScrollView>
         )
@@ -462,10 +589,17 @@ const styles = StyleSheet.create({
     },
     labelText: {
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        color: '#999'
     },
     labelValue: {
-        color: 'gray'
+        color: '#000',
+        fontSize: 16,
+        borderBottomWidth: 1,
+        paddingBottom: 5,
+        paddingTop: 10,
+        paddingLeft: 5,
+        marginBottom: 5
     },
     actionBtn: {
         position: 'relative',
@@ -501,7 +635,8 @@ const styles = StyleSheet.create({
         padding: 0
     },
     container: {
-        flex: 1
+        flex: 1,
+        paddingBottom: 50
     },
     emailContainer: {
         backgroundColor: '#FFF',
@@ -509,10 +644,10 @@ const styles = StyleSheet.create({
         paddingTop: 30
     },
     headerBackgroundImage: {
+        paddingLeft: 20,
         paddingBottom: 20,
         paddingTop: 35
     },
-    headerContainer: {},
     headerColumn: {
         flexDirection: 'row'
     },
@@ -569,14 +704,23 @@ const styles = StyleSheet.create({
     switch: {
         marginTop: -24,
         marginBottom: 10
+    },
+    under: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        height: 80,
+        backgroundColor: '#01C89E'
+    },
+    header: {
+        color: 'white'
     }
 })
 
 const mapStateToProps = (store) => {
     return {
         user: store.user
-    /*   contact: store.contact,
-      second: store.second */
     }
 }
 
@@ -586,4 +730,5 @@ const mapDispatchToProps = {
     setSecondInfo,
     setIndexSelected
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(MySante)
