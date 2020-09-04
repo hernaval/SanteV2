@@ -93,8 +93,18 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 Me déconnecter
                              </MenuItem>
                     </Menu>
- 
-                    
+                                
+                        {
+                            (this.props.menu && 
+                                (
+                                    <View style={styles.contain_txt}>
+                                        <Text style={styles.custom_txt}>Profil</Text>
+                                    </View>
+                                )
+                            )
+                        }
+                        
+                
                     </View>
       
             </React.Fragment>
@@ -114,6 +124,16 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius : 10,
         borderBottomRightRadius : 10
         
+    },
+    contain_txt: {
+        position: 'absolute',
+        bottom: 10,
+        right: 20
+    },
+    custom_txt : {
+        color: '#FFFFFF',
+        fontWeight: '100',
+        fontSize: 20
     },
     title1: {
         fontSize: 26,

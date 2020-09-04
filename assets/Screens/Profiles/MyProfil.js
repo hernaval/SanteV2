@@ -8,7 +8,7 @@ import {
 
 import InputProfil from '../../component/InputProfil';
 import TopMenu from "../../component/Menu/TopMenu"
-import { Avatar, ListItem } from 'react-native-elements'
+import { Avatar, ListItem, Icon } from 'react-native-elements'
 import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo, ModifyPhoto } from '../../Action/action-type';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
@@ -88,25 +88,29 @@ class MyProfil extends Component {
     renderHeader = () => {
 
         return (
-            <View style={[styles.userRow, { marginBottom: 15, marginBottom: 15 }]}>
+            <View style={styles.main_profil}>
             {this.changeProfil()}
-                <View style={[{ marginBottom: 10 }]}>
-
-                    {/*  <Image
-                        style={{ width: wp("45%"), height: hp("25%") }}
-                        source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
-                    /> */}
-
-                    <Avatar
-                        size="xlarge"
-                        rounded
-                        source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
-
-                    />
-
+                <View style={styles.under_main_profil_1}>
+                <Avatar
+                size={100}
+                rounded
+                source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
+                />
                 </View>
-                <Text style={{ fontSize: 20 }}>{this.state.firstName} {this.state.lastName}</Text>
 
+                <View style={styles.btn_photo}>
+                <TouchableOpacity onPress={() =>console.log('Change my profile') }>
+                <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
+                </TouchableOpacity>
+                </View>
+
+                <View style={styles.under_main_profil_2}>
+                    <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
+                    <Text style={styles.descr_under_main_profil_2}>
+                        Femme, 34 ans, 1m 80, 76 kg
+                    </Text>
+                </View>
+                
             </View>
         )
     }
@@ -120,6 +124,7 @@ class MyProfil extends Component {
                 <FontAwesomeIcon color="white" size={40} icon={faEdit} />
             </TouchableHighlight>,
         ];
+
         return (
             <View style={styles.container}>
                 {this.state.isLoading && <View style={styles.loading_container}>
@@ -127,62 +132,52 @@ class MyProfil extends Component {
                 </View>}
                 
                 <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                    <TopMenu navigation={this.props.navigation} />
+                    <TopMenu navigation={this.props.navigation} menu={1}/>
                 </View>
-
 
                 <ScrollView style={[styles.scroll, { marginTop: 10 }]} >
                     {this.renderHeader()}
-
+                    
                     <View>
                         <TouchableOpacity onPress={() => this.goToInfoPerso()} >
                             <ListItem
-                                hideChevron
+                            chevron={<FontAwesomeIcon color="#454545" size={18} icon={faChevronRight} />}
                                 title="Mes Informations Personnelles"
-                                leftIcon={<FontAwesomeIcon color="#4DBFC3" size={22} icon={faUserCircle} />}
-                                titleStyle={{ fontWeight: "bold" }}
-                                subtitle="Nom, prénom, etc."
-                                
-                                containerStyle={styles.listItemContainer}
-                            />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySante")} >
-                            <ListItem
-                                hideChevron
-                                title=" Ma Fiche santé"
-                                leftIcon={<FontAwesomeIcon color="green" size={22} icon={faFileMedicalAlt} />}
-                                titleStyle={{ fontWeight: "bold" }}
-                                subtitle="Groupe Sanguin, taille, etc."
-                                
+                                leftIcon={<FontAwesomeIcon color="#454545" size={20} icon={faUserCircle} />}
+                                titleStyle={{ fontWeight: '600' }}                              
                                 containerStyle={styles.listItemContainer}
                             />
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil")}>
-                            <ListItem
-                                hideChevron
-                                title="Mes profils secondaires"
-                                leftIcon={<FontAwesomeIcon color="#36DE5D" size={22} icon={faUsers} />}
-                                titleStyle={{ fontWeight: "bold" }}
-                                subtitle="Mère, père, enfant, ..."
-                               
-                                containerStyle={styles.listItemContainer}
-                            />
+                        <ListItem
+                        chevron={<FontAwesomeIcon color="#454545" size={18} icon={faChevronRight} />}
+                            title="Mes profils secondaires"
+                            leftIcon={<FontAwesomeIcon color="#454545" size={20} icon={faUsers} />}
+                            titleStyle={{ fontWeight: "600" }}
+                            containerStyle={styles.listItemContainer}
+                        />
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("MyContact")} >
-                            <ListItem
-                                hideChevron
-                                title="Mes contacts d'urgences"
-                                leftIcon={<FontAwesomeIcon color="#E11320" size={22} icon={faExclamationCircle} />}
-                                titleStyle={{ fontWeight: "bold" }}
-                                subtitle="A appeler en cas d'urgence "
-                               
-                                containerStyle={styles.listItemContainer}
-                            />
+                        <ListItem
+                        chevron={<FontAwesomeIcon color="#454545" size={18} icon={faChevronRight} />}
+                            title="Mes contacts d'urgences"
+                            leftIcon={<FontAwesomeIcon color="#454545" size={20} icon={faExclamationCircle} />}
+                            titleStyle={{ fontWeight: "600" }}                               
+                            containerStyle={styles.listItemContainer}
+                        />
                         </TouchableOpacity>
 
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySante")} >
+                            <ListItem                            
+                                title=" Ma Fiche santé"
+                                leftIcon={<FontAwesomeIcon color="#454545" size={20} icon={faFileMedicalAlt} />}
+                                titleStyle={{ fontWeight: "600" }}                                
+                                containerStyle={styles.listItemContainer}
+                                chevron={<FontAwesomeIcon color="#454545" size={18} icon={faChevronRight} />}
+                            />
+                        </TouchableOpacity>
 
                     </View>
 
@@ -193,6 +188,37 @@ class MyProfil extends Component {
     }
 }
 const styles = StyleSheet.create({
+    main_profil: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 70,
+        marginLeft: 20,
+        marginBottom: 35
+    },
+    under_main_profil_1: {
+        flex: 1
+    },
+    under_main_profil_2: {
+        flex: 4,
+        paddingLeft: 0
+    },
+    text_under_main_profil_2: {
+      fontSize: 28,
+      fontWeight: '200',
+      paddingTop: 7
+    },
+    descr_under_main_profil_2: {
+      fontSize: 17,
+      paddingTop: 17
+    },
+    btn_photo: {
+      flex: 1,
+      paddingTop: 70,
+      paddingLeft: 5
+    },
+    img_profil: {
+        width: 200
+    },
     rightInput: {
         borderBottomColor: "#00C1B4",
 
