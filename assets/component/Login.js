@@ -82,6 +82,12 @@ class Login extends React.Component {
     }
   }
 
+
+  milira() {
+    this.props.navigation.navigate("Menu");
+    Keyboard.dismiss();
+  }
+
   Connect() {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 

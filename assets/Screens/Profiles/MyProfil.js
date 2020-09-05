@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, AsyncStorage, ScrollView, ActivityIndicator, TouchableOpacity, Image, CheckBox, Modal } from 'react-native'
+import { StyleSheet,SafeAreaView, Share, Alert, Text, View, AsyncStorage, ScrollView, ActivityIndicator, TouchableOpacity, Image, CheckBox, Modal } from 'react-native'
 import { connect } from 'react-redux'
 import {
     widthPercentageToDP as wp,
@@ -8,20 +8,23 @@ import {
 
 import InputProfil from '../../component/InputProfil';
 import TopMenu from "../../component/Menu/TopMenu"
-import { Avatar, ListItem, Icon } from 'react-native-elements'
+import { Avatar, ListItem, Button } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo, ModifyPhoto } from '../../Action/action-type';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios'
+import axios from 'axios';
 
 import { TouchableHighlight, TextInput } from 'react-native-gesture-handler'
 import Bdd from "../../API/Bdd"
-import * as ImagePicker from 'expo-image-picker'
-import { Camera } from 'expo-camera'
-import * as Permissions from 'expo-permissions'
+import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'expo-camera';
+import * as Permissions from 'expo-permissions';
 import { saveInfo } from "../../API/firebase";
 import * as firebase from 'firebase';
-import PopNav from "../../component/Menu/PopNav"
+import firestore from 'firebase/firestore'
+import PopNav from "../../component/Menu/PopNav";
+
 const API_KEY = 'AIzaSyApjuz39FHMGBsy9lo7FobJQJtZKNra8P8';
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
 
@@ -49,6 +52,10 @@ class MyProfil extends Component {
             uri_doc: null,
             photoUri: this.props.user.user.imageUser,
             isLoading: false,
+            isFirst: false,
+            blood: '', 
+            size: '',
+            weight: ''
         }
         // console.log(this.props.user.user)
 
@@ -58,7 +65,80 @@ class MyProfil extends Component {
 
     componentDidMount = async () => {
         console.log('id ',this.props.user.user.idUser)
+        this.fetchSante();
     }
+
+    _pickImage = async () => {
+        //launchCameraAsync
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing : true,
+          base64: true,
+          quality : 0.5
+        });
+    
+        if (result.cancelled) {
+          return
+        }
+    
+        this._handleImagePicked(result);
+    
+      }
+      _handleImagePicked = async pickerResult => {
+        let uploadUrl =""
+        try {
+          this.setState({ isLoading: true });
+    
+          if (!pickerResult.cancelled) {
+            uploadUrl = await this.uploadImageAsync(pickerResult.uri);
+          let data = {
+            imageUser :uploadUrl,
+            idUser : this.props.user.user.idUser
+          }
+             this.saveProfileImageInfo(data)
+            
+          }
+        } catch (e) {
+          console.log(e);
+          alert('Upload failed, sorry :(');
+        } finally {
+          this.setState({ isLoading: false });
+          /* this.props.navigation.navigate("MonProfil") */
+          this.setState({photoUri : uploadUrl})
+        }
+      }
+      saveProfileImageInfo =  (data) => {
+        console.log('Modifier Photo')
+        this.props.ModifyPhoto(data)
+      }
+      uploadImageAsync = async (uri)  =>{
+        // Why are we using XMLHttpRequest? See:
+        // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+        const blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = function() {
+            resolve(xhr.response);
+          };
+          xhr.onerror = function(e) {
+            console.log(e);
+            reject(new TypeError('Network request failed'));
+          };
+          xhr.responseType = 'blob';
+          xhr.open('GET', uri, true);
+          xhr.send(null);
+        });
+        const id = Math.random().toString()
+        const ref = firebase
+          .storage()
+          .ref()
+          .child(id);
+        const snapshot = await ref.put(blob);
+      
+        // We're done with the blob, close and release it
+        blob.close();
+      
+        return await snapshot.ref.getDownloadURL();
+      }
+    
 
     changeProfil() {
         console.log('Param myprofil ', this.props.navigation.state.params)
@@ -99,7 +179,7 @@ class MyProfil extends Component {
                 </View>
 
                 <View style={styles.btn_photo}>
-                <TouchableOpacity onPress={() =>console.log('Change my profile') }>
+                <TouchableOpacity onPress={() => this._pickImage() }>
                 <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
                 </TouchableOpacity>
                 </View>
@@ -107,7 +187,7 @@ class MyProfil extends Component {
                 <View style={styles.under_main_profil_2}>
                     <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
                     <Text style={styles.descr_under_main_profil_2}>
-                        Femme, 34 ans, 1m 80, 76 kg
+                        Homme, {this.state.size} cm, {this.state.weight} kg, {this.state.blood}
                     </Text>
                 </View>
                 
@@ -115,6 +195,53 @@ class MyProfil extends Component {
         )
     }
 
+
+    fetchSante = async () => {
+
+        await axios.get(`${Bdd.api_url}/fiche-sante/list?idUser=${this.state.id}`)
+          .then(async res => {
+            if (await !res) {
+              console.log("tena misy olana")
+            } else {
+              const fiche = res.data.data
+              if (res.data === null) this.setState({ isFirst: true })
+              else this.setState({
+                isFirst: false,
+                blood: fiche.groupeSanguin, size: fiche.taille,
+                weight: fiche.poids, medecin: fiche.medecinTraitant,
+                secu: fiche.numSecu, donate: fiche.donnateur,
+                idFiche: fiche.idFiche,
+                allergies: fiche.allergies
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    }
+
+    logout() {
+        this.props.navigation.push("Logout")
+    }
+
+    shareLink() {
+        const url = '';
+        Share.share({title: 'Best4Santé', message: url}).then(
+            Alert.alert('Succes', 'Lien Partagé', [
+                {
+                    text: 'OK',
+                    onPress: () => {}
+                }
+            ])
+        ).catch(
+            err => Alert.alert('Echec', 'Erreur lors de partage de lien', [
+                {
+                    text: 'OK',
+                    onPress: () => {}
+                }
+            ])
+        )
+    }
 
     render() {
         // console.log(this.state.photoUri)
@@ -181,6 +308,57 @@ class MyProfil extends Component {
 
                     </View>
 
+                    <SafeAreaView style={styles.main_profil_2}>
+                        <Text style={styles.title_main_profil_2}>Recommender Best4Santé</Text>
+                        <Text style={styles.descr_main_profil_2}>
+                            Lorem Ipsum dolor sit amer, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt
+                        </Text>
+
+                        <TouchableOpacity style={styles.touch_share} onPress={() => this.shareLink()}>
+                            <Text style={styles.btn_share}>
+                                Partager le lien
+                            </Text>
+                        </TouchableOpacity>
+
+                        <Text style={styles.title_main_profil_2}>Suivez-nous</Text>
+                        <Text style={styles.descr_main_profil_2}>
+                            Lorem Ipsum dolor sit amer, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt
+                        </Text>
+
+                        <View style={styles.list_icon}>
+                        <Icon
+                        name='facebook'
+                        size={28}
+                        type='font-awesome'
+                        color='#008ac2'
+                        style={styles.shadow}
+                        onPress={() => console.log('hello')} />
+                        <Icon
+                        name='twitter'
+                        size={28}
+                        type='font-awesome'
+                        color='#008ac2'
+                        style={styles.shadow}
+                        onPress={() => console.log('hello')} />
+                        <Icon
+                        name='instagram'
+                        size={28}
+                        type='font-awesome'
+                        color='#008ac2'
+                        style={styles.shadow}
+                        onPress={() => console.log('hello')} />
+                        </View>
+
+                        <TouchableOpacity style={styles.touch_logout} onPress={() => this.logout()}>
+                        <Text style={styles.btn_logout}>
+                            Se déconnecter
+                        </Text>
+                        </TouchableOpacity>
+
+                    </SafeAreaView>
+
                 </ScrollView>
 
             </View>
@@ -188,6 +366,86 @@ class MyProfil extends Component {
     }
 }
 const styles = StyleSheet.create({
+    shadow: {
+        borderWidth: 1,
+        borderColor: '#FFFFFF',
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 3,
+        marginRight: 15
+    },
+    list_icon: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 23
+    },
+    main_profil_2: {
+        flex: 1,
+        padding: 17,
+        justifyContent: 'center'
+    },
+    title_main_profil_2: {
+        fontWeight: 'bold',
+        color: '#00C1B4',
+        fontSize: 24,
+        marginBottom: 10,
+        marginTop: 20
+    },
+    descr_main_profil_2: {
+        marginBottom: 15,
+        fontSize: 16,
+        lineHeight: 23
+    },
+    touch_share: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 15,
+        borderWidth: 1,
+        borderColor: '#5176db',
+        backgroundColor: '#5176db',
+        padding: 15,
+        borderRadius: 10
+    },
+    touch_logout: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: '#FFFFFF',
+        backgroundColor: '#FFFFFF',
+        padding: 15,
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 6,
+        marginBottom: 20,
+        marginTop: 10
+    },
+    btn_share: {
+        color: '#FFFFFF',
+        fontSize: 18
+    },
+    btn_logout: {
+        color: '#008ac2',
+        fontSize: 18
+    },
     main_profil: {
         flex: 1,
         flexDirection: 'row',
