@@ -49,8 +49,9 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
     };
     render() {
         return (
-            <React.Fragment style={styles.main_contain}>
-
+            <React.Fragment>
+                <View style={styles.main_contain}>
+                
                 <View style={styles.under}>
 
                     <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")}  >
@@ -110,6 +111,15 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 (
                                     <View style={styles.contain_txt2}>
                                         <Text style={styles.custom_txt}>Informations Personnelles</Text>
+
+                                        <Icon
+                                        name='save'
+                                        size={20}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={styles.icon_save}
+                                        onPress={() => console.log('save')}
+                                        />
                                     </View>
                                 )
                             )
@@ -135,12 +145,17 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                         )
                     }
 
-
+                    </View>
             </React.Fragment>
         )
     }
 }
 const styles = StyleSheet.create({
+    icon_save: {
+        fontWeight: '100',
+        paddingLeft: 50,
+        paddingTop: 5
+    },
     contain_back: {
         flexDirection: 'row',
         marginTop: -33,
@@ -170,7 +185,9 @@ const styles = StyleSheet.create({
     contain_txt2: {
         position: 'absolute',
         bottom: 10,
-        right: wp("21")
+        right: wp("5"),
+        flex: 1,
+        flexDirection: 'row'
     },
     custom_txt : {
         color: '#FFFFFF',

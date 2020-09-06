@@ -44,6 +44,7 @@ class Switch extends Component {
       profile: '',
       firstName: this.props.user.user.nomUser,
       lastName: this.props.user.user.prenomUser,
+      name: this.props.user.user.nomUser + ' ' + this.props.user.user.prenomUser,
       phone: this.props.user.user.phoneUser,
       address: this.props.user.user.adresseUser,
       zip: this.props.user.user.zipUser,
@@ -382,24 +383,38 @@ handleBackButtonClick() {
               {this.renderHeader_1()}
 
               <View>
-                <Container>
-                  <Header />
-                  <Content>
+
                     <Form>
                       <Item stackedLabel>
-                        <Label>Username</Label>
-                        <Input />
+                        <Label>Prenom et Nom</Label>
+                        <Input value={this.state.name}/>
                       </Item>
+                    
+                      
                       <Item stackedLabel last>
-                        <Label>Password</Label>
-                        <Input />
+                      <Label>Ville</Label>
+                      <Input value={this.state.city}/>
+                      </Item>
+                    
+                      <Item stackedLabel last>
+                      <Label>Adresse</Label>
+                      <Input value={this.state.address}/>
+                      </Item>
+                    
+                      <Item stackedLabel last>
+                      <Label>Code Postal</Label>
+                      <Input value={this.state.zip}/>
+                      </Item>
+                  
+                      <Item stackedLabel last>
+                      <Label>Telephone</Label>
+                      <Input value={this.state.phone}/>
                       </Item>
                     </Form>
-                  </Content>
-                </Container>
               </View>
 
-
+{
+/*
             <View style={styles.container}>
 
             <View style={styles.infoContainer}>
@@ -491,6 +506,10 @@ handleBackButtonClick() {
   
   
           </View>
+
+*/
+}
+
         </ScrollView>
 
       </View>
