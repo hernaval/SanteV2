@@ -6,11 +6,12 @@ import {
   } from 'react-native-responsive-screen';
   import { Avatar } from 'react-native-elements';
   import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-  import { faHome,  faBars, faTimes, faCaretDown, faEdit ,faCog} from '@fortawesome/free-solid-svg-icons';
+  import { faHome,  faBars, faTimes, faCaretDown, faEdit ,faCog, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
   import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
   import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import { connect } from 'react-redux';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
  class TopMenu extends Component {
 
@@ -71,8 +72,17 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                     <Text   style={styles.title1}>Best4Santé</Text> 
 
                     </View>
+
+                    <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate("Logout")}>
+                    <FontAwesomeIcon 
+                         
+                         icon={faSignOutAlt} 
+                         color="white" 
+                         size={24} 
+                         style={{}} />
+                    </TouchableWithoutFeedback>
                 
-                     <Menu
+                     {/* <Menu
                         ref={this.setMenuRef}
                         button={
                             <TouchableOpacity onPress={()=> this.showMenu()}>
@@ -92,7 +102,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                  }} >
                                 Me déconnecter
                              </MenuItem>
-                    </Menu>
+                    </Menu> */}
                                 
                         {
                             (this.props.menu && 

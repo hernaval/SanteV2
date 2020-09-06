@@ -318,7 +318,7 @@ const styles = StyleSheet.create(
     },
     main_logo: {
 
-      marginTop: hp("3%"),
+      
       height: hp("40%"),
       alignSelf: 'center',
       width: wp("100%"),

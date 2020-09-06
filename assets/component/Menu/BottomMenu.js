@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Animated, Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircle, faUserEdit } from '@fortawesome/free-solid-svg-icons';
 
 
  class BottomMenu extends Component {
@@ -41,11 +43,11 @@ import { connect } from 'react-redux';
                 <View style={{
 
                     position: 'absolute',
-                    backgroundColor: '#008ac2',
-                    border: 2,
-                    radius: 3,
-                    borderTopLeftRadius : 150,
-                    borderTopRightRadius : 150,
+                    backgroundColor: '#00C1B4',
+                   
+                
+                    borderTopLeftRadius : 10,
+                    borderTopRightRadius : 10,
                     shadowOpacity: 0.3,
                     shadowRadius: 3,
                     shadowOffset: {
@@ -75,14 +77,17 @@ import { connect } from 'react-redux';
                         <TouchableOpacity
                             onPress={() => this.props.navigation.navigate("Favorite")}
                         >
-                            <Image
-                                style={{  width: 50, height: 50 }}
-                                source={require("../../images/favoris.png")}
-                                onPress={() => { Alert.alert("click") }}
-                            />
-                       
+
+                        <FontAwesomeIcon 
+                         
+                         icon={faHeart} 
+                         color="#FC6C6C" 
+                         size={30} 
+                         style={{}} />
+                    
+
                         </TouchableOpacity>
-                        <Text style={{color : "white",justifyContent:'center',alignItems:'center' }}>Favoris </Text>
+                        <Text style={{color : "#FC6C6C",justifyContent:'center',alignItems:'center' }}>Favoris </Text>
                     </View>
 
                     <View style={{
@@ -92,11 +97,11 @@ import { connect } from 'react-redux';
                         <TouchableOpacity
                             onPress={() => this.props.navigation.navigate("MyProfil")}
                         >
-                            <Image
-                                style={{  width: 50, height: 50 }}
-                                source={require("../../images/profile.png")}
-                                onPress={() => { Alert.alert("click") }}
-                            />
+                            <FontAwesomeIcon
+                                icon={faUserEdit}
+                                size={30}
+                                color="#EFEAEA"
+                             />
                        
                         </TouchableOpacity>
                         <Text style={{color : "white",justifyContent:'center',alignItems:'center' }}>Mon Profil </Text>

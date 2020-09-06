@@ -353,7 +353,7 @@ class MyProfil extends Component {
 
                         <TouchableOpacity style={styles.touch_logout} onPress={() => this.logout()}>
                         <Text style={styles.btn_logout}>
-                            Se déconnecter
+                            Me déconnecter
                         </Text>
                         </TouchableOpacity>
 
@@ -414,8 +414,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 15,
         borderWidth: 1,
-        borderColor: '#5176db',
-        backgroundColor: '#5176db',
+        borderColor: '#008AC8',
+        backgroundColor: '#008AC8',
         padding: 15,
         borderRadius: 10
     },
