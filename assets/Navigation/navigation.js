@@ -51,12 +51,19 @@ import ContactDetail from "../Screens/Contacts/ContactDetail"
 import Event from "../Screens/Rappel/Event"
 import AddEvent from "../Screens/Rappel/AddEvent"
 import EventTraitement from "../Screens/Rappel/EventTraitement"
+import UserConnected from "../Screens/Samaritain/UserConnected"
 import RequireAuthentification from '../Helpers/requireAuth';
 
 
 import Calendars from "../Screens/Rappel/Calendars"
 const NavigationBest4Sante=createStackNavigator(
     {   
+        UserConnected : {
+            screen : RequireAuthentification(UserConnected),
+            navigationOptions : {
+                title  :"UserConnected"
+            }
+        },
 
         Calendars : {
             screen : Calendars,

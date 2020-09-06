@@ -7,7 +7,7 @@ import Bdd from '../API/Bdd'
 import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
 import { _setSocket, _emitEvent,onSamaritainListChange } from '../services/socket';
-
+import {getCurrentLocation} from "../services/location"
 
 export default function(ChildComponent) {
 	class RequireAuthentification extends Component {
@@ -33,8 +33,8 @@ export default function(ChildComponent) {
 				  
 				// We have data!!
 				axios.get(Bdd.api_url+'/checkToken',{ headers: { 'x-access-token': token }} )
-				.then((res)=>{
-			
+				.then(async (res)=>{
+					
 					if(res.status !== 200) {
 						this.props.navigation.push("Login");
 					}
@@ -44,10 +44,14 @@ export default function(ChildComponent) {
 						_setSocket("samaritain")
 						let value = token
 						let socketListenId =`samaritain_${value}`
-						_emitEvent("status_change",{token : value, socketListenId : socketListenId, type  :"join"})
-		  
-						
 
+						let location = await getCurrentLocation()
+						const coords = {
+							lat : location.coords.latitude,
+							log : location.coords.longitude
+						}
+						_emitEvent("status_change",{token : value, socketListenId : socketListenId, coords : coords, type  :"join"})
+						
 						this.props.setUserInfo(token)
 						this.props.mySecondProfil(token)
 					}
@@ -88,28 +92,7 @@ export default function(ChildComponent) {
 		setSecondInfo
 	}
 
-	// TaskManager.defineTask('geoloc_bakground', ({ data, error }) => {
-	// 	if (error) {
-	// 	  // Error occurred - check `error.message` for more details.
-	// 	  return;
-	// 	}
-	// 	if (data) {
-	// 	  const { locations } = data;
-		  
-	// 	  console.log('first', data);
-	// 	  let coords = {
-	// 		  lat: data.locations[0].coords.latitude,
-	// 		  lng: data.locations[0].coords.longitude,
-	// 		  id: 601
-	// 	  }
-	// 	  // do something with the locations captured in the background
-	// 	  axios.post(config.api_url+"/api/user/updateGeo", coords)
-	// 		  .then((res)=>{
-	// 			  console.log(res);
-	// 		  })
-	  
-	// 	}
-	// });
+	
 
 	return connect(mapStateToProps, mapDispatchToProps)(RequireAuthentification);
 }

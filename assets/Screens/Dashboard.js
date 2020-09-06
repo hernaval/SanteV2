@@ -19,6 +19,8 @@ import { faHome,  faBars, faTimes, faCaretDown, faNotesMedical, faHandsHelping, 
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
+import { registerForPushNotificationsAsync } from "../services/notifications";
+import { _emitEvent } from '../services/socket';
 
 
 
@@ -30,11 +32,9 @@ class Menu extends Component {
   }
 
   componentDidMount =  async  () =>{
-   
-    console.log("ok")
+    let user = this.props.user.user.idUser
     
-    console.log(this.props.second.second)
-    
+    await registerForPushNotificationsAsync(user)
   }
 
   

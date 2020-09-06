@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet,Image,TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet,Image, TouchableHighlight, Platform } from 'react-native'
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
-  } from 'react-native-responsive-screen';
-  import { Avatar } from 'react-native-elements';
-  import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-  import { faHome,  faBars, faTimes, faCaretDown, faEdit ,faCog, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
-  import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
-  import * as firebase from 'firebase';
+} from 'react-native-responsive-screen';
+import {TouchableOpacity} from 'react-native-gesture-handler'
+import { Avatar } from 'react-native-elements';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faHome,  faBars, faTimes, faCaretDown, faEdit ,faCog,faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -49,17 +51,16 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
     render() {
         return (
             <React.Fragment>
+                <View style={styles.main_contain}>
+                
                 <View style={styles.under}>
-                        
+
                     <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")}  >
-                    <FontAwesomeIcon 
-                         
+                    <FontAwesomeIcon                         
                          icon={faHome} 
                          color="white" 
                          size={24} 
                          style={{}} />
-                    
-                  
                     </TouchableOpacity>
                      
                    <View style={{flexDirection :"row"}}>
@@ -82,28 +83,9 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                          style={{}} />
                     </TouchableWithoutFeedback>
                 
-                     {/* <Menu
-                        ref={this.setMenuRef}
-                        button={
-                            <TouchableOpacity onPress={()=> this.showMenu()}>
-                                <FontAwesomeIcon  size={22} color ={"white"} icon={faCog} />
-                            </TouchableOpacity>
-                        }
-                    >       
-                            <MenuItem  onPress={()=>{
-                                this.hideMenu()
-                                this.props.navigation.navigate("Forgot")
-                            }}>Mes paramètres</MenuItem>
+                     
+                
 
-                            <MenuDivider />
-                             <MenuItem onPress={()=> {
-                                 this.hideMenu()
-                                 this.props.navigation.push("Logout")
-                                 }} >
-                                Me déconnecter
-                             </MenuItem>
-                    </Menu> */}
-                                
                         {
                             (this.props.menu && 
                                 (
@@ -112,16 +94,66 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                     </View>
                                 )
                             )
-                        }
+                        } 
                         
+                        {
+                            (this.props.switch && 
+                                (
+                                    <View style={styles.contain_txt2}>
+                                        <Text style={styles.custom_txt}>Informations Personnelles</Text>
+
+                                        <Icon
+                                        name='save'
+                                        size={20}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={styles.icon_save}
+                                        onPress={() => console.log('save')}
+                                        />
+                                    </View>
+                                )
+                            )
+                        } 
                 
                     </View>
-      
+
+                    {
+                        (this.props.switch &&
+                            (
+                                <View style={styles.contain_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} >
+                                    <Icon
+                                    name='chevron-left'
+                                    size={20}
+                                    type='font-awesome'
+                                    color='#FFFFFF'
+                                    style={{fontWeight: '100'}}
+                                    />
+                                    </TouchableOpacity>
+                                </View>
+                            )    
+                        )
+                    }
+
+                    </View>
             </React.Fragment>
         )
     }
 }
 const styles = StyleSheet.create({
+    icon_save: {
+        fontWeight: '100',
+        paddingLeft: 50,
+        paddingTop: 5
+    },
+    contain_back: {
+        flexDirection: 'row',
+        marginTop: -33,
+        marginLeft: 6
+    },
+    main_contain: {
+        flexDirection: 'column',
+    },
     under: {
         backgroundColor : "#00C1B4",
         flexDirection: 'row',
@@ -139,6 +171,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         right: 20
+    },
+    contain_txt2: {
+        position: 'absolute',
+        bottom: 10,
+        right: wp("5"),
+        flex: 1,
+        flexDirection: 'row'
     },
     custom_txt : {
         color: '#FFFFFF',

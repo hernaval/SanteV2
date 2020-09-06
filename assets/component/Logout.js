@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
+import { _emitEvent } from '../services/socket';
 
 
 class Logout extends React.Component {
@@ -30,6 +31,8 @@ class Logout extends React.Component {
       if (value !== null) {
         // We have data!!
         console.log('logout',value);
+        
+      _emitEvent("status_change", { token: value, socketListenId: `samaritain${value}`, type: "leave" });
         
       }
     } catch (error) {

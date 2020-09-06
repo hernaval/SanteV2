@@ -9,7 +9,7 @@
       "config": {
         "googleMaps": { "apiKey": "AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs" }   
      },
-     "permissions" : ["READ_CALENDAR","WRITE_CALENDAR","ACCESS_FINE_LOCATION","C2D_MESSAGE","CAMERA","CAMERA_ROLL","READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"],
+     "permissions" : ["NOTIFICATIONS","READ_CALENDAR","WRITE_CALENDAR","ACCESS_FINE_LOCATION","C2D_MESSAGE","CAMERA","CAMERA_ROLL","READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"],
     "icon": "./assets/splash.png",
     "splash": {
       "image":"./assets/images/Splash(FondBlanc).png",

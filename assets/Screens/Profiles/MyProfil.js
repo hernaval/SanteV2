@@ -156,7 +156,12 @@ class MyProfil extends Component {
 
     goToInfoPerso() {
         this.countProfil = 0;
-        this.props.navigation.navigate("Switch")
+        this.props.navigation.navigate("Switch", {
+            size: this.state.size,
+            blood: this.state.blood,
+            weight: this.state.weight,
+            profile: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri
+        })
     }
 
 
@@ -225,7 +230,7 @@ class MyProfil extends Component {
     }
 
     shareLink() {
-        const url = '';
+        const url = 'https://exp.host/@stenny453/Best4Sante';
         Share.share({title: 'Best4Santé', message: url}).then(
             Alert.alert('Succes', 'Lien Partagé', [
                 {
