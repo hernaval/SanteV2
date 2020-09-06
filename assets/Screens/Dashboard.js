@@ -30,37 +30,14 @@ class Menu extends Component {
   }
 
   componentDidMount =  async  () =>{
-    await this.registerForPushNotificationsAsync()
+   
     console.log("ok")
     
     console.log(this.props.second.second)
     
   }
 
-  registerForPushNotificationsAsync = async () => {
   
-  
-      let { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-      
-      if (status !== 'granted') return;
-  
-      let token = await Notifications.getExponentPushTokenAsync();
-  
-     console.log(token)
-    
-      
-    
-
-    if (Platform.OS === 'android') {
-      Notifications.createChannelAndroidAsync('default', {
-        name: 'default',
-        sound: true,
-        priority: 'max',
-        vibrate: [0, 250, 250, 250],
-      });
-    }
-  };
- 
   render() {
     
 

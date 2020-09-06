@@ -23,6 +23,7 @@
     "expo-camera": "~8.2.0",
     "expo-constants": "^9.0.0",
     "expo-document-picker": "~8.1.0",
+    "expo-facebook": "~8.1.0",
     "expo-file-system": "~8.1.0",
     "expo-image-picker": "~8.1.0",
     "expo-linear-gradient": "~8.1.0",
@@ -82,9 +83,9 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "rn-viewpager": "^1.2.9",
+    "socket.io-client": "^2.3.0",
     "uuid": "^8.1.0",
-    "validate.js": "^0.13.1",
-    "expo-facebook": "~8.1.0"
+    "validate.js": "^0.13.1"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.1.0",

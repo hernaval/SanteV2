@@ -365,7 +365,7 @@ const NavigationBest4Sante=createStackNavigator(
              }
          }
     },{
-        initialRouteName : "Login",
+        initialRouteName : "Menu",
          headerMode : "none"
         }
 )

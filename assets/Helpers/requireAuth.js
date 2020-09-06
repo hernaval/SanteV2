@@ -6,6 +6,7 @@ import 	axios from "axios";
 import Bdd from '../API/Bdd'
 import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
+import { _setSocket, _emitEvent,onSamaritainListChange } from '../services/socket';
 
 
 export default function(ChildComponent) {
@@ -23,10 +24,13 @@ export default function(ChildComponent) {
 		}
 
 		_retrieveData = async (key) => {
+			
 			try {
 			  const token = await AsyncStorage.getItem(key);
-			
+			 
 			  if (token !== null) {
+
+				  
 				// We have data!!
 				axios.get(Bdd.api_url+'/checkToken',{ headers: { 'x-access-token': token }} )
 				.then((res)=>{
@@ -37,6 +41,13 @@ export default function(ChildComponent) {
 
 					else {
 						
+						_setSocket("samaritain")
+						let value = token
+						let socketListenId =`samaritain_${value}`
+						_emitEvent("status_change",{token : value, socketListenId : socketListenId, type  :"join"})
+		  
+						
+
 						this.props.setUserInfo(token)
 						this.props.mySecondProfil(token)
 					}
