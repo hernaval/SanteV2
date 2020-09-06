@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { Card, Icon, Input } from 'react-native-elements'
 import { BackHandler } from 'react-native';
 import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {
   Image,
   ImageBackground,
   Linking,
@@ -25,6 +29,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
+import { Container, Header, Content, Form, Item, Label } from 'native-base';
 
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
 class Switch extends Component {
@@ -33,8 +38,10 @@ class Switch extends Component {
     super(props)
     this.state = {
       isSelectedProfile: false,
-      // photoUri: "", 
-
+      blood: '', 
+      size: '',
+      weight: '',
+      profile: '',
       firstName: this.props.user.user.nomUser,
       lastName: this.props.user.user.prenomUser,
       phone: this.props.user.user.phoneUser,
@@ -69,6 +76,16 @@ class Switch extends Component {
     this.setState({ isLoading: true })
     await this.getCameraPermissions()
     this.setState({ isLoading: false })
+    const my_size = this.props.navigation.state.params.size;
+    const my_blood = this.props.navigation.state.params.blood;
+    const my_weight = this.props.navigation.state.params.weight;
+    const my_profile = this.props.navigation.state.params.profile;
+    this.setState({
+      blood: my_blood, 
+      size: my_size,
+      weight: my_weight,
+      profile: my_profile
+    })
   }
 
   componentWillMount() {
@@ -138,6 +155,35 @@ handleBackButtonClick() {
           </View>
         </ImageBackground>
       </View>
+    )
+  }
+
+  renderHeader_1 = () => {
+
+    return (
+        <View style={styles.main_profil}>
+            <View style={styles.under_main_profil_1}>
+            <Avatar
+            size={100}
+            rounded
+            source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
+            />
+            </View>
+
+            <View style={styles.btn_photo}>
+            <TouchableOpacity onPress={() => this._pickImage() }>
+            <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
+            </TouchableOpacity>
+            </View>
+
+            <View style={styles.under_main_profil_2}>
+                <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
+                <Text style={styles.descr_under_main_profil_2}>
+                    Homme, {this.state.size} cm, {this.state.weight} kg, {this.state.blood}
+                </Text>
+            </View>
+            
+        </View>
     )
   }
 
@@ -323,110 +369,292 @@ handleBackButtonClick() {
   render() {
     console.log("render")
     return (
-      <ScrollView style={styles.scroll}>
-        <View style={styles.container}>
-          {this.state.isLoading && <View style={styles.loading_container}>
-            <ActivityIndicator size="large" />
+      <View style={styles.container_1}>
+          {this.state.isLoading && <View style={styles.loading_container_1}>
+              <ActivityIndicator size="large" />
           </View>}
-
-          <Card containerStyle={styles.cardContainer}>
-            {this.renderHeader()}
-          </Card>
-
-          <View style={styles.infoContainer}>
-
-            {this.state.isModifbegin === true && this.state.errPhone !== null &&
-              <Text style={styles.error}>{this.state.errPhone}</Text>
-            }
-            <View>
-              <Text style={styles.labelText}>Prénom</Text>
-              {this.state.isModifbegin === true && <Input
-                onChangeText={(text) => this.setState({ firstName: text })}
-                value={this.state.firstName}
-              />
-              }
-              {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.firstName}</Text>
-              }
-            </View>
-            <View>
-              <Text style={styles.labelText}>Nom</Text>
-              {this.state.isModifbegin === true && <Input
-
-                onChangeText={(text) => this.setState({ lastName: text })}
-                value={this.state.lastName}
-              />
-              }
-              {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.lastName}</Text>
-              }
-            </View>
-
-
-
-
-            <View>
-              <Text style={styles.labelText}>Ville</Text>
-              {this.state.isModifbegin === true && <Input
-              errorMessage={this.state.errVille}
-                onChangeText={(text) => this.setState({ city: text })}
-                value={this.state.city}
-              />
-              }
-              {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.city}</Text>
-              }
-            </View>
-            <View>
-              <Text style={styles.labelText}>Adresse</Text>
-              {this.state.isModifbegin === true && <Input
-              errorMessage={this.state.errAddress}
-                onChangeText={(text) => this.setState({ address: text })}
-                value={this.state.address}
-              />
-              }
-              {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.address}</Text>
-              }
-            </View>
-            <View>
-              <Text style={styles.labelText}>Code postale</Text>
-              {this.state.isModifbegin === true && <Input keyboardType="numeric" 
-                errorMessage={this.state.errZip}
-                onChangeText={(text) => this.setState({ zip: text })}
-                value={this.state.zip}
-              />
-              }
-              {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.zip}</Text>
-              }
-            </View>
-
-
-
-            <View>
-              <Text style={styles.labelText}>Téléphone</Text>
-              {this.state.isModifbegin === true && <Input
-               keyboardType="numeric"
-                onChangeText={(text) => this.setState({ phone: text })}
-                value={this.state.phone}
-              />
-              }
-              {this.state.isModifbegin === false &&
-                <Text style={styles.labelValue}>{this.state.phone}</Text>
-              }
-            </View>
-
+  
+          <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
+            <TopMenu navigation={this.props.navigation} switch={1}/>
           </View>
 
+          <ScrollView style={[styles.scroll_1, { marginTop: 10 }]} >
+              {this.renderHeader_1()}
+
+              <View>
+                <Container>
+                  <Header />
+                  <Content>
+                    <Form>
+                      <Item stackedLabel>
+                        <Label>Username</Label>
+                        <Input />
+                      </Item>
+                      <Item stackedLabel last>
+                        <Label>Password</Label>
+                        <Input />
+                      </Item>
+                    </Form>
+                  </Content>
+                </Container>
+              </View>
 
 
-        </View>
-      </ScrollView>
+            <View style={styles.container}>
+
+            <View style={styles.infoContainer}>
+  
+              {this.state.isModifbegin === true && this.state.errPhone !== null &&
+                <Text style={styles.error}>{this.state.errPhone}</Text>
+              }
+              <View>
+                <Text style={styles.labelText}>Prénom</Text>
+                {this.state.isModifbegin === true && <Input
+                  onChangeText={(text) => this.setState({ firstName: text })}
+                  value={this.state.firstName}
+                />
+                }
+                {this.state.isModifbegin === false &&
+                  <Text style={styles.labelValue}>{this.state.firstName}</Text>
+                }
+              </View>
+              <View>
+                <Text style={styles.labelText}>Nom</Text>
+                {this.state.isModifbegin === true && <Input
+  
+                  onChangeText={(text) => this.setState({ lastName: text })}
+                  value={this.state.lastName}
+                />
+                }
+                {this.state.isModifbegin === false &&
+                  <Text style={styles.labelValue}>{this.state.lastName}</Text>
+                }
+              </View>
+  
+  
+  
+  
+              <View>
+                <Text style={styles.labelText}>Ville</Text>
+                {this.state.isModifbegin === true && <Input
+                errorMessage={this.state.errVille}
+                  onChangeText={(text) => this.setState({ city: text })}
+                  value={this.state.city}
+                />
+                }
+                {this.state.isModifbegin === false &&
+                  <Text style={styles.labelValue}>{this.state.city}</Text>
+                }
+              </View>
+              <View>
+                <Text style={styles.labelText}>Adresse</Text>
+                {this.state.isModifbegin === true && <Input
+                errorMessage={this.state.errAddress}
+                  onChangeText={(text) => this.setState({ address: text })}
+                  value={this.state.address}
+                />
+                }
+                {this.state.isModifbegin === false &&
+                  <Text style={styles.labelValue}>{this.state.address}</Text>
+                }
+              </View>
+              <View>
+                <Text style={styles.labelText}>Code postale</Text>
+                {this.state.isModifbegin === true && <Input keyboardType="numeric" 
+                  errorMessage={this.state.errZip}
+                  onChangeText={(text) => this.setState({ zip: text })}
+                  value={this.state.zip}
+                />
+                }
+                {this.state.isModifbegin === false &&
+                  <Text style={styles.labelValue}>{this.state.zip}</Text>
+                }
+              </View>
+  
+  
+  
+              <View>
+                <Text style={styles.labelText}>Téléphone</Text>
+                {this.state.isModifbegin === true && <Input
+                 keyboardType="numeric"
+                  onChangeText={(text) => this.setState({ phone: text })}
+                  value={this.state.phone}
+                />
+                }
+                {this.state.isModifbegin === false &&
+                  <Text style={styles.labelValue}>{this.state.phone}</Text>
+                }
+              </View>
+  
+            </View>
+  
+  
+  
+          </View>
+        </ScrollView>
+
+      </View>
+
+      // <ScrollView style={styles.scroll}>
+      //   <View style={styles.container}>
+      //     {this.state.isLoading && <View style={styles.loading_container}>
+      //       <ActivityIndicator size="large" />
+      //     </View>}
+
+      //     <Card containerStyle={styles.cardContainer}>
+      //       {this.renderHeader()}
+      //     </Card>
+
+      //     <View style={styles.infoContainer}>
+
+      //       {this.state.isModifbegin === true && this.state.errPhone !== null &&
+      //         <Text style={styles.error}>{this.state.errPhone}</Text>
+      //       }
+      //       <View>
+      //         <Text style={styles.labelText}>Prénom</Text>
+      //         {this.state.isModifbegin === true && <Input
+      //           onChangeText={(text) => this.setState({ firstName: text })}
+      //           value={this.state.firstName}
+      //         />
+      //         }
+      //         {this.state.isModifbegin === false &&
+      //           <Text style={styles.labelValue}>{this.state.firstName}</Text>
+      //         }
+      //       </View>
+      //       <View>
+      //         <Text style={styles.labelText}>Nom</Text>
+      //         {this.state.isModifbegin === true && <Input
+
+      //           onChangeText={(text) => this.setState({ lastName: text })}
+      //           value={this.state.lastName}
+      //         />
+      //         }
+      //         {this.state.isModifbegin === false &&
+      //           <Text style={styles.labelValue}>{this.state.lastName}</Text>
+      //         }
+      //       </View>
+
+
+
+
+      //       <View>
+      //         <Text style={styles.labelText}>Ville</Text>
+      //         {this.state.isModifbegin === true && <Input
+      //         errorMessage={this.state.errVille}
+      //           onChangeText={(text) => this.setState({ city: text })}
+      //           value={this.state.city}
+      //         />
+      //         }
+      //         {this.state.isModifbegin === false &&
+      //           <Text style={styles.labelValue}>{this.state.city}</Text>
+      //         }
+      //       </View>
+      //       <View>
+      //         <Text style={styles.labelText}>Adresse</Text>
+      //         {this.state.isModifbegin === true && <Input
+      //         errorMessage={this.state.errAddress}
+      //           onChangeText={(text) => this.setState({ address: text })}
+      //           value={this.state.address}
+      //         />
+      //         }
+      //         {this.state.isModifbegin === false &&
+      //           <Text style={styles.labelValue}>{this.state.address}</Text>
+      //         }
+      //       </View>
+      //       <View>
+      //         <Text style={styles.labelText}>Code postale</Text>
+      //         {this.state.isModifbegin === true && <Input keyboardType="numeric" 
+      //           errorMessage={this.state.errZip}
+      //           onChangeText={(text) => this.setState({ zip: text })}
+      //           value={this.state.zip}
+      //         />
+      //         }
+      //         {this.state.isModifbegin === false &&
+      //           <Text style={styles.labelValue}>{this.state.zip}</Text>
+      //         }
+      //       </View>
+
+
+
+      //       <View>
+      //         <Text style={styles.labelText}>Téléphone</Text>
+      //         {this.state.isModifbegin === true && <Input
+      //          keyboardType="numeric"
+      //           onChangeText={(text) => this.setState({ phone: text })}
+      //           value={this.state.phone}
+      //         />
+      //         }
+      //         {this.state.isModifbegin === false &&
+      //           <Text style={styles.labelValue}>{this.state.phone}</Text>
+      //         }
+      //       </View>
+
+      //     </View>
+
+
+
+      //   </View>
+      // </ScrollView>
     )
   }
 }
 const styles = StyleSheet.create({
+  main_profil: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: 70,
+    marginLeft: 20,
+    marginBottom: 35
+  },
+  under_main_profil_1: {
+      flex: 1
+  },
+  under_main_profil_2: {
+      flex: 4,
+      paddingLeft: 0
+  },
+  text_under_main_profil_2: {
+    fontSize: 28,
+    fontWeight: '200',
+    paddingTop: 7
+  },
+  descr_under_main_profil_2: {
+    fontSize: 17,
+    paddingTop: 17
+  },
+  btn_photo: {
+    flex: 1,
+    paddingTop: 70,
+    paddingLeft: 5
+  },
+  img_profil: {
+      width: 200
+  },
+  scroll_1: {
+    backgroundColor: 'white',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20
+  },
+  under: {
+    height: hp('10%'),
+    zIndex: 99
+  },
+  loading_container_1: {
+    position: 'absolute',
+    zIndex: 10,
+    left: 0,
+    right: 0,
+    top: 100,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  container_1: {
+    flex: 1,
+    backgroundColor: '#00C1B4',
+    zIndex: 40,
+    justifyContent: 'center'
+  },
   infoContainer: {
     padding: 20
   },

@@ -84,7 +84,8 @@
     "rn-viewpager": "^1.2.9",
     "uuid": "^8.1.0",
     "validate.js": "^0.13.1",
-    "expo-facebook": "~8.1.0"
+    "expo-facebook": "~8.1.0",
+    "native-base": "2.12.1"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.1.0",
