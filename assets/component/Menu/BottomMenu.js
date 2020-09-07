@@ -81,13 +81,13 @@ import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircl
                         <FontAwesomeIcon 
                          
                          icon={faHeart} 
-                         color="#FC6C6C" 
+                         color="#FFFFFF" 
                          size={30} 
                          style={{}} />
                     
 
                         </TouchableOpacity>
-                        <Text style={{color : "#FC6C6C",justifyContent:'center',alignItems:'center' }}>Favoris </Text>
+                        <Text style={{color : "#FFFFFF",justifyContent:'center',alignItems:'center' }}>Favoris </Text>
                     </View>
 
                     <View style={{
