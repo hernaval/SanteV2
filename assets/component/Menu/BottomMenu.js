@@ -40,6 +40,11 @@ import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircl
                                 source={require("../../images/icon_urg_2.png")} />
                         </View>
                     </TouchableWithoutFeedback>
+                    {/*
+                    <Text textBreakStrategy={'simple'} 
+                    style={{color : "#FFFFFF", fontWeight: '200', marginTop: 69, marginLeft: 8}}>Urgence</Text>
+                    */
+                    }
                 </View>
                 <View style={{
 

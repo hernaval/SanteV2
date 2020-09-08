@@ -15,7 +15,7 @@ import firestore from 'firebase/firestore'
 import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
- class TopMenu extends Component {
+ class HeaderMenu extends Component {
 
     constructor(){
         super()
@@ -66,67 +66,57 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
         return (
             <React.Fragment>
                 <View style={styles.main_contain}>
-                
                 <View style={styles.under}>
-
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")}  >
-                    <FontAwesomeIcon                         
-                         icon={faHome} 
-                         color="white" 
-                         size={24} 
-                         style={{}} />
-                    </TouchableOpacity>
-                     
-                   <View style={{flexDirection :"row"}}>
-
-                       <Image
-                        style={{width: wp('6%'), height: wp('6%'), backgroundColor: 'white',  borderRadius: 400/2, marginRight: wp('2%'),marginTop : hp("1%")}}
-                        source={require('../../images/icon_point.jpeg')}
-                    />
-                   
-                    <Text style={[styles.title1, {fontSize: this.state.size}]}>
-                    Best4Santé
-                    </Text> 
-
-                    </View>
-
-                    <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate("Logout")}>
-                    <FontAwesomeIcon 
-                         
-                         icon={faSignOutAlt} 
-                         color="white" 
-                         size={24} 
-                         style={{}} />
-                    </TouchableWithoutFeedback>
-                
-                     
-                
-
                         {
                             (this.props.profile && 
                                 (
-                                    <View style={styles.contain_txt}>
-                                        <Text style={styles.custom_txt}>Profil</Text>
+                                    <View style={styles.contain_profil}>
+                                        <View style={styles.contain_profil_1}>
+                                            <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} >
+                                            <Icon
+                                            name='chevron-left'
+                                            size={22}
+                                            type='font-awesome'
+                                            color='#FFFFFF'
+                                            style={{fontWeight: '100'}}
+                                            />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={styles.contain_profil_2}>
+                                            <Text style={styles.profil_txt}>Profil</Text>
+                                        </View>
+                                        <View style={styles.contain_profil_3}>
+                                            
+                                        </View>
                                     </View>
                                 )
                             )
                         } 
                         
-                        {
-                            (this.props.switch && 
-                                (
-                                    <View style={styles.contain_txt2}>
-                                        <Text style={styles.custom_txt}>Informations Personnelles</Text>
 
+                        {
+                            (this.props.perso && 
+                                (
+                                    <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
                                         <Icon
-                                        name='save'
-                                        size={20}
+                                        name='chevron-left'
+                                        size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={styles.icon_save}
-                                        onPress={() => console.log('save')}
+                                        style={{fontWeight: '100', paddingTop: 4}}
                                         />
+                                        <Text style={styles.txt_back_profil}>Profil</Text>
+                                        </TouchableOpacity>
                                     </View>
+                                    <View style={styles.contain_perso_2}>
+                                        
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    <Text style={styles.modif_txt}>Modifier</Text>
+                                    </View>
+                                </View>
                                 )
                             )
                         } 
@@ -143,7 +133,6 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                     size={20}
                                     type='font-awesome'
                                     color='#FFFFFF'
-                                    style={{fontWeight: '100'}}
                                     />
                                     </TouchableOpacity>
                                 </View>
@@ -157,6 +146,67 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
     }
 }
 const styles = StyleSheet.create({
+    txt_back_profil: {
+        color: "#FFFFFF",
+        fontSize: 20,
+        paddingLeft: 5,
+        paddingTop: -10
+    },
+    contain_perso: {
+        flex: 1,
+        flexDirection: 'row',
+        width: wp("100%"),
+        justifyContent: 'flex-end'
+    },
+    contain_perso_1: {
+        flex: 1,
+        paddingLeft: 10,
+        marginTop: 15,
+        flexDirection: 'row'
+    },
+    contain_perso_2: {
+        flex: 2,
+        justifyContent: 'center',
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+    contain_perso_3: {
+        flex: 1,
+        marginTop: 15,
+    },
+    contain_profil: {
+        flex: 1,
+        flexDirection: 'row',
+        width: wp("100%")
+    },
+    contain_profil_1: {
+        flex: 1,
+        paddingLeft: 10,
+        marginTop: 15
+    },
+    contain_profil_2: {
+        flex: 2,
+        justifyContent: 'center',
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+    contain_profil_3: {
+        flex: 1
+    },
+    profil_txt: {
+        justifyContent: 'center',
+        textAlign: 'center',
+        alignItems: 'center',
+        fontSize: 20,
+        color: '#FFFFFF'
+    },
+    modif_txt: {
+        justifyContent: 'center',
+        textAlign: 'center',
+        alignItems: 'center',
+        fontSize: 20,
+        color: '#FFFFFF'
+    },
     icon_save: {
         fontWeight: '100',
         paddingLeft: 50,
@@ -175,12 +225,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
          paddingTop: hp("5%"),
         width: wp('100%'),
-        height : hp("20%"),
+        height : hp("13%"),
         textAlign: 'center',
         // alignItems: 'center',
         justifyContent: 'space-around',
-        borderBottomLeftRadius : 10,
-        borderBottomRightRadius : 10
+        // borderBottomLeftRadius : 10,
+        // borderBottomRightRadius : 10
         
     },
     contain_txt: {
@@ -305,4 +355,4 @@ const mapStateToProps = (store) => {
     
   }
 
-export default connect(mapStateToProps,mapDispatchToProps)(TopMenu)
+export default connect(mapStateToProps,mapDispatchToProps)(HeaderMenu)

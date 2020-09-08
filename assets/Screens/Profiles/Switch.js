@@ -23,6 +23,7 @@ import { connect } from 'react-redux'
 import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo ,ModifyPhoto } from '../../Action';
 import { Avatar } from 'react-native-elements';
 import TopMenu from "../../component/Menu/TopMenu"
+import HeaderMenu from "../../component/Menu/HeaderMenu"
 import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -375,8 +376,15 @@ handleBackButtonClick() {
               <ActivityIndicator size="large" />
           </View>}
   
+          {/*
           <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
             <TopMenu navigation={this.props.navigation} switch={1}/>
+          </View>
+           */
+          }
+
+          <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
+          <HeaderMenu navigation={this.props.navigation} perso={1}/>
           </View>
 
           <ScrollView style={[styles.scroll_1, { marginTop: 10 }]} >
@@ -621,7 +629,7 @@ const styles = StyleSheet.create({
   main_profil: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 70,
+    marginTop: 27,
     marginLeft: 20,
     marginBottom: 35
   },

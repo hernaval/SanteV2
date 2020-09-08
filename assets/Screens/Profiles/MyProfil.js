@@ -8,6 +8,7 @@ import {
 
 import InputProfil from '../../component/InputProfil';
 import TopMenu from "../../component/Menu/TopMenu"
+import HeaderMenu from "../../component/Menu/HeaderMenu"
 import { Avatar, ListItem, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo, ModifyPhoto } from '../../Action/action-type';
@@ -264,9 +265,11 @@ class MyProfil extends Component {
                     <ActivityIndicator size="large" />
                 </View>}
                 
+                
                 <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                    <TopMenu navigation={this.props.navigation} menu={1}/>
+                    <HeaderMenu navigation={this.props.navigation} profile={1}/>
                 </View>
+                
 
                 <ScrollView style={[styles.scroll, { marginTop: 10 }]} >
                     {this.renderHeader()}
@@ -274,9 +277,9 @@ class MyProfil extends Component {
                     <View>
                         <TouchableOpacity onPress={() => this.goToInfoPerso()} >
                             <ListItem
-                            chevron={<FontAwesomeIcon color="#454545" size={18} icon={faChevronRight} />}
+                            chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                                 title="Mes Informations Personnelles"
-                                leftIcon={<FontAwesomeIcon color="#454545" size={20} icon={faUserCircle} />}
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUserCircle} />}
                                 titleStyle={{ fontWeight: '600' }}                              
                                 containerStyle={styles.listItemContainer}
                             />
@@ -284,9 +287,9 @@ class MyProfil extends Component {
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil")}>
                         <ListItem
-                        chevron={<FontAwesomeIcon color="#454545" size={18} icon={faChevronRight} />}
+                        chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             title="Mes profils secondaires"
-                            leftIcon={<FontAwesomeIcon color="#454545" size={20} icon={faUsers} />}
+                            leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUsers} />}
                             titleStyle={{ fontWeight: "600" }}
                             containerStyle={styles.listItemContainer}
                         />
@@ -294,9 +297,9 @@ class MyProfil extends Component {
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("MyContact")} >
                         <ListItem
-                        chevron={<FontAwesomeIcon color="#454545" size={18} icon={faChevronRight} />}
+                        chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             title="Mes contacts d'urgences"
-                            leftIcon={<FontAwesomeIcon color="#454545" size={20} icon={faExclamationCircle} />}
+                            leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faExclamationCircle} />}
                             titleStyle={{ fontWeight: "600" }}                               
                             containerStyle={styles.listItemContainer}
                         />
@@ -305,10 +308,10 @@ class MyProfil extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("MySante")} >
                             <ListItem                            
                                 title=" Ma Fiche santé"
-                                leftIcon={<FontAwesomeIcon color="#454545" size={20} icon={faFileMedicalAlt} />}
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFileMedicalAlt} />}
                                 titleStyle={{ fontWeight: "600" }}                                
                                 containerStyle={styles.listItemContainer}
-                                chevron={<FontAwesomeIcon color="#454545" size={18} icon={faChevronRight} />}
+                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             />
                         </TouchableOpacity>
 
@@ -380,7 +383,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        shadowColor: "#000",
+        shadowColor: "#363535",
         shadowOffset: {
             width: 0,
             height: 3,
@@ -453,7 +456,7 @@ const styles = StyleSheet.create({
     main_profil: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: 70,
+        marginTop: 27,
         marginLeft: 20,
         marginBottom: 35
     },
@@ -466,7 +469,7 @@ const styles = StyleSheet.create({
     },
     text_under_main_profil_2: {
       fontSize: 28,
-      fontWeight: '200',
+      fontWeight: '900',
       paddingTop: 7
     },
     descr_under_main_profil_2: {
