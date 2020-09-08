@@ -10,7 +10,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import * as Facebook from 'expo-facebook';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -20,21 +20,32 @@ class Login extends React.Component {
     }
     this.email = "";
     this.password = "";
+    this.textInput = "";
+    this.passwdInput = "";
   }
   gotToRegister() {
     this.props.navigation.navigate("SignUp")
   }
+
+  componentDidMount() {
+    this.textInput.clear();
+    this.passwdInput.clear();
+  }
+
   accueil() {
     this.props.navigation.navigate("Home")
   }
+
   _storeData = async (key, value) => {
     try {
       await AsyncStorage.setItem(key, value);
+      console.log('store data fini');
     } catch (error) {
-
+      console.log('erreur store data ', error);
       // Error saving data
     }
   };
+
   onChangeInput(text, type) {
     this[type] = text;
   }
@@ -118,14 +129,22 @@ class Login extends React.Component {
             this.props.navigation.navigate("ActiveAccount", { tempEmail: this.email })
             break;
           default:
-            this._storeData('bosToken', res.data.token)
-
+            this._storeData('bosToken', res.data.token).then(
+              () => {
             // registerForPushNotificationsAsync(res.data.user_id);
             this.setState({ isLoading: false })
 
+            Keyboard.dismiss()
+
+            this.textInput.clear();
+            this.passwdInput.clear();
+            this.email = "";
+            this.password = "";
             //this.props.userConnected(res.data.connectUser)
             this.props.navigation.navigate("Menu")
-            Keyboard.dismiss()
+            
+              }
+            )
             break;
         }
 
@@ -139,6 +158,7 @@ class Login extends React.Component {
     return (
       <View style={{ flex: 1 }}>
 
+      <KeyboardAwareScrollView style={{ flex: 1 }} getTextInputRefs={() => { return [this._textInputRef];}}>
 
         <View style={styles.main_contenair}>
           <Loader loading={this.state.isLoading} />
@@ -165,6 +185,7 @@ class Login extends React.Component {
                   returnKeyType="next"
                   keyboardType="email-address"
                   underlineColorAndroid='transparent'
+                  ref={input => { this.textInput = input }}
                   onChangeText={(text) => this.onChangeInput(text, 'email')} />
               </View>
               <View style={styles.inputContainer}>
@@ -175,6 +196,7 @@ class Login extends React.Component {
                   returnKeyType="done"
                   secureTextEntry={true}
                   underlineColorAndroid='transparent'
+                  ref={input => { this.passwdInput = input }}
                   onChangeText={(text) => this.onChangeInput(text, 'password')} />
               </View>
               <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.Connect()}>
@@ -193,6 +215,8 @@ class Login extends React.Component {
 
 
         </View >
+        </KeyboardAwareScrollView>
+
         <View style={styles.medecin}>
           <TouchableOpacity style={{ alignSelf: 'center' }} onPress={() => this.gotToRegisterDoctor()}>
             <Text style={styles.textmedecin}>Vous êtes medecin ?</Text>
@@ -209,6 +233,8 @@ const styles = StyleSheet.create(
 
     main_contenair: {
       flex: 1,
+      height: hp("88%"),
+      zIndex: 0
 
     },
     buttonContainer: {

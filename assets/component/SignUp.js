@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TextInput, Button, Keyboard, Alert, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, Image, TextInput, StatusBar, Button, Keyboard, Alert, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { CheckBox, ThemeProvider } from 'react-native-elements'
 import Loader from './loader'
 import axios from 'axios';
@@ -8,7 +8,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
@@ -103,7 +104,9 @@ class SignUp extends React.Component {
   }
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginTop: -20 }}>
+      <KeyboardAwareScrollView style={{ flex: 1 }} getTextInputRefs={() => { return [this._textInputRef];}}>
+        <StatusBar hidden={true}/>
         <View innerRef={ref => { this.scroll = ref }} style={styles.main_contenair}>
           <Loader loading={this.state.isLoading} />
 
@@ -119,26 +122,33 @@ class SignUp extends React.Component {
 
             <Text style={styles.tex_Connexion}>Inscription</Text>
             {this.state.error !== null && <Text style={styles.error}>{this.state.error}</Text>}
-            <ScrollView showsVerticalScrollIndicator={false} >
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/userIcon.png')} />
-                <TextInput onChangeText={(text) => this.onChangeInput(text, 'lastName')} style={styles.inputs} placeholder="Nom" />
+                <TextInput onChangeText={(text) => this.onChangeInput(text, 'lastName')} 
+                style={styles.inputs} placeholder="Nom" 
+                ref={(nom) => { this._textInputRef = nom; }}/>
               </View>
 
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/userIcon.png')} />
-                <TextInput onChangeText={(text) => this.onChangeInput(text, 'firstName')} style={styles.inputs} placeholder="Prenom" />
+                <TextInput onChangeText={(text) => this.onChangeInput(text, 'firstName')} 
+                style={styles.inputs} placeholder="Prenom" 
+                ref={(prenom) => { this._textInputRef = prenom; }}/>
 
               </View>
 
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/mailIc.png')} />
-                <TextInput autoCapitalize='none' onChangeText={(text) => this.onChangeInput(text, 'email')} style={styles.inputs} placeholder="Adresse email" />
+                <TextInput autoCapitalize='none' onChangeText={(text) => this.onChangeInput(text, 'email')} 
+                style={styles.inputs} placeholder="Adresse email" 
+                ref={(email) => { this._textInputRef = email; }}/>
               </View>
 
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/pwd.png')} />
-                <TextInput autoCapitalize='none' secureTextEntry={true} onChangeText={(text) => this.onChangeInput(text, 'password')} style={styles.inputs} placeholder="Mot de passe" />
+                <TextInput autoCapitalize='none' secureTextEntry={true} onChangeText={(text) => this.onChangeInput(text, 'password')} 
+                style={styles.inputs} placeholder="Mot de passe"
+                ref={(passwd) => { this._textInputRef = passwd; }} />
               </View>
 
               <View style={styles.checkBox}>
@@ -163,19 +173,20 @@ class SignUp extends React.Component {
               <View style={styles.textLink}>
                 <Text onPress={() => { this.goLogin() }} style={styles.textLinkWhite}>Déjà un compte</Text>
               </View>
-            </ScrollView>
-
 
           </View>
 
         </View >
+        </KeyboardAwareScrollView>
+
         <View style={styles.medecin}>
           <TouchableOpacity style={{ alignSelf: 'center' }} onPress={() => { this.props.navigation.navigate("RegisterDoctor") }}>
             <Text style={styles.textmedecin}>Vous êtes medecin ?</Text>
           </TouchableOpacity>
         </View>
-      </View>
 
+        
+      </View>
     );
   }
 }
@@ -183,7 +194,8 @@ const styles = StyleSheet.create(
   {
     main_contenair: {
       flex: 1,
-
+      height: hp("100%"),
+      zIndex: 0
     },
     image: {
       width: wp("10%"),
@@ -223,7 +235,7 @@ const styles = StyleSheet.create(
       // flex:1,
       alignSelf: 'center',
       width: wp("90%"),
-      maxHeight: hp("60%"),
+      maxHeight: hp("70%"),
 
       marginTop: hp("5%"),
       backgroundColor: "#fff",
@@ -238,7 +250,7 @@ const styles = StyleSheet.create(
       shadowRadius: 20,
       elevation: 20,
       position: "absolute",
-      top: hp("22%")
+      top: hp("20%")
     },
 
     body_container: {
@@ -283,7 +295,8 @@ const styles = StyleSheet.create(
     },
     checkBox: {
       flexDirection: 'row',
-      marginLeft : -17
+      marginLeft : -17,
+      marginTop: 10
     },
     checkBoxText: {
       color: "#000",

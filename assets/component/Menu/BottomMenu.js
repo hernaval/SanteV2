@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Animated, Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircle, faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircle, faUserEdit, faStar } from '@fortawesome/free-solid-svg-icons';
 
 
  class BottomMenu extends Component {
@@ -36,7 +37,7 @@ import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircl
 
                             <Image style={{ width: 60, height: 60 }}
                                 resizeMode="contain"
-                                source={require("../../images/icon_urg.png")} />
+                                source={require("../../images/icon_urg_2.png")} />
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
@@ -80,14 +81,14 @@ import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircl
 
                         <FontAwesomeIcon 
                          
-                         icon={faHeart} 
+                         icon={faStar} 
                          color="#FFFFFF" 
                          size={30} 
                          style={{}} />
                     
 
                         </TouchableOpacity>
-                        <Text style={{color : "#FFFFFF",justifyContent:'center',alignItems:'center' }}>Favoris </Text>
+                        <Text  textBreakStrategy={'simple'} style={{color : "#FFFFFF",justifyContent:'center',alignItems:'center' }}>Favoris </Text>
                     </View>
 
                     <View style={{
@@ -98,13 +99,13 @@ import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircl
                             onPress={() => this.props.navigation.navigate("MyProfil")}
                         >
                             <FontAwesomeIcon
-                                icon={faUserEdit}
+                                icon={faUserCircle}
                                 size={30}
                                 color="#EFEAEA"
                              />
                        
                         </TouchableOpacity>
-                        <Text style={{color : "white",justifyContent:'center',alignItems:'center' }}>Mon Profil </Text>
+                        <Text  textBreakStrategy={'simple'} style={{color : "white",justifyContent:'center',alignItems:'center' }}>Mon{" "} compte </Text>
                     </View>
 
                        
