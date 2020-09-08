@@ -6,8 +6,9 @@ import 	axios from "axios";
 import Bdd from '../API/Bdd'
 import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
-import { _setSocket, _emitEvent,onSamaritainListChange } from '../services/socket';
+import { _setSocket, _emitEvent,onSamaritainListChange, SocketService } from '../services/socket';
 import {getCurrentLocation} from "../services/location"
+import { faUserCircle, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function(ChildComponent) {
 	class RequireAuthentification extends Component {
@@ -41,7 +42,7 @@ export default function(ChildComponent) {
 
 					else {
 						
-						_setSocket("samaritain")
+						
 						let value = token
 						let socketListenId =`samaritain_${value}`
 
@@ -50,7 +51,9 @@ export default function(ChildComponent) {
 							lat : location.coords.latitude,
 							log : location.coords.longitude
 						}
-						_emitEvent("status_change",{token : value, socketListenId : socketListenId, coords : coords, type  :"join"})
+
+						let socketSrv = new SocketService("samaritain")
+						socketSrv.emitEvent("status_change",{token : value, socketListenId : socketListenId, coords : coords, type  :"join"})
 						
 						this.props.setUserInfo(token)
 						this.props.mySecondProfil(token)

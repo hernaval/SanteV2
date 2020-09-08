@@ -3,7 +3,7 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import axios from 'axios';
 import Bdd from '../API/Bdd'
-import { _emitEvent } from '../services/socket';
+import { _emitEvent, SocketService } from '../services/socket';
 
 export const registerForPushNotificationsAsync = async (user) => {
   
@@ -24,8 +24,9 @@ export const registerForPushNotificationsAsync = async (user) => {
     }
     let token = await Notifications.getExpoPushTokenAsync();
    
-   
-    _emitEvent("sendingExpoToken",{token : token, user : user})
+   let socketSrv = new SocketService("samaritain")
+
+    socketSrv.emitEvent("sendingExpoToken",{token : token, user : user})
     
     
   } else {

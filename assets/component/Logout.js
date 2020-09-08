@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
-import { _emitEvent } from '../services/socket';
+import { SocketService } from '../services/socket';
+
 
 
 class Logout extends React.Component {
@@ -15,13 +16,27 @@ class Logout extends React.Component {
     this.password = "";
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this._deconnectSocket("bosToken")
     this._removeData('bosToken');
     this.goToLogin();
   }
 
   goToLogin() {
+
     this.props.navigation.push("Login")
+  }
+
+  _deconnectSocket = async(key) =>{
+    try{
+      const value = await AsyncStorage.getItem(key)
+      let socketSrv = new SocketService("samaritain")
+      socketSrv.emitEvent("status_change", { token: value, socketListenId: `samaritain_${value}`, type: "leave" });
+  
+    }catch(err){
+
+    }
+
   }
 
 
@@ -32,7 +47,6 @@ class Logout extends React.Component {
         // We have data!!
         console.log('logout',value);
         
-      _emitEvent("status_change", { token: value, socketListenId: `samaritain${value}`, type: "leave" });
         
       }
     } catch (error) {
