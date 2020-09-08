@@ -48,10 +48,10 @@ class MyProfil extends Component {
         console.log(this.props);
         this.state = {
             firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
-            lastName: this.props.user.user.prenomUser,
-            id: this.props.user.user.idUser,
+            lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
+            id: this.props.user.user != null ? this.props.user.user.idUser : 0,
             uri_doc: null,
-            photoUri: this.props.user.user.imageUser,
+            photoUri: this.props.user.user != null ? this.props.user.user.imageUser : '',
             isLoading: false,
             isFirst: false,
             blood: '', 
