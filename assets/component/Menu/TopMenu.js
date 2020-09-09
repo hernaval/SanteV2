@@ -1,157 +1,157 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet,Image, TouchableHighlight, Dimensions, Platform, PixelRatio } from 'react-native'
+import { Text, View, StyleSheet, Image, Dimensions, Platform, PixelRatio } from 'react-native'
 import {
     widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import {TouchableOpacity} from 'react-native-gesture-handler'
-import { Avatar } from 'react-native-elements';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHome,  faBars, faTimes, faCaretDown, faEdit ,faCog,faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
-import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as firebase from 'firebase';
-import firestore from 'firebase/firestore'
-import { connect } from 'react-redux';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
- class TopMenu extends Component {
+    heightPercentageToDP as hp
+} from 'react-native-responsive-screen'
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { connect } from 'react-redux'
 
-    constructor(){
+class TopMenu extends Component {
+    constructor () {
         super()
         this.state = {
-            isOpen : false,
-            photoUri : "",
-            id: "",
+            isOpen: false,
+            photoUri: '',
+            id: '',
             size: 23
         }
 
-        this.width = Dimensions.get('window').width;
-        this.height = Dimensions.get('window').height;
+        this.width = Dimensions.get('window').width
+        this.height = Dimensions.get('window').height
     }
-    componentDidMount = async() =>{
-        const taille = this.normalize(23);
+
+    componentDidMount = async () => {
+        const taille = this.normalize(23)
         this.setState({
             size: taille
         })
     }
 
-    normalize(size) {
-        const scale = this.width / 320;
-        const newSize = size * scale 
+    normalize (size) {
+        const scale = this.width / 320
+        const newSize = size * scale
         if (Platform.OS === 'ios') {
-          return Math.round(PixelRatio.roundToNearestPixel(newSize))
+            return Math.round(PixelRatio.roundToNearestPixel(newSize))
         } else {
-          return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
+            return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
         }
-      }
-    
+    }
 
     _menu = null;
 
-    
-    
     setMenuRef = ref => {
-      this._menu = ref;
+        this._menu = ref
     };
-   
+
     hideMenu = () => {
-      this._menu.hide();
+        this._menu.hide()
     };
-   
+
     showMenu = () => {
-      this._menu.show();
+        this._menu.show()
     };
-    render() {
+
+    render () {
         return (
             <React.Fragment>
                 <View style={styles.main_contain}>
-                
-                <View style={styles.under}>
 
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")}  >
-                    <FontAwesomeIcon                         
-                         icon={faHome} 
-                         color="white" 
-                         size={24} 
-                         style={{}} />
-                    </TouchableOpacity>
-                     
-                   <View style={{flexDirection :"row"}}>
+                    <View style={styles.under}>
 
-                       <Image
-                        style={{width: wp('6%'), height: wp('6%'), backgroundColor: 'white',  borderRadius: 400/2, marginRight: wp('2%'),marginTop : hp("1%")}}
-                        source={require('../../images/icon_point.jpeg')}
-                    />
-                   
-                    <Text style={[styles.title1, {fontSize: this.state.size}]}>
-                    Best4Santé
-                    </Text> 
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Menu')} >
+                            <FontAwesomeIcon
+                                icon={faHome}
+                                color="white"
+                                size={24}
+                                style={{}}
+                            />
+                        </TouchableOpacity>
 
-                    </View>
+                        <View style={{ flexDirection: 'row' }}>
 
-                    <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate("Logout")}>
-                    <FontAwesomeIcon 
-                         
-                         icon={faSignOutAlt} 
-                         color="white" 
-                         size={24} 
-                         style={{}} />
-                    </TouchableWithoutFeedback>
-                
-                     
-                
+                            <Image
+                                style={{
+                                    width: wp('6%'),
+                                    height: wp('6%'),
+                                    backgroundColor: 'white',
+                                    borderRadius: 400 / 2,
+                                    marginRight: wp('2%'),
+                                    marginTop: hp('1%')
+                                }}
+                                source={require('../../images/icon_point.jpeg')}
+                            />
+                            <Text style={[styles.title1, { fontSize: this.state.size }]}>
+                                Best4Santé
+                            </Text>
+
+                        </View>
+
+                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Logout')}>
+                            <FontAwesomeIcon
+
+                                icon={faSignOutAlt}
+                                color="white"
+                                size={24}
+                                style={{}} />
+                        </TouchableWithoutFeedback>
 
                         {
+<<<<<<< HEAD
                             (this.props.profile && 
+=======
+                            (this.props.menu &&
+>>>>>>> origin/nante
                                 (
                                     <View style={styles.contain_txt}>
                                         <Text style={styles.custom_txt}>Profil</Text>
                                     </View>
                                 )
                             )
-                        } 
-                        
+                        }
+
                         {
-                            (this.props.switch && 
+                            (this.props.switch &&
                                 (
                                     <View style={styles.contain_txt2}>
                                         <Text style={styles.custom_txt}>Informations Personnelles</Text>
 
                                         <Icon
-                                        name='save'
-                                        size={20}
-                                        type='font-awesome'
-                                        color='#FFFFFF'
-                                        style={styles.icon_save}
-                                        onPress={() => console.log('save')}
+                                            name='save'
+                                            size={20}
+                                            type='font-awesome'
+                                            color='#FFFFFF'
+                                            style={styles.icon_save}
+                                            onPress={() => console.log('save')}
                                         />
                                     </View>
                                 )
                             )
-                        } 
-                
+                        }
+
                     </View>
 
                     {
-                        (this.props.switch &&
+                        this.props.switch &&
                             (
                                 <View style={styles.contain_back}>
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} >
-                                    <Icon
-                                    name='chevron-left'
-                                    size={20}
-                                    type='font-awesome'
-                                    color='#FFFFFF'
-                                    style={{fontWeight: '100'}}
-                                    />
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyProfil')} >
+                                        <Icon
+                                            name='chevron-left'
+                                            size={20}
+                                            type='font-awesome'
+                                            color='#FFFFFF'
+                                            style={{ fontWeight: '100' }}
+                                        />
                                     </TouchableOpacity>
                                 </View>
-                            )    
-                        )
+                            )
                     }
 
-                    </View>
+                </View>
             </React.Fragment>
         )
     }
@@ -168,20 +168,20 @@ const styles = StyleSheet.create({
         marginLeft: 6
     },
     main_contain: {
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     under: {
-        backgroundColor : "#00C1B4",
+        backgroundColor: '#00C1B4',
         flexDirection: 'row',
-         paddingTop: hp("5%"),
+        paddingTop: hp('5%'),
         width: wp('100%'),
-        height : hp("20%"),
+        height: hp('20%'),
         textAlign: 'center',
         // alignItems: 'center',
         justifyContent: 'space-around',
-        borderBottomLeftRadius : 10,
-        borderBottomRightRadius : 10
-        
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10
+
     },
     contain_txt: {
         position: 'absolute',
@@ -191,28 +191,28 @@ const styles = StyleSheet.create({
     contain_txt2: {
         position: 'absolute',
         bottom: 10,
-        right: wp("5"),
+        right: wp('5'),
         flex: 1,
         flexDirection: 'row'
     },
-    custom_txt : {
+    custom_txt: {
         color: '#FFFFFF',
         fontWeight: '100',
         fontSize: 20
     },
     title1: {
-        color: "white",
-        textAlign: "center",
-        fontWeight: "bold"
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold'
     },
     logo: {
-        backgroundColor: "white"
+        backgroundColor: 'white'
     },
     under2: {
-        backgroundColor: "#008AC8",
-        position: "absolute",
+        backgroundColor: '#008AC8',
+        position: 'absolute',
         top: 0,
-        //left: wp('-50%'),
+        // left: wp('-50%'),
         zIndex: 99
     },
     under3: {
@@ -221,26 +221,25 @@ const styles = StyleSheet.create({
 
         width: wp('100%'),
         alignItems: 'center',
-        justifyContent: 'center',
-
+        justifyContent: 'center'
 
     },
     textinput: {
-        marginLeft: wp("15%"),
+        marginLeft: wp('15%'),
         textAlign: 'center',
         height: 50,
-        width: wp("70%"),
+        width: wp('70%'),
         paddingLeft: 5,
         backgroundColor: 'white',
         borderRadius: 5,
         marginBottom: hp('2%')
     },
     link: {
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingLeft: wp('25%'),
-        paddingTop: hp("1%"),
-        paddingBottom: hp("1%")
+        paddingTop: hp('1%'),
+        paddingBottom: hp('1%')
     },
     imgLink: {
         width: wp('15%'),
@@ -250,20 +249,20 @@ const styles = StyleSheet.create({
         marginRight: wp('2%')
     },
     imgText: {
-        color: "white",
+        color: 'white',
         fontSize: 24
     },
     decoView: {
         marginBottom: hp('5%'),
-        alignItems: "center"
+        alignItems: 'center'
     },
     deco: {
         width: wp('60%'),
         borderWidth: 1,
-        borderColor: "white",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        borderColor: 'white',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         paddingBottom: hp('1%'),
         paddingTop: hp('1%')
     },
@@ -276,33 +275,33 @@ const styles = StyleSheet.create({
     },
     decoText: {
         fontSize: 18,
-        color: "white"
+        color: 'white'
     },
     choice: {
-        backgroundColor: "white",
+        backgroundColor: 'white',
         width: wp('70%'),
-        position: "absolute",
+        position: 'absolute',
         top: hp('5%'),
         zIndex: 34
     },
     choiceItem: {
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: hp("2%"),
-        paddingTop: hp("2%"),
+        paddingBottom: hp('2%'),
+        paddingTop: hp('2%')
 
     }
-});
+})
 const mapStateToProps = (store) => {
     return {
-      user: store.user,
-      contact: store.contact,
-      second: store.second
+        user: store.user,
+        contact: store.contact,
+        second: store.second
     }
-  }
-  
-  const mapDispatchToProps = {
-    
-  }
+}
 
-export default connect(mapStateToProps,mapDispatchToProps)(TopMenu)
+const mapDispatchToProps = {
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopMenu)
