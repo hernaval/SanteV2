@@ -9,7 +9,8 @@ import {
     View,
     Switch,
     ActivityIndicator,
-    Alert
+    Alert,
+    Share
 } from 'react-native'
 
 import { connect } from 'react-redux'
@@ -41,7 +42,8 @@ class MySante extends Component {
             isSelectedProfile: false,
             id: null,
             uri_pdf: null,
-            photo_pdf: null,
+            photo_pdf: 'vide',
+            name_pdf: 'Mon Fichier PDF',
             blood: 'B+',
             size: 150,
             weight: 60,
@@ -66,6 +68,7 @@ class MySante extends Component {
             bloodAnnex: { label: 'B+', value: 2 }
 
         }
+        this.name_fichier = '';
         this.ref = firebase.firestore().collection('profile')
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this)
     }
@@ -77,9 +80,13 @@ class MySante extends Component {
             photoUri: this.props.user.user.imageUser,
             id: this.props.user.user.idUser
         })
-        if (this.props.navigation.state.params.profil !== undefined) {
-            this.setState({ photoUri: this.props.navigation.state.params.profil })
+        
+        if (this.props.navigation.state.params) {
+            if (this.props.navigation.state.params.profil !== undefined) {
+                this.setState({ photoUri: this.props.navigation.state.params.profil })
+            }
         }
+        
         this.setState({
             isLoading: false
         })
@@ -226,6 +233,10 @@ class MySante extends Component {
         console.log(result.name);
         console.log(result.uri);
         console.log(result.size);
+        this.setState({
+            name_pdf: result.name.substring(0,8)
+        })
+        this._handlePdfPicked(result);
     }
 
     _pickPdf = async () => {
@@ -289,6 +300,34 @@ class MySante extends Component {
       
         return await snapshot.ref.getDownloadURL();
       }
+
+      shareLink() {
+        if(this.state.photo_pdf === 'vide') {
+            Alert.alert('Info', 'Veuillez choisir un fichier pdf', [
+                {
+                    text: 'OK',
+                    onPress: () => {}
+                }
+            ])
+            return null;
+        }
+        const url = this.state.photo_pdf;
+        Share.share({title: 'Fiche Santé', message: url}).then(
+            Alert.alert('Succes', 'Fichier Partagé', [
+                {
+                    text: 'OK',
+                    onPress: () => {}
+                }
+            ])
+        ).catch(
+            err => Alert.alert('Echec', 'Erreur lors de partage de lien', [
+                {
+                    text: 'OK',
+                    onPress: () => {}
+                }
+            ])
+        )
+    }
 
     renderHeader_1 = () => {
 
@@ -457,12 +496,12 @@ class MySante extends Component {
         return (
             <ScrollView style={styles.scroll}>
                 <View style={styles.container}>
-                    {/*
+                    {
                         this.state.isLoading &&
                         <View style={styles.loading_container}>
                             <ActivityIndicator size="large" />
                         </View>
-                        */
+                        
                     }
 
                     <Card containerStyle={styles.cardContainer}>
@@ -622,6 +661,7 @@ class MySante extends Component {
                                         marginRight: 5,
                                         marginTop: 10,
                                         width: 150,
+                                        height: 50,
                                         flexDirection: 'row',
                                         justifyContent: 'space-around',
                                         alignItems: 'center',
@@ -634,7 +674,9 @@ class MySante extends Component {
                                         size={20}
                                     />
 
-                                    <Text style={{ color: '#518cb4' }}>Mon Fichier PDF</Text>
+                                    <Text style={{ color: '#518cb4' }}>
+                                        {this.state.name_pdf}
+                                    </Text>
                                 </View>
                             </View>
                             <View
@@ -659,6 +701,7 @@ class MySante extends Component {
                                     alignItems: 'center',
                                     justifyContent: 'center'
                                 }}
+                                onPress={() => this.shareLink()}
                             >
                                 <FontAwesomeIcon
                                     icon={faShare}
