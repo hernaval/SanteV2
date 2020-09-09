@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Input } from 'react-native-elements'
+import { Card, Input, Avatar } from 'react-native-elements'
 import {
     BackHandler,
     Image,
@@ -19,6 +19,7 @@ import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo } from '
 import * as firebase from 'firebase'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
+import * as DocumentPicker from 'expo-document-picker';
 import RadioForm from 'react-native-simple-radio-button'
 import {
     widthPercentageToDP as wp,
@@ -39,7 +40,8 @@ class MySante extends Component {
             isModifbegin: false,
             isSelectedProfile: false,
             id: null,
-
+            uri_pdf: null,
+            photo_pdf: null,
             blood: 'B+',
             size: 150,
             weight: 60,
@@ -69,20 +71,21 @@ class MySante extends Component {
     }
 
     async componentDidMount () {
+        console.log('start loading fiche sante')
         this.setState({
             isLoading: true,
-            photeUri: this.props.user.user.imageUser,
+            photoUri: this.props.user.user.imageUser,
             id: this.props.user.user.idUser
         })
-        await this.fetchSante()
-        await this.getCameraPermissions()
-        this.setState({ isLoading: false })
         if (this.props.navigation.state.params.profil !== undefined) {
             this.setState({ photoUri: this.props.navigation.state.params.profil })
         }
         this.setState({
             isLoading: false
         })
+        await this.getCameraPermissions()
+        await this.fetchSante()
+        console.log('end loading fiche sante')
     }
 
     componentWillMount () {
@@ -122,6 +125,7 @@ class MySante extends Component {
                 }
             })
             .catch(err => {
+                console.log('erreur fetch sante')
                 console.log(err)
             })
     }
@@ -213,6 +217,102 @@ class MySante extends Component {
         return await snapshot.ref.getDownloadURL()
     }
 
+    async takePdf() {
+        let result = await DocumentPicker.getDocumentAsync({
+            type: 'application/pdf',
+            copyToCacheDirectory: false
+        });
+        console.log(result.type);
+        console.log(result.name);
+        console.log(result.uri);
+        console.log(result.size);
+    }
+
+    _pickPdf = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing : true,
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+        });
+    
+        //console.log(result)
+    
+        this._handlePdfPicked(result);
+      }
+
+      _handlePdfPicked = async pickerResult => {
+        let uploadUrl =""
+        try {
+          this.setState({ isLoading: true });
+    
+          if (!pickerResult.cancelled) {
+            uploadUrl = await this.uploadPdfAsync(pickerResult.uri);
+            this.setState({uri_pdf : uploadUrl})
+
+          }
+        } catch (e) {
+          console.log(e);
+          alert('Upload failed, sorry :(');
+        } finally {
+          this.setState({ isLoading: false });
+          /* this.props.navigation.navigate("MonProfil") */
+          this.setState({photo_pdf : uploadUrl})
+          console.log('link share pdf ', this.state.photo_pdf);
+        }
+      }
+
+      uploadPdfAsync = async (uri)  =>{
+        // Why are we using XMLHttpRequest? See:
+        // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+        const blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = function() {
+            resolve(xhr.response);
+          };
+          xhr.onerror = function(e) {
+            console.log(e);
+            reject(new TypeError('Network request failed'));
+          };
+         
+       xhr.responseType = 'blob';
+          xhr.open('GET', uri, true);
+          xhr.send(null);
+        });
+        const id = Math.random().toString()
+        const ref = firebase
+          .storage()
+          .ref()
+          .child(id);
+        const snapshot = await ref.put(blob);
+      
+        // We're done with the blob, close and release it
+        blob.close();
+      
+        return await snapshot.ref.getDownloadURL();
+      }
+
+    renderHeader_1 = () => {
+
+        return (
+            <View style={styles.main_profil}>
+                <View style={styles.under_main_profil_1}>
+                <Avatar
+                size={100}
+                rounded
+                source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
+                />
+                </View>
+    
+                <View style={styles.under_main_profil_2}>
+                    <Text style={styles.text_under_main_profil_2}>{this.props.user.user.nomUser}{"  "}{this.props.user.user.prenomUser}</Text>
+                    <Text style={styles.descr_under_main_profil_2}>
+                        Homme - {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
+                    </Text>
+                </View>
+                
+            </View>
+        )
+      }
+
     renderHeader () {
         return (
             <View>
@@ -226,7 +326,7 @@ class MySante extends Component {
                             </TouchableOpacity>
                             : <TouchableOpacity
                                 style={{ flexDirection: 'row', alignItems: 'center' }}
-                                onPress={() => this.props.navigation.navigate('Menu')} >
+                                onPress={() => this.props.navigation.navigate('MyProfil')} >
                                 <FontAwesomeIcon
                                     icon={faAngleLeft}
                                     color="white"
@@ -235,12 +335,25 @@ class MySante extends Component {
                                 <Text style={styles.header}>Profil</Text>
                             </TouchableOpacity>
                     }
-                    <Text style={styles.header}>Ma Fiche Sante</Text>
+                    <Text style={styles.header}>Ma Fiche Santé</Text>
                     {
                         this.state.isModifbegin
                             ? <TouchableOpacity
                                 style={{ padding: 10 }}
-                                onPress={() => this.setState({ isModifbegin: false })} >
+                                onPress={async () => {
+                                    if (this.state.isFirst === true) {
+                                      await this.addFiche()
+                                    } else {
+                                      await this.modifFiche()
+                                    }
+                                    await this.addFiche()
+                                    this.setState({ isModifbegin: false })
+                                    /* if (this.props.second.indexSelected === 0) {
+                                      await this.modifInfoPerso()
+                                    } else {
+                                      await this.modifySecondInfoPerso()
+                                    } */
+                                  }}>
                                 <Text style={styles.header}>Enregistrer</Text>
                             </TouchableOpacity>
                             : <TouchableOpacity
@@ -253,25 +366,8 @@ class MySante extends Component {
                     {/* <TopMenu navigation={this.props.navigation} /> */}
                 </View>
 
-                <View
-                    style={styles.headerBackgroundImage}
-                >
-                    <View style={styles.headerColumn}>
-                        <Image
-                            style={styles.userImage}
-                            source={{
-                                uri: this.state.photoUri === '' || this.state.photeUri
-                                    ? DEFAUTL_USER
-                                    : this.state.photoUri
-                            }}
-                        />
-                        <View>
-                            <Text style={styles.userNameText}>
-                                {this.props.user.user.nomUser}
-                                {this.props.user.user.prenomUser}
-                            </Text>
-                        </View>
-                    </View>
+                <View>
+                    {this.renderHeader_1()}
                 </View>
             </View>
         )
@@ -299,6 +395,7 @@ class MySante extends Component {
     }
 
     modifFiche () {
+        console.log('begin Put fiche sante')
         this.setState({ isLoading: true })
         const userModified = {
             groupeSanguin: this.state.blood,
@@ -312,10 +409,12 @@ class MySante extends Component {
         // this.saveAutre(this.state.medecin, this.state.allergies, this.state.traitement)
         axios.put(`${Bdd.api_url}/fiche-sante/${this.state.idFiche}`, userModified)
             .then(res => {
+                console.log('Put fiche sante')
                 this.setState({ isLoading: false, isModifbegin: false })
             })
             .catch(err => {
                 this.setState({ isLoading: false, isModifbegin: false })
+                console.log('erreur put fiche sante')
                 console.log(err)
             })
     }
@@ -358,11 +457,12 @@ class MySante extends Component {
         return (
             <ScrollView style={styles.scroll}>
                 <View style={styles.container}>
-                    {
+                    {/*
                         this.state.isLoading &&
                         <View style={styles.loading_container}>
                             <ActivityIndicator size="large" />
                         </View>
+                        */
                     }
 
                     <Card containerStyle={styles.cardContainer}>
@@ -487,7 +587,7 @@ class MySante extends Component {
                                     </Text>
                             }
                         </View>
-                        <View style={{ marginTop: 20 }}>
+                        <View style={{ marginTop: 50 }}>
                             <View
                                 style={{
                                     flexDirection: 'row',
@@ -501,6 +601,7 @@ class MySante extends Component {
                                         padding: 5,
                                         borderRadius: 5
                                     }}
+                                    onPress={() => this.takePdf()}
                                 >
                                     <Text style={{ color: 'white' }}>Inserer PDF</Text>
                                 </TouchableOpacity>
@@ -584,6 +685,37 @@ class MySante extends Component {
 }
 
 const styles = StyleSheet.create({
+    main_profil: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 27,
+        marginLeft: 20,
+        marginBottom: 35
+      },
+      under_main_profil_1: {
+          flex: 1
+      },
+      under_main_profil_2: {
+          flex: 4,
+          paddingLeft: 45
+      },
+      text_under_main_profil_2: {
+        fontSize: 28,
+        fontWeight: '200',
+        paddingTop: 7
+      },
+      descr_under_main_profil_2: {
+        fontSize: 17,
+        paddingTop: 17
+      },
+      btn_photo: {
+        flex: 1,
+        paddingTop: 70,
+        paddingLeft: 5
+      },
+      img_profil: {
+          width: 200
+      },    
     infoContainer: {
         padding: 20
     },
@@ -709,12 +841,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        paddingTop: 30,
         padding: 10,
-        height: 80,
-        backgroundColor: '#01C89E'
+        width: wp('100%'),
+        height : hp("13%"),
+        backgroundColor : "#00C1B4"
     },
     header: {
-        color: 'white'
+        color: 'white',
+        fontSize: 18
     }
 })
 

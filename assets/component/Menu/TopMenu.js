@@ -99,19 +99,6 @@ class TopMenu extends Component {
                                 style={{}} />
                         </TouchableWithoutFeedback>
 
-                        {
-<<<<<<< HEAD
-                            (this.props.profile && 
-=======
-                            (this.props.menu &&
->>>>>>> origin/nante
-                                (
-                                    <View style={styles.contain_txt}>
-                                        <Text style={styles.custom_txt}>Profil</Text>
-                                    </View>
-                                )
-                            )
-                        }
 
                         {
                             (this.props.switch &&

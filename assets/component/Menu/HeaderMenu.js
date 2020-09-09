@@ -103,7 +103,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
             </TouchableOpacity>
         </View>
         <View style={styles.contain_perso_2}>
-            
+        <Text style={styles.profil_txt}>Informations</Text>
         </View>
         <View style={styles.contain_perso_3}>
         <Text style={styles.modif_txt}>Modifier</Text>
@@ -180,7 +180,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.contain_perso_2}>
-                                        
+                                    <Text style={styles.profil_txt}>Informations</Text>
                                     </View>
                                     <View style={styles.contain_perso_3}>
                                     <TouchableOpacity onPress={() => this.clickModif()}>
