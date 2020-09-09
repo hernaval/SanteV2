@@ -55,15 +55,15 @@ class Menu extends Component {
           <Col >
               <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faSearch } />
-              <Text style={styles.cardText}>Rechercher</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>PS</Text>
+              <Text style={styles.cardText}>Rechercher{"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>PS{"  "}</Text>
               </TouchableOpacity>
         </Col>
         <Col>
               <TouchableOpacity onPress={()=> this.props.navigation.navigate("FileManager")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faFileArchive } />
-              <Text style={styles.cardText}>Mes</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>Documents</Text>
+              <Text style={styles.cardText}>Mes {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>Documents {"  "}</Text>
               </TouchableOpacity>
         </Col>
           </Grid>
@@ -72,15 +72,15 @@ class Menu extends Component {
           <Col>
               <TouchableOpacity onPress={()=>this.props.navigation.navigate("ChoixAutoDiag")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faStethoscope } />
-              <Text style={styles.cardText}> Mon</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>Autodiagnostic</Text>
+              <Text style={styles.cardText}> Mon {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>Autodiagnostic {"  "}</Text>
               </TouchableOpacity>
         </Col>
         <Col>
               <TouchableOpacity disabled={true}  style={[styles.cardContainer]}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faNotesMedical } />
-              <Text style={styles.cardText}>Ma</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>pharmacie</Text>
+              <Text style={styles.cardText}>Ma {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>pharmacie {"  "}</Text>
               </TouchableOpacity>
         </Col>
        
@@ -89,7 +89,7 @@ class Menu extends Component {
         <Col size={50}>
               <TouchableOpacity onPress={()=>{this.props.navigation.navigate("Reminder")}}  style={styles.rappelContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faBell} />
-              <Text textBreakStrategy={'simple'} style={styles.cardText}>Mes{"  "} Rappels</Text>
+              <Text textBreakStrategy={'simple'} style={styles.cardText}>Mes{"  "} Rappels {"  "}</Text>
               </TouchableOpacity>
         </Col>
         </Grid>

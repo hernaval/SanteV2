@@ -64,10 +64,10 @@ class Logout extends React.Component {
   render(){
     return (
       <View style={styles.container}>
-        <Text>Déconnexion</Text>
         {this.state.isLoading && <View style={styles.loading_container}>
         <ActivityIndicator size="large" />
         </View>}
+        <Text style={{color: '#FFFFFF', fontWeight: '600'}}>Déconnexion {"  "}</Text>
       </View>
     );
   }

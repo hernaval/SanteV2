@@ -112,7 +112,7 @@ class SignUp extends React.Component {
 
           <View style={styles.main_logo}>
             <Image style={styles.image} source={require('../images/Splash(FondBlanc).png')} />
-            <Text style={styles.text_Logo}>Best4Santé</Text>
+            <Text style={styles.text_Logo}>Best4Santé {"  "}</Text>
           </View>
 
           <View style={styles.body_container}>
@@ -120,7 +120,7 @@ class SignUp extends React.Component {
           </View>
           <View style={styles.main_Input} >
 
-            <Text style={styles.tex_Connexion}>Inscription</Text>
+            <Text style={styles.tex_Connexion}>Inscription {"  "}</Text>
             {this.state.error !== null && <Text style={styles.error}>{this.state.error}</Text>}
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/userIcon.png')} />
@@ -164,14 +164,14 @@ class SignUp extends React.Component {
 
 
               <TouchableOpacity style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.register()}>
-                <Text style={styles.signUpText}>S'inscrire</Text>
+                <Text style={styles.signUpText}>S'inscrire {"  "}</Text>
               </TouchableOpacity>
 
 
 
 
               <View style={styles.textLink}>
-                <Text onPress={() => { this.goLogin() }} style={styles.textLinkWhite}>Déjà un compte</Text>
+                <Text onPress={() => { this.goLogin() }} style={styles.textLinkWhite}>Déjà un compte {"  "}</Text>
               </View>
 
           </View>

@@ -164,7 +164,7 @@ class Login extends React.Component {
           <Loader loading={this.state.isLoading} />
           <View style={styles.main_logo}>
             <Image style={styles.image} source={require('../images/Splash(FondBlanc).png')} />
-            <Text style={styles.text_Logo}>Best4Santé</Text>
+            <Text style={styles.text_Logo}>Best4Santé {"  "}</Text>
             
           </View>
 
@@ -174,7 +174,7 @@ class Login extends React.Component {
           </View>
 
           <View style={styles.main_Input} >
-              <Text style={styles.tex_Connexion}>Connexion
+              <Text style={styles.tex_Connexion}>Connexion {"  "}
                     </Text>
               {this.state.error !== null && <Text style={styles.error}>{this.state.error}</Text>}
               <View style={styles.inputContainer}>
@@ -200,14 +200,14 @@ class Login extends React.Component {
                   onChangeText={(text) => this.onChangeInput(text, 'password')} />
               </View>
               <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.Connect()}>
-                <Text style={styles.signUpText}>Se connecter</Text>
+                <Text style={styles.signUpText}>Se{"  "}connecter</Text>
               </TouchableHighlight>
               <TouchableHighlight style={[styles.buttonContainerF, styles.signupButtonF]} onPress={() => this.logInFacebook()}>
-                <Text style={styles.signUpTextF}>Connexion avec Facebook</Text>
+                <Text style={styles.signUpTextF}>Connexion{"  "} avec{"  "} Facebook {"  "}</Text>
               </TouchableHighlight>
               <View style={styles.textLink}>
-                <Text onPress={() => { this.goToForgotPassword() }} style={styles.textLinkWhite}>Mot de passe oublié?</Text>
-                <Text onPress={(e) => { this.gotToRegister(); }} style={styles.textLink}>Créer un compte</Text>
+                <Text onPress={() => { this.goToForgotPassword() }} style={styles.textLinkWhite}>Mot{"  "} de{"  "} passe{"  "} oublié? {"  "}</Text>
+                <Text onPress={(e) => { this.gotToRegister(); }} style={styles.textLink}>Créer{"  "} un{"  "} compte {"  "}</Text>
               </View>
 
 
@@ -282,7 +282,6 @@ const styles = StyleSheet.create(
     signUpTextF: {
       color: '#1795cd',
       fontWeight: 'bold'
-
     },
     buttonContainerM: {
       borderWidth: 0.166,

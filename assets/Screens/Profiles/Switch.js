@@ -37,12 +37,16 @@ class Switch extends Component {
 
   constructor(props) {
     super(props)
+    this.Startmodify = this.Startmodify.bind(this);
+    this.Endmodify = this.Endmodify.bind(this);
+    this.Savemodify = this.Savemodify.bind(this);
     this.state = {
       isSelectedProfile: false,
       blood: '', 
       size: '',
       weight: '',
       profile: '',
+      modifying: false,
       firstName: this.props.user.user.nomUser,
       lastName: this.props.user.user.prenomUser,
       name: this.props.user.user.nomUser + ' ' + this.props.user.user.prenomUser,
@@ -51,6 +55,14 @@ class Switch extends Component {
       zip: this.props.user.user.zipUser,
       city: this.props.user.user.villeUser,
       id: this.props.user.user.idUser,
+      firstName_: this.props.user.user.nomUser,
+      lastName_: this.props.user.user.prenomUser,
+      name_: this.props.user.user.nomUser + ' ' + this.props.user.user.prenomUser,
+      phone_: this.props.user.user.phoneUser,
+      address_: this.props.user.user.adresseUser,
+      zip_: this.props.user.user.zipUser,
+      city_: this.props.user.user.villeUser,
+      id_: this.props.user.user.idUser,
 
       rollGranted: true,
       cameraGranted: false,
@@ -76,8 +88,6 @@ class Switch extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true })
-    await this.getCameraPermissions()
-    this.setState({ isLoading: false })
     const my_size = this.props.navigation.state.params.size;
     const my_blood = this.props.navigation.state.params.blood;
     const my_weight = this.props.navigation.state.params.weight;
@@ -88,6 +98,8 @@ class Switch extends Component {
       weight: my_weight,
       profile: my_profile
     })
+    this.setState({ isLoading: false })
+    await this.getCameraPermissions()
   }
 
   componentWillMount() {
@@ -101,6 +113,35 @@ componentWillUnmount() {
 handleBackButtonClick() {
     this.props.navigation.navigate("MyProfil", {profil: this.state.photoUri})
     return true;
+}
+
+Startmodify() {
+  this.setState({
+    modifying: true
+  })
+}
+
+Endmodify() {
+  this.setState({
+    modifying: false
+  })
+  this.setState({
+    firstName : this.state.firstName_,
+    lastName : this.state.lastName_,
+    name : this.state.firstName_ + ' ' + this.state.lastName_,
+    phone : this.state.phone_,
+    address : this.state.address_,
+    city : this.state.city_,
+    zip : this.state.zip_,
+    name_ : this.state.firstName_ + ' ' + this.state.lastName_
+  })
+}
+
+Savemodify() {
+  this.setState({
+    modifying: false
+  })
+  this.modifInfoPerso()
 }
 
 
@@ -215,6 +256,16 @@ handleBackButtonClick() {
     userModified.adresseUser = this.state.address
     userModified.villeUser = this.state.city
     userModified.zipUser = this.state.zip
+
+    this.setState({
+      firstName_ : this.state.firstname,
+      lastName_ : this.state.lastName,
+      name_ : this.state.firstName + ' ' + this.state.lastName,
+      phone_ : this.state.phone,
+      address_ : this.state.address,
+      city_ : this.state.city,
+      zip_ : this.state.zip,
+    })
 
    // let errorCount = await this.validationInfo(userModified)
    
@@ -384,42 +435,82 @@ handleBackButtonClick() {
           }
 
           <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <HeaderMenu navigation={this.props.navigation} perso={1}/>
+          <HeaderMenu navigation={this.props.navigation} perso={1} start={this.Startmodify} end={this.Endmodify} save={this.Savemodify}/>
           </View>
 
           <ScrollView style={[styles.scroll_1, { marginTop: 10 }]} >
               {this.renderHeader_1()}
 
-              <View>
-
-                    <Form>
-                      <Item stackedLabel>
-                        <Label>Prenom et Nom</Label>
-                        <Input value={this.state.name}/>
-                      </Item>
-                    
-                      
-                      <Item stackedLabel last>
-                      <Label>Ville</Label>
-                      <Input value={this.state.city}/>
-                      </Item>
-                    
-                      <Item stackedLabel last>
-                      <Label>Adresse</Label>
-                      <Input value={this.state.address}/>
-                      </Item>
-                    
-                      <Item stackedLabel last>
-                      <Label>Code Postal</Label>
-                      <Input value={this.state.zip}/>
-                      </Item>
+              {
+                !this.state.modifying && 
+                (
+                  <View>
+                  <Form>
+                    <Item stackedLabel>
+                      <Label style={styles.my_label}>Prenom et Nom</Label>
+                      <Input inputStyle={{'color': 'black'}} disabled value={this.state.name_}/>
+                    </Item>
                   
-                      <Item stackedLabel last>
-                      <Label>Telephone</Label>
-                      <Input value={this.state.phone}/>
-                      </Item>
-                    </Form>
-              </View>
+                    
+                    <Item stackedLabel last>
+                    <Label style={styles.my_label}>Ville</Label>
+                    <Input inputStyle={{'color': 'black'}} disabled value={this.state.city_}/>
+                    </Item>
+                  
+                    <Item stackedLabel last>
+                    <Label style={styles.my_label}>Adresse</Label>
+                    <Input inputStyle={{'color': 'black'}} disabled value={this.state.address_}/>
+                    </Item>
+                  
+                    <Item stackedLabel last>
+                    <Label style={styles.my_label}>Code Postal</Label>
+                    <Input inputStyle={{'color': 'black'}} disabled value={this.state.zip_}/>
+                    </Item>
+                
+                    <Item stackedLabel last>
+                    <Label style={styles.my_label}>Telephone</Label>
+                    <Input inputStyle={{'color': 'black'}} disabled value={this.state.phone_}/>
+                    </Item>
+                  </Form>
+                </View>
+                )
+              }
+
+              {
+                this.state.modifying && 
+                (
+                  <View>
+                  <Form>
+                    <Item stackedLabel>
+                      <Label>Prenom et Nom</Label>
+                      <Input value={this.state.firstName} onChangeText={(text) => this.setState({ firstName: text })}/>
+                      <Input value={this.state.lastName} onChangeText={(text) => this.setState({ lastName: text })}/>
+                    </Item>
+                  
+                    
+                    <Item stackedLabel last>
+                    <Label>Ville</Label>
+                    <Input value={this.state.city} onChangeText={(text) => this.setState({ city: text })}/>
+                    </Item>
+                  
+                    <Item stackedLabel last>
+                    <Label>Adresse</Label>
+                    <Input value={this.state.address} onChangeText={(text) => this.setState({ address: text })}/>
+                    </Item>
+                  
+                    <Item stackedLabel last>
+                    <Label>Code Postal</Label>
+                    <Input value={this.state.zip} onChangeText={(text) => this.setState({ zip: text })}/>
+                    </Item>
+                
+                    <Item stackedLabel last>
+                    <Label>Telephone</Label>
+                    <Input value={this.state.phone} onChangeText={(text) => this.setState({ phone: text })}/>
+                    </Item>
+                  </Form>
+                </View>
+                )
+              }
 
 {
 /*
@@ -626,6 +717,19 @@ handleBackButtonClick() {
   }
 }
 const styles = StyleSheet.create({
+  my_label: {
+    fontWeight: 'bold',
+    color: '#000'
+},
+labelValue: {
+    color: '#000',
+    fontSize: 16,
+    borderBottomWidth: 1,
+    paddingBottom: 5,
+    paddingTop: 10,
+    paddingLeft: 5,
+    marginBottom: 5
+},
   main_profil: {
     flex: 1,
     flexDirection: 'row',
