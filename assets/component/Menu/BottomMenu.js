@@ -110,7 +110,7 @@ import { faHeart, faHeartbeat, faGrinHearts,faUser,faUserCircle, faUserEditCircl
                              />
                        
                         </TouchableOpacity>
-                        <Text  textBreakStrategy={'simple'} style={{color : "white",justifyContent:'center',alignItems:'center' }}>Mon{" "} compte </Text>
+                        <Text  textBreakStrategy={'simple'} style={{color : "white",justifyContent:'center',alignItems:'center' }}>Mon{" "}Profil {" "} </Text>
                     </View>
 
                        

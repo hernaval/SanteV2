@@ -8,8 +8,11 @@ import {
 } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import { addContact, setContactInfo } from "../../Action"
-import { Card, Icon, Input } from 'react-native-elements'
+import { Card, Icon, Input, Avatar } from 'react-native-elements'
 import { TextInput } from 'react-native-paper';
+import HeaderNewContact from "../../component/Menu/HeaderNewContact";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+
 class NewContact extends Component {
 
   constructor() {
@@ -18,12 +21,14 @@ class NewContact extends Component {
       error: null,
 
     }
-
     this.firstName = "";
     this.lastName = "";
     this.email = "";
     this.phone = "";
+    this.onClickaddContact = this.onClickaddContact.bind(this)
   }
+
+
   onChangeInput(text, type) {
     this[type] = text;
   }
@@ -36,45 +41,53 @@ class NewContact extends Component {
       numContact: this.phone,
       idUser: this.props.user.user.idUser
     }
+
+    console.log(contact)
+    if (contact.nomContact != '' && contact.prenomContact != '' && contact.numContact != '') {
+      this.props.addContact(contact);
+      this.props.setContactInfo(contact.idUser)
+      this.gotToProfil();
+    } else {
     //.log(contact);
-    this.props.addContact(contact);
-    this.props.setContactInfo(contact.idUser)
-    this.gotToProfil();
+    this.setState({
+      error: 'Veuillez completer les champs'
+    });
+    this.props.navigation.navigate("NewContact")
+
+    }
   }
 
 
   gotToProfil() {
-    this.props.navigation.push("MyContact")
+    this.props.navigation.push("ContactUrgence")
   }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <TopMenu navigation={this.props.navigation} />
+        <HeaderNewContact navigation={this.props.navigation} addContact={1} saveContact={this.onClickaddContact}/>
         </View>
 
-        <Text style={{ fontWeight: "bold", fontSize: 20, textAlign: "center" }}>Ajouter un contact d'urgence</Text>
-
-
-        {this.state.error !== null && <Text style={styles.center, styles.red}>{this.state.error}</Text>}
-        
-        <View style={{flex : 1,justifyContent : "center",marginLeft : 20,marginRight : 20}} >
-
+        <KeyboardAwareScrollView style={{ flex: 1 }} getTextInputRefs={() => { return [this._textInputRef];}}>
+        <View style={{flex : 1,justifyContent : "center",marginLeft : 20, marginRight : 20}} >
+          <View style={styles.contain_avatar}>
+              <Avatar rounded icon={{ name: 'phone' }} size="large"/>
+          </View>
 
             <TextInput
               style={{ marginBottom : 5 }}
               onChangeText={(text) => this.firstName = text}
               mode="outlined"
               label="Prénom"
-            
+              ref={input => { this.textInput = input }}
             />
             <TextInput
               style={{ marginBottom : 5 }}
               onChangeText={(text) => this.lastName = text}
               mode="outlined"
               label="Nom"
-          
+              ref={input => { this.textInput = input }}
             />
 
           <TextInput
@@ -83,7 +96,7 @@ class NewContact extends Component {
             onChangeText={(text) => this.email = text}
             mode="outlined"
             label="Adresse email"
-      
+            ref={input => { this.textInput = input }}
           />
 
           <TextInput
@@ -92,7 +105,7 @@ class NewContact extends Component {
             onChangeText={(text) => this.phone = text}
             mode="outlined"
             label="Téléphone"
-        
+            ref={input => { this.textInput = input }}
           />
 
 
@@ -104,12 +117,14 @@ class NewContact extends Component {
             <Text style={styles.buttonText}>Enregistrer le contact </Text>
           </TouchableOpacity>
           <Image
-            style={{ width: wp('13%'), height: wp('13%'), position: "relative", bottom: hp('12.5%'), left: wp('59%') }}
+            style={{ width: wp('13%'), height: wp('13%'), position: "relative", bottom: hp('12.5%'), left: wp('70%') }}
             source={require('../../images/icon_urf_bleu.png')}
           />
 
-        </View>
+          {this.state.error !== null && <Text style={styles.text_error}>{this.state.error}</Text>}
 
+        </View>
+        </KeyboardAwareScrollView>
 
       </View>
     )
@@ -119,6 +134,21 @@ class NewContact extends Component {
 
 
 const styles = StyleSheet.create({
+  contain_avatar: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+    marginBottom: 10
+  },
+  text_error: {
+    color: 'red',
+    fontSize: 16,
+    marginTop: -50,
+    textAlign: 'center',
+    alignItems: 'center'
+  },  
   container: {
     flex: 1,
     backgroundColor: 'white',
@@ -207,7 +237,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     textAlign: "center",
-    fontSize: 13
+    fontSize: 16
   },
 
 })

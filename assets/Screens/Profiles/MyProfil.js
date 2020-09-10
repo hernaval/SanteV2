@@ -193,9 +193,12 @@ class MyProfil extends Component {
 
                 <View style={styles.under_main_profil_2}>
                     <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
-                    <Text style={styles.descr_under_main_profil_2}>
+                    {this.state.weight != '' && (
+                        <Text style={styles.descr_under_main_profil_2}>
                         Homme - {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
                     </Text>
+                    )
+                    }
                 </View>
                 
             </View>
@@ -295,7 +298,7 @@ class MyProfil extends Component {
                         />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyContact")} >
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("ContactUrgence")} >
                         <ListItem
                         chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             title="Mes contacts d'urgences"
