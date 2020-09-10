@@ -105,7 +105,7 @@ class SignUp extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, marginTop: -20 }}>
-      <KeyboardAwareScrollView style={{ flex: 1 }} getTextInputRefs={() => { return [this._textInputRef];}}>
+      <KeyboardAwareScrollView style={{ flex: 1 }}>
         <StatusBar hidden={true}/>
         <View innerRef={ref => { this.scroll = ref }} style={styles.main_contenair}>
           <Loader loading={this.state.isLoading} />

@@ -155,7 +155,7 @@ class Login extends React.Component {
     return (
       <View style={{ flex: 1 }}>
 
-      <KeyboardAwareScrollView style={{ flex: 1 }} getTextInputRefs={() => { return [this._textInputRef];}}>
+      <KeyboardAwareScrollView style={{ flex: 1 }}>
 
         <View style={styles.main_contenair}>
           <Loader loading={this.state.isLoading} />
@@ -182,7 +182,6 @@ class Login extends React.Component {
                   returnKeyType="next"
                   keyboardType="email-address"
                   underlineColorAndroid='transparent'
-                  ref={input => { this.textInput = input }}
                   onChangeText={(text) => this.onChangeInput(text, 'email')} />
               </View>
               <View style={styles.inputContainer}>
