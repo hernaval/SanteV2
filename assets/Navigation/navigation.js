@@ -59,8 +59,15 @@ import ContactUrgence from '../Screens/Contacts/ContactUrgence'
  
 
 import Calendars from '../Screens/Rappel/Calendars'
+import UserResponded from "../Screens/Samaritain/UserResponded"
 const NavigationBest4Sante = createStackNavigator(
     {
+        UserResponded : {
+            screen : RequireAuthentification(UserResponded),
+            navigationOptions : {
+                title : "UserResponded"
+            }
+        },
         UserConnected: {
             screen: RequireAuthentification(UserConnected),
             navigationOptions: {

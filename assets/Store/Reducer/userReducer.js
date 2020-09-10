@@ -1,4 +1,4 @@
-import {IS_LOGGED, CHANGE_PDP} from '../../Action/action-type';
+import {IS_LOGGED, CHANGE_PDP, ONLINE_USER} from '../../Action/action-type';
 import {USER_INFO} from '../../Action/action-type';
 import {MODIFY_USER} from '../../Action/action-type';
 import { CHANGE_INDEX } from "../../Action/action-type";
@@ -32,6 +32,12 @@ export default function userReducer(state = initialState, action) {
             return{
                 ...state,
                 user : action.payload
+            }
+        
+        case ONLINE_USER : 
+            return {
+                ...state,
+                online_users : action.payload
             }
 
 		default: 

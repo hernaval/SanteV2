@@ -1,110 +1,150 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View,Stylesheet } from 'react-native'
 import { connect } from 'react-redux'
 import { _emitEvent, onSamaritainListChange, _setSocket, SocketService } from '../../services/socket'
 import { getCurrentLocation, calculateDistanceBetween } from '../../services/location'
 import Axios from 'axios'
+import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler'
+import Bdd from '../../API/Bdd'
+import { onlineUser } from '../../Action'
+import { ListItem, Avatar,Accessory } from 'react-native-elements'
+import { TouchableRipple } from 'react-native-paper'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { ScrollView } from 'react-native'
+import { StyleSheet } from 'react-native'
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+} from 'react-native-responsive-screen'
+
 class UserConnected extends Component {
 
-    constructor (props){
+    constructor(props) {
         super(props)
         this.state = {
-            userConnected : [],
-            userConnectedProx : [],
-            isLoading : false
+            userConnected: [],
+            samaritainRequest : [],
+            isLoading: false
         }
     }
 
-     async componentDidMount(){
-         this.setState({isLoading : true})
-       await  this.getUserConnected()
-        this.setState({isLoading : false})
+    async componentDidMount() {
+        this.setState({ isLoading: true })
+        await this.getUserConnected()
+         await this.getRecentRequest()
+         this.receiveSamaritainRequest()
+        this.setState({ isLoading: false })
 
-        await this._filterUserProximite()
-       
-     }
-
-     _filterUserProximite = async() =>{
         
-         let users =  this.state.userConnected.filter( el =>{
-            //  const destString = `${el.coords.lat},${el.coords.log}`
-            //  let dist = await calculateDistanceBetween(myPositionString, destString)
-            // const value = dist.distanceValue
-
-            
-            return el.idUser >0
-
-         })
-
-
-
-         
-     }
-    
-
-    getUserConnected =   async () =>{
-        console.log("eto")
-        const myLocation = await getCurrentLocation()
-
-        const myPositionString = `${myLocation.coords.latitude},${myLocation.coords.longitude}`
-
-
-       let socketSrv = new SocketService("samaritain")
-       let prox= []
-          socketSrv.onSamaritainListChange((userList)=>{
-            let usrs = userList.filter(async el=>{
-                 const destString = `${el.coords.lat},${el.coords.log}`
-             let dist = await calculateDistanceBetween(myPositionString, destString)
-            const value = dist.distanceValue
-
-                if (value!=undefined && value <1500 ) {
-                    Object.assign(el, {distance : value})
-                    
-                    prox.push(el)
-                }
-            })
-           
-            this.setState({userConnectedProx : prox})
-            this.setState({userConnected : userList})
-        })
-
-        // let dist = await calculateDistanceBetween(myPositionString, "-23.3568925,43.664497")
-
-        // console.log(dist)
-        // lat : 37.4219463
-        //log : -122.0841284
-       
 
     }
 
-    
+    getRecentRequest  =async() =>{
+        await Axios.get(`${Bdd.api_url}/samaritain/list`)
+            .then(async res=>{
+              
+                this.setState({samaritainRequest : res.data.data})
+            })
+    }
+
+
+    getUserConnected = async () => {
+  
+        let socketSrv = new SocketService("samaritain")
+            socketSrv.onSamaritainListChange(async (userList) => {
+               
+                this.props.onlineUser(userList)
+            })
+      
+    }
+
+    receiveSamaritainRequest = () =>{
+        let socketSrv = new SocketService("samaritain")
+        socketSrv.onNewSamaritainRequest(async(reqList) =>{
+            console.log("vaovao",reqList)
+            let a= this.state.samaritainRequest
+            a.push(reqList.data)
+            
+            this.setState({samaritainRequest : a})
+        })
+    }
+
+    goToRespond = (i) =>{
+        this.props.navigation.navigate("UserResponded",{idSamaritain : i})
+    }
+
+ 
+
+    renderSamaritainRequest = (i, name, details,travel,image) => (
+        <TouchableOpacity key={i} onPress={()=>this.goToRespond(i)} >
+                    <ListItem
+                       leftElement={<Avatar source={{uri : image}} rounded size="medium" />}
+                        rightElement={<Text>{travel}</Text>}
+                        title={name}
+                        subtitle={details}
+                        titleStyle={{ fontWeight: '600' }}
+                    />
+        </TouchableOpacity>
+    )
+
+    renderOnlineUser = (i,name) => (
+        
+        <TouchableOpacity style={styles.userActiveContainer} key={i} >
+            <Avatar rounded size="medium" title="na"  />
+            <Text>{name}</Text>
+        </TouchableOpacity>
+        
+    )
+
 
     render() {
-       
+
         return (
-            <View style={{flex : 1, justifyContent : "center",alignItems : "center"}}>
+            <View style={{ flex: 1, backgroundColor : "white" }}>
                 {this.state.isLoading === true && <Text>
                     Veuillez patientez...
                 </Text>}
 
-                {this.state.userConnected.length >0 && this.state.userConnected.map((user,i)=>{
-                   return  <Text key={i}>{user.nomUser} {user.coords.lat},{user.coords.log}</Text>
+                <ScrollView style={{marginTop : 50}} horizontal={true}>
+                {this.props.user.online_users && this.props.user.online_users.map((user, i) => {
+                    return this.renderOnlineUser(i,user.nomUser)
                 })}
+                </ScrollView>
+                
+
+                {this.state.samaritainRequest && this.state.samaritainRequest.map((user, i) => {
+                    return this.renderSamaritainRequest(user.idSamaritain,user.userRequested.nomUser,user.description,"20mn",user.imageUser)
+                })}
+
+                <TouchableOpacity onPress={() => this.sendNotif()}>
+                    <Text>lanch</Text>
+                </TouchableOpacity>
             </View>
         )
     }
 }
 
+const styles = StyleSheet.create({
+    userActiveContainer : {
+        alignItems : "center",
+        paddingVertical : hp("1%"),
+        paddingHorizontal : wp("1%"),
+        marginHorizontal : wp("1%")
+    }
+})
+
 const mapStateToProps = (store) => {
     return {
-      user: store.user,
-      contact: store.contact,
-      second: store.second
+        online_users: store.online_users,
+        user: store.user,
+        contact: store.contact,
+        second: store.second
     }
-  }
-  
-  const mapDispatchToProps = {
-    
-  }
+}
 
-export default connect(mapStateToProps,mapDispatchToProps)(UserConnected)
+const mapDispatchToProps = {
+    onlineUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserConnected)
