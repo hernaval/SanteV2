@@ -105,7 +105,7 @@ class MyProfil extends Component {
           }
         } catch (e) {
           console.log(e);
-          alert('Upload failed, sorry :(');
+        //   alert('Upload failed, sorry :(');
         } finally {
           this.setState({ isLoading: false });
           /* this.props.navigation.navigate("MonProfil") */

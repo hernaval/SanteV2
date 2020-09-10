@@ -257,8 +257,8 @@ render() {
 
                 <View style={styles.rappelHeader}>
                     <View style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
-                        <Text style={{ color: "white", fontSize: 25, marginLeft: 20, flex: 1, textAlign: 'center', alignItems: 'center', paddingTop: 20 }}>
-                        Mes rappels</Text>
+                        <Text textBreakStrategy={'simple'} style={{ color: "white", fontSize: 25, marginLeft: 20, flex: 1, textAlign: 'center', alignItems: 'center', paddingTop: 20 }}>
+                        Mes{" "}rappels {"  "}</Text>
                     </View>
                     <View style={styles.appelType}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} style={{flex:1, flexDirection: 'row'}}>

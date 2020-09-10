@@ -49,7 +49,7 @@ class Menu extends Component {
           <TopMenu navigation={this.props.navigation} />
         </View>
 
-        <View style={{marginTop : hp("2%")}}>
+        <View style={{marginTop : hp("2%"), zIndex: 10}}>
 
           <Grid>
           <Col >
@@ -281,13 +281,13 @@ const styles = StyleSheet.create({
   under: {
 
     height: hp('10%'),
-    width: wp("100%")
-    // zIndex: 2
+    width: wp("100%"),
+    zIndex: 1
   },
   under_ios: {
     width: wp("100%"),
     height: hp('10%'),
-    zIndex: 2
+    zIndex: 0
   },
   card: {
     zIndex: 4,
