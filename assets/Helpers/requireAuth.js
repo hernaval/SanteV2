@@ -56,9 +56,7 @@ export default function(ChildComponent) {
 
 						let socketSrv = new SocketService("samaritain")
 						socketSrv.emitEvent("status_change",{token : value, socketListenId : socketListenId, coords : coords, type  :"join"})
-						// socketSrv.onSamaritainListChange(async (userList)=>{
-						// 	this.props.onlineUser(userList)
-						// })
+						
 						await registerForPushNotificationsAsync(value)
 						
 						this.props.setUserInfo(token)

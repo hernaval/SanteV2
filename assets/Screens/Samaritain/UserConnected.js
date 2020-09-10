@@ -32,7 +32,7 @@ class UserConnected extends Component {
     async componentDidMount() {
         this.setState({ isLoading: true })
         await this.getUserConnected()
-        // await this.getRecentRequest()
+         await this.getRecentRequest()
          this.receiveSamaritainRequest()
         this.setState({ isLoading: false })
 
@@ -41,9 +41,10 @@ class UserConnected extends Component {
     }
 
     getRecentRequest  =async() =>{
-        await Axios.get(`${Bdd.api_url}/samaritain`)
+        await Axios.get(`${Bdd.api_url}/samaritain/list`)
             .then(async res=>{
-                console.log(res.data)
+              
+                this.setState({samaritainRequest : res.data.data})
             })
     }
 
@@ -62,19 +63,21 @@ class UserConnected extends Component {
         let socketSrv = new SocketService("samaritain")
         socketSrv.onNewSamaritainRequest(async(reqList) =>{
             console.log("vaovao",reqList)
-            let a= this.props.user.online_users
-            a.push(reqList)
-            this.props.onlineUser(a)
+            let a= this.state.samaritainRequest
+            a.push(reqList.data)
+            
+            this.setState({samaritainRequest : a})
         })
     }
 
-    sendNotif = () => {
-        Axios.post(`${Bdd.api_url}/samaritain`)
-            .then(console.log("ok"))
+    goToRespond = (i) =>{
+        this.props.navigation.navigate("UserResponded",{idSamaritain : i})
     }
 
+ 
+
     renderSamaritainRequest = (i, name, details,travel,image) => (
-        <TouchableOpacity key={i}>
+        <TouchableOpacity key={i} onPress={()=>this.goToRespond(i)} >
                     <ListItem
                        leftElement={<Avatar source={{uri : image}} rounded size="medium" />}
                         rightElement={<Text>{travel}</Text>}
@@ -87,7 +90,7 @@ class UserConnected extends Component {
 
     renderOnlineUser = (i,name) => (
         
-        <TouchableOpacity style={styles.userActiveContainer} key={i}>
+        <TouchableOpacity style={styles.userActiveContainer} key={i} >
             <Avatar rounded size="medium" title="na"  />
             <Text>{name}</Text>
         </TouchableOpacity>
@@ -110,8 +113,8 @@ class UserConnected extends Component {
                 </ScrollView>
                 
 
-                {this.props.user.online_users && this.props.user.online_users.map((user, i) => {
-                    return this.renderSamaritainRequest(i,user.nomUser,"Je suis sempotre","20mn",user.imageUser)
+                {this.state.samaritainRequest && this.state.samaritainRequest.map((user, i) => {
+                    return this.renderSamaritainRequest(user.idSamaritain,user.userRequested.nomUser,user.description,"20mn",user.imageUser)
                 })}
 
                 <TouchableOpacity onPress={() => this.sendNotif()}>

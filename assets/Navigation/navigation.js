@@ -55,8 +55,15 @@ import RequireAuthentification from '../Helpers/requireAuth'
 import IsAuth from '../Helpers/isAuth'
 
 import Calendars from '../Screens/Rappel/Calendars'
+import UserResponded from "../Screens/Samaritain/UserResponded"
 const NavigationBest4Sante = createStackNavigator(
     {
+        UserResponded : {
+            screen : RequireAuthentification(UserResponded),
+            navigationOptions : {
+                title : "UserResponded"
+            }
+        },
         UserConnected: {
             screen: RequireAuthentification(UserConnected),
             navigationOptions: {
