@@ -1,10 +1,10 @@
 {
-  "packagerPort": 19001,
-  "packagerPid": 6324,
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://bi-3ft.hernaval419.santev2.exp.direct",
-  "packagerNgrokUrl": "https://packager.bi-3ft.hernaval419.santev2.exp.direct",
-  "ngrokPid": 220,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerPort": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null,
   "devToolsPort": 19002
 }
