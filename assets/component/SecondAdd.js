@@ -13,6 +13,7 @@ import { setSecondInfo } from '../Action';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPen, faToilet } from '@fortawesome/free-solid-svg-icons'
 import TopMenu from "../component/Menu/TopMenu"
+import HeaderMenu from "../component/Menu/HeaderMenu"
 import axios from 'axios';
 import Bdd from '../API/Bdd'
 import { Card, Icon, Input } from 'react-native-elements'
@@ -46,6 +47,8 @@ class SecondAdd extends React.Component {
 
         lien : "",
       }
+
+      this.saveSecondProfil = this.saveSecondProfil.bind(this)
   }
 
   componentDidMount() {
@@ -80,7 +83,7 @@ class SecondAdd extends React.Component {
       .then((response) => {
         console.log(response)
           // this.props.navigation.navigate("MySecondProfil")
-          this.props.navigation.navigate("MyProfil")
+          this.props.navigation.navigate("MySecondProfil")
 
       })
 
@@ -153,13 +156,10 @@ class SecondAdd extends React.Component {
         </View>}
 
         <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <TopMenu navigation={this.props.navigation} />
+        <HeaderMenu navigation={this.props.navigation} secondAdd={1} enregistrerSecondProfil={this.saveSecondProfil}/>
         </View>
 
         <View style={styles.main}>
-
-
-          <Text style={styles.title2}>Création d'un profil secondaire</Text>
 
           <Input
             placeholder="Prénom"
@@ -198,12 +198,15 @@ class SecondAdd extends React.Component {
             containerStyle={styles.inputVaovao}
             keyboardType={"numeric"}
           />
-          <Text style={{fontWeight :"bold",textAlign : "left",fontSize : 18}}>Lien</Text>
+
+        {/*
+                  <Text style={{fontWeight :"bold",textAlign : "left",fontSize : 18}}>Lien</Text>
+        */}
+
           <RNPickerSelect
           placeholder={{
             label : "Lien",
-            
-            color : "red"
+            color : "white"
           }}
         
             onValueChange={(value) => this.setState({lien : value}) }
@@ -230,11 +233,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-
-
   },
   inputVaovao: {
-    marginBottom: hp("1%")
+    marginBottom: hp("2%"),
   },
   main: {
     borderTopLeftRadius: 10,
@@ -243,7 +244,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: wp('90%'),
     paddingTop: hp('5%'),
-    marginLeft: wp('5%')
+    marginLeft: wp('5%'),
+    marginTop: 10
   },
   scrollview: {
     width: wp('90%'),

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {  Text, View, StyleSheet, ActivityIndicator, ScrollView } from 'react-native'
 import TopMenu from "../../component/Menu/TopMenu"
+import HeaderMenu from "../../component/Menu/HeaderMenu"
 import { Input } from 'react-native-elements'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
@@ -539,7 +540,7 @@ class AddEvent extends Component {
                         <ActivityIndicator size="large" />
                     </View>}
                     <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                        <TopMenu navigation={this.props.navigation} />
+                        <HeaderMenu navigation={this.props.navigation} ajoutEvent={1}/>
                     </View>
 
                     <View style={styles.tabBtn}>

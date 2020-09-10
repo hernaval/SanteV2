@@ -84,6 +84,7 @@ class Switch extends Component {
     }
     this.ref = firebase.firestore().collection('profile');
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    this.goToProfil = this.goToProfil.bind(this);
   }
 
   componentDidMount = async () => {
@@ -221,9 +222,12 @@ Savemodify() {
 
             <View style={styles.under_main_profil_2}>
                 <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
-                <Text style={styles.descr_under_main_profil_2}>
-                    Homme - {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
-                </Text>
+                {this.state.weight != '' && (
+                  <Text style={styles.descr_under_main_profil_2}>
+                  Homme - {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
+              </Text>
+              )
+              }
             </View>
             
         </View>
@@ -376,7 +380,7 @@ Savemodify() {
       }
     } catch (e) {
       console.log(e);
-      alert('Upload failed, sorry :(');
+      // alert('Upload failed, sorry :(');
     } finally {
       this.setState({ isLoading: false });
       /* this.props.navigation.navigate("MonProfil") */
@@ -416,7 +420,11 @@ Savemodify() {
     return await snapshot.ref.getDownloadURL();
   }
 
-
+  goToProfil() {
+    this.props.navigation.navigate("MyProfil", {
+      photo: this.state.photoUri
+    })
+  }
 
 
   render() {
@@ -435,7 +443,7 @@ Savemodify() {
           }
 
           <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <HeaderMenu navigation={this.props.navigation} perso={1} start={this.Startmodify} end={this.Endmodify} save={this.Savemodify}/>
+          <HeaderMenu navigation={this.props.navigation} back={this.goToProfil} perso={1} start={this.Startmodify} end={this.Endmodify} save={this.Savemodify}/>
           </View>
 
           <ScrollView style={[styles.scroll_1, { marginTop: 10 }]} >

@@ -55,6 +55,8 @@ import RequireAuthentification from '../Helpers/requireAuth'
 import IsAuth from '../Helpers/isAuth'
 import MapView from '../Screens/Map/MapView'
 import PlaceList from '../Screens/Place/PlaceList'
+import ContactUrgence from '../Screens/Contacts/ContactUrgence'
+ 
 
 import Calendars from '../Screens/Rappel/Calendars'
 import UserResponded from "../Screens/Samaritain/UserResponded"
@@ -206,6 +208,12 @@ const NavigationBest4Sante = createStackNavigator(
             screen: RequireAuthentification(MyContact),
             navigationOption: {
                 title: 'MyContact'
+            }
+        },
+        ContactUrgence: {
+            screen: RequireAuthentification(ContactUrgence),
+            navigationOption: {
+                title: 'ContactUrgence'
             }
         },
         NewContact: {

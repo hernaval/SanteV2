@@ -53,9 +53,9 @@ class MapScreen extends Component {
     console.log('get places');
     const { lat, long, placeType } = this.state;
     const markers = [];
-    // const url = this.getPlacesUrl(lat, long, 1500, placeType, this.GOOGLE_API_KEY);
+    const url = this.getPlacesUrl(lat, long, 5000, placeType, this.GOOGLE_API_KEY);
     // const url = this.getPlacesUrl(lat, long, 2000, 'pharmacy', this.GOOGLE_API_KEY);
-    const url = this.getPlacesUrl(-21.455028, 47.090339, 9000, 'pharmacy', this.GOOGLE_API_KEY);
+    // const url = this.getPlacesUrl(-21.455028, 47.090339, 9000, 'pharmacy', this.GOOGLE_API_KEY);
     fetch(url)
       .then(res => res.json())
       .then(res => {

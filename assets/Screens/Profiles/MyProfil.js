@@ -68,6 +68,10 @@ class MyProfil extends Component {
     componentDidMount = async () => {
         console.log('id ',this.props.user.user.idUser)
         this.fetchSante();
+
+        this._subscribe = this.props.navigation.addListener('didFocus', async () => {
+            this.fetchSante()
+       });
     }
 
     _pickImage = async () => {
@@ -101,7 +105,7 @@ class MyProfil extends Component {
           }
         } catch (e) {
           console.log(e);
-          alert('Upload failed, sorry :(');
+        //   alert('Upload failed, sorry :(');
         } finally {
           this.setState({ isLoading: false });
           /* this.props.navigation.navigate("MonProfil") */
@@ -193,9 +197,12 @@ class MyProfil extends Component {
 
                 <View style={styles.under_main_profil_2}>
                     <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
-                    <Text style={styles.descr_under_main_profil_2}>
+                    {this.state.weight != '' && (
+                        <Text style={styles.descr_under_main_profil_2}>
                         Homme - {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
                     </Text>
+                    )
+                    }
                 </View>
                 
             </View>
@@ -295,7 +302,7 @@ class MyProfil extends Component {
                         />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyContact")} >
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("ContactUrgence")} >
                         <ListItem
                         chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             title="Mes contacts d'urgences"

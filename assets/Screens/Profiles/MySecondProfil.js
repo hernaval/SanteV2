@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import TopMenu from "../../component/Menu/TopMenu"
+import HeaderMenu from "../../component/Menu/HeaderMenu"
 import { Avatar, Divider, ListItem } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, faExclamationCircle, faUser, faArrowDown, faArrowUp, faChevronDown, faTrashAlt, faCheck, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +25,7 @@ class MySecondProfil extends Component {
 
             actionIndex: -1
         }
+        this.addSecondProfil = this.addSecondProfil.bind(this)
     }
 
     componentDidMount() {
@@ -55,13 +57,14 @@ class MySecondProfil extends Component {
             title={fullname}
             subtitle={lien}
             leftAvatar={{
-
                 title: iniital
             }}
             bottomDivider
             rightElement={
                 <React.Fragment>
-                    <TouchableOpacity style={{ padding: 10 }} onPress={() => {
+                {
+                    /**
+                                    <TouchableOpacity style={{ padding: 10 }} onPress={() => {
                         console.log('index ', index)
                         if (index === undefined || index === null) {
                             return
@@ -71,6 +74,9 @@ class MySecondProfil extends Component {
                     }}>
                         <FontAwesomeIcon icon={faEye} />
                     </TouchableOpacity>
+                     */
+                }
+
                    
                     <TouchableOpacity style={{ padding: 10 }} onPress={() => this.deleteSecondProfil(idUser)}>
                         <FontAwesomeIcon icon={faTrash} />
@@ -130,6 +136,11 @@ class MySecondProfil extends Component {
                 this.setState({actionIndex : -1})
 			})
     }
+
+    addSecondProfil() {
+        this.props.navigation.navigate("SecondAdd")
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -138,13 +149,10 @@ class MySecondProfil extends Component {
                 </View>}
 
                 <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                    <TopMenu navigation={this.props.navigation} />
+                    <HeaderMenu navigation={this.props.navigation} secondProfil={1} ajouterSecondProfil={this.addSecondProfil}/>
                 </View>
 
                 <View style={styles.profilContainer}>
-                    <View>
-                        <Text style={{ textAlign: "center",fontSize: 24, fontWeight : "bold" }}>Mes comptes secondaires</Text>
-                    </View>
 
                     <ScrollView>
                         {this.state.secondUser !== null && this.state.secondUser.map((profil, index) => {
@@ -165,9 +173,12 @@ class MySecondProfil extends Component {
 
 
                 </View>
-                <ActionButton onPress={() => this.props.navigation.navigate("SecondAdd")} style={{ marginBottom: 5 }} buttonColor="#008AC8">
 
+                {/*
+                <ActionButton onPress={() => this.props.navigation.navigate("SecondAdd")} style={{ marginBottom: 5 }} buttonColor="#008AC8">
                 </ActionButton>
+
+                */}
             </View>
         )
     }
