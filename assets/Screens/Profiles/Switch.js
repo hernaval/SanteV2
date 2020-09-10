@@ -222,7 +222,7 @@ Savemodify() {
             <View style={styles.under_main_profil_2}>
                 <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
                 <Text style={styles.descr_under_main_profil_2}>
-                    Homme, {this.state.size} cm, {this.state.weight} kg, {this.state.blood}
+                    Homme - {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
                 </Text>
             </View>
             
