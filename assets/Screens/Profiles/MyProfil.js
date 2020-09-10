@@ -13,7 +13,7 @@ import { Avatar, ListItem, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo, ModifyPhoto } from '../../Action/action-type';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, faExclamationCircle, faFirstAid } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 import { TouchableHighlight, TextInput } from 'react-native-gesture-handler'
@@ -309,6 +309,16 @@ class MyProfil extends Component {
                             <ListItem                            
                                 title=" Ma Fiche santé"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFileMedicalAlt} />}
+                                titleStyle={{ fontWeight: "600" }}                                
+                                containerStyle={styles.listItemContainer}
+                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("UserConnected")} >
+                            <ListItem                            
+                                title=" Mes Activités Bon Samaritain"
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFirstAid} />}
                                 titleStyle={{ fontWeight: "600" }}                                
                                 containerStyle={styles.listItemContainer}
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}

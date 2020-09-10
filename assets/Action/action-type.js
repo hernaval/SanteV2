@@ -15,3 +15,4 @@ export const CHANGE_INDEX = "CHANGE_INDEX";
 export const CHANGE_PDP = "CHANGE_PDP"
 export const MODIFY_SECOND = "MODIFY_SECOND"
 export const CHANGE_SECOND_PDP = "CHANGE_SECOND_PDP"
+export const ONLINE_USER = "ONLINE_USER"

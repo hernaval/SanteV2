@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, AsyncStorage } from 'react-native';
-import {setUserInfo,mySecondProfil, setContactInfo, setFavoriteInfo, setSecondInfo} from '../Action'
+import {setUserInfo,mySecondProfil, setContactInfo, setFavoriteInfo, setSecondInfo, onlineUser} from '../Action'
 import { connect } from "react-redux";
 import 	axios from "axios";
 import Bdd from '../API/Bdd'
@@ -9,6 +9,7 @@ import * as Location from 'expo-location';
 import { _setSocket, _emitEvent,onSamaritainListChange, SocketService } from '../services/socket';
 import {getCurrentLocation} from "../services/location"
 import { faUserCircle, faUser } from '@fortawesome/free-solid-svg-icons';
+import { registerForPushNotificationsAsync } from '../services/notifications';
 
 export default function(ChildComponent) {
 	class RequireAuthentification extends Component {
@@ -45,6 +46,7 @@ export default function(ChildComponent) {
 						
 						let value = token
 						let socketListenId =`samaritain_${value}`
+						
 
 						let location = await getCurrentLocation()
 						const coords = {
@@ -54,6 +56,10 @@ export default function(ChildComponent) {
 
 						let socketSrv = new SocketService("samaritain")
 						socketSrv.emitEvent("status_change",{token : value, socketListenId : socketListenId, coords : coords, type  :"join"})
+						// socketSrv.onSamaritainListChange(async (userList)=>{
+						// 	this.props.onlineUser(userList)
+						// })
+						await registerForPushNotificationsAsync(value)
 						
 						this.props.setUserInfo(token)
 						this.props.mySecondProfil(token)
@@ -92,7 +98,8 @@ export default function(ChildComponent) {
 		mySecondProfil,
 		setContactInfo,
 		setFavoriteInfo,
-		setSecondInfo
+		setSecondInfo,
+		onlineUser
 	}
 
 	

@@ -21,6 +21,10 @@ export class SocketService{
         this.socket.on("samaritain_list_changed", (data)=> callback(data))
     }
 
+    onNewSamaritainRequest = (callback) =>{
+        this.socket.on("samaritain_request",(data) =>callback(data))
+    }
+
 
 
 }

@@ -214,7 +214,7 @@ const NavigationBest4Sante=createStackNavigator(
              }
          },
         Login :{
-            screen :IsAuth(Login),
+            screen :Login,
             navigationOption:{
                 title: 'Login',
                 
@@ -373,7 +373,7 @@ const NavigationBest4Sante=createStackNavigator(
              }
          }
     },{
-        initialRouteName : "Login",
+        initialRouteName : "Menu",
          headerMode : "none"
     }
 )

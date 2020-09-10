@@ -1,4 +1,4 @@
-import { IS_LOGGED, USER_INFO,CHANGE_SECOND_PDP, MODIFY_USER, CONTACT_INFO, ADD_CONTACT, DELETE_CONTACT, FAVORITE_INFO, ADD_FAVORITE, DELETE_FAVORITE, SECOND_INFO, CHANGE_INDEX, DELETE_SECOND, CHANGE_PDP } from './action-type';
+import { ONLINE_USER,IS_LOGGED, USER_INFO,CHANGE_SECOND_PDP, MODIFY_USER, CONTACT_INFO, ADD_CONTACT, DELETE_CONTACT, FAVORITE_INFO, ADD_FAVORITE, DELETE_FAVORITE, SECOND_INFO, CHANGE_INDEX, DELETE_SECOND, CHANGE_PDP } from './action-type';
 import axios from "axios";
 import Bdd from '../API/Bdd';
 export function setAuthentification(isLoggedIn) {
@@ -7,6 +7,15 @@ export function setAuthentification(isLoggedIn) {
 			type: IS_LOGGED,
 			payload: isLoggedIn
 		});
+	}
+}
+
+export function onlineUser(online_users){
+	return function(dispatch){
+		dispatch({
+			type : ONLINE_USER,
+			payload : online_users
+		})
 	}
 }
 

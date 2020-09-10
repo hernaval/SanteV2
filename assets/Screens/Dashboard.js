@@ -34,7 +34,7 @@ class Menu extends Component {
   componentDidMount =  async  () =>{
     let user = this.props.user.user != null ? this.props.user.user.idUser : 0;
     
-    await registerForPushNotificationsAsync(user)
+    // await registerForPushNotificationsAsync(user)
   }
 
   
@@ -296,6 +296,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (store) => {
   return {
+    
     user: store.user,
     contact: store.contact,
     second: store.second
