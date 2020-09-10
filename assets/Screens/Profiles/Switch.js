@@ -84,6 +84,7 @@ class Switch extends Component {
     }
     this.ref = firebase.firestore().collection('profile');
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    this.goToProfil = this.goToProfil.bind(this);
   }
 
   componentDidMount = async () => {
@@ -419,7 +420,11 @@ Savemodify() {
     return await snapshot.ref.getDownloadURL();
   }
 
-
+  goToProfil() {
+    this.props.navigation.navigate("MyProfil", {
+      photo: this.state.photoUri
+    })
+  }
 
 
   render() {
@@ -438,7 +443,7 @@ Savemodify() {
           }
 
           <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <HeaderMenu navigation={this.props.navigation} perso={1} start={this.Startmodify} end={this.Endmodify} save={this.Savemodify}/>
+          <HeaderMenu navigation={this.props.navigation} back={this.goToProfil} perso={1} start={this.Startmodify} end={this.Endmodify} save={this.Savemodify}/>
           </View>
 
           <ScrollView style={[styles.scroll_1, { marginTop: 10 }]} >
