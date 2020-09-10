@@ -84,8 +84,8 @@ class UserConnected extends Component {
 
  
 
-    renderSamaritainRequest =  (i, name, details,travel,image) => (
-        <TouchableOpacity key={i} onPress={()=>this.goToRespond(i)} >
+    renderSamaritainRequest =  (id,i, name, details,travel,image) => (
+        <TouchableOpacity key={id} onPress={()=>this.goToRespond(i)} >
                     <ListItem
                        leftElement={<Avatar source={{uri : image}} rounded size="medium" />}
                         rightElement={<Text>{travel}</Text>}
@@ -179,7 +179,7 @@ class UserConnected extends Component {
                         const nom = user.userRequested.idUser === this.props.user.user.idUser ? "Vous" : name 
                         
                     //    const travel  = calculateDistanceBetween(user.g)
-                    return this.renderSamaritainRequest(user.idSamaritain,nom,user.description,"",user.userRequested.imageUser)
+                    return this.renderSamaritainRequest(i,user.idSamaritain,nom,user.description,"",user.userRequested.imageUser)
                 })}
                     </ScrollView>
                 </View>
