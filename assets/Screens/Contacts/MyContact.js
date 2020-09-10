@@ -22,13 +22,11 @@ class MyContact extends Component {
             contacts: [],
             contactIdSelected: {},
             isModifbegin: false,
-
             id: "",
             nom: "",
             prenom: "",
             email: "",
             num: ""
-
         }
         this.panelRef = React.createRef()
         this.showRenderInfo = false
