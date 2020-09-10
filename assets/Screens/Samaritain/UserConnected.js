@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View,Stylesheet } from 'react-native'
+import { Text, View,Stylesheet,Modal } from 'react-native'
 import { connect } from 'react-redux'
 import { _emitEvent, onSamaritainListChange, _setSocket, SocketService } from '../../services/socket'
 import { getCurrentLocation, calculateDistanceBetween } from '../../services/location'
 import Axios from 'axios'
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler'
+import { TouchableOpacity, TouchableHighlight, TextInput } from 'react-native-gesture-handler'
 import Bdd from '../../API/Bdd'
 import { onlineUser } from '../../Action'
 import { ListItem, Avatar,Accessory } from 'react-native-elements'
@@ -17,7 +17,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
-
+import Loader from '../../component/loader'
 class UserConnected extends Component {
 
     constructor(props) {
@@ -25,8 +25,12 @@ class UserConnected extends Component {
         this.state = {
             userConnected: [],
             samaritainRequest : [],
-            isLoading: false
+            isLoading: false,
+            isVisible : false,
         }
+        this.description = ""
+        this.mylocation = ""
+        
     }
 
     async componentDidMount() {
@@ -36,14 +40,18 @@ class UserConnected extends Component {
          this.receiveSamaritainRequest()
         this.setState({ isLoading: false })
 
-        
+        let location = await getCurrentLocation()
+         this.mylocation =  location.coords.latitude+","+location.coords.longitude
 
+        //  let travel = await calculateDistanceBetween("-21.3464502,43.6679968","-23.3464502,43.6679968")
+        //  console.log(travel)
+       
     }
 
     getRecentRequest  =async() =>{
         await Axios.get(`${Bdd.api_url}/samaritain/list`)
             .then(async res=>{
-              
+                
                 this.setState({samaritainRequest : res.data.data})
             })
     }
@@ -64,7 +72,7 @@ class UserConnected extends Component {
         socketSrv.onNewSamaritainRequest(async(reqList) =>{
             console.log("vaovao",reqList)
             let a= this.state.samaritainRequest
-            a.push(reqList.data)
+            a.unshift(reqList.data)
             
             this.setState({samaritainRequest : a})
         })
@@ -76,7 +84,7 @@ class UserConnected extends Component {
 
  
 
-    renderSamaritainRequest = (i, name, details,travel,image) => (
+    renderSamaritainRequest =  (i, name, details,travel,image) => (
         <TouchableOpacity key={i} onPress={()=>this.goToRespond(i)} >
                     <ListItem
                        leftElement={<Avatar source={{uri : image}} rounded size="medium" />}
@@ -88,38 +96,101 @@ class UserConnected extends Component {
         </TouchableOpacity>
     )
 
-    renderOnlineUser = (i,name) => (
+    renderOnlineUser = (i,name,image) => (
         
         <TouchableOpacity style={styles.userActiveContainer} key={i} >
-            <Avatar rounded size="medium" title="na"  />
-            <Text>{name}</Text>
+            <Avatar source={{uril : image}} rounded size="medium" title="na"  />
+            <Text >{name}</Text>
         </TouchableOpacity>
         
     )
+
+    sendRequest = async () => {
+        
+       
+        let idUser = this.props.user.user.idUser
+        let data = {
+            description  : this.description,
+             geoloc : this.mylocation
+        }
+        await Axios.post(`${Bdd.api_url}/samaritain/request?idUser=${idUser}`,data)
+            .then(res=>{
+                console.log(res.data)
+            })
+        
+        this.setState({isVisible : false})
+    }
 
 
     render() {
 
         return (
             <View style={{ flex: 1, backgroundColor : "white" }}>
-                {this.state.isLoading === true && <Text>
+                {/* {this.state.isLoading === true && <Text>
                     Veuillez patientez...
-                </Text>}
+                </Text>} */}
 
+                <Loader loading={this.state.isLoading} />
+                
+                <View>
+               
                 <ScrollView style={{marginTop : 50}} horizontal={true}>
                 {this.props.user.online_users && this.props.user.online_users.map((user, i) => {
-                    return this.renderOnlineUser(i,user.nomUser)
+                    return this.renderOnlineUser(i,user.nomUser, user.imageUser)
                 })}
                 </ScrollView>
+
+                </View>
+
+                <View style={{maxHeight : hp("70%")}}>
                 
+                    
+                <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.isVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Faîtes appel aux "Bons Samaritains"</Text>
+            <Text style={styles.modalDesc}>Les utilisateurs "Bons Samaritains" près de chez vous seront alertés en temps réel
+                et prendra en compte votre demande
+            </Text>
+            <TextInput style={styles.modalInput} placeholder="Une petite description de votre cas" multiline onChangeText={(text) => this.description = text} />
+            <Text style={styles.buttonContainer} onPress={()=> this.sendRequest()}>Lancer ma demande</Text>
+            <Text style={[styles.buttonContainer,{backgroundColor : "white",color : "red"}]} onPress={()=> this.setState({isVisible : false})}>Pas maintenant</Text>
 
-                {this.state.samaritainRequest && this.state.samaritainRequest.map((user, i) => {
-                    return this.renderSamaritainRequest(user.idSamaritain,user.userRequested.nomUser,user.description,"20mn",user.imageUser)
+          </View>
+        </View>
+      </Modal>      
+      
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>
+                            Retrouver ici les demandes de secours par les utilisateurs. SOYEZ LE 1ER A INTERVENIR
+                            </Text>
+                    </View>
+
+                    <ScrollView>
+                    {this.state.samaritainRequest && this.state.samaritainRequest.map((user, i) => {
+                        const name = user.userRequested.nomUser+" "+user.userRequested.prenomUser
+                        const nom = user.userRequested.idUser === this.props.user.user.idUser ? "Vous" : name 
+                        
+                    //    const travel  = calculateDistanceBetween(user.g)
+                    return this.renderSamaritainRequest(user.idSamaritain,nom,user.description,"",user.userRequested.imageUser)
                 })}
+                    </ScrollView>
+                </View>
+                
+                <View style={styles.launch} >
 
-                <TouchableOpacity onPress={() => this.sendNotif()}>
-                    <Text>lanch</Text>
+                <TouchableOpacity style={styles.buttonContainer2} onPress={() =>this.setState({isVisible : true})}>
+                    <Text style={{textAlign : "center",color : "white",fontWeight :"bold"}} >Demander de l'aide</Text>
                 </TouchableOpacity>
+                </View>
+               
             </View>
         )
     }
@@ -131,7 +202,94 @@ const styles = StyleSheet.create({
         paddingVertical : hp("1%"),
         paddingHorizontal : wp("1%"),
         marginHorizontal : wp("1%")
-    }
+    },
+    launch : {
+        padding : 10,
+       
+       
+    },
+    titleContainer : {
+        padding : hp("2%")
+    },
+    title : {
+        fontSize : 14,
+        fontWeight : "700"
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        width : wp("90%"),
+        height : hp("60%"),
+        padding: 35,
+        alignItems: "center",
+        justifyContent : "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: .9,
+        shadowRadius: 3.84,
+        elevation: 100
+      },
+      openButton: {
+        backgroundColor: "#F194FF",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+          fontSize : 18,
+          fontWeight : "bold",
+        
+        textAlign: "center"
+      },
+      modalInput : {
+          borderBottomWidth : 2,
+          borderBottomColor : "#00C1B4",
+          marginBottom : hp("2%"),
+          
+          
+      },
+      modalDesc : {
+          fontSize : 12,
+          fontStyle : "italic",
+          marginBottom: 15,
+          textAlign : "center"
+      },
+      buttonContainer: {
+      
+        textAlign : "center",
+        padding : 10,
+
+        color : "white",
+        width: "100%",
+        borderRadius: 10,
+        backgroundColor: "#008ac8",
+       
+      },
+      buttonContainer2: {
+      
+        textAlign : "center",
+        padding : 10,
+
+        color : "white",
+        width: "100%",
+        borderRadius: 10,
+        backgroundColor: "#008ac8",
+       
+      },
 })
 
 const mapStateToProps = (store) => {

@@ -180,7 +180,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Informations</Text>
+                                    <Text style={styles.profil_txt}>Mes Informations</Text>
                                     </View>
                                     <View style={styles.contain_perso_3}>
                                     <TouchableOpacity onPress={() => this.clickModif()}>
@@ -213,6 +213,31 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 )
                             )
                         } 
+
+                        {
+                            (this.props.mapview &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                    <Text style={styles.profil_txt}>Pharmacie</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
                 
                     </View>
                     </View>

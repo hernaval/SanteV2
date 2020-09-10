@@ -77,7 +77,7 @@ class Menu extends Component {
               </TouchableOpacity>
         </Col>
         <Col>
-              <TouchableOpacity disabled={true}  style={[styles.cardContainer]}>
+              <TouchableOpacity onPress={()=> this.props.navigation.navigate("MapView")} style={[styles.cardContainer]}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faNotesMedical } />
               <Text style={styles.cardText}>Ma {"  "}</Text>
               <Text style={[styles.cardText, {marginTop: 0}]}>pharmacie {"  "}</Text>
