@@ -212,6 +212,63 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                         }
 
                         {
+                            (this.props.ajoutEvent &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Reminder")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        <Text style={styles.txt_back_profil}>Annuler</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                    
+                                    </View>
+                                    <View style={styles.contain_perso_31}>
+                                    <Text style={styles.profil_txt}>Ajout de Rappel</Text>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
+                        
+                        {
+                            (this.props.secondProfil &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        <Text style={styles.txt_back_profil}>Profil</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                    <Text style={styles.profil_txt}>Profils Secondaires</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    <TouchableOpacity onPress={() => this.props.ajouterSecondProfil()}>
+                                        <Text style={styles.modif_txt}>Ajouter</Text>
+                                    </TouchableOpacity>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
+                        {
                             (this.props.addContact &&
                                 (
                                 <View style={styles.contain_perso}>
@@ -232,6 +289,35 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                     </View>
                                     <View style={styles.contain_perso_3}>
                                     <TouchableOpacity onPress={() => this.saveNewContact()}>
+                                        <Text style={styles.modif_txt}>Enregistrer</Text>
+                                    </TouchableOpacity>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
+                        {
+                            (this.props.secondAdd &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        <Text style={styles.txt_back_profil}>Annuler</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                    <Text style={styles.profil_txt}>Nouveau Profil Secondaire</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    <TouchableOpacity onPress={() => this.props.enregistrerSecondProfil()}>
                                         <Text style={styles.modif_txt}>Enregistrer</Text>
                                     </TouchableOpacity>
                                     </View>
@@ -350,6 +436,10 @@ const styles = StyleSheet.create({
     },
     contain_perso_3: {
         flex: 1,
+        marginTop: 15,
+    },
+    contain_perso_31: {
+        flex: 2,
         marginTop: 15,
     },
     contain_profil: {

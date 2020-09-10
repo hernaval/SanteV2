@@ -105,10 +105,17 @@ class ContactUrgence extends Component {
             emailContact: this.state.email
         }
         let idContact = this.state.id
-        axios.put(`${Bdd.api_url}/${idContact}`, data)
+        console.log(data)
+        axios.put(`${Bdd.api_url}/contact/${idContact}`, data)
             .then(_ => {
-
-            })
+                console.log('Save contact urgence')
+                this.fetchContact()
+            }).catch(
+                error => {
+                    console.log('Erreur save contact urgence')
+                    console.log(error)
+                }
+            )
     }
 
     changeSelected(id) {
@@ -315,7 +322,7 @@ class ContactUrgence extends Component {
                                 key={i}
                                 title={contact.nomContact}
                                 leftAvatar={{
-                                    title: initial
+                                    title: initial.toString().toUpperCase()
                                 }}
                                 bottomDivider
                                 onPress={() => {
@@ -324,10 +331,17 @@ class ContactUrgence extends Component {
                                 }}
                             />
                             <View style={{flex: 1, backgroundColor: 'white'}}>
+                            <TouchableOpacity style={{ paddingTop: 30, color: 'red' }} onPress={() => this.callPerson(contact.numContact)}>
+                            <FontAwesomeIcon icon={faPhone} color="#008AC8" size={19}/>
+                            </TouchableOpacity>
+                            </View>
+
+                            <View style={{flex: 1, backgroundColor: 'white'}}>
                             <TouchableOpacity style={{ paddingTop: 30, color: '#e6e6e6' }} onPress={() => this.onClickDelete(contact.idContact)}>
                             <FontAwesomeIcon icon={faTrash} style={{color: '#2b2b2b' }} size={19}/>
                             </TouchableOpacity>
                             </View>
+
                             </View>
                             )
                         })

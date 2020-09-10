@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faEdit, faBars, faTimes, faCaretDown, faNotesMedical, faHandsHelping, faPumpMedical, faDisease, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, Divider, ListItem } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import axios from 'axios'
 import Bdd from "../../API/Bdd"
@@ -245,17 +246,31 @@ render() {
 
     return (
         <View style={styles.container}>
-            <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
+
+            {/*
+                        <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
                 <TopMenu navigation={this.props.navigation} />
             </View>
+            */}
+
             <View style={styles.rappelContainer}>
 
                 <View style={styles.rappelHeader}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={{ color: "white", fontSize: 22, marginLeft: 20 }}>Mes rappels</Text>
-                        
+                    <View style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
+                        <Text style={{ color: "white", fontSize: 25, marginLeft: 20, flex: 1, textAlign: 'center', alignItems: 'center', paddingTop: 20 }}>
+                        Mes rappels</Text>
                     </View>
                     <View style={styles.appelType}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} style={{flex:1, flexDirection: 'row'}}>
+                    <Icon
+                    name='chevron-left'
+                    size={19}
+                    type='font-awesome'
+                    color='#FFFFFF'
+                    style={{fontWeight: '100', paddingTop: 10}}
+                    />
+                    </TouchableOpacity>
+
                         {datas.map((data, i) => {
                             return this.state.numColored === i ? this.renderRappelType(data.type, true, data.label, i) : this.renderRappelType(data.type, false, data.label, i)
                         })}
@@ -314,13 +329,14 @@ const styles = StyleSheet.create({
         flex: 1
     },
     rappelHeader: {
-        backgroundColor: "#00C1B4"
+        backgroundColor: "#00C1B4",
+        height: hp("15%")
     },
 
     appelType: {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        marginTop: hp("2%"),
+        marginTop: hp("4%"),
         marginBottom: hp("1%")
     },
 

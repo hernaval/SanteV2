@@ -68,6 +68,10 @@ class MyProfil extends Component {
     componentDidMount = async () => {
         console.log('id ',this.props.user.user.idUser)
         this.fetchSante();
+
+        this._subscribe = this.props.navigation.addListener('didFocus', async () => {
+            this.fetchSante()
+       });
     }
 
     _pickImage = async () => {

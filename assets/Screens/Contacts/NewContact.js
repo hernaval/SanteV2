@@ -12,7 +12,7 @@ import { Card, Icon, Input, Avatar } from 'react-native-elements'
 import { TextInput } from 'react-native-paper';
 import HeaderNewContact from "../../component/Menu/HeaderNewContact";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
-
+import { Container, Header, Content, Form, Item, Label } from 'native-base';
 class NewContact extends Component {
 
   constructor() {
@@ -72,10 +72,37 @@ class NewContact extends Component {
         <KeyboardAwareScrollView style={{ flex: 1 }} getTextInputRefs={() => { return [this._textInputRef];}}>
         <View style={{flex : 1,justifyContent : "center",marginLeft : 20, marginRight : 20}} >
           <View style={styles.contain_avatar}>
-              <Avatar rounded icon={{ name: 'phone' }} size="large"/>
+              <Avatar rounded icon={{ name: 'phone' }} size={90}/>
           </View>
 
-            <TextInput
+          <View style={styles.contain_list}>
+          <Form>
+          <Item stackedLabel>
+            <Label style={styles.my_label}>Prénom</Label>
+            <Input inputStyle={{'color': 'black'}} onChangeText={(text) => this.firstName = text}/>
+          </Item>
+        
+          
+          <Item stackedLabel last>
+          <Label style={styles.my_label}>Nom</Label>
+          <Input inputStyle={{'color': 'black'}} onChangeText={(text) => this.lastName = text}/>
+          </Item>
+        
+          <Item stackedLabel last>
+          <Label style={styles.my_label}>Adresse email</Label>
+          <Input inputStyle={{'color': 'black'}} onChangeText={(text) => this.email = text}/>
+          </Item>
+      
+          <Item stackedLabel last>
+          <Label style={styles.my_label}>Téléphone</Label>
+          <Input inputStyle={{'color': 'black'}} onChangeText={(text) => this.phone = text}/>
+          </Item>
+        </Form>
+          </View>
+
+          {
+            /**
+                         <TextInput
               style={{ marginBottom : 5 }}
               onChangeText={(text) => this.firstName = text}
               mode="outlined"
@@ -110,6 +137,8 @@ class NewContact extends Component {
 
 
 
+
+
           <TouchableOpacity
             style={styles.buttonStyle}
             onPress={(e) => { this.onClickaddContact() }}
@@ -120,6 +149,9 @@ class NewContact extends Component {
             style={{ width: wp('13%'), height: wp('13%'), position: "relative", bottom: hp('12.5%'), left: wp('70%') }}
             source={require('../../images/icon_urf_bleu.png')}
           />
+           */
+
+        }
 
           {this.state.error !== null && <Text style={styles.text_error}>{this.state.error}</Text>}
 

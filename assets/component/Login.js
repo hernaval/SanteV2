@@ -28,8 +28,7 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    this.textInput.clear();
-    this.passwdInput.clear();
+    
   }
 
   accueil() {
@@ -136,8 +135,6 @@ class Login extends React.Component {
 
             Keyboard.dismiss()
 
-            this.textInput.clear();
-            this.passwdInput.clear();
             this.email = "";
             this.password = "";
             //this.props.userConnected(res.data.connectUser)

@@ -115,6 +115,8 @@ class MySante extends Component {
                     console.log('tena misy olana')
                 } else {
                     const fiche = res.data.data
+                    console.log('get fiche')
+                    console.log(fiche)
                     if (res.data === null) this.setState({ isFirst: true })
                     else {
                         this.setState({
@@ -445,6 +447,10 @@ class MySante extends Component {
             medecinTraitant: this.state.medecin,
             allergies: this.state.allergies
         }
+
+        console.log(this.state)
+        console.log('----------')
+        console.log(userModified)
         // this.saveAutre(this.state.medecin, this.state.allergies, this.state.traitement)
         axios.put(`${Bdd.api_url}/fiche-sante/${this.state.idFiche}`, userModified)
             .then(res => {
@@ -522,7 +528,7 @@ class MySante extends Component {
                                         onPress={(value) => this.setState({ blood: groupeSanguin[value].label, bloodAnnex: value })}
                                     />
                                     : <Text style={styles.labelValue}>
-                                        {this.state.bloodAnnex.label}
+                                        {this.state.blood}
                                     </Text>
                             }
                         </View>

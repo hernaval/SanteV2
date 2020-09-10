@@ -125,30 +125,27 @@ class SignUp extends React.Component {
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/userIcon.png')} />
                 <TextInput onChangeText={(text) => this.onChangeInput(text, 'lastName')} 
-                style={styles.inputs} placeholder="Nom" 
-                ref={(nom) => { this._textInputRef = nom; }}/>
+                style={styles.inputs} placeholder="Nom" />
               </View>
 
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/userIcon.png')} />
                 <TextInput onChangeText={(text) => this.onChangeInput(text, 'firstName')} 
-                style={styles.inputs} placeholder="Prenom" 
-                ref={(prenom) => { this._textInputRef = prenom; }}/>
+                style={styles.inputs} placeholder="Prenom" />
 
               </View>
 
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/mailIc.png')} />
                 <TextInput autoCapitalize='none' onChangeText={(text) => this.onChangeInput(text, 'email')} 
-                style={styles.inputs} placeholder="Adresse email" 
-                ref={(email) => { this._textInputRef = email; }}/>
+                style={styles.inputs} placeholder="Adresse email" />
               </View>
 
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/pwd.png')} />
                 <TextInput autoCapitalize='none' secureTextEntry={true} onChangeText={(text) => this.onChangeInput(text, 'password')} 
                 style={styles.inputs} placeholder="Mot de passe"
-                ref={(passwd) => { this._textInputRef = passwd; }} />
+                />
               </View>
 
               <View style={styles.checkBox}>
