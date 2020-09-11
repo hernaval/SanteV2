@@ -25,7 +25,7 @@ class UserResponded extends Component {
         const responder = this.props.user.user.idUser
         await Axios.put(`${Bdd.api_url}/samaritain/${id}/respond?idUser=${responder}`)
             .then(res=>{
-                console.log(res.data)
+                
             })
     }
     
