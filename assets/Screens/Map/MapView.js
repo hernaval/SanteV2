@@ -17,8 +17,8 @@ class MapScreen extends Component {
     super(props);
     //Initial State
     this.state = {
-      lat: -21.455028,
-      long: 47.090339,
+      lat: 48.858453,
+      long: 2.294489,
       places: [],
       isLoading: false,
       placeType: "pharmacy"
@@ -33,7 +33,7 @@ class MapScreen extends Component {
     const placeType = 'pharmacy';
     this.setState({ placeType: placeType });
 
-    this.getCurrentLocation();
+      this.getCurrentLocation();
   }
 
   /**
@@ -45,6 +45,7 @@ class MapScreen extends Component {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
       this.setState({ lat: lat, long: long });
+      console.log(this.state);
       this.getPlaces();
     });
   }
@@ -53,7 +54,8 @@ class MapScreen extends Component {
     console.log('get places');
     const { lat, long, placeType } = this.state;
     const markers = [];
-    const url = this.getPlacesUrl(lat, long, 5000, placeType, this.GOOGLE_API_KEY);
+    const url = this.getPlacesUrl(lat, long, 4000, placeType, this.GOOGLE_API_KEY);
+    console.log('Get Places from ', url)
     // const url = this.getPlacesUrl(lat, long, 2000, 'pharmacy', this.GOOGLE_API_KEY);
     // const url = this.getPlacesUrl(-21.455028, 47.090339, 9000, 'pharmacy', this.GOOGLE_API_KEY);
     fetch(url)
@@ -116,7 +118,7 @@ class MapScreen extends Component {
                 flex: 1
               }}
               provider={PROVIDER_GOOGLE}
-              initialRegion={{
+              region={{
                 latitude: lat,
                 longitude: long,
                 latitudeDelta: 0.0922,
