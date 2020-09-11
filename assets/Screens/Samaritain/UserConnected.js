@@ -18,6 +18,9 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
 import Loader from '../../component/loader'
+import HeaderMenu from "../../component/Menu/HeaderMenu"
+import {Input} from 'native-base';
+
 class UserConnected extends Component {
 
     constructor(props) {
@@ -99,7 +102,7 @@ class UserConnected extends Component {
     renderOnlineUser = (i,name,image) => (
         
         <TouchableOpacity style={styles.userActiveContainer} key={i} >
-            <Avatar source={{uril : image}} rounded size="medium" title="na"  />
+            <Avatar source={{uril : image}} rounded size="medium" title="A"  />
             <Text >{name}</Text>
         </TouchableOpacity>
         
@@ -132,6 +135,10 @@ class UserConnected extends Component {
 
                 <Loader loading={this.state.isLoading} />
                 
+                <View style={{height: hp("10%")}}>
+                <HeaderMenu navigation={this.props.navigation} userConnected={1}/>
+                </View>
+
                 <View>
                
                 <ScrollView style={{marginTop : 50}} horizontal={true}>
@@ -159,18 +166,26 @@ class UserConnected extends Component {
             <Text style={styles.modalDesc}>Les utilisateurs "Bons Samaritains" près de chez vous seront alertés en temps réel
                 et prendra en compte votre demande
             </Text>
-            <TextInput style={styles.modalInput} placeholder="Une petite description de votre cas" multiline onChangeText={(text) => this.description = text} />
+            <TextInput returnKeyType="done" style={styles.modalInput} placeholder="Une petite description de votre cas" onChangeText={(text) => this.description = text} />
             <Text style={styles.buttonContainer} onPress={()=> this.sendRequest()}>Lancer ma demande</Text>
-            <Text style={[styles.buttonContainer,{backgroundColor : "white",color : "red"}]} onPress={()=> this.setState({isVisible : false})}>Pas maintenant</Text>
+            <Text style={[styles.buttonContainer,{backgroundColor : "white",color : "#008ac8"}]} onPress={()=> this.setState({isVisible : false})}>Pas maintenant</Text>
 
           </View>
         </View>
       </Modal>      
       
                     <View style={styles.titleContainer}>
+
                         <Text style={styles.title}>
-                            Retrouver ici les demandes de secours par les utilisateurs. SOYEZ LE 1ER A INTERVENIR
+                            Retrouver ici les demandes de secours par les utilisateurs. 
+                            Soyez le premier à intervenir
                             </Text>
+
+                            <View style={styles.launch}>
+                            <TouchableOpacity style={styles.buttonContainer2} onPress={() =>this.setState({isVisible : true})}>
+                                <Text style={{textAlign : "center",color : "white",fontWeight :"bold"}} >Demander de l'aide</Text>
+                            </TouchableOpacity>
+                            </View>
                     </View>
 
                     <ScrollView>
@@ -182,13 +197,6 @@ class UserConnected extends Component {
                     return this.renderSamaritainRequest(i,user.idSamaritain,nom,user.description,"",user.userRequested.imageUser)
                 })}
                     </ScrollView>
-                </View>
-                
-                <View style={styles.launch} >
-
-                <TouchableOpacity style={styles.buttonContainer2} onPress={() =>this.setState({isVisible : true})}>
-                    <Text style={{textAlign : "center",color : "white",fontWeight :"bold"}} >Demander de l'aide</Text>
-                </TouchableOpacity>
                 </View>
                
             </View>
@@ -212,8 +220,10 @@ const styles = StyleSheet.create({
         padding : hp("2%")
     },
     title : {
-        fontSize : 14,
-        fontWeight : "700"
+        fontSize : 18,
+        fontWeight : "200",
+        textAlign: 'center',
+        color: 'gray'
     },
     centeredView: {
         flex: 1,
@@ -259,11 +269,10 @@ const styles = StyleSheet.create({
           borderBottomWidth : 2,
           borderBottomColor : "#00C1B4",
           marginBottom : hp("2%"),
-          
-          
+          fontSize: 16
       },
       modalDesc : {
-          fontSize : 12,
+          fontSize : 15,
           fontStyle : "italic",
           marginBottom: 15,
           textAlign : "center"

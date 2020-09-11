@@ -48,7 +48,7 @@ class ContactUrgence extends Component {
         var tab = [];
         for(let i = 0; i < taille; i++){
             var chaine = this.state.contactsTemp[i];
-            if (chaine.nomContact.toString().indexOf(search.toLowerCase()) > -1)
+            if (chaine.nomContact.toString().toLowerCase().indexOf(search.toLowerCase()) > -1)
             { 
                 console.log('find ', chaine);
                 tab.push(chaine);
