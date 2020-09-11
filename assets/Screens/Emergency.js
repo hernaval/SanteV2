@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image, Linking, Alert, Button } from 'react-native'
+import { Text, View, StyleSheet, Image, Linking, Alert, Button, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import TopMenu from "../component/Menu/TopMenu"
@@ -133,17 +133,58 @@ class Emergency extends Component {
 
 
     _getCountryCodeByLocation = async () => {
-        let { status } = await Permissions.askAsync(Permissions.LOCATION);
-        if (status !== 'granted') {
-            this.setState({
-                errorMessage: 'Permission to access location was denied',
-            });
+        const key = 'permission_location';
+        const value = await AsyncStorage.getItem(key)
+
+        if(value === null) {
+            Alert.alert('Localisation', 
+            'Nous demandons votre permission afin de récuperer votre localisation en référence avec les contacts d\'urgences', [
+            {
+                text: 'Suivant',
+                onPress: async () => { 
+                    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+                    if (status !== 'granted') {
+                        this.setState({
+                            errorMessage: 'Permission to access location was denied',
+                        });
+                    } else {
+                        let location = await Location.getCurrentPositionAsync({});
+                        await AsyncStorage.setItem(key, 'OK');
+
+                        //    axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=46.5286307,6.5124095&key=" + API_KEY)
+            
+                        axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.coords.latitude + "," + location.coords.longitude + "&key=" + API_KEY)
+                            .then(async response => {
+                                const globalRes = response.data.results[0].address_components
+            
+                                let resObj = await globalRes.filter(el => {
+                                    return el.types.includes("country")
+                                })
+                                const local = await resObj[0].short_name
+                                this.localCode = local
+                                console.log("Short name local :", this.localCode)
+                                let res = urgency.data.filter(el => {
+                                    return el.Country.ISOCode == local
+                                })
+            
+                                //    this.setState({
+                                //        urgence : res
+                                //    })
+                                this.urgence = res
+                                console.log('Urgence ', this.urgence.length)
+            
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                    }
+            
+                }
+            }
+            ])
         } else {
             let location = await Location.getCurrentPositionAsync({});
-
-
-            //    axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=46.5286307,6.5124095&key=" + API_KEY)
-
             axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.coords.latitude + "," + location.coords.longitude + "&key=" + API_KEY)
                 .then(async response => {
                     const globalRes = response.data.results[0].address_components
@@ -158,9 +199,6 @@ class Emergency extends Component {
                         return el.Country.ISOCode == local
                     })
 
-                    //    this.setState({
-                    //        urgence : res
-                    //    })
                     this.urgence = res
                     console.log('Urgence ', this.urgence.length)
 
@@ -169,8 +207,6 @@ class Emergency extends Component {
                     console.log(err)
                 })
         }
-
-
 
     };
 

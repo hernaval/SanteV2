@@ -15,7 +15,9 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert,
+  AsyncStorage
 } from 'react-native'
 import PropTypes from 'prop-types'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
@@ -333,19 +335,36 @@ Savemodify() {
   }
 
   getCameraPermissions = async () => {
-
-    let { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status !== 'granted') {
-      Alert("permission not granteed")
-      this.setState({
-        rollGranted: false,
-        cameraGranted: false,
-      })
-    } else {
-      this.setState({
-        rollGranted: true,
-        cameraGranted: true,
-      })
+    const key = 'permission_camera';
+    const value = await AsyncStorage.getItem(key);
+    if(value === null) {
+      Alert.alert('Camera', 
+      'Nous demandons l\' accès à votre camera afin de completer votre profil', [
+      {
+          text: 'Suivant',
+          onPress: async () => { 
+            let { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (status !== 'granted') {
+              Alert("permission not granteed")
+              this.setState({
+                rollGranted: false,
+                cameraGranted: false,
+              })
+            } else {
+              await AsyncStorage.setItem(key, 'OK');
+              this.setState({
+                rollGranted: true,
+                cameraGranted: true,
+              })
+            }
+          }
+      }
+        ])
+      } else {
+        this.setState({
+          rollGranted: true,
+          cameraGranted: true,
+        }) 
     }
   }
 

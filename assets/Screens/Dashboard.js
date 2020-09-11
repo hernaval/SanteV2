@@ -55,8 +55,8 @@ class Menu extends Component {
           <Col >
               <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faSearch } />
-              <Text style={styles.cardText}>Rechercher{"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>PS{"  "}</Text>
+              <Text style={styles.cardText}>Professionnel{"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>de santé{"  "}</Text>
               </TouchableOpacity>
         </Col>
         <Col>
@@ -80,7 +80,7 @@ class Menu extends Component {
               <TouchableOpacity onPress={()=> this.props.navigation.navigate("MapView")} style={[styles.cardContainer]}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faNotesMedical } />
               <Text style={styles.cardText}>Ma {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>pharmacie {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>Pharmacie {"  "}</Text>
               </TouchableOpacity>
         </Col>
        

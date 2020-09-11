@@ -120,7 +120,7 @@ class SignUp extends React.Component {
           </View>
           <View style={styles.main_Input} >
 
-            <Text style={styles.tex_Connexion}>Inscription {"  "}</Text>
+            <Text style={styles.tex_Connexion}>Créer{" "}un{" "}compte {"  "}</Text>
             {this.state.error !== null && <Text style={styles.error}>{this.state.error}</Text>}
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/userIcon.png')} />
@@ -322,8 +322,8 @@ const styles = StyleSheet.create(
     },
     signUpText: {
       color: 'white',
-      fontWeight: 'bold'
-
+      fontWeight: 'bold',
+      fontSize: 16
     },
     error: {
       alignSelf: 'center',
@@ -420,7 +420,8 @@ const styles = StyleSheet.create(
     },
     textLink: {
       alignSelf: 'center',
-      marginTop: 12
+      marginTop: 12,
+      fontSize: 17
     },
     textLinkWhite: {
       fontWeight: "bold",
