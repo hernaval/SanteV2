@@ -1,5 +1,5 @@
 import React from 'react'
-import{StyleSheet, ScrollView, Text, View, AsyncStorage, Slider, Image, TextInput, KeyboardAvoidView, TouchableOpacity, Keyboard, ActivityIndicator } from 'react-native'
+import{StyleSheet, ScrollView, Text, View, AsyncStorage, Slider, Image, TextInput, KeyboardAvoidView, TouchableOpacity, Keyboard, ActivityIndicator, Alert } from 'react-native'
 import {Button} from 'react-native-elements';
 import {withNavigation} from 'react-navigation'
 import { connect } from 'react-redux';
@@ -84,7 +84,6 @@ class Home extends React.Component{
     this.setState({search: text},()=>{
       this.createGoodList(this.state.search)
     })
-
   }
 
   createGoodList(keyword) {
@@ -95,18 +94,31 @@ class Home extends React.Component{
   }
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        errorMessage: 'Permission to access location was denied',
-      });
-    }else{
-      let location = await Location.getCurrentPositionAsync({});
-      this.setState({ location, mapLocation: location }); 
-    }
-
-     
-   
+    const key = 'permission_home_location';
+    const value = await AsyncStorage.getItem(key);
+    if(value === null) {
+      Alert.alert('Localisation', 
+      'Nous demandons votre permission afin de vous  localiser pour consulter les établissement à votre proximité', [
+      {
+          text: 'Suivant',
+          onPress: async () => { 
+            let { status } = await Permissions.askAsync(Permissions.LOCATION);
+            if (status !== 'granted') {
+              this.setState({
+                errorMessage: 'Permission to access location was denied',
+              });
+            }else{
+              await AsyncStorage.setItem(key, 'OK');
+              let location = await Location.getCurrentPositionAsync({});
+              this.setState({ location, mapLocation: location }); 
+            }
+          }
+      }
+        ])
+      } else {
+        let location = await Location.getCurrentPositionAsync({});
+        this.setState({ location, mapLocation: location }); 
+    }   
   };
 
   renderList() {
@@ -115,6 +127,7 @@ class Home extends React.Component{
                 key={index}
                 style={styles.list}
                 onPress={()=>{
+                  console.log('click')
                   this.setState({selected: auto.val},
                     this.onPressList(auto.val)
                   );
@@ -141,7 +154,7 @@ class Home extends React.Component{
           let autocomplete = []
           this.setState({markers: res.data.results, autocomplete: autocomplete},
             ()=>{
-              this.setState({search: ""});
+              this.setState({search: value});
               Keyboard.dismiss();
             }
           );
