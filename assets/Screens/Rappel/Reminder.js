@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 import TopMenu from "../../component/Menu/TopMenu"
+import HeaderMenu from "../../component/Menu/HeaderMenu"
 import BottomMenu from "../../component/Menu/BottomMenu"
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -247,19 +248,15 @@ render() {
     return (
         <View style={styles.container}>
 
-            {/*
-                        <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                <TopMenu navigation={this.props.navigation} />
+            
+            <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
+                <HeaderMenu navigation={this.props.navigation} reminder={1}/>
             </View>
-            */}
+            
 
             <View style={styles.rappelContainer}>
 
                 <View style={styles.rappelHeader}>
-                    <View style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
-                        <Text textBreakStrategy={'simple'} style={{ color: "white", fontSize: 25, marginLeft: 20, flex: 1, textAlign: 'center', alignItems: 'center', paddingTop: 20 }}>
-                        Mes{" "}rappels {"  "}</Text>
-                    </View>
                     <View style={styles.appelType}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} style={{flex:1, flexDirection: 'row'}}>
                     <Icon
@@ -330,13 +327,13 @@ const styles = StyleSheet.create({
     },
     rappelHeader: {
         backgroundColor: "#00C1B4",
-        height: hp("15%")
+        height: hp("7%")
     },
 
     appelType: {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        marginTop: hp("4%"),
+        marginTop: hp("0%"),
         marginBottom: hp("1%")
     },
 

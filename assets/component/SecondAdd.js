@@ -20,6 +20,9 @@ import { Card, Icon, Input } from 'react-native-elements'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import RNPickerSelect from 'react-native-picker-select';
 import MyProfil from './../Screens/Profiles/MyProfil'
+import { Container, Header, Content, Form, Item, Label } from 'native-base';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+
 class SecondAdd extends React.Component {
 
   constructor(props) {
@@ -77,17 +80,14 @@ class SecondAdd extends React.Component {
     // console.log('save second profil')
     // console.log(data)
     // let errorCount = await this.validationInfo(data)
-
-
-    axios.post(`${Bdd.api_url_second}/`, data)
+    if (this.firstName != '' && this.lien != '') {
+      axios.post(`${Bdd.api_url_second}/`, data)
       .then((response) => {
         console.log(response)
           // this.props.navigation.navigate("MySecondProfil")
           this.props.navigation.navigate("MySecondProfil")
-
       })
-
-
+    }
   }
 
 
@@ -159,70 +159,87 @@ class SecondAdd extends React.Component {
         <HeaderMenu navigation={this.props.navigation} secondAdd={1} enregistrerSecondProfil={this.saveSecondProfil}/>
         </View>
 
-        <View style={styles.main}>
+        <KeyboardAwareScrollView style={{ flex: 1, height: hp("90%") }}>        
+        <View style={{marginTop: hp("10%")}}>
+        <Form>
+        <Item stackedLabel>
+          <Label style={styles.my_label}>Prénom</Label>
+          <Input inputStyle={{'color': 'black'}} 
+          returnKeyType="next"
+          onChangeText={(text) => { this.firstName = text }}/>
+        </Item>
+      
+        
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Nom</Label>
+        <Input inputStyle={{'color': 'black'}} 
+        returnKeyType="next"
+        onChangeText={(text) => { this.lastName = text }}/>
+        </Item>
+      
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Ville</Label>
+        <Input inputStyle={{'color': 'black'}} 
+        returnKeyType="next"
+        onChangeText={(text) => { this.city = text }}/>
+        </Item>
 
-          <Input
-            placeholder="Prénom"
-            onChangeText={(text) => { this.firstName = text }}
-            containerStyle={styles.inputVaovao}
-          />
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Adresse</Label>
+        <Input inputStyle={{'color': 'black'}} 
+        returnKeyType="next"
+        onChangeText={(text) => { this.address = text }}/>
+        </Item>
 
-          <Input
-            placeholder="Nom"
-            onChangeText={(text) => { this.lastName = text }}
-            containerStyle={styles.inputVaovao}
-          />
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Code postale</Label>
+        <Input inputStyle={{'color': 'black'}} 
+        keyboardType={"numeric"}
+        returnKeyType="next"
+        onChangeText={(text) => { this.zip = text }}/>
+        </Item>
 
-          <Input
-            placeholder="Ville"
-            onChangeText={(text) => { this.city = text }}
-            containerStyle={styles.inputVaovao}
-          />
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Téléphone</Label>
+        <Input inputStyle={{'color': 'black'}} 
+        returnKeyType="done"
+        keyboardType={"numeric"}
+        onChangeText={(text) => { this.phone = text }}/>
+        </Item>
 
-          <Input
-            placeholder="Adresse"
-            onChangeText={(text) => { this.address = text }}
-            containerStyle={styles.inputVaovao}
-          />
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Relation</Label>
+        <RNPickerSelect
+        placeholder={{
+          label : "",
+          color : "white"
+        }}
+      
+          onValueChange={(value) => this.setState({lien : value}) }
+          items={lienProfil}
+        />
+        </Item>
 
-          <Input
-            placeholder="Code postale"
-            onChangeText={(text) => { this.zip = text }}
-            containerStyle={styles.inputVaovao}
-            keyboardType={"numeric"}
-          />
-
-          <Input
-            placeholder="Téléphone"
-            onChangeText={(text) => { this.phone = text }}
-            containerStyle={styles.inputVaovao}
-            keyboardType={"numeric"}
-          />
+      </Form>
 
         {/*
                   <Text style={{fontWeight :"bold",textAlign : "left",fontSize : 18}}>Lien</Text>
-        */}
-
-          <RNPickerSelect
-          placeholder={{
-            label : "Lien",
-            color : "white"
-          }}
-        
-            onValueChange={(value) => this.setState({lien : value}) }
-            items={lienProfil}
-          />
-
-          <TouchableOpacity
+                            <TouchableOpacity
             onPress={() => { this.saveSecondProfil() }}
             style={styles.deco}
           >
 
             <Text style={styles.textItem}>Créer le profil</Text>
           </TouchableOpacity>
+        */}
+
+
+
+
 
 
       </View>
+      </KeyboardAwareScrollView>
 
       </View >
     );

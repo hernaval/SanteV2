@@ -95,7 +95,9 @@ class NewContact extends Component {
       
           <Item stackedLabel last>
           <Label style={styles.my_label}>Téléphone</Label>
-          <Input inputStyle={{'color': 'black'}} onChangeText={(text) => this.phone = text}/>
+          <Input inputStyle={{'color': 'black'}} 
+          keyboardType={"numeric"}
+          onChangeText={(text) => this.phone = text}/>
           </Item>
         </Form>
           </View>

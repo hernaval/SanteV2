@@ -16,17 +16,20 @@ class UserResponded extends Component {
     constructor(props) {
         super(props)
         this.idSamaritain = this.props.navigation.state.params.idSamaritain
-
-       
-       
+        this.state = {
+            secours: 'ACCEPTER DE VENIR AU SECOURS'
+        }
     }
     asignUserResponder = async() =>{
         const id = this.idSamaritain
         const responder = this.props.user.user.idUser
         await Axios.put(`${Bdd.api_url}/samaritain/${id}/respond?idUser=${responder}`)
             .then(res=>{
-                
-            })
+                console.log(res.data)
+        })
+        this.setState({
+            secours: 'SAMARITAIN EN AIDE ...'
+        })
     }
     
     render() {
@@ -46,7 +49,12 @@ class UserResponded extends Component {
                 </View>
                 <TouchableOpacity style={styles.buttonContainer} onPress={()=>{this.asignUserResponder()}}>
                    
-                    <Text style={styles.saveText}>ACCEPTER DE VENIR AU SECOURS</Text>
+                    <Text style={styles.saveText}>{this.state.secours}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.cancelContainer} onPress={()=>{this.props.navigation.navigate("UserConnected")}}>
+                   
+                <Text style={styles.saveText}>REFUSER AU SECOURS</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -55,15 +63,21 @@ class UserResponded extends Component {
 
 const styles = StyleSheet.create({
     buttonContainer: {
-      
-        
         padding : 10,
-
         color : "white",
         width : wp("70%"),
         borderRadius: 10,
         backgroundColor: "#008ac8",
       alignSelf  : "center"
+      },
+      cancelContainer: {
+        padding : 10,
+        color : "white",
+        width : wp("70%"),
+        borderRadius: 10,
+        backgroundColor: "#d12e1f",
+        alignSelf  : "center",
+        marginTop: 15
       },
       titleContainer : {
           margin : hp("2%")
@@ -71,16 +85,17 @@ const styles = StyleSheet.create({
       title : {
         textAlign :"left",
         fontWeight : "bold",
-        fontSize : 16
+        fontSize : 18
       },
       desc: {
-          fontSize : 12,
-          fontStyle : "italic"
+          fontSize : 14,
+          fontStyle : "italic",
+          color: 'gray'
       },
     saveText : {
         color : "white",
         textAlign :"center"
-    }
+    },
 })
 
 const mapStateToProps = (store) => {

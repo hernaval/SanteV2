@@ -212,6 +212,22 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                         }
 
                         {
+                            (this.props.reminder &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                    <Text style={styles.profil_txt1}>Mes rappels</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
+                        {
                             (this.props.ajoutEvent &&
                                 (
                                 <View style={styles.contain_perso}>
@@ -402,6 +418,31 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 )
                             )
                         }
+
+                        {
+                            (this.props.userConnected &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_21}>
+                                    <Text style={styles.profil_txt}>Bon samaritain</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
                 
                     </View>
                     </View>
@@ -430,6 +471,12 @@ const styles = StyleSheet.create({
     },
     contain_perso_2: {
         flex: 2,
+        justifyContent: 'center',
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+    contain_perso_21: {
+        flex: 3,
         justifyContent: 'center',
         textAlign: 'center',
         alignItems: 'center'
@@ -466,6 +513,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignItems: 'center',
         fontSize: 20,
+        color: '#FFFFFF'
+    },
+    profil_txt1: {
+        justifyContent: 'center',
+        textAlign: 'center',
+        alignItems: 'center',
+        fontSize: 24,
         color: '#FFFFFF'
     },
     modif_txt: {

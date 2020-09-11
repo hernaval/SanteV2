@@ -15,6 +15,8 @@ import ActionButton from 'react-native-action-button';
 import axios from "axios"
 import Bdd from "../../API/Bdd"
 import { ScrollView } from 'react-native-gesture-handler';
+import { Container, Header, Item, Icon, Button, Input } from 'native-base';
+
 class MySecondProfil extends Component {
 
     constructor() {
@@ -22,7 +24,7 @@ class MySecondProfil extends Component {
         this.state = {
             isLoading: false,
             secondUser: [],
-
+            secondUserTemp: [],
             actionIndex: -1
         }
         this.addSecondProfil = this.addSecondProfil.bind(this)
@@ -45,6 +47,7 @@ class MySecondProfil extends Component {
                     console.log('fetch second')
                     console.log(res.data)
                     this.setState({ secondUser: res.data.data })
+                    this.setState({ secondUserTemp: res.data.data })
                 }
             )
     }
@@ -141,6 +144,25 @@ class MySecondProfil extends Component {
         this.props.navigation.navigate("SecondAdd")
     }
 
+    
+    searchContact(search) {
+        const taille = this.state.secondUserTemp.length;
+        var tab = [];
+        for(let i = 0; i < taille; i++){
+            var chaine = this.state.secondUserTemp[i];
+            if ((chaine.nomSecondUser.toString().toLowerCase().indexOf(search.toLowerCase()) > -1) || (chaine.prenomSecondUser.toString().toLowerCase().indexOf(search.toLowerCase()) > -1))
+            { 
+                console.log('find ', chaine);
+                tab.push(chaine);
+            } else {
+                console.log('not find ', chaine);
+            }
+        }
+        this.setState({
+            secondUser: tab
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -153,6 +175,15 @@ class MySecondProfil extends Component {
                 </View>
 
                 <View style={styles.profilContainer}>
+                <Header searchBar rounded style={{backgroundColor: '#FFFFFF', marginTop: -10, marginBottom: 5}}>
+                <Item>
+                  <Icon name="ios-search" />
+                  <Input placeholder="Rechercher" onChangeText={(text) => this.searchContact(text)}/>
+                </Item>
+                    <Button transparent>
+                  <Text>Rechercher</Text>
+                </Button>
+                </Header>
 
                     <ScrollView>
                         {this.state.secondUser !== null && this.state.secondUser.map((profil, index) => {
@@ -192,7 +223,7 @@ const styles = StyleSheet.create({
     },
     profilContainer: {
         justifyContent: "center",
-        marginTop: hp("7%")
+        marginTop: hp("3%")
     }
 })
 
