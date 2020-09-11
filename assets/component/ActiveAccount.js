@@ -4,6 +4,10 @@ import axios from 'axios'
 import Bdd from "../API/Bdd"
 import { userConnected } from "../Action";
 import { connect } from 'react-redux';
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+  } from 'react-native-responsive-screen'
 class ActiveAccount extends React.Component{
 
     constructor(){
@@ -52,12 +56,14 @@ class ActiveAccount extends React.Component{
                 <Text style={styles.text_Logo}>Best4Santé</Text>
             </View>
             <View style={styles.main_InContenair} >
-                <Text style={styles.text_inscription}>Confirmation</Text>
-                <Text style={styles.text_titreInactif}>Vous allez recevoir un code de confirmation
-                 dans votre boîte mail. 
+                <Text style={styles.text_inscription}>Merci pour votre inscription.</Text>
+                <Text style={styles.text_titreInactif}>
+                Vous avez reçu un code de confirmation dans votre boîte mail.
+                {"\n"}
+                Nous vous souhaitons le BEST pour votre santé
                  </Text>
                 
-                <TextInput keyboardType={"numeric"} style={styles.Input} onChangeText={(text) => this.code = text} />
+                <TextInput placeholder="code" keyboardType={"numeric"} style={styles.Input} onChangeText={(text) => this.code = text} />
               
                 <TouchableOpacity  style={styles.Go} onPress={()=>this.validate()}>
                     <Text style={{textAlign : "center",color : "white"}}>Envoyer</Text>
@@ -117,23 +123,23 @@ const styles=StyleSheet.create(
             alignSelf:'center',
             color:'#fff',
             fontSize:16,
-           
-            fontWeight:'bold'
+            marginTop: 10,
+            fontWeight:'bold',
+            textAlign: 'center',
+            alignItems: 'center'
         },
         text_Inactif:{
             alignSelf:'center',
             color:'#fff',
             fontSize:16,
             marginTop:35,
-            textAlign:'center'
+            textAlign:'center',
         },
         main_InContenair:{
             flex:3,
             alignSelf:'center',
-            width:250,
+            width:300,
             marginTop:5
-          
-            
         },
         Input:{
             backgroundColor:'#fff',

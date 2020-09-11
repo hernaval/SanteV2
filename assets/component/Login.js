@@ -254,8 +254,8 @@ const styles = StyleSheet.create(
     },
     signUpText: {
       color: 'white',
-      fontWeight: 'bold'
-
+      fontWeight: 'bold',
+      fontSize: 16
     },
     buttonContainerF: {
       
@@ -277,7 +277,8 @@ const styles = StyleSheet.create(
     },
     signUpTextF: {
       color: '#1795cd',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      fontSize: 16
     },
     buttonContainerM: {
       borderWidth: 0.166,
@@ -499,7 +500,8 @@ const styles = StyleSheet.create(
       alignSelf: 'center',
       marginTop: 10,
       color: "#008ac8",
-      fontWeight: "bold"
+      fontWeight: "bold",
+      fontSize: 16
     },
     textLinkWhite: {
       fontWeight: "bold",
