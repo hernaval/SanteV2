@@ -790,8 +790,8 @@ labelValue: {
   },
   scroll_1: {
     backgroundColor: 'white',
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20
+    // borderTopRightRadius: 20,
+    // borderTopLeftRadius: 20
   },
   under: {
     height: hp('10%'),

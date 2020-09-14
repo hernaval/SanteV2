@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, ScrollView, Linking } from 'react-native'
 import TopMenu from "../../component/Menu/TopMenu"
 import BottomMenu from "../../component/Menu/BottomMenu"
 import { Avatar, Divider, ListItem, Input } from 'react-native-elements';
-import { Container, Header, Item, Icon, Button } from 'native-base';
+import { Container, Header, Item, Button } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ActionButton from 'react-native-action-button';
 import { addContact, deleteContact } from "../../Action"
@@ -14,6 +14,8 @@ import axios from 'axios';
 import Bdd from "../../API/Bdd"
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import HeaderMenu from "../../component/Menu/HeaderMenu";
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 class ContactUrgence extends Component {
 
@@ -300,7 +302,8 @@ class ContactUrgence extends Component {
                 <HeaderMenu navigation={this.props.navigation} urgence={1}/>
                 </View>
 
-                <Header searchBar rounded style={{backgroundColor: '#e6e6e6', marginTop: 5, marginBottom: 5}}>
+                {/**
+                                <Header searchBar rounded style={{backgroundColor: '#e6e6e6', marginTop: 5, marginBottom: 5}}>
                   <Item>
                     <Icon name="ios-search" />
                     <Input placeholder="Rechercher" onChangeText={(text) => this.searchContact(text)}/>
@@ -309,6 +312,22 @@ class ContactUrgence extends Component {
                     <Text>Rechercher</Text>
                   </Button>
                 </Header>
+                */}
+
+                <View>
+                <Input placeholder="  Rechercher"
+                inputContainerStyle={{paddingLeft: 5, marginTop: 10, marginBottom: 20}}
+                leftIcon={
+                    <Icon
+                      name='search'
+                      size={22}
+                      color='#696969'
+                      containerStyle={{marginRight: 50}}
+                    />
+                  }
+                onChangeText={(text) => this.searchContact(text)}
+                />
+            </View>
 
                 <ScrollView>
                     {
@@ -360,7 +379,7 @@ class ContactUrgence extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#e6e6e6'
+        backgroundColor: '#FFFFFF'
     },
     contactHeader: {
         flexDirection: "row",

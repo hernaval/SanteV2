@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'rea
 import { connect } from 'react-redux'
 import TopMenu from "../../component/Menu/TopMenu"
 import HeaderMenu from "../../component/Menu/HeaderMenu"
-import { Avatar, Divider, ListItem } from 'react-native-elements';
+import { Avatar, Divider, ListItem, Input } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, faExclamationCircle, faUser, faArrowDown, faArrowUp, faChevronDown, faTrashAlt, faCheck, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -15,7 +15,8 @@ import ActionButton from 'react-native-action-button';
 import axios from "axios"
 import Bdd from "../../API/Bdd"
 import { ScrollView } from 'react-native-gesture-handler';
-import { Container, Header, Item, Icon, Button, Input } from 'native-base';
+import { Container, Header, Item, Button } from 'native-base';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class MySecondProfil extends Component {
 
@@ -175,6 +176,9 @@ class MySecondProfil extends Component {
                 </View>
 
                 <View style={styles.profilContainer}>
+                
+
+                {/*
                 <Header searchBar rounded style={{backgroundColor: '#FFFFFF', marginTop: -10, marginBottom: 5}}>
                 <Item>
                   <Icon name="ios-search" />
@@ -184,6 +188,22 @@ class MySecondProfil extends Component {
                   <Text>Rechercher</Text>
                 </Button>
                 </Header>
+                */}
+
+                <View>
+                    <Input placeholder="  Rechercher"
+                    inputContainerStyle={{paddingLeft: 5}}
+                    leftIcon={
+                        <Icon
+                          name='search'
+                          size={22}
+                          color='#696969'
+                          containerStyle={{marginRight: 50}}
+                        />
+                      }
+                    onChangeText={(text) => this.searchContact(text)}
+                    />
+                </View>
 
                     <ScrollView>
                         {this.state.secondUser !== null && this.state.secondUser.map((profil, index) => {

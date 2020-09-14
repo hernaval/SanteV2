@@ -399,15 +399,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingTop: 23,
         padding: 20,
         shadowColor: "#363535",
         shadowOffset: {
             width: 0,
             height: 3,
         },
-        shadowOpacity: 0.29,
+        shadowOpacity: 0.2,
         shadowRadius: 4.65,
-        elevation: 3,
+        elevation: 1,
         marginRight: 15
     },
     list_icon: {
@@ -566,8 +567,8 @@ const styles = StyleSheet.create({
 
     scroll: {
         backgroundColor: 'white',
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20
+        // borderTopRightRadius: 20,
+        // borderTopLeftRadius: 20
     },
     userRow: {
 

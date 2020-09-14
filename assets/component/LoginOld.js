@@ -5,19 +5,13 @@ import axios from 'axios';
 import Loader from './loader'
 import { userConnected } from "../Action";
 import { connect } from 'react-redux';
-import { Container, Header, Content, Tab, Tabs } from 'native-base';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-  listenOrientationChange as loc,
-  removeOrientationListener as rol
 } from 'react-native-responsive-screen';
 import * as Facebook from 'expo-facebook';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
-import LoginNew from './LoginNew';
-import SignupNew from './SignupNew';
-
-class Login extends React.Component {
+class LoginOld extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -34,11 +28,7 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    loc(this);
-  }
-
-  componentWillUnMount() {
-    rol();
+    
   }
 
   accueil() {
@@ -175,24 +165,52 @@ class Login extends React.Component {
             
           </View>
 
+
+          <View style={styles.body_container}>
+
+          </View>
+
           <View style={styles.main_Input} >
-          <Tabs tabBarUnderlineStyle={{borderBottomWidth:2, borderBottomColor: '#008ac8'}} tabContainerStyle={{
-            elevation:0
-          }}>
-              <Tab heading="Connexion" tabStyle={{backgroundColor: 'white'}} textStyle={{color: '#000', fontSize: 17}}
-              activeTabStyle={{backgroundColor: 'white'}} activeTextStyle={{color: '#008ac8', fontWeight: 'bold'}}>
-                <LoginNew navigation={this.props.navigation}/>
-              </Tab>
 
-              <Tab heading="Créer un compte" tabStyle={{backgroundColor: 'white'}} textStyle={{color: '#000'}}
-              activeTabStyle={{backgroundColor: 'white', borderColor: '#008ac8'}} activeTextStyle={{color: '#008ac8', fontWeight: 'bold'}}>
-                <ScrollView>
-                  <SignupNew navigation={this.props.navigation}/>
-                </ScrollView>
-              </Tab>
-        </Tabs>
+              <Text style={styles.tex_Connexion}>Connexion {"  "}
+                    </Text>
+              {this.state.error !== null && <Text style={styles.error}>{this.state.error}</Text>}
+              <View style={styles.inputContainer}>
+                <Image style={styles.inputIcon} source={require('../images/mailIc.png')} />
+                <TextInput style={styles.inputs}
+                  autoCapitalize="none"
+                  placeholder="Adresse mail"
+                  returnKeyType="next"
+                  keyboardType="email-address"
+                  underlineColorAndroid='transparent'
+                  onChangeText={(text) => this.onChangeInput(text, 'email')} />
+              </View>
+              <View style={styles.inputContainer}>
+                <Image style={styles.inputIcon} source={require('../images/pwd.png')} />
+                <TextInput style={styles.inputs}
+                  autoCapitalize="none"
+                  placeholder="Mot de passe"
+                  returnKeyType="done"
+                  secureTextEntry={true}
+                  underlineColorAndroid='transparent'
+                  ref={input => { this.passwdInput = input }}
+                  onChangeText={(text) => this.onChangeInput(text, 'password')} />
+              </View>
+              <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.Connect()}>
+                <Text style={styles.signUpText}>Se{"  "}connecter</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={[styles.buttonContainerF, styles.signupButtonF]} onPress={() => this.logInFacebook()}>
+                <Text style={styles.signUpTextF}>Connexion{"  "} avec{"  "} Facebook {"  "}</Text>
+              </TouchableHighlight>
+              <View style={styles.textLink}>
+                <Text onPress={() => { this.goToForgotPassword() }} style={styles.textLinkWhite}>Mot{"  "} de{"  "} passe{"  "} oublié? {"  "}</Text>
+                <Text onPress={(e) => { this.gotToRegister(); }} style={styles.textLink}>Créer{"  "} un{"  "} compte {"  "}</Text>
+              </View>
 
-        </View>
+
+            </View>
+
+
         </View >
         </KeyboardAwareScrollView>
 
@@ -212,8 +230,9 @@ const styles = StyleSheet.create(
 
     main_contenair: {
       flex: 1,
-      height: hp("95%"),
+      height: hp("88%"),
       zIndex: 0
+
     },
     buttonContainer: {
       marginTop: 15,
@@ -431,7 +450,7 @@ const styles = StyleSheet.create(
       shadowRadius: 20,
       shadowOffset: { width: 1, height: 13 },
       backgroundColor: '#008ac8',
-      color: '#FFFFFF',
+      color: '#FFFFFF'
     },
     seConnecterFacebook: {
       height: 50,
@@ -504,4 +523,4 @@ const mapDispatchToProps = {
   userConnected
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginOld);

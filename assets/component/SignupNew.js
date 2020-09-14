@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TextInput, StatusBar, Button, Keyboard, Alert, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, Image, TextInput, Platform, StatusBar, Button, Keyboard, Alert, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { CheckBox, ThemeProvider } from 'react-native-elements'
 import Loader from './loader'
 import axios from 'axios';
@@ -7,10 +7,16 @@ import Bdd from '../API/Bdd'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+  listenOrientationChange as loc,
+  removeOrientationListener as rol
 } from 'react-native-responsive-screen'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import * as Location from 'expo-location';
+import { urgency } from "../API/urgency";
 
-class SignUp extends React.Component {
+const API_KEY = 'AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs';
+
+class SignupNew extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,19 +28,81 @@ class SignUp extends React.Component {
     this.lastName = "";
     this.email = "";
     this.password = "";
-
+    this.localisation = {};
+    this.localCountry = "";
   }
+
+
+  componentDidMount = async () => {
+    loc(this);
+    await this._getCountryCodeByLocation()
+  }
+
+  componentWillUnMount() {
+    rol();
+  }
+
+
+  _creation() {
+    let data = {
+      prenomUser: this.firstName,
+      nomUser: this.lastName,
+      emailUser: this.email,
+      passwordUser: this.password,
+      deviceUser: null,
+      paysUser: null
+    }
+
+    if (Platform.OS === 'ios') {
+      data.deviceUser = 'ios';
+    } else if (Platform.OS === 'android') {
+      data.deviceUser = 'android';
+    }
+
+    data.paysUser = this.localCountry
+    console.log(data)
+  }
+
+  _getCountryCodeByLocation = async () => {
+      let location = await Location.getCurrentPositionAsync({});
+      axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.coords.latitude + "," + location.coords.longitude + "&key=" + API_KEY)
+            .then(async response => {
+                const globalRes = response.data.results[0].address_components
+
+                let resObj = await globalRes.filter(el => {
+                    return el.types.includes("country")
+                })
+                this.localCountry = await resObj[0].long_name
+                console.log('Pays ',this.localCountry)
+                return this.localCountry
+            })
+            .catch(err => {
+                console.log(err)
+                return null
+            })
+  };
+
   register() {
     let form = this.checkForm()
     if (form === false) {
       return;
     }
+
     let data = {
       prenomUser: this.firstName,
       nomUser: this.lastName,
       emailUser: this.email,
-      passwordUser: this.password
+      passwordUser: this.password,
+      deviceUser: null,
+      paysUser: null
     }
+    data.paysUser = this.localCountry;
+    if (Platform.OS === 'ios') {
+      data.deviceUser = 'ios';
+    } else if (Platform.OS === 'android') {
+      data.deviceUser = 'android';
+    }
+
     this.setState({ isLoading: true });
     axios.post(Bdd.api_url + '/signup', data)
       .then((res) => {
@@ -50,6 +118,7 @@ class SignUp extends React.Component {
 
       })
   }
+
   gotToWaitMail() {
     this.props.navigation.navigate("ActiveAccount", { tempEmail: this.email })
   }
@@ -59,28 +128,28 @@ class SignUp extends React.Component {
   checkForm() {
 
     if (this.lastName === "") {
-      Alert.alert("Vous n'avez pas remplis votre nom")
+      Alert.alert("Champ incomplet", "Vous n'avez pas remplis votre nom")
       return false;
     }
 
     if (this.firstName === "") {
-      Alert.alert("Vous n'avez pas remplis votre prénom")
+      Alert.alert("Champ incomplet", "Vous n'avez pas remplis votre prénom")
       return false;
     }
 
 
 
     if (this.email === "") {
-      Alert.alert("Vous n'avez pas remplis votre email")
+      Alert.alert("Champ incomplet", "Vous n'avez pas remplis votre email")
       return false;
     }
 
     if (this.password === "") {
-      Alert.alert("Vous n'avez pas remplis votre mot de passe")
+      Alert.alert("Champ incomplet", "Vous n'avez pas remplis votre mot de passe")
       return false;
     }
     if (this.state.checked === false) {
-      Alert.alert("Vous devez valider la politique RGPD")
+      Alert.alert("Champ incomplet", "Vous devez valider la politique RGPD")
       return false;
     }
 
@@ -104,23 +173,11 @@ class SignUp extends React.Component {
   }
   render() {
     return (
-      <View style={{ flex: 1, marginTop: -20 }}>
-      <KeyboardAwareScrollView style={{ flex: 1 }}>
-        <StatusBar hidden={true}/>
+      <ScrollView>
+      <View style={{ flex: 1, marginTop: 0 }}>
         <View innerRef={ref => { this.scroll = ref }} style={styles.main_contenair}>
-          <Loader loading={this.state.isLoading} />
-
-          <View style={styles.main_logo}>
-            <Image style={styles.image} source={require('../images/Splash(FondBlanc).png')} />
-            <Text style={styles.text_Logo}>Best4Santé</Text>
-          </View>
-
-          <View style={styles.body_container}>
-
-          </View>
           <View style={styles.main_Input} >
-
-            <Text style={styles.tex_Connexion}>Créer{" "}un{" "}compte {"  "}</Text>
+          <Loader loading={this.state.isLoading} />
             {this.state.error !== null && <Text style={styles.error}>{this.state.error}</Text>}
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={require('../images/userIcon.png')} />
@@ -136,13 +193,13 @@ class SignUp extends React.Component {
               </View>
 
               <View style={styles.inputContainer}>
-                <Image style={styles.inputIcon} source={require('../images/mailIc.png')} />
+                <Image style={styles.inputIcon1} source={require('../images/mail.png')} />
                 <TextInput autoCapitalize='none' onChangeText={(text) => this.onChangeInput(text, 'email')} 
                 style={styles.inputs} placeholder="Adresse email" />
               </View>
 
               <View style={styles.inputContainer}>
-                <Image style={styles.inputIcon} source={require('../images/pwd.png')} />
+                <Image style={styles.inputIcon2} source={require('../images/password.png')} />
                 <TextInput autoCapitalize='none' secureTextEntry={true} onChangeText={(text) => this.onChangeInput(text, 'password')} 
                 style={styles.inputs} placeholder="Mot de passe"
                 />
@@ -164,26 +221,11 @@ class SignUp extends React.Component {
                 <Text style={styles.signUpText}>S'inscrire {"  "}</Text>
               </TouchableOpacity>
 
-
-
-
-              <View style={styles.textLink}>
-                <Text onPress={() => { this.goLogin() }} style={styles.textLinkWhite}>Déjà un compte {"  "}</Text>
-              </View>
-
           </View>
 
         </View >
-        </KeyboardAwareScrollView>
-
-        <View style={styles.medecin}>
-          <TouchableOpacity style={{ alignSelf: 'center' }} onPress={() => { this.props.navigation.navigate("RegisterDoctor") }}>
-            <Text style={styles.textmedecin}>Vous êtes medecin ?</Text>
-          </TouchableOpacity>
-        </View>
-
-        
       </View>
+      </ScrollView>
     );
   }
 }
@@ -232,22 +274,12 @@ const styles = StyleSheet.create(
       // flex:1,
       alignSelf: 'center',
       width: wp("90%"),
-      maxHeight: hp("70%"),
-
-      marginTop: hp("5%"),
+      maxHeight: hp("80%"),
       backgroundColor: "#fff",
       borderRadius: 20,
       padding: 10,
-
-      shadowOffset: {
-        width: 0,
-        height: 3
-      },
-      shadowOpacity: 0.05,
-      shadowRadius: 20,
-      elevation: 20,
       position: "absolute",
-      top: hp("20%")
+      top: hp("2%")
     },
 
     body_container: {
@@ -273,22 +305,36 @@ const styles = StyleSheet.create(
       borderRadius: 10,
       borderWidth: 1,
       width: "100%",
-      height: 45,
+      height: 50,
       flexDirection: 'row',
       alignItems: 'center',
-
+      marginBottom: 5,
       zIndex: 1
     },
     inputs: {
-      height: 45,
+      height: 50,
       marginLeft: 16,
-      width: "100%"
+      width: "100%",
+
     },
     inputIcon: {
       width: 30,
       height: 30,
       marginLeft: 15,
       justifyContent: 'center'
+    },
+    inputIcon1: {
+      width: 30,
+      height: 20,
+      marginLeft: 15,
+      justifyContent: 'center',
+    },
+    inputIcon2: {
+      width: 26,
+      height: 33,
+      marginLeft: 15,
+      marginRight: 7,
+      justifyContent: 'center',
     },
     checkBox: {
       flexDirection: 'row',
@@ -434,4 +480,4 @@ const styles = StyleSheet.create(
 
   }
 )
-export default SignUp;
+export default SignupNew;
