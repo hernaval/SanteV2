@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
+    listenOrientationChange as loc,
+    removeOrientationListener as rol
   } from 'react-native-responsive-screen';
 import MapView,{Marker,Callout} from 'react-native-maps'
 import MapViewDirections from "react-native-maps-directions"
@@ -17,7 +19,7 @@ import DetailCard from "./DetailCard"
 import axios from 'axios';
 import {choices} from '../API/practioners';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faLocationArrow, faBroom, faBackward, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faLocationArrow, faBroom, faBackward, faChevronDown, faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import Bdd from '../API/Bdd'
 import Loader from './loader'
 import Footer from './Menu/Footer'
@@ -67,6 +69,11 @@ class Home extends React.Component{
 
   componentDidMount = async () =>{
      await  this._getLocationAsync();
+     loc(this);
+  }
+
+  componentWillUnMount() {
+    rol();
   }
 
 
@@ -305,8 +312,8 @@ class Home extends React.Component{
           />
           
           <FontAwesomeIcon 
-                            icon={faChevronDown} 
-                            color="#008AC8" 
+                            icon={faMicrophone} 
+                            color="#3d3d3d" 
                             size={24} 
                             style={{width: wp('5%'), height: wp('5%'), position: 'relative', right: wp("12%"), top: hp('2%')}}
                           

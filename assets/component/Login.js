@@ -212,7 +212,7 @@ const styles = StyleSheet.create(
 
     main_contenair: {
       flex: 1,
-      height: hp("95%"),
+      height: hp("120%"),
       zIndex: 0
     },
     buttonContainer: {

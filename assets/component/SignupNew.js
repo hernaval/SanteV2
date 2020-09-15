@@ -318,20 +318,20 @@ const styles = StyleSheet.create(
 
     },
     inputIcon: {
-      width: 30,
-      height: 30,
+      width: 25,
+      height: 25,
       marginLeft: 15,
       justifyContent: 'center'
     },
     inputIcon1: {
-      width: 30,
-      height: 20,
+      width: 24,
+      height: 17,
       marginLeft: 15,
       justifyContent: 'center',
     },
     inputIcon2: {
-      width: 26,
-      height: 33,
+      width: 21,
+      height: 28,
       marginLeft: 15,
       marginRight: 7,
       justifyContent: 'center',
