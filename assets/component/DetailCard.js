@@ -1,11 +1,11 @@
 import React from 'react'
-import {Animated, PanResponder, View, Text ,Image, Linking, StyleSheet, TouchableOpacity} from 'react-native'
+import {Animated, PanResponder, View, Text ,Image, Linking, StyleSheet, TouchableOpacity, Alert} from 'react-native'
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen'
   import {withNavigation} from 'react-navigation'
-import { faAngleUp, faAngleDown, faPhoneSquareAlt, faDirections,  faStar } from '@fortawesome/free-solid-svg-icons'
+import { faAngleUp, faAngleDown, faPhoneSquareAlt, faDirections,  faStar, faTimes, faHeart } from '@fortawesome/free-solid-svg-icons'
 
   import { connect } from 'react-redux'
 import {addFavorite, deleteFavorite} from '../Action'
@@ -74,9 +74,10 @@ class DetailCard extends React.Component{
 			width: wp('90%'),
 			height: hp("110%"),
 			zIndex: 90,
-            backgroundColor: "#01dcd5",
+            backgroundColor: "white",
+            color: 'black',
             borderColor: "white",
-            borderWidth: 4,
+            borderWidth: 2,
 			elevation: 1,
 			shadowColor: "black",
 			shadowOpacity: 0.2,
@@ -95,7 +96,7 @@ class DetailCard extends React.Component{
         
         for(let i = 0; i < 5; i++) {
             if (i < num ) {
-                stars.push('white');
+                stars.push('black');
             } else {
                 stars.push('blue');
             }
@@ -103,18 +104,13 @@ class DetailCard extends React.Component{
 
         return stars.map((star, index)=>{
             
-            if(star == "white") {
-                return (<Image
-                    key={index}
-                    style={{width: wp('5%'), height: wp('5%')}}
-                    source={require('../images/Icone_Star_full.png')}
-                />)
+            if(star == "black") {
+                return ( 
+                    <FontAwesomeIcon size={15}  icon={ faStar } 
+                    color="#ffcb0f" style={{marginLeft: 5, marginTop: 2}}/>)
             } else {
-                return (<Image
-                    key={index}
-                    style={{width: wp('5%'), height: wp('5%')}}
-                    source={require('../images/Icone_Star_empty.png')}
-                />)
+                return (<FontAwesomeIcon size={15}  icon={ faStar } 
+                color="#d6d6d6" style={{marginLeft: 5, marginTop: 2}}/>)
             }
         })
 
@@ -207,15 +203,20 @@ class DetailCard extends React.Component{
         if(this.props.isFavo === false) {
             return (
                 <TouchableOpacity
-                    style={{flex:1, textAlign: 'center', zIndex: 2, alignItems: "center"}}
+                    style={{flex:1, textAlign: 'center', zIndex: 2, alignItems: "center", marginTop: wp('8%')}}
                     onPress={(e) =>{
                         this.onClickAddFavorite()
                     }}
                 >
-                        <Image
+                {/**
+                <Image
                             style={{width: wp('25%'), height: wp('25%')}}
                             source={require('../images/favoris.png')}     
                         />
+                 */}
+                        
+                        <FontAwesomeIcon icon={faHeart} size={40} color ="#00C1B4" 
+                        style={{width: wp('25%'), height: wp('25%'), marginBottom: 30}}/>
                         <Text style={styles.title2}>Ajouter aux favoris</Text>
 
                 </TouchableOpacity>
@@ -223,16 +224,22 @@ class DetailCard extends React.Component{
         }else{
             return (
                 <TouchableOpacity
-                    style={{flex:1, textAlign: 'center', zIndex: 2, alignItems: "center"}}
+                    style={{flex:1, textAlign: 'center', zIndex: 2, alignItems: "center", marginTop: wp('8%')}}
                     onPress={(e)=>{
                         this.onClickDeleteFavorite();
                     }}
                 >
 
-                <Image
+                {/**
+                                <Image
                     style={{width: wp('25%'), height: wp('25%')}}
                     source={require('../images/Icone_Star_full.png')}
                 /> 
+                 */}
+
+
+                <FontAwesomeIcon icon={faStar} size={40} color ="#00C1B4" 
+                style={{width: wp('25%'), height: wp('25%'), marginBottom: 30}}/>
                 <Text style={styles.title2}>Retirer</Text>
 
                 </TouchableOpacity>
@@ -275,6 +282,26 @@ class DetailCard extends React.Component{
       
     }
 
+    openWeb() {
+        const link = this.props.detail.website
+
+          Alert.alert('Site web', 'Best4Santé souhaite ouvrir votre navigateur', [
+            {
+                text: 'Accepter',
+                onPress: () => { 
+                    Linking.openURL(link).catch(
+                    (err) => console.error('An error occurred while opening website', err));
+                }
+            },
+            {
+                text: 'Annuler',
+                onPress: () => { 
+                   
+                }
+            }
+        ])
+    }
+
     render(){
 
         //.log("render details")
@@ -286,27 +313,27 @@ class DetailCard extends React.Component{
                 <View style={styles.buttons}>
                     {this.state.isOpen===false && 
                         <TouchableOpacity
-                            style={{flex : 3, marginTop : hp("1%"),width : wp("14%"),height : hp("7%"),marginBottom : hp("1%"),marginLeft: wp('35%'), marginRight: wp('30%'), zIndex: 2}}
+                            style={{flex : 3, marginTop : hp("4%"),width : wp("14%"),height : hp("5%"),marginBottom : hp("0%"),marginLeft: wp('35%'), marginRight: wp('30%'), zIndex: 2}}
                             onPress={(e) => {this.setOpenPosition()}}
                         >
-                            <FontAwesomeIcon icon={faAngleUp} size={45} color ="white" />
+                            <FontAwesomeIcon icon={faAngleUp} size={35} color ="#5e5e5e" />
 
                         </TouchableOpacity>
                     }
                     {this.state.isOpen === true && 
                         <TouchableOpacity 
-                            style={{ flex:3, marginTop: hp("1%"), width: wp("14%"), marginBottom: hp('1%'), marginLeft: wp('35%'), marginRight: wp('30%'), zIndex: 2 }}
+                            style={{ flex:3, marginTop: hp("4%"), width: wp("14%"), marginBottom: hp('1%'), marginLeft: wp('35%'), marginRight: wp('30%'), zIndex: 2 }}
                             onPress={(e) =>{this.resetOpenPosition()}}
                         >
-                            <FontAwesomeIcon size={45}  icon={ faAngleDown } color="white"/>
+                            <FontAwesomeIcon size={35}  icon={ faAngleDown } color="#5e5e5e"/>
                         </TouchableOpacity>
                     }
                     <TouchableOpacity
                             onPress={(e)=>{this.props.onClickClose()}}
-                            style={{marginTop: hp('1%'), marginRight: wp('2%'), backgroundColor: "white", height: hp("3%"),width: hp('3%'), borderRadius: 400/2, display: "flex", justifyContent: "center", alignItems: 'center', color: "#008AC8" }}
+                            style={{marginTop: hp('1%'), marginRight: wp('2%'), backgroundColor: "#00C1B4", height: hp("4%"),width: hp('4%'), borderRadius: 400/2, display: "flex", justifyContent: "center", alignItems: 'center', color: "#008AC8" }}
                         
                     >
-                        <Text style={{fontWeight : "bold", color : "#008AC8"}}>X</Text>
+                    <FontAwesomeIcon icon={faTimes} size={20} color ="#FFFFFF" />
                     </TouchableOpacity>
                    
                 </View>
@@ -318,9 +345,20 @@ class DetailCard extends React.Component{
                 </View>
 
                 <View style={{flexDirection : "row", justifyContent : "center",marginTop : hp("4%")}}>
-                    <Text style={{color : "white"}}>Note :</Text>
+                    <Text style={{color : "black"}}>Note :</Text>
                     {this.createRate(this.props.detail.rating)}
                 </View>
+
+                {
+                    this.props.detail.website && (
+                    <View style={{flexDirection : "row", justifyContent : "center",marginTop : hp("1%")}}>
+                    <TouchableOpacity onPress={() => this.openWeb()}>
+                            <Text style={{color : "#008ac8"}}>Visitez le site web</Text>
+                    </TouchableOpacity>
+                    </View>
+                    )
+                }
+
 
                 <View style={styles.direction}>
 
@@ -364,15 +402,16 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         marginBottom: hp('1%'),
-        color:"white"
+        color:"#00C1B4",
+        fontWeight: 'bold'
     },
     title2: {
         textAlign: 'center',
-        color:"white",
+        color:"black",
         marginBottom: hp("2%")
     },
     title3: {
-        color:"white"
+        color:"black"
     },
     buttons: {
         flexDirection: 'row'
