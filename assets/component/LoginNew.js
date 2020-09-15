@@ -5,7 +5,6 @@ import axios from 'axios';
 import Loader from './loader'
 import { userConnected } from "../Action";
 import { connect } from 'react-redux';
-import { Container, Header, Content, Tab, Tabs } from 'native-base';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -14,10 +13,7 @@ import {
 } from 'react-native-responsive-screen';
 import * as Facebook from 'expo-facebook';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
-import LoginNew from './LoginNew';
-import SignupNew from './SignupNew';
-
-class Login extends React.Component {
+class LoginNew extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -64,6 +60,7 @@ class Login extends React.Component {
   }
   goToForgotPassword = () => {
     this.props.navigation.navigate("Forgot")
+    console.log('Forgot')
   }
 
   async logInFacebook() {
@@ -157,7 +154,7 @@ class Login extends React.Component {
 
 
       }).catch((err) => {
-        console.log('err', err);
+        console.log('erreur login ', err);
 
       })
   }
@@ -165,42 +162,49 @@ class Login extends React.Component {
     return (
       <View style={{ flex: 1 }}>
 
-      <KeyboardAwareScrollView style={{ flex: 1 }}>
-
         <View style={styles.main_contenair}>
-          <Loader loading={this.state.isLoading} />
-          <View style={styles.main_logo}>
-            <Image style={styles.image} source={require('../images/Splash(FondBlanc).png')} />
-            <Text style={styles.text_Logo}>Best4Santé</Text>
-            
-          </View>
 
           <View style={styles.main_Input} >
-          <Tabs tabBarUnderlineStyle={{borderBottomWidth:2, borderBottomColor: '#008ac8'}} tabContainerStyle={{
-            elevation:0
-          }}>
-              <Tab heading="Connexion" tabStyle={{backgroundColor: 'white'}} textStyle={{color: '#000', fontSize: 17}}
-              activeTabStyle={{backgroundColor: 'white'}} activeTextStyle={{color: '#008ac8', fontWeight: 'bold'}}>
-                <LoginNew navigation={this.props.navigation}/>
-              </Tab>
+          <Loader loading={this.state.isLoading} />
 
-              <Tab heading="Créer un compte" tabStyle={{backgroundColor: 'white'}} textStyle={{color: '#000'}}
-              activeTabStyle={{backgroundColor: 'white', borderColor: '#008ac8'}} activeTextStyle={{color: '#008ac8', fontWeight: 'bold'}}>
-                <ScrollView>
-                  <SignupNew navigation={this.props.navigation}/>
-                </ScrollView>
-              </Tab>
-        </Tabs>
+          <KeyboardAwareScrollView style={{ flex: 1 }}>
+              {this.state.error !== null && <Text style={styles.error}>{this.state.error}</Text>}
+              <View style={styles.inputContainer}>
+                <Image style={styles.inputIcon1} source={require('../images/mail.png')} />
+                <TextInput style={styles.inputs}
+                  autoCapitalize="none"
+                  placeholder="Adresse mail"
+                  returnKeyType="next"
+                  keyboardType="email-address"
+                  underlineColorAndroid='transparent'
+                  onChangeText={(text) => this.onChangeInput(text, 'email')} />
+              </View>
+              <View style={styles.inputContainer}>
+                <Image style={styles.inputIcon2} source={require('../images/password.png')} />
+                <TextInput style={styles.inputs}
+                  autoCapitalize="none"
+                  placeholder="Mot de passe"
+                  returnKeyType="done"
+                  secureTextEntry={true}
+                  underlineColorAndroid='transparent'
+                  ref={input => { this.passwdInput = input }}
+                  onChangeText={(text) => this.onChangeInput(text, 'password')} />
+              </View>
+              <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.Connect()}>
+                <Text style={styles.signUpText}>Se{"  "}connecter</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={[styles.buttonContainerF, styles.signupButtonF]} onPress={() => this.logInFacebook()}>
+                <Text style={styles.signUpTextF}>Connexion{"  "} avec{"  "} Facebook {"  "}</Text>
+              </TouchableHighlight>
+              <View style={styles.textLink}>
+                <Text onPress={() => { this.goToForgotPassword() }} style={styles.textLinkWhite}>Mot{"  "} de{"  "} passe{"  "} oublié? {"  "}</Text>
+              </View>
 
-        </View>
+              </KeyboardAwareScrollView>
+
+            </View>
+
         </View >
-        </KeyboardAwareScrollView>
-
-        <View style={styles.medecin}>
-          <TouchableOpacity style={{ alignSelf: 'center' }} onPress={() => this.gotToRegisterDoctor()}>
-            <Text style={styles.textmedecin}>Vous êtes medecin ?</Text>
-          </TouchableOpacity>
-        </View>
       </View>
 
     );
@@ -212,8 +216,9 @@ const styles = StyleSheet.create(
 
     main_contenair: {
       flex: 1,
-      height: hp("95%"),
+      height: hp("80%"),
       zIndex: 0
+
     },
     buttonContainer: {
       marginTop: 15,
@@ -293,22 +298,31 @@ const styles = StyleSheet.create(
       borderRadius: 10,
       borderWidth: 1,
       width: "100%",
-      height: 45,
+      height: 50,
       flexDirection: 'row',
       alignItems: 'center',
-
-      zIndex: 1
+      marginBottom: 5,
+      zIndex: 1,
+      flex: 1
     },
     inputs: {
-      height: 45,
+      height: 50,
       marginLeft: 16,
-      width : "100%"
+      width : "100%",
+      flex: 11
     },
-    inputIcon: {
+    inputIcon1: {
       width: 30,
-      height: 30,
+      height: 20,
       marginLeft: 15,
-      justifyContent: 'center'
+      justifyContent: 'center',
+    },
+    inputIcon2: {
+      width: 26,
+      height: 33,
+      marginLeft: 15,
+      marginRight: 7,
+      justifyContent: 'center',
     },
     image: {
       width: wp("10%"),
@@ -359,20 +373,18 @@ const styles = StyleSheet.create(
       // flex:1,
       alignSelf: 'center',
       width: wp("90%"),
-      marginTop: hp("5%"),
       backgroundColor: "#fff",
       borderRadius: 20,
       padding: 10,
-      
-      shadowOffset: {
-        width: 0,
-        height: 3
-      },
-      shadowOpacity: 0.05,
-      shadowRadius: 20,
-      elevation: 20,
+      // shadowOffset: {
+      //   width: 0,
+      //   height: 3
+      // },
+      // shadowOpacity: 0.05,
+      // shadowRadius: 20,
+      // elevation: 5,
       position :"absolute",
-      top : hp("22%")
+      top : hp("2%")
 
     },
     body_container: {
@@ -431,7 +443,7 @@ const styles = StyleSheet.create(
       shadowRadius: 20,
       shadowOffset: { width: 1, height: 13 },
       backgroundColor: '#008ac8',
-      color: '#FFFFFF',
+      color: '#FFFFFF'
     },
     seConnecterFacebook: {
       height: 50,
@@ -489,7 +501,8 @@ const styles = StyleSheet.create(
       fontWeight: "bold",
       alignSelf: 'center',
       marginTop: 10,
-      color: '#00C1B4'
+      color: '#00C1B4',
+      fontSize: 16
     }
 
   }
@@ -504,4 +517,4 @@ const mapDispatchToProps = {
   userConnected
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginNew);

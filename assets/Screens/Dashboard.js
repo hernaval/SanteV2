@@ -10,6 +10,8 @@ import {deleteContact, modifyUserInfo,setContactInfo} from '../Action';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+  listenOrientationChange as loc,
+  removeOrientationListener as rol
 } from 'react-native-responsive-screen';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Grid, Col, Row } from 'react-native-easy-grid';
@@ -33,8 +35,12 @@ class Menu extends Component {
 
   componentDidMount =  async  () =>{
     let user = this.props.user.user != null ? this.props.user.user.idUser : 0;
-    
+    loc(this);
     // await registerForPushNotificationsAsync(user)
+  }
+
+  componentWillUnMount() {
+    rol();
   }
 
   
