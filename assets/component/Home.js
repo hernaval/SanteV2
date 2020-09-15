@@ -19,11 +19,12 @@ import DetailCard from "./DetailCard"
 import axios from 'axios';
 import {choices} from '../API/practioners';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faLocationArrow, faBroom, faBackward, faChevronDown, faMicrophone } from '@fortawesome/free-solid-svg-icons'
+import { faLocationArrow, faBroom, faBackward, faChevronDown, faMicrophone, faSearch, faDotCircle } from '@fortawesome/free-solid-svg-icons'
 import Bdd from '../API/Bdd'
 import Loader from './loader'
 import Footer from './Menu/Footer'
 import TopMenu from './Menu/TopMenu';
+import HeaderMenu from './Menu/HeaderMenu';
 import BottomMenu from "./Menu/BottomMenu"
 const DEFAULT_COORD = {coords: {
     latitude: 48.859268,
@@ -61,15 +62,16 @@ class Home extends React.Component{
       isDirection: false,
       isFavo:false,
       favoriteId: "ChIJqwot8jt-8CERZxtjIIStjNs",
-      isLoading: false
+      isLoading: false,
+      currentZoom: 0.1000
     }
 
     this.testRad = 500
   }
 
   componentDidMount = async () =>{
-     await  this._getLocationAsync();
-     loc(this);
+      await  this._getLocationAsync();
+      loc(this);
   }
 
   componentWillUnMount() {
@@ -134,22 +136,24 @@ class Home extends React.Component{
                 key={index}
                 style={styles.list}
                 onPress={()=>{
-                  console.log('click')
-                  this.setState({selected: auto.val},
-                    this.onPressList(auto.val)
-                  );
-                  
+                  console.log('click one list with value ', auto)
+                  this.setState({selected: auto.val});
+                  this.onPressList(auto.val)
                 }}
               >
+                <FontAwesomeIcon 
+                icon={faDotCircle} 
+                color="#5e5e5e" 
+                size={10} 
+                style={{flex: 2, marginRight: 20, marginTop: 7}}
+                />
                 <Text style={styles.listText}>{auto.name}</Text>
               </TouchableOpacity>)
     })
   }
 
   onPressList(value) {
-   
-   
-     if (this.state.selected !== "") {
+     if (value !== "") {
       this.setState({isLoading: true, autocomplete: []});
          //axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-23.3382965,43.6517931&radius=50000&keyword=restaurant&key='+API_KEY)
          axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key='+API_KEY+'&location='+this.state.location.coords.latitude+','+this.state.location.coords.longitude+'&radius=5000&keyword='+value)
@@ -169,27 +173,38 @@ class Home extends React.Component{
         .catch((err)=>{
           //.log(err);
       })
-    } 
-
-
+    }else {
+      console.log('Value vide')
+    }
   }
 
-  changeRadius(value) {
+  _zoomIn() {
+    let zoom = this.state.deltaLat
+    zoom = zoom - 0.02
     this.setState({
-      radius : value
+      currentZoom: zoom
     })
-      let deltaLat = 0.1000
-    let deltaLng = 0.0500
+           this.setState({deltaLat: zoom, deltaLng: zoom},
+        this.onPressList(this.state.selected))
+  }
 
-    if(value < 1000) {
-      deltaLat = 0.0200
-      deltaLng = 0.0100
-    } else if (value < 2500) {
-      deltaLat = 0.0200
-      deltaLng = 0.0100
+    _zoomOut() {
+    let zoom = this.state.deltaLat
+    zoom = zoom + 0.02
+    this.setState({
+      currentZoom: zoom
+    })
+           this.setState({deltaLat: zoom, deltaLng: zoom},
+        this.onPressList(this.state.selected))
     }
+
+  changeRadius(value) {
+    let deltaLat = 0.1000
+    let deltaLng = 0.0500
+    let myValue = value/1000
+    myValue = myValue * 2
     
-       this.setState({radius: value, deltaLat: deltaLat, deltaLng: deltaLng},
+       this.setState({radius: value, deltaLat: myValue, deltaLng: myValue},
         this.onPressList(this.state.selected) 
     );  
 
@@ -255,7 +270,7 @@ class Home extends React.Component{
   }
 
   onClickGoLocation() {
-    this.setState({mapLocation: this.state.location});
+    this.setState({mapLocation: this.state.location, deltaLat: 0.1000, deltaLng:0.0500, });
   }
 
   onClickDelete() {
@@ -269,7 +284,7 @@ class Home extends React.Component{
 <ScrollView style={styles.container}>
                       <Loader loading={this.state.isLoading} />
         <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <TopMenu navigation={this.props.navigation} />
+          <HeaderMenu navigation={this.props.navigation} ps={1}/>
         </View>
         <TouchableOpacity 
         style={styles.location}
@@ -294,6 +309,7 @@ class Home extends React.Component{
               source={require('../images/Gomme.png')}
           />
       </TouchableOpacity>}
+
       {this.state.isDirection == true  && <TouchableOpacity 
         style={styles.broom}
         onPress={(e)=>{
@@ -302,29 +318,67 @@ class Home extends React.Component{
       >
         <FontAwesomeIcon  size={30}  icon={ faBackward } />
       </TouchableOpacity>}
+
+        <TouchableOpacity 
+        style={styles.zoomIn}
+        onPress={()=>{
+          this._zoomIn()
+        }}
+        >
+          <Image
+              style={{ width: wp('10%'), height: wp('10%'), backgroundColor: 'white'}}
+              source={require('../images/Icone_Zoom_in.png')}
+          />
+      </TouchableOpacity>
+
+        <TouchableOpacity 
+        style={styles.zoomOut}
+        onPress={()=>{
+          this._zoomOut()
+        }}
+        >
+          <Image
+              style={{ width: wp('10%'), height: wp('10%'), backgroundColor: 'white'}}
+              source={require('../images/Icone_Zoom_out.png')}
+          />
+      </TouchableOpacity>
+
+
         <View style={Platform.OS === 'ios' ? styles.head_ios : styles.head}>
-          <View style={{flex:1, flexDirection: "row", paddingTop: hp("3%")}}>
-          <TextInput 
-            style={styles.textinput}
-            onChangeText={(text) => this.onChangeInput(text)}
+        <View style={styles.contain_search}>
+          <View style={{flex: 1}}>
+              <FontAwesomeIcon 
+              icon={faSearch} 
+              color="#636363" 
+              size={23} 
+              />
+          </View>
+
+          <View style={{flex: 5, marginLeft: -5}}>
+            <TextInput 
             value={this.state.search}
             placeholder="Que cherchez vous ?"
-          />
-          
-          <FontAwesomeIcon 
-                            icon={faMicrophone} 
-                            color="#3d3d3d" 
-                            size={24} 
-                            style={{width: wp('5%'), height: wp('5%'), position: 'relative', right: wp("12%"), top: hp('2%')}}
-                          
-                        />
+            style={styles.inputSearch}
+            onChangeText={(text) => this.onChangeInput(text)}
+            />
           </View>
+
+          <View style={{flex: 1}}>
+              <FontAwesomeIcon 
+                icon={faMicrophone} 
+                color="#3d3d3d" 
+                size={23} 
+                style={{flex: 1}}
+                />
+          </View>
+        
+        </View>
+
            {this.state.autocomplete.length !== 0 && <View style={styles.autoDiv}>
              <ScrollView 
               style={styles.auto}
               indicatorStyle="white"
-              keyboardShouldPersistTaps="always"
-            >
+              keyboardShouldPersistTaps="always">
               { this.renderList()}
           </ScrollView></View>}
         </View>
@@ -341,12 +395,16 @@ class Home extends React.Component{
               showsUserLocation = {true}
               scrollEnabled={true}
               liteMode={false}
-              zoom={15}
+              zoom={100}
               zoomEnabled={true}
               zoomControlEnabled={true}
+              onPress={() => {
+                const mapVide = []
+                this.setState({autocomplete: mapVide})
+              }}
             >
                 
-                {this.state.isDirection == false && this.state.markers.map((marker, index) => {
+                {this.state.markers.map((marker, index) => {
                   return (<MapView.Marker
                     key={'key-'+index}d
                     title={marker.name}
@@ -388,7 +446,10 @@ class Home extends React.Component{
                     optimizeWaypoints={true}
                     mode="WALKING"
                     onStart={(params) => {
-                      //.log('on start', params);
+                      this.setState({
+                        deltaLat: 0.04,
+                        deltaLng: 0.04
+                      })
                     }}
                     onReady={result => {
                       //.log('ready', result)
@@ -408,7 +469,7 @@ class Home extends React.Component{
           <Slider 
             style={styles.slider}
             step={1}
-            maximumValue={15}
+            maximumValue={1000}
             onSlidingComplete={(value)=> {this.changeRadius(value)}}
             value={this.state.radius}
             maximumTrackTintColor='#e2e0e0'  
@@ -416,9 +477,13 @@ class Home extends React.Component{
             thumbTintColor='#008AC8'
            
           />
-          <Text style={{marginBottom: hp('1%'), color: '#008AC8', fontWeight: 'bold'}}>{this.state.radius} m</Text>
+
+          
+           <Text style={{marginBottom: hp('1%'), color: '#008AC8', fontWeight: 'bold'}}>{this.state.radius} m</Text>
+          
         </View>
-                {this.state.isDisplay && <DetailCard   style={styles.card} detail = {this.state.detail} isFavo={this.state.isFavo} onClickClose={this._onClickClose} onClickDirection={this._onClickDirection} onChangeFavo= {this._onChangeFavo} favoriteId = {this.state.favoriteId}  />  }
+
+            {this.state.isDisplay && <DetailCard   style={styles.card} detail = {this.state.detail} isFavo={this.state.isFavo} onClickClose={this._onClickClose} onClickDirection={this._onClickDirection} onChangeFavo= {this._onChangeFavo} favoriteId = {this.state.favoriteId}  />  }
 
       </ScrollView>
 {/*       <BottomMenu navigation={this.props.navigation}  />
@@ -430,9 +495,35 @@ class Home extends React.Component{
 }
 
 const styles = StyleSheet.create({
+  contain_detailCard: {
+    position: 'absolute',
+    bottom: hp('5%'),
+    zIndex: 100
+  },
+  contain_search: {
+    flex: 1, 
+    flexDirection: 'row', 
+    backgroundColor: 'white', 
+    width: wp("87%"), 
+    paddingTop: 17, 
+    paddingLeft: 15, 
+    height: 60, 
+    position: 'absolute',
+    top: hp("6%"),
+    zIndex: 100,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.10,
+    shadowRadius: 4.65,
+    elevation: 8,
+    borderRadius: 10
+  },
   container: {
-    backgroundColor: '#fff',
-    backgroundColor: '#00C1B4'
+    // backgroundColor: '#fff',
+    // backgroundColor: '#00C1B4'
   },
   main: {
 
@@ -445,7 +536,7 @@ const styles = StyleSheet.create({
   map: {
     
     width: wp('100%'),
-    height: hp('57%')
+    height: hp('75%')
   },
   sliderContainer : {
     height: hp("13%"),
@@ -463,12 +554,17 @@ const styles = StyleSheet.create({
     flex:1.5,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1
+    zIndex: 1,
+    paddingTop: 20
   },
   head: {
     flex:1.5,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: 20,
+  },
+  inputSearch: {
+    fontSize: 16,
   },
   textinput: {
     marginLeft: wp("10%"),
@@ -485,10 +581,10 @@ const styles = StyleSheet.create({
     paddingLeft: wp('10%'),
     paddingRight: wp('10%'),
     position: "absolute",
-    top: hp('10%'),
-    zIndex: 8,
-    backgroundColor: '#00C1B4',
-    width: wp('84%'),
+    top: hp('14.5%'),
+    zIndex: 100,
+    backgroundColor: 'white',
+    width: wp('87%'),
     maxHeight: hp("40%"),
   },
   auto: {
@@ -502,17 +598,34 @@ const styles = StyleSheet.create({
     paddingBottom: hp('1%'),
     paddingTop: hp('1%'),
     zIndex: 10,
-    color: "#008AC8"
+    color: "#008AC8",
+    flex: 1,
+    flexDirection: 'row'
+
   },
   listText: {
-    color: "white",
-    textAlign: "center",
-    fontWeight: 'bold'
+    color: "black",
+    textAlign: "left",
+    fontWeight: '400',
+    fontSize: 16,
+    flex: 5
   },
   location: {
     position: "absolute",
-    bottom: hp("30%"),
-    right: wp('5%'),
+    bottom: hp("50%"),
+    right: wp('3%'),
+    zIndex: 10,
+    backgroundColor: "white",
+    paddingTop: hp('1%'),
+    paddingBottom: hp('1%'),
+    paddingLeft: wp('1%'),
+    paddingRight: wp('1%'),
+    borderRadius: 12
+  },
+  broom: {
+    position: "absolute",
+    bottom: hp("40%"),
+    right: wp('3%'),
     zIndex: 10,
     backgroundColor: "white",
     paddingTop: hp('1%'),
@@ -522,10 +635,23 @@ const styles = StyleSheet.create({
     
     borderRadius: 12
   },
-  broom: {
+    zoomIn: {
     position: "absolute",
-    bottom: hp("22%"),
-    right: wp('5%'),
+    bottom: hp("30%"),
+    right: wp('3%'),
+    zIndex: 10,
+    backgroundColor: "white",
+    paddingTop: hp('1%'),
+    paddingBottom: hp('1%'),
+    paddingLeft: wp('1%'),
+    paddingRight: wp('1%'),
+    
+    borderRadius: 12
+  },
+    zoomOut: {
+    position: "absolute",
+    bottom: hp("20%"),
+    right: wp('3%'),
     zIndex: 10,
     backgroundColor: "white",
     paddingTop: hp('1%'),

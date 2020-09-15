@@ -443,6 +443,31 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 )
                             )
                         }
+
+                        {
+                            (this.props.ps &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_22}>
+                                    <Text style={styles.profil_txt}>Rechercher professionnel de santé</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
                 
                     </View>
                     </View>
@@ -477,6 +502,12 @@ const styles = StyleSheet.create({
     },
     contain_perso_21: {
         flex: 3,
+        justifyContent: 'center',
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+    contain_perso_22: {
+        flex: 10,
         justifyContent: 'center',
         textAlign: 'center',
         alignItems: 'center'
