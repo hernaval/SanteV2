@@ -3,6 +3,8 @@ import { Text, View, StyleSheet,Image, TouchableHighlight, Dimensions, Platform,
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
+    listenOrientationChange as loc,
+    removeOrientationListener as rol
 } from 'react-native-responsive-screen';
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Avatar } from 'react-native-elements';
@@ -32,10 +34,15 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
         this.height = Dimensions.get('window').height;
     }
     componentDidMount = async() =>{
+        loc(this);
         const taille = this.normalize(23);
         this.setState({
             size: taille
         })
+    }
+
+    componentWillUnMount() {
+        rol();
     }
 
     normalize(size) {

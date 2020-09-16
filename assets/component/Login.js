@@ -164,9 +164,7 @@ class Login extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-
       <KeyboardAwareScrollView style={{ flex: 1 }}>
-
         <View style={styles.main_contenair}>
           <Loader loading={this.state.isLoading} />
           <View style={styles.main_logo}>
@@ -209,10 +207,9 @@ class Login extends React.Component {
 }
 const styles = StyleSheet.create(
   {
-
     main_contenair: {
       flex: 1,
-      height: hp("120%"),
+      height: hp("105%"),
       zIndex: 0
     },
     buttonContainer: {
@@ -363,7 +360,6 @@ const styles = StyleSheet.create(
       backgroundColor: "#fff",
       borderRadius: 20,
       padding: 10,
-      
       shadowOffset: {
         width: 0,
         height: 3

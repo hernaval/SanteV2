@@ -312,14 +312,14 @@ const styles = StyleSheet.create(
       flex: 11
     },
     inputIcon1: {
-      width: 24,
-      height: 17,
+      width: 22,
+      height: 15,
       marginLeft: 15,
       justifyContent: 'center',
     },
     inputIcon2: {
-      width: 22,
-      height: 29,
+      width: 18,
+      height: 23,
       marginLeft: 15,
       marginRight: 7,
       justifyContent: 'center',

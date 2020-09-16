@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TextInput, TouchableOpacity, Modal,ActivityIndicator } from 'react-native'
-import TopMenu from "../../component/Menu/TopMenu"
-import HeaderMenu from "../../component/Menu/HeaderMenu"
 import { connect } from 'react-redux'
 import {
     widthPercentageToDP as wp,
@@ -10,20 +8,16 @@ import {
 import { SearchBar, Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHome, faBars, faTimes, faCaretDown, faNotesMedical, faHandsHelping, faPumpMedical, faDisease, faFileImage, faShareAlt, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faCaretDown, faNotesMedical, faHandsHelping, faPumpMedical, faFileImage, faShareAlt, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Row, Grid } from 'react-native-easy-grid';
 import axios from 'axios';
 import Bdd from "../../API/Bdd"
 import * as Sharing from 'expo-sharing';
 import * as  FileSystem from 'expo-file-system';
-import BottomMenu from "../../component/Menu/BottomMenu"
 import { Avatar, Divider, ListItem } from 'react-native-elements';
 import ImageView from "react-native-image-viewing";
-import { Container, Header, Content, Tab, Tabs, ScrollableTab  } from 'native-base';
-import ListFile from './ListFile'
-import ActionButton from 'react-native-action-button';
 
-class FileManager extends Component {
+class ToutDoc extends Component {
 
     constructor(props) {
         super(props)
@@ -40,7 +34,6 @@ class FileManager extends Component {
 
         }
         this.images = []
-        this.handleCate = this.handleCate.bind(this)
     }
 
     selectedDocItem() {
@@ -59,10 +52,13 @@ class FileManager extends Component {
         await this._initDoc()
         this.setState({isLoading : false})
 
+        this.handleCate('all', 1)
+
         this._subscribe = this.props.navigation.addListener('didFocus', async () => {
             await this._initDoc()
        });
     }
+    
     _initDoc = async () => {
         let id = this.props.user.user.idUser;
 
@@ -94,13 +90,7 @@ class FileManager extends Component {
             })
     }
 
-    renderCardCate = (text, isColor, cate, index) => (
-        <TouchableOpacity key={index} onPress={() => { this.handleCate(cate, index) }} style={[styles.cardContainer, isColor == true ? { backgroundColor: "#008ac2" } : { backgroundColor: "white" }]}>
-            <FontAwesomeIcon size={30} style={[styles.iconCard, isColor == true ? { color: "white" } : { color: "grey" }]} icon={faNotesMedical} />
-            <Text style={[styles.cardText, isColor == true ? { color: "white" } : { color: "grey" }]}>{text}</Text>
-        </TouchableOpacity>
 
-    )
     handleCate = async (cate, index) => {
         this.setState({ isLoading: true })
         await this.setState({
@@ -111,6 +101,7 @@ class FileManager extends Component {
         await this._initDoc()
         this.setState({ isLoading: false })
     }
+    
     goToDetail = (index) => {
         this.setState({ isVisible: true, imgIndex: index })
     }
@@ -156,6 +147,7 @@ class FileManager extends Component {
             modalVisible: true
         })
     }
+
     shareDoc = async (id) => {
         this.setState({ isLoading: true })
         await this.getDoc(id)
@@ -171,10 +163,8 @@ class FileManager extends Component {
 
                 this.setState({ isLoading: false })
             })
-
-
-
     };
+
     getDoc = async (id) => {
         let data = {
             id: id
@@ -187,9 +177,8 @@ class FileManager extends Component {
                 })
             })
     }
+
     deleteDoc(id) {
-
-
         axios.delete(`${Bdd.api_url}/document/${id}`)
             .then(async (response) => {
                 this.setState({isLoading : true})
@@ -198,119 +187,14 @@ class FileManager extends Component {
             })
     }
     render() {
-        const datas = [
-            {
-                type: "Tous", label: "all"
-            }, {
-                type: "Mes ordonnances", label: "ordo"
-            }, {
-                type: "Mes certificats", label: "cert"
-            }, {
-                type: "Mes attestations", label: "atte"
-            }, {
-                type: "Mes comptes-rendus", label: "cptr"
-            }, {
-                type: "Autres", label: "aut"
-            }
-
-        ]
-
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>
-                    <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                        <HeaderMenu navigation={this.props.navigation} documents={1}/>
-                    </View>
                     {this.state.isLoading && <View style={styles.loading_container}>
                         <ActivityIndicator size="large" />
                     </View>}
 
-                    <View style={styles.contain_tabs}>
-                    <Tabs
-                        renderTabBar={()=> <ScrollableTab/>} 
-                        tabBarUnderlineStyle={{borderBottomWidth:2, borderBottomColor: 'white'}} 
-                        tabContainerStyle={{elevation:0}}>
-
-                          <Tab heading="Tous mes documents" 
-                            tabStyle={{backgroundColor: '#00C1B4'}} 
-                            textStyle={{color: 'white', fontSize: 20}}
-                            activeTabStyle={{backgroundColor: '#00C1B4'}} 
-                            activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                                <ListFile search="all" handleCate={this.handleCate}/>
-                          </Tab>
-            
-                          <Tab heading="Mes ordonnances" 
-                            tabStyle={{backgroundColor: '#00C1B4'}} 
-                            textStyle={{color: 'white', fontSize: 20}}
-                            activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                            activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                                <ListFile search="ordo" handleCate={this.handleCate}/>
-                          </Tab>
-
-                            <Tab heading="Mes certificats" 
-                            tabStyle={{backgroundColor: '#00C1B4'}} 
-                            textStyle={{color: 'white', fontSize: 20}}
-                            activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                            activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                                <ListFile search="cert" handleCate={this.handleCate}/>
-                          </Tab>
-
-                          
-                          <Tab heading="Mes attestations" 
-                          tabStyle={{backgroundColor: '#00C1B4'}} 
-                          textStyle={{color: 'white', fontSize: 20}}
-                          activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                          activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                          <ListFile search="atte" handleCate={this.handleCate}/>
-                        </Tab>
-
-                        
-                        <Tab heading="Mes comptes rendus" 
-                        tabStyle={{backgroundColor: '#00C1B4'}} 
-                        textStyle={{color: 'white', fontSize: 20}}
-                        activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                        activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                        <ListFile search="cptr" handleCate={this.handleCate}/>
-                      </Tab>
-
-                      
-                      <Tab heading="Autres" 
-                      tabStyle={{backgroundColor: '#00C1B4'}} 
-                      textStyle={{color: 'white', fontSize: 20}}
-                      activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                      activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                      <ListFile search="aut" handleCate={this.handleCate}/>
-                    </Tab>
-
-                    </Tabs>
-                    </View>
-
-                    {/**
-                    <View style={styles.categories}>
-                        <ScrollView indicatorStyle="white" nestedScrollEnabled={true} horizontal={true}>
-                            {datas.map((data, i) => {
-                                return this.state.numColored === i ? this.renderCardCate(data.type, true, data.label, i) : this.renderCardCate(data.type, false, data.label, i)
-                            })}
-                        </ScrollView>
-                    </View>
-                    */}
-
-
                     <View style={styles.docContainer}>
-
-                    {
-                        /**
-                         * <View style={styles.actionButton}>
-                            <TouchableOpacity
-                                style={{ marign: 5, padding: 10, backgroundColor: "#008ac2", }}
-                                onPress={() => this.props.navigation.navigate("Test")}>
-                                <Text style={{ color: "white", textAlign: "center" }}>Ajouter un document</Text>
-                            </TouchableOpacity>
-                        </View>
-                         * 
-                         */
-                    }
- 
                         <View >
                             <ScrollView>
                                 {this.state.documents.length !== 0 && this.state.documents.map((document, i) => {
@@ -321,7 +205,6 @@ class FileManager extends Component {
                                     return this.blabla(document.idDoc, name, date, i)
                                 })}
                             </ScrollView>
-
                         </View>
 
                     </View>
@@ -334,14 +217,7 @@ class FileManager extends Component {
                     visible={this.state.isVisible}
                     onRequestClose={() => this.setState({ isVisible: false })}
                 />
-
-                <ActionButton onPress={() => this.props.navigation.navigate("Test")} style={{ marginBottom: hp("15%"), zIndex: 100, fontSize: 18 }} buttonColor="#008AC8">
-                </ActionButton>
-
-                <BottomMenu navigation={this.props.navigation} />
-
             </View>
-
         )
     }
 }
@@ -492,4 +368,4 @@ const mapDispatchToProps = {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FileManager)
+export default connect(mapStateToProps, mapDispatchToProps)(ToutDoc)

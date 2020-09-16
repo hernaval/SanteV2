@@ -14,12 +14,14 @@ import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 import { connect } from 'react-redux';
 import TopMenu from "../../component/Menu/TopMenu"
+import HeaderMenu from "../../component/Menu/HeaderMenu"
 import axios from 'axios'
 import Bdd from "../../API/Bdd"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import * as firebase from 'firebase';
-import firestore from 'firebase/firestore'
+import firestore from 'firebase/firestore';
+
 const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4', 'Page 5']
 
 /* 
@@ -95,9 +97,14 @@ class Test extends Component {
   }
 
   _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing : true,
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   allowsEditing : true,
+    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+    // });
+
+    let result = await DocumentPicker.getDocumentAsync({
+      type: '*/*',
+      copyToCacheDirectory: false
     });
 
     //console.log(result)
@@ -126,8 +133,6 @@ class Test extends Component {
       if (!pickerResult.cancelled) {
         uploadUrl = await this.uploadImageAsync(pickerResult.uri);
         this.setState({uri_doc : uploadUrl})
-
-     
         
       }
     } catch (e) {
@@ -318,7 +323,7 @@ class Test extends Component {
           <View style={styles.modalView}>
           <TouchableOpacity ></TouchableOpacity>
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              style={{ ...styles.openButton, backgroundColor: "#2196F3", marginBottom: 20 }}
               onPress={() => {
                 this.setState({ modalVisible: !this.state.modalVisible })
                 this._pickImage()
@@ -327,7 +332,7 @@ class Test extends Component {
               <Text style={styles.textStyle}>Importer  </Text>
             </TouchableHighlight>
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              style={{ ...styles.openButton, backgroundColor: "#2196F3", marginBottom: 20 }}
               onPress={() => {
                 this.setState({ modalVisible: !this.state.modalVisible})
                 this.takePictureAndCreateAlbum()
@@ -387,7 +392,7 @@ onPress={() => this.viewPager.setPage(1 )}
 
   renderDocumentName = () => (
     <View style={styles.page}>
-      <Text style={{fontWeight : "bold",fontSize : 20,paddingBottom : 70}}>Donnez un nom à votre document</Text>
+      <Text style={{fontWeight : "bold",fontSize : 20,paddingBottom : 70}}>Nom du document</Text>
       <TextInput style={{padding : 10, borderColor : "#000"}} onChangeText={(value) => {
         this.setState({ name: value })
       }} placeholder="nom du doc" />
@@ -421,7 +426,7 @@ onPress={() => this.viewPager.setPage(1 )}
         {this.state.isCamera === true && this.getCamera()}
         {this.state.isCamera === false &&
           <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-            <TopMenu navigation={this.props.navigation} />
+            <HeaderMenu navigation={this.props.navigation} addDocument={1}/>
           </View>  }
 
          {this.state.isCamera === false && 

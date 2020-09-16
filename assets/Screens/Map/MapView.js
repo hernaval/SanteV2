@@ -109,10 +109,8 @@ class MapScreen extends Component {
           <HeaderMenu navigation={this.props.navigation} mapview={1}/>
         </View>
 
-
-            <View style={styles.mapView}>
-            
-              
+        {/**
+                    <View style={styles.mapView}>
               <MapView
               style={{
                 flex: 1
@@ -136,9 +134,9 @@ class MapScreen extends Component {
                 />
               ))}
             </MapView>
-              
-
           </View>
+        */}
+
           <View style={styles.placeList}>
           {
             places.length > 0 ? <PlaceList places={places}/> : null

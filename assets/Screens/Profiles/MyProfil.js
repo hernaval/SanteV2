@@ -109,6 +109,7 @@ class MyProfil extends Component {
         } finally {
           this.setState({ isLoading: false });
           /* this.props.navigation.navigate("MonProfil") */
+          console.log('Upload Url ', uploadUrl)
           this.setState({photoUri : uploadUrl})
         }
       }
@@ -392,23 +393,23 @@ class MyProfil extends Component {
 const styles = StyleSheet.create({
     shadow: {
         borderWidth: 1,
-        borderColor: '#FFFFFF',
+        borderColor: '#363535',
         width: 70,
         height: 70,
         borderRadius: 35,
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 23,
+        paddingTop: 21,
         padding: 20,
-        shadowColor: "#363535",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 4.65,
-        elevation: 1,
+        // shadowColor: "#363535",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 3,
+        // },
+        // shadowOpacity: 0.2,
+        // shadowRadius: 4.65,
+        // elevation: 1,
         marginRight: 15
     },
     list_icon: {

@@ -209,9 +209,7 @@ class SignupNew extends React.Component {
                 <CheckBox checked={this.state.checked} onPress={() => this.setState({ checked: !this.state.checked })} />
                 <Text style={styles.checkBoxText}>
                   J'accepte les CGU et la politique de
-                  {"\n"}
                   gestion de la confidentialité de
-                  {"\n"}
                   mes données
                 </Text>
               </View>
@@ -318,20 +316,20 @@ const styles = StyleSheet.create(
 
     },
     inputIcon: {
-      width: 25,
-      height: 25,
+      width: 22,
+      height: 22,
       marginLeft: 15,
       justifyContent: 'center'
     },
     inputIcon1: {
-      width: 24,
-      height: 17,
+      width: 22,
+      height: 15,
       marginLeft: 15,
       justifyContent: 'center',
     },
     inputIcon2: {
-      width: 21,
-      height: 28,
+      width: 18,
+      height: 23,
       marginLeft: 15,
       marginRight: 7,
       justifyContent: 'center',
@@ -345,7 +343,8 @@ const styles = StyleSheet.create(
       color: "#000",
       fontSize: 13,
       alignSelf: 'center',
-      marginLeft: -12
+      marginLeft: -12,
+      width: wp('60%')
     },
 
     buttonContainer: {

@@ -58,16 +58,16 @@ class PlaceList extends Component {
                         </View>
                       
                     }
-                    leftAvatar={{
-                      rounded: false,
-                      size: "large",
-                      source: item.icon && {
-                        uri:
-                          item.photos.length > 0
-                            ? `https://maps.googleapis.com/maps/api/place/photo?photoreference=${item.photos[0].photo_reference}&sensor=false&maxheight=${item.photos[0].height}&maxwidth=${item.photos[0].width}&key=${this.GOOGLE_API_KEY}`
-                            : item.icon
-                      }
-                    }}
+                    // leftAvatar={{
+                    //   rounded: false,
+                    //   size: "large",
+                    //   source: item.icon && {
+                    //     uri:
+                    //       item.photos.length > 0
+                    //         ? `https://maps.googleapis.com/maps/api/place/photo?photoreference=${item.photos[0].photo_reference}&sensor=false&maxheight=${item.photos[0].height}&maxwidth=${item.photos[0].width}&key=${this.GOOGLE_API_KEY}`
+                    //         : item.icon
+                    //   }
+                    // }}
                     bottomDivider
                     // chevron={{ color: "#e90000", size: 30 }}
                   />

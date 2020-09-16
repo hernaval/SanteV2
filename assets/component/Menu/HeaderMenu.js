@@ -3,6 +3,8 @@ import { Text, View, StyleSheet,Image, TouchableHighlight, Dimensions, Platform,
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
+    listenOrientationChange as loc,
+    removeOrientationListener as rol
 } from 'react-native-responsive-screen';
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Avatar } from 'react-native-elements';
@@ -32,11 +34,16 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
         this.height = Dimensions.get('window').height;
     }
     componentDidMount = async() =>{
+        loc(this);
         const taille = this.normalize(23);
         this.setState({
             size: taille
         })
     }
+
+    componentWillUnMount() {
+        rol();
+      }
 
     normalize(size) {
         const scale = this.width / 320;
@@ -301,7 +308,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Nouveau Contact</Text>
+                                    <Text style={styles.profil_txt}>Contact</Text>
                                     </View>
                                     <View style={styles.contain_perso_3}>
                                     <TouchableOpacity onPress={() => this.saveNewContact()}>
@@ -330,7 +337,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Nouveau Profil Secondaire</Text>
+                                    <Text style={styles.profil_txt}>Profil Secondaire</Text>
                                     </View>
                                     <View style={styles.contain_perso_3}>
                                     <TouchableOpacity onPress={() => this.props.enregistrerSecondProfil()}>
@@ -461,6 +468,56 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                     </View>
                                     <View style={styles.contain_perso_22}>
                                     <Text style={styles.profil_txt}>Rechercher professionnel de santé</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
+                        {
+                            (this.props.documents &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_22}>
+                                    <Text style={styles.profil_txt}>Mes Documents</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
+                        {
+                            (this.props.addDocument &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("FileManager")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_22}>
+                                    <Text style={styles.profil_txt}>Nouveau Document</Text>
                                     </View>
                                     <View style={styles.contain_perso_3}>
                                     </View>
