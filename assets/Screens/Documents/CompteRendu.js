@@ -20,13 +20,13 @@ import { Avatar, Divider, ListItem, Tooltip, Text } from 'react-native-elements'
 import ImageView from "react-native-image-viewing";
 import {Input} from 'native-base';
 
-class ToutDoc extends Component {
+class CompteRendu extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             documents: [],
-            selectedCate: "all",
+            selectedCate: "cptr",
             numColored: 0,
             listOption: false,
             selectedDoc: null,
@@ -37,7 +37,7 @@ class ToutDoc extends Component {
         }
         this.images = []
         this.tooltip = React.createRef()
-        this.tab = 'all'
+        this.tab = 'cptr'
     }
 
     selectedDocItem() {
@@ -471,4 +471,4 @@ const mapDispatchToProps = {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ToutDoc)
+export default connect(mapStateToProps, mapDispatchToProps)(CompteRendu)

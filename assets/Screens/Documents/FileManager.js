@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Modal,ActivityIndicator } from 'react-native'
+import { Text, View, StyleSheet, TextInput, TouchableOpacity, Modal,ActivityIndicator, Keyboard, Button } from 'react-native'
 import TopMenu from "../../component/Menu/TopMenu"
 import HeaderMenu from "../../component/Menu/HeaderMenu"
 import { connect } from 'react-redux'
@@ -20,8 +20,14 @@ import BottomMenu from "../../component/Menu/BottomMenu"
 import { Avatar, Divider, ListItem } from 'react-native-elements';
 import ImageView from "react-native-image-viewing";
 import { Container, Header, Content, Tab, Tabs, ScrollableTab  } from 'native-base';
-import ListFile from './ListFile'
 import ActionButton from 'react-native-action-button';
+import ListFile from './ListFile'
+import ToutDoc from './ToutDoc'
+import Ordonnance from './Ordonnance'
+import Certificat from './Certificat'
+import Autre from './Autre'
+import Attestation from './Attestation'
+import CompteRendu from './CompteRendu'
 
 class FileManager extends Component {
 
@@ -34,10 +40,8 @@ class FileManager extends Component {
             listOption: false,
             selectedDoc: null,
             modalVisible: false,
-
             imgIndex: 0,
             isLoading : false
-
         }
         this.images = []
         this.handleCate = this.handleCate.bind(this)
@@ -63,8 +67,10 @@ class FileManager extends Component {
             await this._initDoc()
        });
     }
+
+
     _initDoc = async () => {
-        let id = this.props.user.user.idUser;
+        let id = this.props.user ? this.props.user.user.idUser : 0;
 
         await axios.get(`${Bdd.api_url}/document/list?idUser=${id}`)
             .then((response) => {
@@ -221,9 +227,6 @@ class FileManager extends Component {
                     <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
                         <HeaderMenu navigation={this.props.navigation} documents={1}/>
                     </View>
-                    {this.state.isLoading && <View style={styles.loading_container}>
-                        <ActivityIndicator size="large" />
-                    </View>}
 
                     <View style={styles.contain_tabs}>
                     <Tabs
@@ -236,7 +239,7 @@ class FileManager extends Component {
                             textStyle={{color: 'white', fontSize: 20}}
                             activeTabStyle={{backgroundColor: '#00C1B4'}} 
                             activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                                <ListFile search="all" handleCate={this.handleCate}/>
+                                <ToutDoc navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
                           </Tab>
             
                           <Tab heading="Mes ordonnances" 
@@ -244,7 +247,7 @@ class FileManager extends Component {
                             textStyle={{color: 'white', fontSize: 20}}
                             activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
                             activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                                <ListFile search="ordo" handleCate={this.handleCate}/>
+                            <Ordonnance navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
                           </Tab>
 
                             <Tab heading="Mes certificats" 
@@ -252,7 +255,7 @@ class FileManager extends Component {
                             textStyle={{color: 'white', fontSize: 20}}
                             activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
                             activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                                <ListFile search="cert" handleCate={this.handleCate}/>
+                            <Certificat navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
                           </Tab>
 
                           
@@ -261,7 +264,7 @@ class FileManager extends Component {
                           textStyle={{color: 'white', fontSize: 20}}
                           activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
                           activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                          <ListFile search="atte" handleCate={this.handleCate}/>
+                          <Attestation navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
                         </Tab>
 
                         
@@ -270,7 +273,7 @@ class FileManager extends Component {
                         textStyle={{color: 'white', fontSize: 20}}
                         activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
                         activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                        <ListFile search="cptr" handleCate={this.handleCate}/>
+                        <CompteRendu navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
                       </Tab>
 
                       
@@ -279,7 +282,7 @@ class FileManager extends Component {
                       textStyle={{color: 'white', fontSize: 20}}
                       activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
                       activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                      <ListFile search="aut" handleCate={this.handleCate}/>
+                      <Autre navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
                     </Tab>
 
                     </Tabs>
@@ -296,49 +299,17 @@ class FileManager extends Component {
                     */}
 
 
-                    <View style={styles.docContainer}>
-
-                    {
-                        /**
-                         * <View style={styles.actionButton}>
-                            <TouchableOpacity
-                                style={{ marign: 5, padding: 10, backgroundColor: "#008ac2", }}
-                                onPress={() => this.props.navigation.navigate("Test")}>
-                                <Text style={{ color: "white", textAlign: "center" }}>Ajouter un document</Text>
-                            </TouchableOpacity>
-                        </View>
-                         * 
-                         */
-                    }
- 
-                        <View >
-                            <ScrollView>
-                                {this.state.documents.length !== 0 && this.state.documents.map((document, i) => {
-                                    const dataImg = { uri: document.typeDoc }
-                                    this.images.push(dataImg)
-                                    let name = document.nomDoc
-                                    let date = document.createdAt
-                                    return this.blabla(document.idDoc, name, date, i)
-                                })}
-                            </ScrollView>
-
-                        </View>
-
-                    </View>
-
                 </ScrollView>
 
-                <ImageView
-                    images={this.images}
-                    imageIndex={this.state.imgIndex}
-                    visible={this.state.isVisible}
-                    onRequestClose={() => this.setState({ isVisible: false })}
-                />
+                    <ActionButton style={styles.action_button} 
+                     onPress={() => this.props.navigation.navigate("Test")} 
+                    buttonColor="#008AC8">
+                    </ActionButton>
 
-                <ActionButton onPress={() => this.props.navigation.navigate("Test")} style={{ marginBottom: hp("15%"), zIndex: 100, fontSize: 18 }} buttonColor="#008AC8">
-                </ActionButton>
 
-                <BottomMenu navigation={this.props.navigation} />
+                {/**
+                    <BottomMenu navigation={this.props.navigation} />
+                */}
 
             </View>
 
@@ -346,6 +317,10 @@ class FileManager extends Component {
     }
 }
 const styles = StyleSheet.create({
+    action_button: 
+    { 
+  
+    },
     contain_tabs: {
         marginTop: 15,
         zIndex: 0

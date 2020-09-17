@@ -12,13 +12,21 @@ import {
 class ListFile extends React.Component {
     constructor(props) {
         super(props)
-        
+        this.state = {
+          terme: ''
+        }
+        this.rechercher = ''
     }
 
     componentDidMount() {
-        const rechercher = this.props.search
-        this.props.handleCate(rechercher, 1)
-        console.log('rech ', rechercher)
+        this.setState({
+          terme: this.props.search
+        })
+        this.props.handleCate(this.state.terme, 1)
+    }
+
+    componentDidUpdate() {
+      console.log('rech ', this.state.terme)
     }
 
     render() {

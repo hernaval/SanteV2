@@ -33,7 +33,7 @@ class MapScreen extends Component {
     const placeType = 'pharmacy';
     this.setState({ placeType: placeType });
 
-      this.getCurrentLocation();
+      // this.getCurrentLocation();
   }
 
   /**
@@ -135,13 +135,14 @@ class MapScreen extends Component {
               ))}
             </MapView>
           </View>
-        */}
 
           <View style={styles.placeList}>
           {
             places.length > 0 ? <PlaceList places={places}/> : null
           }
           </View>
+        */}
+
 
 
 
