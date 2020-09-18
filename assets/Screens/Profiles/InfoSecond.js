@@ -24,7 +24,7 @@ import {
 import PropTypes from 'prop-types'
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
-import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo ,ModifyPhoto } from '../../Action';
+import { deleteContact, modifyUserInfo,ModifySecondPhoto, modifySecondUserInfo, setIndexSelected, setSecondInfo ,ModifyPhoto } from '../../Action';
 import { Avatar } from 'react-native-elements';
 import TopMenu from "../../component/Menu/TopMenu"
 import HeaderMenu from "../../component/Menu/HeaderMenu"
@@ -37,7 +37,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { Container, Header, Content, Form, Item, Label } from 'native-base';
 
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
-class Switch extends Component {
+class InfoSecond extends Component {
 
   constructor(props) {
     super(props)
@@ -51,27 +51,29 @@ class Switch extends Component {
       weight: '',
       profile: '',
       modifying: false,
-      firstName: this.props.user.user.nomUser,
-      lastName: this.props.user.user.prenomUser,
-      name: this.props.user.user.nomUser + ' ' + this.props.user.user.prenomUser,
-      phone: this.props.user.user.phoneUser,
-      address: this.props.user.user.adresseUser,
-      zip: this.props.user.user.zipUser,
-      city: this.props.user.user.villeUser,
-      id: this.props.user.user.idUser,
-      firstName_: this.props.user.user.nomUser,
-      lastName_: this.props.user.user.prenomUser,
-      name_: this.props.user.user.nomUser + ' ' + this.props.user.user.prenomUser,
-      phone_: this.props.user.user.phoneUser,
-      address_: this.props.user.user.adresseUser,
-      zip_: this.props.user.user.zipUser,
-      city_: this.props.user.user.villeUser,
-      id_: this.props.user.user.idUser,
+      firstName: this.props.second.second_users[this.props.second.indexSelected].nomSecondUser,
+      lastName: this.props.second.second_users[this.props.second.indexSelected].prenomSecondUser,
+      phone: this.props.second.second_users[this.props.second.indexSelected].phoneSecondUser,
+      address: this.props.second.second_users[this.props.second.indexSelected].adresseSecondUser,
+      zip: this.props.second.second_users[this.props.second.indexSelected].zipSecondUser,
+      city: this.props.second.second_users[this.props.second.indexSelected].villeSecondUser,
+      id: this.props.navigation.state.params.id,
+
+      name: this.props.second.second_users[this.props.second.indexSelected].nomSecondUser + ' ' + this.props.second.second_users[this.props.second.indexSelected].prenomSecondUser,
+      firstName_: this.props.second.second_users[this.props.second.indexSelected].nomSecondUser,
+      lastName_: this.props.second.second_users[this.props.second.indexSelected].prenomSecondUser,
+      name_: this.props.second.second_users[this.props.second.indexSelected].nomSecondUser + ' ' + this.props.second.second_users[this.props.second.indexSelected].prenomSecondUser,
+      phone_: this.props.second.second_users[this.props.second.indexSelected].phoneSecondUser,
+      address_: this.props.second.second_users[this.props.second.indexSelected].adresseSecondUser,
+      zip_: this.props.second.second_users[this.props.second.indexSelected].zipSecondUser,
+      city_: this.props.second.second_users[this.props.second.indexSelected].villeSecondUser,
+      id_: this.props.navigation.state.params.id,
       rollGranted: true,
       cameraGranted: false,
       uri_doc: null,
       base64Img: null,
-      photoUri: this.props.user.user.imageUser ? this.props.user.user.imageUser : this.DEFAUTL_USER,
+    //   photoUri: this.props.user.user.imageUser ? this.props.user.user.imageUser : this.DEFAUTL_USER,
+      photoUri: this.props.navigation.state.params.image,
       errLastName: "",
       errFirstName: "",
       errAddress: "",
@@ -84,38 +86,48 @@ class Switch extends Component {
     }
 
     this.ref = firebase.firestore().collection('profile');
-    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    this.goToProfil = this.goToProfil.bind(this);
+    this.countProfil = 0
   }
 
   componentDidMount = async () => {
     this.setState({ isLoading: true })
-    const my_size = this.props.navigation.state.params.size;
-    const my_blood = this.props.navigation.state.params.blood;
-    const my_weight = this.props.navigation.state.params.weight;
-    const my_profile = this.props.navigation.state.params.profile;
-    this.setState({
-      blood: my_blood, 
-      size: my_size,
-      weight: my_weight,
-      profile: my_profile
-    })
+    // const my_size = this.props.navigation.state.params.size;
+    // const my_blood = this.props.navigation.state.params.blood;
+    // const my_weight = this.props.navigation.state.params.weight;
+    // const my_profile = this.props.navigation.state.params.profile;
+    // this.setState({
+    //   blood: my_blood, 
+    //   size: my_size,
+    //   weight: my_weight,
+    //   profile: my_profile
+    // })
+    this.changeProfil()
+    console.log(this.props.second)
     this.setState({ isLoading: false })
     await this.getCameraPermissions()
   }
 
-  componentWillMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-}
+    changeProfil() {
+    console.log('Param switch second profil ', this.props.navigation.state.params)
+    console.log('Count second profil ', this.countProfil)
+    if (this.props.navigation.state.params === undefined || this.countProfil !== 0) {
+        console.log('Quit second change profil')
+        this.countProfil = 0
+        return
+    }
+    else {
+        console.log('set second state profil')
+        this.setState({photoUri: this.props.navigation.state.params.profil})
+        this.countProfil++
+    }
+    }
 
-componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
-}
+    goToSecondSante() {
+    this.countProfil = 0;
+    console.log('Go to second sante avec', this.state.photoUri)
+    this.props.navigation.navigate("MySecondSante", {profil: this.state.photoUri, id: this.state.id})
+    }
 
-handleBackButtonClick() {
-    this.props.navigation.navigate("MyProfil", {profil: this.state.photoUri})
-    return true;
-}
 
 Startmodify() {
   this.setState({
@@ -146,62 +158,6 @@ Savemodify() {
   this.modifInfoPerso()
 }
 
-
-  renderHeader = () => {
-    
-    return (
-      <View style={styles.headerContainer}>
-        <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <TopMenu navigation={this.props.navigation} />
-        </View>
-
-        <ImageBackground
-          style={styles.headerBackgroundImage}
-          blurRadius={10}
-          source={{ uri: this.state.photoUri == null? DEFAUTL_USER : this.state.photoUri }}
-        >
-          <View style={styles.headerColumn}>
-
-            <Image
-              style={styles.userImage}
-              source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
-            />
-            <Text style={styles.userNameText}>{this.props.user.user.nomUser} {this.props.user.user.prenomUser} </Text>
-            <View style={styles.userAddressRow}>
-              <View style={styles.actionBtn}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("MySante", {profil: this.state.photoUri})}>
-                  <Avatar size="medium" rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'share', type: 'font-awesome' }} />
-                </TouchableOpacity>
-              </View>
-              {this.state.isModifbegin === false &&
-                <View style={styles.actionBtn}>
-                  <TouchableOpacity onPress={() => this.setState({ isModifbegin: !this.state.isModifbegin })}>
-                    <Avatar size="medium" rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'pencil', type: 'font-awesome' }} />
-                  </TouchableOpacity>
-                </View>
-              }
-              {this.state.isModifbegin === true &&
-                <View style={styles.actionBtn}>
-                  <TouchableOpacity onPress={() => {   
-                    console.log("ato tsika e")
-                      this.modifInfoPerso()
-
-                  }}>
-                    <Avatar size="medium" rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'save', type: 'font-awesome' }} />
-                  </TouchableOpacity>
-                </View>
-              }
-              <View style={styles.actionBtn}>
-                <TouchableOpacity onPress={() =>this._pickImage() }>
-                  <Avatar size="medium" rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </ImageBackground>
-      </View>
-    )
-  }
 
   renderHeader_1 = () => {
 
@@ -243,25 +199,20 @@ Savemodify() {
     // this.setState({errPhone: null})
 
     this.setState({ isLoading: true })
-    let userModified = {
-      idUser : this.props.user.user.idUser,
-      nomUser: this.props.user.user.nomUser,
-      prenomUser: this.props.user.user.prenomUser,
-      phoneUser: this.props.user.user.phoneUser,
-      adresseUser: this.props.user.user.adresseUser,
-      zipUser: this.props.user.user.zipUser,
-      villeUser: this.props.user.user.villeUser,
-    }
+    console.log('moffdf')
+    let userModified = {}
 
 
-
-    userModified.nomUser = this.state.firstName
-    userModified.prenomUser = this.state.lastName
-    userModified.phoneUser = this.state.phone
-    userModified.adresseUser = this.state.address
-    userModified.villeUser = this.state.city
-    userModified.zipUser = this.state.zip
+    userModified.idSecondUser = this.state.id
+    userModified.nomSecondUser = this.state.firstName
+    userModified.prenomSecondUser = this.state.lastName
+    userModified.phoneSecondUser = this.state.phone
+    userModified.adresseSecondUser = this.state.address
+    userModified.villeSecondUser = this.state.city
+    userModified.zipSecondUser = this.state.zip
+    console.log('-----------')
     console.log(userModified)
+    console.log('----------')
 
     this.setState({
       firstName_ : this.state.firstname,
@@ -272,16 +223,8 @@ Savemodify() {
       city_ : this.state.city,
       zip_ : this.state.zip,
     })
-
-   // let errorCount = await this.validationInfo(userModified)
-   
-
-   /*  if (errorCount == 0) {
-      console.log("ato") */
-      this.props.modifyUserInfo(userModified)
+      this.props.modifySecondUserInfo(userModified)
       this.setState({isModifbegin : false,isLoading : false})
-   /*  }
-    this.setState({ isLoading: false}) */
   }
 
 
@@ -437,7 +380,6 @@ Savemodify() {
               backgroundColor: "#d3d3d3", marginBottom: 20 }}
               onPress={() => {
                 this.setState({ modalVisible: false})
-                console.log('Annuler')
               }}
             >
               <Text style={styles.textStyle}>Annuler</Text>
@@ -449,6 +391,11 @@ Savemodify() {
         )
     }
 
+    saveProfileImageInfo =  (data) => {
+    console.log('Modifier Photo')
+    this.props.ModifySecondPhoto(data)
+    }
+
   _handleImagePicked = async pickerResult => {
     let uploadUrl =""
     try {
@@ -457,25 +404,28 @@ Savemodify() {
       if (!pickerResult.cancelled) {
         uploadUrl = await this.uploadImageAsync(pickerResult.uri);
       let data = {
-        imageUser :uploadUrl,
-        idUser : this.props.user.user.idUser
+        imageSecondUser :uploadUrl,
+        idSecondUser : this.state.id
       }
-         this.saveProfileImageInfo(data)
-        
+      this.saveProfileImageInfo(data)
+      
+         axios.put(`${Bdd.api_url_second}/${this.state.id}/image`,data)
+         .then(res=>{
+           console.log("vita upload mys maj")
+         })
       }
     } catch (e) {
       console.log(e);
-      // alert('Upload failed, sorry :(');
+      alert('Upload failed, sorry :(');
     } finally {
+      console.log('finally')
       this.setState({ isLoading: false });
       /* this.props.navigation.navigate("MonProfil") */
       this.setState({photoUri : uploadUrl})
     }
   }
-  saveProfileImageInfo =  (data) => {
-    console.log('Modifier Photo')
-    this.props.ModifyPhoto(data)
-  }
+
+
   uploadImageAsync = async (uri)  =>{
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
@@ -513,7 +463,6 @@ Savemodify() {
 
 
   render() {
-    console.log("render")
     return (
       <View style={styles.container_1}>
           {this.state.isLoading && <View style={styles.loading_container_1}>
@@ -528,12 +477,14 @@ Savemodify() {
           }
 
           <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <HeaderMenu navigation={this.props.navigation} back={this.goToProfil} perso={1} start={this.Startmodify} end={this.Endmodify} save={this.Savemodify}/>
+          <HeaderMenu navigation={this.props.navigation} 
+          secondProfilInfo={1} startModifSecond={this.Startmodify} 
+          endModifSecond={this.Endmodify} saveModifSecond={this.Savemodify}/>
           </View>
 
-          {this.showModal()}
-
-          <ScrollView style={[styles.scroll_1, { marginTop: -60 }]} >
+        {this.showModal()}
+        {this.changeProfil()}
+          <ScrollView style={[styles.scroll_1, { marginTop: 10 }]} >
               {this.renderHeader_1()}
 
               {
@@ -858,16 +809,18 @@ labelValue: {
 const mapStateToProps = (store) => {
   return {
     user: store.user,
-    /* contact: store.contact,
-    second: store.second */
+    
+    second: store.second 
   }
 }
 
 const mapDispatchToProps = {
   deleteContact,
   modifyUserInfo,
+  modifySecondUserInfo,
   setSecondInfo,
   setIndexSelected,
-  ModifyPhoto
+  ModifyPhoto,
+  ModifySecondPhoto
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Switch)
+export default connect(mapStateToProps, mapDispatchToProps)(InfoSecond)

@@ -27,7 +27,8 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
             id: "",
             size: 23,
             modifPerso: false,
-            isAddNewContact: false
+            isAddNewContact: false,
+            modifPersoSecond: false
         }
 
         this.width = Dimensions.get('window').width;
@@ -96,54 +97,19 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
         )
     }
 
-    showInfoPerso() {
-        <View style={styles.contain_perso}>
-        <View style={styles.contain_perso_1}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
-            <Icon
-            name='chevron-left'
-            size={22}
-            type='font-awesome'
-            color='#FFFFFF'
-            style={{fontWeight: '100', paddingTop: 4}}
-            />
-            <Text style={styles.txt_back_profil}>Profil</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.contain_perso_2}>
-        <Text style={styles.profil_txt}>Informations</Text>
-        </View>
-        <View style={styles.contain_perso_3}>
-        <Text style={styles.modif_txt}>Modifier</Text>
-        </View>
-    </View>
-    }
 
-    modifInfoPerso() {
-        return(
-            <View>
-            <View style={styles.contain_profil_1}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} >
-                <Text styles={styles.profil_cancel}>Annuler</Text>
-            </TouchableOpacity>
-            </View>
-            <View style={styles.contain_profil_2}>
-                
-            </View>
-            <View style={styles.contain_profil_3}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} >
-                <Text style={styles.profil_save}>Enregistrer</Text>   
-            </TouchableOpacity>
-            </View>
-            </View>
-        )
-    }
 
 
     clickModif() {
         this.setState({modifPerso: true});
         this.props.start();
     }
+
+    modifProfilSecondaire() {
+        this.setState({modifPersoSecond: true});
+        this.props.startModifSecond();
+    }
+
 
     saveNewContact() {
         this.props.saveContact();
@@ -155,9 +121,19 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
         this.props.end();
     }
 
+    cancelModifProfilSecondaire() {
+        this.setState({modifPersoSecond: false});
+        this.props.endModifSecond();
+    }
+
     saveModif() {
         this.setState({modifPerso: false});
         this.props.save(); 
+    }
+
+    saveModifProfilSecondaire() {
+        this.setState({modifPersoSecond: false});
+        this.props.saveModifSecond(); 
     }
 
     addContactUrgence() {
@@ -182,9 +158,25 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                         {
                             (this.props.profile && 
                                 (
-                                    <View>
-                                        {this.showProfile()}
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
                                     </View>
+                                    <View style={styles.contain_perso_2}>
+                                    <Text style={styles.profil_txt}>Profil</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    
+                                    </View>
+                                </View>
                                 )
                             )
                         } 
@@ -351,7 +343,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                         
 
                         {
-                            (this.props.perso && !this.state.modifPerso &&
+                            (this.props.persoll && !this.state.modifPerso &&
                                 (
                                 <View style={styles.contain_perso}>
                                     <View style={styles.contain_perso_1}>
@@ -380,6 +372,43 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                         } 
 
                         {
+                            (this.props.perso && !this.state.modifPerso &&
+                                (
+                                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',
+                                justifyContent: 'center', marginLeft: 10}}>
+                                    <View style={{flex: 1, flexDirection: 'row'}}>
+                                        <TouchableOpacity
+                                         onPress={() => this.props.navigation.navigate("MyProfil")}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={20}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingRight: 5, paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                         onPress={() => this.props.navigation.navigate("MyProfil")}>
+                                         <Text style={styles.modif_txt}>Profil</Text>
+                                         </TouchableOpacity>
+                                    </View>
+
+                                    <View style={{flex: 2, alignItems: 'center'}}>
+                                        <Text style={styles.modif_txt}>Mes informations</Text>
+                                    </View>
+
+                                    <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 10}}>
+                                     <TouchableOpacity onPress={() => this.clickModif()}>
+                                        <Text style={styles.modif_txt}>Modifier</Text>
+                                    </TouchableOpacity>
+                                    </View>
+
+                                </View>
+                                )
+                            )
+                        }
+
+                        {
                             (this.props.perso && this.state.modifPerso &&
                                 (
                                 <View style={styles.contain_perso}>
@@ -399,7 +428,66 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 </View>
                                 )
                             )
+                        }
+
+                        {
+                            (this.props.secondProfilInfo && !this.state.modifPersoSecond &&
+                                (
+                                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',
+                                justifyContent: 'center', marginLeft: 10}}>
+                                    <View style={{flex: 1, flexDirection: 'row'}}>
+                                        <TouchableOpacity
+                                         onPress={() => this.props.navigation.navigate("MySecondProfil", {update: true})}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={20}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingRight: 5, paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                         <TouchableOpacity
+                                         onPress={() => this.props.navigation.navigate("MySecondProfil")}>
+                                            <Text style={styles.modif_txt}>Retour</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    <View style={{flex: 2, alignItems: 'center'}}>
+                                        <Text style={styles.modif_txt}>Profil Secondaire</Text>
+                                    </View>
+
+                                    <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 10}}>
+                                     <TouchableOpacity onPress={() => this.modifProfilSecondaire()}>
+                                        <Text style={styles.modif_txt}>Modifier</Text>
+                                    </TouchableOpacity>
+                                    </View>
+                                </View>
+                                )
+                            )
                         } 
+
+                        
+                        {
+                            (this.props.secondProfilInfo && this.state.modifPersoSecond &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.cancelModifProfilSecondaire()} style={{flex:1, flexDirection: 'row'}}>
+                                        <Text style={styles.txt_back_profil}>Annuler</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                        
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    <TouchableOpacity onPress={() => this.saveModifProfilSecondaire()}>
+                                        <Text style={styles.modif_txt}>Enregistrer</Text>
+                                    </TouchableOpacity>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
 
                         {
                             (this.props.mapview &&
@@ -418,6 +506,31 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                     </View>
                                     <View style={styles.contain_perso_2}>
                                     <Text style={styles.profil_txt}>Pharmacie</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
+                                                {
+                            (this.props.setting &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                    <Text style={styles.profil_txt}>Paramètres</Text>
                                     </View>
                                     <View style={styles.contain_perso_3}>
                                     </View>
@@ -542,8 +655,6 @@ const styles = StyleSheet.create({
     contain_perso: {
         flex: 1,
         flexDirection: 'row',
-        width: wp("100%"),
-        justifyContent: 'flex-end'
     },
     contain_perso_1: {
         flex: 1,

@@ -294,7 +294,8 @@ class Home extends React.Component{
   }
 
   onClickGoLocation() {
-    this.setState({mapLocation: this.state.location, deltaLat: 0.1000, deltaLng:0.0500, });
+
+    this.setState({mapLocation: this.state.location, deltaLat: 0.1000, deltaLng:0.0500, search: ''});
   }
 
   onClickDelete() {
@@ -369,7 +370,7 @@ class Home extends React.Component{
 
       {this.state.isDirection == true  && 
         <View style={styles.contain_distance}>
-          <Text style={{color: '#008ac8'}}>{this.state.distance} km</Text>
+          <Text style={{color: '#008ac8'}}>{this.state.distance}{'\n'} km</Text>
         </View>
       }
 
@@ -711,7 +712,7 @@ const styles = StyleSheet.create({
   },
   contain_distance: {
       position: "absolute",
-      bottom: 300,
+      bottom: 330,
       right: wp('3%'),
       zIndex: 10,
       backgroundColor: "white",
@@ -720,7 +721,7 @@ const styles = StyleSheet.create({
       paddingLeft: wp('1%'),
       paddingRight: wp('1%'),
       borderRadius: 12,
-      width: wp('15%'),
+      width: wp('13%'),
       alignItems: 'center',
       justifyContent: 'center'
   },

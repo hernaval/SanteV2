@@ -268,6 +268,11 @@ class SwitchSecond extends Component {
 
   }
 
+    saveProfileImageInfo =  (data) => {
+    console.log('Modifier Photo')
+    this.props.ModifySecondPhoto(data)
+    }
+
   _handleImagePicked = async pickerResult => {
     let uploadUrl =""
     try {
@@ -279,13 +284,18 @@ class SwitchSecond extends Component {
         imageSecondUser :uploadUrl,
         idSecondUser : this.state.id
       }
+            this.saveProfileImageInfo(data)
+
       
          axios.put(`${Bdd.api_url_second}/${this.state.id}/image`,data)
          .then(res=>{
            console.log("vita upload mys maj")
-         })
-
-        
+           console.log(res.data)
+         }).catch(
+           error => {
+             console.log(error)
+           }
+         )
       }
     } catch (e) {
       console.log(e);

@@ -234,7 +234,7 @@ class FileManager extends Component {
                         tabBarUnderlineStyle={{borderBottomWidth:2, borderBottomColor: 'white'}} 
                         tabContainerStyle={{elevation:0}}>
 
-                          <Tab heading="Tous mes documents" 
+                          <Tab heading="Tous" 
                             tabStyle={{backgroundColor: '#00C1B4'}} 
                             textStyle={{color: 'white', fontSize: 20}}
                             activeTabStyle={{backgroundColor: '#00C1B4'}} 
@@ -242,7 +242,7 @@ class FileManager extends Component {
                                 <ToutDoc navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
                           </Tab>
             
-                          <Tab heading="Mes ordonnances" 
+                          <Tab heading="Ordonnances" 
                             tabStyle={{backgroundColor: '#00C1B4'}} 
                             textStyle={{color: 'white', fontSize: 20}}
                             activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
@@ -250,7 +250,7 @@ class FileManager extends Component {
                             <Ordonnance navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
                           </Tab>
 
-                            <Tab heading="Mes certificats" 
+                            <Tab heading="Certificats" 
                             tabStyle={{backgroundColor: '#00C1B4'}} 
                             textStyle={{color: 'white', fontSize: 20}}
                             activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
@@ -259,7 +259,7 @@ class FileManager extends Component {
                           </Tab>
 
                           
-                          <Tab heading="Mes attestations" 
+                          <Tab heading="Attestations" 
                           tabStyle={{backgroundColor: '#00C1B4'}} 
                           textStyle={{color: 'white', fontSize: 20}}
                           activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
@@ -268,7 +268,7 @@ class FileManager extends Component {
                         </Tab>
 
                         
-                        <Tab heading="Mes comptes rendus" 
+                        <Tab heading="Comptes rendus" 
                         tabStyle={{backgroundColor: '#00C1B4'}} 
                         textStyle={{color: 'white', fontSize: 20}}
                         activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 

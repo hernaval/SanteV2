@@ -14,7 +14,13 @@ import { TextInput } from 'react-native-paper';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TopMenu from "./Menu/TopMenu"
-class Forgot extends React.Component {
+import HeaderMenu from "./Menu/HeaderMenu"
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input } from 'react-native-elements';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+
+
+class Setting extends React.Component {
 
   constructor(props) {
     super(props);
@@ -23,17 +29,18 @@ class Forgot extends React.Component {
       errDroit : null,
       errNew : null,
       errConfirm : null,
-      isLoading: false
+      isLoading: false,
+      succes: null
     }
 
     this.currentPass = ""
     this.pass = ""
     this.confirmPass = ""
+    this.textInput1 = React.createRef();
+    this.textInput2 = React.createRef();
+    this.textInput3 = React.createRef();
   }
 
-  gotToLogin() {
-    this.props.navigation.push("Login")
-  }
 
   onChangeInput(text, type) {
     this[type] = text;
@@ -43,15 +50,15 @@ class Forgot extends React.Component {
   sendForgot() {
 
     if (this.pass !== this.confirmPass) {
-      this.setState({ error: "Confirmation mot de passe non identique", errConfirm : "Mot de passe non identique",errNew :"Mot de passe non identique" })
-      this.pass = "",
+        this.setState({ error: "Confirmation mot de passe non identique", errConfirm : "Mot de passe non identique",errNew :"Mot de passe non identique" })
+        this.pass = "",
         this.confirmPass = ""
     } else {
       let data = {
         actualPass: this.currentPass,
         passwordUser: this.pass
       }
-      console.log(data.actualPass)
+
       let idUser = this.props.user.user.idUser
       this.setState({ isLoading: true });
       axios.put(`${Bdd.api_url}/${idUser}/reset-password`, data)
@@ -64,13 +71,27 @@ class Forgot extends React.Component {
               this.setState({ error: "mot de passe incorrect", errConfirm : "mot de passe incorrect" })
               break
             case "use another":
-              this.setState({ error: "trouver un autre mot de passe que l'actuel", errNew : "Trouver un autre que l'actuel" })
+              this.setState({ error: "Trouver un autre mot de passe que l'actuel", errNew : "Trouver un autre que l'actuel" })
               break
-            default:
-              this.currentPass = ""
-              this.pass = "",
+            case "credentials updated":
+                this.setState(
+                    { 
+                        succes: 'Mot de passe modifié avec succès',
+                        error: ''
+                    })
+                this.currentPass = ""
+                this.pass = "",
                 this.confirmPass = ""
-
+                this.textInput1.clear()
+                this.textInput2.clear()
+                this.textInput3.clear()
+            default:
+                this.currentPass = ""
+                this.pass = "",
+                this.confirmPass = ""
+                this.textInput1.clear()
+                this.textInput2.clear()
+                this.textInput3.clear()
           }
         }).catch((err) => {
           console.log('err', err);
@@ -89,41 +110,48 @@ class Forgot extends React.Component {
         </View>}
 
         <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <TopMenu navigation={this.props.navigation} />
+          <HeaderMenu navigation={this.props.navigation} setting={1}/>
         </View>
 
-        <View style={{marginTop : hp("5%"), flex: 1, justifyContent: 'center', alignItems: 'center'}} >
+      <KeyboardAwareScrollView style={{ flex: 1, marginTop: 60 }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
           <Text style={{textAlign : "center", fontWeight : "bold",fontSize: 23}}>Changer de mot passe </Text>
           <Image source={require("../images/reset.png")}  />
         </View>
 
         <View style={{ flex: 1, justifyContent: "center", marginLeft: 20, marginRight: 20}} >
           <TextInput
-            style={{ marginBottom: 20, backgroundColor : "white" }}
+            style={{ marginBottom: 20, backgroundColor : "white", fontSize: 18 }}
             onChangeText={(text) => this.currentPass = text}
             secureTextEntry={true}
             label="Mot de passe actuel"
+            returnKeyType="next"
             autoCapitalize='none'
-          
-
+            ref={input => { this.textInput1 = input }}
           />
+
           <TextInput
             style={{ marginBottom: 20, backgroundColor : "white" }}
             onChangeText={(text) => this.pass = text}
             secureTextEntry={true}
             label="Nouveau mot de passe"
+            returnKeyType="next"
             autoCapitalize='none'
-
-
+            ref={input => { this.textInput2 = input }}
           />
           <TextInput
             style={{ marginBottom: 20,  backgroundColor : "white" }}
             onChangeText={(text) => this.confirmPass = text}
             secureTextEntry={true}
             label="Confirmer nouveau mot de passe"
+            returnKeyType="done"
             autoCapitalize='none'
-
+            ref={input => { this.textInput3 = input }}
           />
+
+        <Text style={styles.error}>{this.state.error}</Text>
+        <Text style={styles.succes}>{this.state.succes}</Text>
+
 
           {/* <TouchableOpacity
             style={styles.buttonStyle}
@@ -133,15 +161,14 @@ class Forgot extends React.Component {
           </TouchableOpacity> */}
 
         </View>
+    </KeyboardAwareScrollView>
 
-
-        <View style={{marginVertical : hp("2%"),marginHorizontal : wp("2%")}}>
-          <TouchableOpacity style={{padding : 20, backgroundColor : "#00C1B4"}}>
-            <Text style={{textAlign : "center",color :"white"}}>Valider</Text>
-          </TouchableOpacity>
-        </View>
-
-
+            <View>
+                <TouchableOpacity style={{padding : 20, backgroundColor : "#00C1B4"}} 
+                onPress={() => this.sendForgot()}>
+                    <Text style={{textAlign : "center",color :"white"}}>Valider</Text>
+                </TouchableOpacity>
+            </View>
 
       </View>
     );
@@ -149,6 +176,40 @@ class Forgot extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    succes: {
+        fontSize: 17,
+        color: '#008ac8',
+        textAlign: 'center'
+    },
+    error: {
+        fontSize: 17,
+        color: 'red',
+        textAlign: 'center'
+    },
+    inputs: {
+      height: 45,
+      marginLeft: 16,
+      width : "100%"
+    },
+    inputIcon: {
+      width: 30,
+      height: 30,
+      marginLeft: 15,
+      justifyContent: 'center'
+    },
+    inputContainer: {
+      marginTop: 8,
+      borderColor: "#d3d3d3",
+      backgroundColor: '#FFFFFF',
+      borderRadius: 10,
+      borderWidth: 1,
+      width: "100%",
+      height: 45,
+      flexDirection: 'row',
+      alignItems: 'center',
+
+      zIndex: 1
+    },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -257,4 +318,4 @@ const mapDispatchToProps = {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Forgot);
+export default connect(mapStateToProps, mapDispatchToProps)(Setting);

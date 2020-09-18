@@ -26,6 +26,7 @@ class MapScreen extends Component {
 
     this.GOOGLE_API_KEY = "AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs";
   }
+  
   componentDidMount() {
     console.log(this.props);
     const { navigation } = this.props;
@@ -142,10 +143,6 @@ class MapScreen extends Component {
           }
           </View>
         */}
-
-
-
-
       </View>
     );
   }
