@@ -30,11 +30,15 @@ import TopMenu from "../../component/Menu/TopMenu"
 import HeaderMenu from "../../component/Menu/HeaderMenu"
 import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faFileMedicalAlt} from '@fortawesome/free-solid-svg-icons';
 import { Container, Header, Content, Form, Item, Label } from 'native-base';
+import axios from 'axios'
+import Bdd from '../../API/Bdd'
+
 
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
 class InfoSecond extends Component {
@@ -84,26 +88,19 @@ class InfoSecond extends Component {
       isModifbegin: false,
       modalVisible: false
     }
-
     this.ref = firebase.firestore().collection('profile');
     this.countProfil = 0
   }
 
   componentDidMount = async () => {
     this.setState({ isLoading: true })
-    // const my_size = this.props.navigation.state.params.size;
-    // const my_blood = this.props.navigation.state.params.blood;
-    // const my_weight = this.props.navigation.state.params.weight;
-    // const my_profile = this.props.navigation.state.params.profile;
-    // this.setState({
-    //   blood: my_blood, 
-    //   size: my_size,
-    //   weight: my_weight,
-    //   profile: my_profile
-    // })
     this.changeProfil()
-    console.log(this.props.second)
+    this.fetchSante()
     this.setState({ isLoading: false })
+    console.log('Param navigation info second ',this.props.navigation.state.params)
+    this._subscribe = this.props.navigation.addListener('didFocus', async () => {
+      this.fetchSante()
+    });
     await this.getCameraPermissions()
   }
 
@@ -125,7 +122,11 @@ class InfoSecond extends Component {
     goToSecondSante() {
     this.countProfil = 0;
     console.log('Go to second sante avec', this.state.photoUri)
-    this.props.navigation.navigate("MySecondSante", {profil: this.state.photoUri, id: this.state.id})
+    this.props.navigation.navigate("SanteSecond", 
+    {
+      profil: this.state.photoUri, id: this.state.id,
+      firstName: this.state.firstName, lastName: this.state.lastName
+    })
     }
 
 
@@ -416,13 +417,43 @@ Savemodify() {
       }
     } catch (e) {
       console.log(e);
-      alert('Upload failed, sorry :(');
+      console.log('Upload failed, sorry :(');
     } finally {
-      console.log('finally')
-      this.setState({ isLoading: false });
+      console.log('FINALLY ', uploadUrl)
+      this.setState({ 
+        isLoading: false,
+        photoUri: uploadUrl
+      }, () => {
+        this.setState({
+          photoUri: this.state.photoUri
+        })
+      });
       /* this.props.navigation.navigate("MonProfil") */
-      this.setState({photoUri : uploadUrl})
     }
+  }
+
+  fetchSante = async () => {
+    console.log('fetch sante second de ', this.state.id)
+    await axios.get(`${Bdd.api_url_second}/fiche-sante/list?idSecondUser=${this.state.id}`)
+      .then(async res => {
+        if (await !res) {
+          console.log("tena misy olana")
+        } else {
+          const fiche = res.data.data
+          console.log('resultat de fiche sante ', fiche)
+          if (res.data === null) this.setState({ isFirst: true })
+          else this.setState({
+            isFirst: false,
+            blood: fiche.groupeSanguin, size: fiche.taille,
+            weight: fiche.poids, medecin: fiche.medecinTraitant,
+            secu: fiche.numSecu, donate: fiche.donnateur,
+            idFiche: fiche.idFiche, allergies: fiche.allergies
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
 
@@ -586,6 +617,15 @@ Savemodify() {
               }
   {
 }
+              {
+                !this.state.modifying && (
+                  <TouchableOpacity style={styles.fiche_sante} onPress={() => this.goToSecondSante()}>
+                  <FontAwesomeIcon color="#FFFFFF" size={20} icon={faFileMedicalAlt} />
+                  <Text style={styles.text_fiche_sante}>Fiche Santé</Text>
+                  </TouchableOpacity>
+                )
+              }
+
 
         </ScrollView>
 
@@ -594,6 +634,27 @@ Savemodify() {
   }
 }
 const styles = StyleSheet.create({
+  fiche_sante: {
+    width: wp('70%'),
+    marginLeft: wp('15%'),
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 4,
+    borderColor: '#008ac8',
+    backgroundColor: '#008ac8',
+    padding: 5,
+    borderRadius: 5,
+    marginTop: 5,
+    height: 60
+  },
+  text_fiche_sante: {
+    fontSize: 18,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    paddingLeft: 15
+  },
   contain_info: {
     marginBottom: 10
   },

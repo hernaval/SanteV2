@@ -447,7 +447,9 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         />
                                         </TouchableOpacity>
                                          <TouchableOpacity
-                                         onPress={() => this.props.navigation.navigate("MySecondProfil")}>
+                                         onPress={() => 
+                                            this.props.navigation.navigate("MySecondProfil", 
+                                            {id: this.props.idUserSecond})}>
                                             <Text style={styles.modif_txt}>Retour</Text>
                                         </TouchableOpacity>
                                     </View>

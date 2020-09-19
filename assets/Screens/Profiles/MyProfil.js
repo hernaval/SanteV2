@@ -370,7 +370,7 @@ class MyProfil extends Component {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil")}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil", {id: this.state.id})}>
                         <ListItem
                         chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             title="Mes Profils secondaires"

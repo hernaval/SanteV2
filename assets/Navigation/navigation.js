@@ -41,6 +41,7 @@ import MySecondSante from '../Screens/Profiles/MySecondSante'
 import MySecondProfil from '../Screens/Profiles/MySecondProfil'
 import SwitchSecond from '../Screens/Profiles/SwitchSecond'
 import InfoSecond from '../Screens/Profiles/InfoSecond'
+import SanteSecond from '../Screens/Profiles/SanteSecond'
 import FileManager from '../Screens/Documents/FileManager'
 import Emergency from '../Screens/Emergency'
 import Test from '../Screens/Documents/Test'
@@ -168,6 +169,12 @@ const NavigationBest4Sante = createStackNavigator(
             screen: RequireAuthentification(InfoSecond),
             navigation: {
                 title: 'InfoSecond'
+            }
+        },
+        SanteSecond: {
+            screen: RequireAuthentification(SanteSecond),
+            navigation: {
+                title: 'SanteSecond'
             }
         },
         FileManager: {

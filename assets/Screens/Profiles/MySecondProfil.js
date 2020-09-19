@@ -20,31 +20,33 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 class MySecondProfil extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             isLoading: false,
             secondUser: [],
             secondUserTemp: [],
-            actionIndex: -1
+            actionIndex: -1,
+            idUser: 0
         }
         this.addSecondProfil = this.addSecondProfil.bind(this)
     }
 
     componentDidMount() {
         this.fetchSecond()
-
+        console.log('id navigation ',this.props.navigation.state.params.id)
+        this.setState({
+            idUser: this.props.navigation.state.params.id
+        })
         this._subscribe = this.props.navigation.addListener('didFocus', async () => {
             this.fetchSecond()
        });
     }
 
     fetchSecond = () => {
-        let idUser = this.props.user.user.idUser
-        console.log('------8888------')
-        this.setState({
-            secondUser: []
-        });
+        let idUser = this.props.user.user.idUser ? this.props.user.user.idUser : this.state.idUser
+        console.log('------8888------', idUser)
+ 
         axios.get(`${Bdd.api_url_second}/list?idUser=${idUser}`)
             .then(
                 (res) => 
@@ -61,14 +63,21 @@ class MySecondProfil extends Component {
     renderItem = (index,idUser, fullname, lien, iniital, img) => (
         <ListItem
             containerStyle={{ margin: 10 }}
-
             title={fullname}
             subtitle={lien}
             leftAvatar={{
                 title: iniital
             }}
             bottomDivider
-            onPress={() => this.props.navigation.navigate("InfoSecond", {id: idUser, profil: img, index: index})}
+            onPress={() => 
+                {
+                    // console.log('idUser ', idUser);
+                    // console.log('profil', img)
+                    this.props.setIndexSelected(index)
+                    this.props.navigation.navigate("InfoSecond", 
+                    {id: idUser, profil: img, index: index})
+                }
+            }
             rightElement={
                 <React.Fragment>                   
                     <TouchableOpacity style={{ padding: 10 }} onPress={() => this.deleteSecondProfil(idUser)}>
@@ -161,7 +170,9 @@ class MySecondProfil extends Component {
                 </View>}
 
                 <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                    <HeaderMenu navigation={this.props.navigation} secondProfil={1} ajouterSecondProfil={this.addSecondProfil}/>
+                    <HeaderMenu navigation={this.props.navigation} 
+                    secondProfil={1} ajouterSecondProfil={this.addSecondProfil}
+                    idUserSecond={this.props.user.user.idUser}/>
                 </View>
 
                 <View style={styles.profilContainer}>
