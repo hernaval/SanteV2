@@ -63,8 +63,13 @@ import ContactUrgence from '../Screens/Contacts/ContactUrgence'
 
 import Calendars from '../Screens/Rappel/Calendars'
 import UserResponded from "../Screens/Samaritain/UserResponded"
+import VoiceScreen from "../Screens/VoiceScreen"
+
 const NavigationBest4Sante = createStackNavigator(
-    {
+    {   
+        VoiceScreen : {
+            screen : VoiceScreen
+        },
         UserResponded : {
             screen : RequireAuthentification(UserResponded),
             navigationOptions : {
