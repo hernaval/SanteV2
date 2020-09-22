@@ -1,5 +1,5 @@
 {
-<<<<<<< HEAD
+  "devToolsPort": 19002,
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
@@ -7,14 +7,4 @@
   "packagerNgrokUrl": null,
   "ngrokPid": null,
   "webpackServerPort": null
-=======
-  "packagerPort": 19001,
-  "packagerPid": 5216,
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://bi-3ft.hernaval419.santev2.exp.direct",
-  "packagerNgrokUrl": "https://packager.bi-3ft.hernaval419.santev2.exp.direct",
-  "ngrokPid": 5768,
-  "webpackServerPort": null,
-  "devToolsPort": 19002
->>>>>>> origin/naval
 }
