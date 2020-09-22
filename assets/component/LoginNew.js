@@ -12,6 +12,7 @@ import {
   removeOrientationListener as rol
 } from 'react-native-responsive-screen';
 import * as Facebook from 'expo-facebook';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 class LoginNew extends React.Component {
   constructor(props) {
@@ -91,7 +92,7 @@ class LoginNew extends React.Component {
           });
       } else {
         // type === 'cancel'
-        Alert.alert('Connexion annulée');
+        Alert.alert('Message de Facebook','Connexion annulée');
       }
     } catch ({ message }) {
       console.log(message);
@@ -193,8 +194,31 @@ class LoginNew extends React.Component {
               <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.Connect()}>
                 <Text style={styles.signUpText}>Se{"  "}connecter</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={[styles.buttonContainerF, styles.signupButtonF]} onPress={() => this.logInFacebook()}>
-                <Text style={styles.signUpTextF}>Connexion{"  "} avec{"  "} Facebook {"  "}</Text>
+
+              <View style={{flex: 1 , flexDirection: 'row', 
+              justifyContent: 'center', alignItems: 'center', marginBottom: 20, marginTop: -10}}>
+                <View style={{width: '40%', borderBottomWidth: 2, borderColor: 'grey'}}>
+                  <Text></Text>
+                </View>
+                <View style={{width: '20%', alignItems: 'center', paddingTop: 15}}>
+                  <Text>Ou</Text>
+                </View>
+                <View style={{width: '40%', borderBottomWidth: 2, borderColor: 'grey'}}>
+                  <Text></Text>
+                </View>
+              </View>
+
+              <TouchableHighlight style={styles.buttonContainerF} onPress={() => this.logInFacebook()}>
+              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
+              <Icon
+              name='facebook'
+              size={18}
+              type='font-awesome'
+              color='#FFFFFF'
+              style={{}}
+              />  
+              <Text style={styles.signUpTextF}>Connexion{"  "} avec{"  "} Facebook {"  "}</Text>
+              </View>
               </TouchableHighlight>
               <View style={styles.textLink}>
                 <Text onPress={() => { this.goToForgotPassword() }} style={styles.textLinkWhite}>Mot{"  "} de{"  "} passe{"  "} oublié? {"  "}</Text>
@@ -237,7 +261,7 @@ const styles = StyleSheet.create(
       //   shadowOffset : { width: 1, height: 13},
     },
     signupButton: {
-      backgroundColor: "#008ac8",
+      backgroundColor: "#00C1B4",
     },
     signUpText: {
       color: 'white',
@@ -245,27 +269,26 @@ const styles = StyleSheet.create(
       fontSize: 16
     },
     buttonContainerF: {
-      
       height: 45,
       flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
+      flex: 1,
       marginBottom: 1,
       width: "100%",
       borderRadius: 10,
-      shadowColor: '#000',
-      shadowOpacity: 0.5,
-      elevation: 3,
-      shadowRadius: 20,
-      shadowOffset: { width: 10, height: 7 },
-    },
-    signupButtonF: {
-      backgroundColor: "white",
+      backgroundColor: '#008ac8',
+      justifyContent: 'center',
+      alignItems: 'center'
+      // shadowColor: '#000',
+      // shadowOpacity: 0.5,
+      // elevation: 3,
+      // shadowRadius: 20,
+      // shadowOffset: { width: 10, height: 7 },
     },
     signUpTextF: {
-      color: '#1795cd',
-      fontWeight: 'bold',
-      fontSize: 16
+      color: '#FFFFFF',
+      fontWeight: '100',
+      fontSize: 16,
+      paddingLeft: 15
     },
     buttonContainerM: {
       borderWidth: 0.166,
@@ -312,14 +335,14 @@ const styles = StyleSheet.create(
       flex: 11
     },
     inputIcon1: {
-      width: 24,
-      height: 17,
+      width: 22,
+      height: 16,
       marginLeft: 15,
       justifyContent: 'center',
     },
     inputIcon2: {
-      width: 22,
-      height: 29,
+      width: 19,
+      height: 24,
       marginLeft: 15,
       marginRight: 7,
       justifyContent: 'center',

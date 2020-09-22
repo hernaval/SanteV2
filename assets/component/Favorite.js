@@ -293,6 +293,10 @@ class Favorite extends React.Component {
                             {
                                 this.state.favorites.length === 0 && <View style={styles.mainEmpty}>
                                     <Text style={styles.emptyTitle1}>Vous n'avez toujours pas ajouté de favoris...</Text>
+                                    <Text style={styles.emptyTitle1}>
+                                        Il est possible d'y ajouter votre pharmacie, votre medecin traitant et tout
+                                        ce qui se trouve sur la carte de recherche
+                                    </Text>
                                     <Text style={styles.emptyTitle2}>Ajoutez-en depuis la carte de recherche</Text>
                                     <Text
                                         style={styles.footer2}

@@ -1,50 +1,43 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Modal,ActivityIndicator, Keyboard, Button } from 'react-native'
-import TopMenu from "../../component/Menu/TopMenu"
-import HeaderMenu from "../../component/Menu/HeaderMenu"
+import { View, StyleSheet, TextInput, TouchableOpacity, Modal,ActivityIndicator, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
+    listenOrientationChange as loc,
+    removeOrientationListener as rol
 } from 'react-native-responsive-screen';
 import { SearchBar, Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHome, faBars, faTimes, faCaretDown, faNotesMedical, faHandsHelping, faPumpMedical, faDisease, faFileImage, faShareAlt, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faSearch, faNotesMedical, faHandsHelping, faEllipsisV, faPumpMedical, faFileImage, faShareAlt, faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Row, Grid } from 'react-native-easy-grid';
 import axios from 'axios';
 import Bdd from "../../API/Bdd"
 import * as Sharing from 'expo-sharing';
 import * as  FileSystem from 'expo-file-system';
-import BottomMenu from "../../component/Menu/BottomMenu"
-import { Avatar, Divider, ListItem } from 'react-native-elements';
+import { Avatar, Divider, ListItem, Tooltip, Text } from 'react-native-elements';
 import ImageView from "react-native-image-viewing";
-import { Container, Header, Content, Tab, Tabs, ScrollableTab  } from 'native-base';
-import ActionButton from 'react-native-action-button';
-import ListFile from './ListFile'
-import ToutDoc from './ToutDoc'
-import Ordonnance from './Ordonnance'
-import Certificat from './Certificat'
-import Autre from './Autre'
-import Attestation from './Attestation'
-import CompteRendu from './CompteRendu'
+import {Input} from 'native-base';
 
-class FileManager extends Component {
+class Certificat extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             documents: [],
-            selectedCate: "all",
+            selectedCate: "cert",
             numColored: 0,
             listOption: false,
             selectedDoc: null,
             modalVisible: false,
             imgIndex: 0,
-            isLoading : false
+            isLoading : false,
+            currentId: 0
         }
         this.images = []
-        this.handleCate = this.handleCate.bind(this)
+        this.tooltip = React.createRef()
+        this.tab = 'cert'
     }
 
     selectedDocItem() {
@@ -61,16 +54,22 @@ class FileManager extends Component {
     async componentDidMount() {
         this.setState({isLoading : true})
         await this._initDoc()
+        this.handleCate(this.tab, 1)
         this.setState({isLoading : false})
-
         this._subscribe = this.props.navigation.addListener('didFocus', async () => {
             await this._initDoc()
        });
+       loc(this)
     }
 
+    componentWillUnMount() {
+        rol();
+    }
 
+    
+    
     _initDoc = async () => {
-        let id = this.props.user ? this.props.user.user.idUser : 0;
+        let id = this.props.idUser;
 
         await axios.get(`${Bdd.api_url}/document/list?idUser=${id}`)
             .then((response) => {
@@ -100,13 +99,7 @@ class FileManager extends Component {
             })
     }
 
-    renderCardCate = (text, isColor, cate, index) => (
-        <TouchableOpacity key={index} onPress={() => { this.handleCate(cate, index) }} style={[styles.cardContainer, isColor == true ? { backgroundColor: "#008ac2" } : { backgroundColor: "white" }]}>
-            <FontAwesomeIcon size={30} style={[styles.iconCard, isColor == true ? { color: "white" } : { color: "grey" }]} icon={faNotesMedical} />
-            <Text style={[styles.cardText, isColor == true ? { color: "white" } : { color: "grey" }]}>{text}</Text>
-        </TouchableOpacity>
 
-    )
     handleCate = async (cate, index) => {
         this.setState({ isLoading: true })
         await this.setState({
@@ -117,7 +110,16 @@ class FileManager extends Component {
         await this._initDoc()
         this.setState({ isLoading: false })
     }
+
+    reloadTooltip() {
+        this.setState({
+            documents: []
+        })
+        this.handleCate(this.tab, 1)
+    }
+    
     goToDetail = (index) => {
+        this.reloadTooltip()
         this.setState({ isVisible: true, imgIndex: index })
     }
 
@@ -131,25 +133,41 @@ class FileManager extends Component {
         </TouchableOpacity>
     )
 
-    blabla = (id, docName, docDate, index) => (
+    _clickInfo(id, index, link) {
+        return(
+            <View style={{flex: 1}}>
+                <TouchableOpacity onPress={() => this.goToDetail(index)}>
+                    <Text style={styles.text_popup}>Afficher</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() =>  this.shareDoc(id,link)}>
+                    <Text style={styles.text_popup}>Partager</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.deleteDoc(id)}>
+                    <Text style={styles.text_popup2}>Supprimer</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    blabla = (id, docName, docDate, index, link) => (
         <ListItem
             key={index}
             containerStyle={{ margin: 10 }}
-
+            titleStyle={{color: '#008ac8', fontWeight: 'bold'}}
             title={docName}
             subtitle={docDate}
             leftIcon={<FontAwesomeIcon icon={faFileImage} />}
             bottomDivider
+            onPress={() => this.goToDetail(index)}
             rightElement={
                 <React.Fragment>
-                    <TouchableOpacity style={{ padding: 10 }} onPress={() => this.goToDetail(index)}>
-                        <FontAwesomeIcon icon={faEye} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ padding: 10 }} onPress={() => this.shareDoc(id)}>
-                        <FontAwesomeIcon icon={faShareAlt} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ padding: 10 }} onPress={() => this.deleteDoc(id)}>
-                        <FontAwesomeIcon icon={faTrash} />
+                    <TouchableOpacity style={{ padding: 10 }}>
+                        <Tooltip popover={this._clickInfo(id, index, link)} height={120} width={200}
+                        backgroundColor="#008ac8"
+                        ref={this.tooltip}
+                        >
+                            <FontAwesomeIcon icon={faEllipsisV} />
+                        </Tooltip>
                     </TouchableOpacity>
                 </React.Fragment>
             }
@@ -162,25 +180,27 @@ class FileManager extends Component {
             modalVisible: true
         })
     }
-    shareDoc = async (id) => {
+
+    shareDoc = async (id, link) => {
+        // this.reloadTooltip()
         this.setState({ isLoading: true })
-        await this.getDoc(id)
-        const image_source = Bdd.pict_url + this.state.uri
+        // await this.getDoc(id)
+        // const image_source = Bdd.pict_url + this.state.uri
         FileSystem.downloadAsync(
-            image_source,
-            FileSystem.documentDirectory + ".jpg"
+            link,
+            FileSystem.documentDirectory + "share.jpg"
         )
             .then(async ({ uri }) => {
                 console.log('Finished downloading to ', uri);
-
                 await Sharing.shareAsync(uri);
-
                 this.setState({ isLoading: false })
-            })
-
-
-
+                this.reloadTooltip()
+            }).catch(error => {
+                console.error(error);
+              });
     };
+
+
     getDoc = async (id) => {
         let data = {
             id: id
@@ -191,136 +211,120 @@ class FileManager extends Component {
                     name_doc: response.data.document.nam,
                     uri: response.data.document.url
                 })
-            })
+        })
     }
+
     deleteDoc(id) {
-
-
         axios.delete(`${Bdd.api_url}/document/${id}`)
             .then(async (response) => {
                 this.setState({isLoading : true})
                 await this._initDoc()
                 this.setState({isLoading : false})
             })
+        this.reloadTooltip()
     }
     render() {
-        const datas = [
+        return (
+            <View style={{ flex: 1}}>
             {
-                type: "Tous", label: "all"
-            }, {
-                type: "Mes ordonnances", label: "ordo"
-            }, {
-                type: "Mes certificats", label: "cert"
-            }, {
-                type: "Mes attestations", label: "atte"
-            }, {
-                type: "Mes comptes-rendus", label: "cptr"
-            }, {
-                type: "Autres", label: "aut"
+                /**
+                 * 
+                 *   <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                    <View style={styles.contain_search}>
+                    <View style={{flex: 1}}>
+                        <FontAwesomeIcon 
+                        icon={faSearch} 
+                        color="#636363" 
+                        size={23} 
+                        />
+                    </View>
+        
+                    <View style={{flex: 5, marginLeft: -5}}>
+                    <Input 
+                    placeholder="Que cherchez vous ?"
+                    style={styles.inputSearch}
+                    onChangeText={(text) => console.log(text)}
+                    />
+                    </View>
+                    </View>
+                </View>
+                 */
             }
 
-        ]
 
-        return (
-            <View style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>
-                    <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                        <HeaderMenu navigation={this.props.navigation} documents={1}/>
+                    {this.state.isLoading && <View style={styles.loading_container}>
+                        <ActivityIndicator size="large" />
+                    </View>}
+
+                    <View style={styles.docContainer}>
+                        <View >
+                            <ScrollView>
+                                {this.state.documents.length !== 0 && this.state.documents.map((document, i) => {
+                                    const dataImg = { uri: document.typeDoc }
+                                    this.images.push(dataImg)
+                                    let name = document.nomDoc
+                                    let date = document.createdAt
+                                    const jour = date.toString().substring(8,10)
+                                    const mois = date.toString().substring(5,7)
+                                    const annee = date.toString().substring(0,4)
+                                    date = 'date : ' + jour + '/' + mois + '/' + annee
+                                    return this.blabla(document.idDoc, name, date, i, document.typeDoc)
+                                })}
+                            </ScrollView>
+                        </View>
+
                     </View>
-
-                    <View style={styles.contain_tabs}>
-                    <Tabs
-                        renderTabBar={()=> <ScrollableTab/>} 
-                        tabBarUnderlineStyle={{borderBottomWidth:2, borderBottomColor: 'white'}} 
-                        tabContainerStyle={{elevation:0}}>
-
-                          <Tab heading="Tous" 
-                            tabStyle={{backgroundColor: '#00C1B4'}} 
-                            textStyle={{color: 'white', fontSize: 20}}
-                            activeTabStyle={{backgroundColor: '#00C1B4'}} 
-                            activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                                <ToutDoc navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
-                          </Tab>
-            
-                          <Tab heading="Ordonnances" 
-                            tabStyle={{backgroundColor: '#00C1B4'}} 
-                            textStyle={{color: 'white', fontSize: 20}}
-                            activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                            activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                            <Ordonnance navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
-                          </Tab>
-
-                            <Tab heading="Certificats" 
-                            tabStyle={{backgroundColor: '#00C1B4'}} 
-                            textStyle={{color: 'white', fontSize: 20}}
-                            activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                            activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                            <Certificat navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
-                          </Tab>
-
-                          
-                          <Tab heading="Attestations" 
-                          tabStyle={{backgroundColor: '#00C1B4'}} 
-                          textStyle={{color: 'white', fontSize: 20}}
-                          activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                          activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                          <Attestation navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
-                        </Tab>
-
-                        
-                        <Tab heading="Comptes rendus" 
-                        tabStyle={{backgroundColor: '#00C1B4'}} 
-                        textStyle={{color: 'white', fontSize: 20}}
-                        activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                        activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                        <CompteRendu navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
-                      </Tab>
-
-                      
-                      <Tab heading="Autres" 
-                      tabStyle={{backgroundColor: '#00C1B4'}} 
-                      textStyle={{color: 'white', fontSize: 20}}
-                      activeTabStyle={{backgroundColor: '#00C1B4', borderColor: '#008ac8'}} 
-                      activeTextStyle={{color: 'white', fontWeight: 'bold'}}>
-                      <Autre navigation={this.props.navigation} idUser={this.props.user.user.idUser}/>
-                    </Tab>
-
-                    </Tabs>
-                    </View>
-
-                    {/**
-                    <View style={styles.categories}>
-                        <ScrollView indicatorStyle="white" nestedScrollEnabled={true} horizontal={true}>
-                            {datas.map((data, i) => {
-                                return this.state.numColored === i ? this.renderCardCate(data.type, true, data.label, i) : this.renderCardCate(data.type, false, data.label, i)
-                            })}
-                        </ScrollView>
-                    </View>
-                    */}
-
 
                 </ScrollView>
 
-                    <ActionButton style={styles.action_button} 
-                     onPress={() => this.props.navigation.navigate("Test")} 
-                    buttonColor="#008AC8">
-                    </ActionButton>
+                
 
-
-                {/**
-                    <BottomMenu navigation={this.props.navigation} />
-                */}
-
+                <ImageView
+                    images={this.images}
+                    imageIndex={this.state.imgIndex}
+                    visible={this.state.isVisible}
+                    onRequestClose={() => this.setState({ isVisible: false })}
+                />
             </View>
-
         )
     }
 }
 const styles = StyleSheet.create({
-    action_button: 
-    { 
-  
+    text_popup: {
+        color: 'white',
+        fontSize: 17,
+        borderBottomWidth: 2,
+        borderBottomColor: 'white',
+        marginBottom: 10
     },
+    text_popup2: {
+        color: 'white',
+        fontSize: 17,
+        marginBottom: 10
+    },
+    contain_search: {
+        marginTop: 20,
+        marginBottom: 10,
+        flex: 1, 
+        flexDirection: 'row', 
+        backgroundColor: 'white', 
+        width: wp("85%"), 
+        paddingTop: 0, 
+        paddingLeft: 15, 
+        height: 60, 
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.10,
+        shadowRadius: 4.65,
+        elevation: 8,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
     contain_tabs: {
         marginTop: 15,
         zIndex: 0
@@ -467,4 +471,4 @@ const mapDispatchToProps = {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FileManager)
+export default connect(mapStateToProps, mapDispatchToProps)(Certificat)

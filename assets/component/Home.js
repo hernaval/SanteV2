@@ -1,5 +1,5 @@
 import React from 'react'
-import{StyleSheet, ScrollView, Text, View, AsyncStorage, Slider, Image, TextInput, KeyboardAvoidView, TouchableOpacity, Keyboard, ActivityIndicator, Alert } from 'react-native'
+import{StyleSheet, ScrollView, Text, View, AsyncStorage, Slider, Image, TextInput, KeyboardAvoidView, TouchableOpacity, Keyboard, ActivityIndicator, Alert, Dimensions } from 'react-native'
 import {Button} from 'react-native-elements';
 import {withNavigation} from 'react-navigation'
 import { connect } from 'react-redux';
@@ -25,7 +25,8 @@ import Loader from './loader'
 import Footer from './Menu/Footer'
 import TopMenu from './Menu/TopMenu';
 import HeaderMenu from './Menu/HeaderMenu';
-import BottomMenu from "./Menu/BottomMenu"
+import BottomMenu from "./Menu/BottomMenu";
+
 const DEFAULT_COORD = {coords: {
     latitude: 48.859268,
     longitude: 2.347060
@@ -63,10 +64,16 @@ class Home extends React.Component{
       isFavo:false,
       favoriteId: "ChIJqwot8jt-8CERZxtjIIStjNs",
       isLoading: false,
-      currentZoom: 0.1000
+      currentZoom: 0.1000,
+      distance: 0
     }
 
     this.testRad = 500
+
+    Dimensions.addEventListener('change', () => {
+      console.log('Change orientation');
+      this.props.navigation.navigate('menu')
+    });
   }
 
   componentDidMount = async () =>{
@@ -180,21 +187,38 @@ class Home extends React.Component{
 
   _zoomIn() {
     let zoom = this.state.deltaLat
-    zoom = zoom - 0.02
+
+    if (zoom <= 0.021) {
+      zoom = zoom - 0.002
+    } else {
+      zoom = zoom - 0.08
+    }
+
+    if (zoom < 0) {
+      zoom = 0.00001
+    }
+
+    console.log(zoom)
     this.setState({
       currentZoom: zoom
     })
-           this.setState({deltaLat: zoom, deltaLng: zoom},
+        this.setState({deltaLat: zoom, deltaLng: zoom},
         this.onPressList(this.state.selected))
   }
 
     _zoomOut() {
     let zoom = this.state.deltaLat
-    zoom = zoom + 0.02
+
+    if (zoom <= 0.021) {
+      zoom = zoom + 0.01
+    } else {
+      zoom = zoom + 0.08
+    }
+    console.log(zoom)
     this.setState({
       currentZoom: zoom
     })
-           this.setState({deltaLat: zoom, deltaLng: zoom},
+        this.setState({deltaLat: zoom, deltaLng: zoom},
         this.onPressList(this.state.selected))
     }
 
@@ -270,7 +294,8 @@ class Home extends React.Component{
   }
 
   onClickGoLocation() {
-    this.setState({mapLocation: this.state.location, deltaLat: 0.1000, deltaLng:0.0500, });
+
+    this.setState({mapLocation: this.state.location, deltaLat: 0.1000, deltaLng:0.0500, search: ''});
   }
 
   onClickDelete() {
@@ -311,12 +336,12 @@ class Home extends React.Component{
       </TouchableOpacity>}
 
       {this.state.isDirection == true  && <TouchableOpacity 
-        style={styles.broom}
+        style={styles.backward}
         onPress={(e)=>{
           this.onClickBack()
         }}
       >
-        <FontAwesomeIcon  size={30}  icon={ faBackward } />
+        <FontAwesomeIcon  size={25}  icon={ faBackward } color='#008ac8' />
       </TouchableOpacity>}
 
         <TouchableOpacity 
@@ -343,6 +368,13 @@ class Home extends React.Component{
           />
       </TouchableOpacity>
 
+      {this.state.isDirection == true  && 
+        <View style={styles.contain_distance}>
+          <Text style={{color: '#008ac8'}}>{this.state.distance}{'\n'} km</Text>
+        </View>
+      }
+
+      
 
         <View style={Platform.OS === 'ios' ? styles.head_ios : styles.head}>
         <View style={styles.contain_search}>
@@ -385,7 +417,7 @@ class Home extends React.Component{
         <View style={styles.main}>
           <View  style={styles.map}>
             <MapView 
-              style={{flex: 1}}
+              style={{flex: 1, width:('100%')}}
                region={{
                 latitude: this.state.mapLocation.coords.latitude,
                 longitude: this.state.mapLocation.coords.longitude,
@@ -452,7 +484,11 @@ class Home extends React.Component{
                       })
                     }}
                     onReady={result => {
-                      //.log('ready', result)
+                      this.setState({
+                        distance: parseFloat(result.distance).toFixed(2)
+                      })
+                      console.log(`Distance: ${result.distance} km`)
+                      console.log(`Duration: ${result.duration} min.`)
                     }}
                     onError={(errorMessage) => {
                        //.log('GOT AN ERROR', errorMessage);
@@ -465,7 +501,9 @@ class Home extends React.Component{
             </MapView>
           </View>
         </View>
-        <View style={styles.sliderContainer}>
+
+        {/**
+          <View style={styles.sliderContainer}>
           <Slider 
             style={styles.slider}
             step={1}
@@ -476,12 +514,10 @@ class Home extends React.Component{
             minimumTrackTintColor='#008AC8'
             thumbTintColor='#008AC8'
            
-          />
-
-          
+          /> 
            <Text style={{marginBottom: hp('1%'), color: '#008AC8', fontWeight: 'bold'}}>{this.state.radius} m</Text>
-          
         </View>
+        */}
 
             {this.state.isDisplay && <DetailCard   style={styles.card} detail = {this.state.detail} isFavo={this.state.isFavo} onClickClose={this._onClickClose} onClickDirection={this._onClickDirection} onChangeFavo= {this._onChangeFavo} favoriteId = {this.state.favoriteId}  />  }
 
@@ -534,9 +570,8 @@ const styles = StyleSheet.create({
     
   },
   map: {
-    
     width: wp('100%'),
-    height: hp('75%')
+    height: hp('85%')
   },
   sliderContainer : {
     height: hp("13%"),
@@ -612,7 +647,8 @@ const styles = StyleSheet.create({
   },
   location: {
     position: "absolute",
-    bottom: hp("50%"),
+    // bottom: hp("35%"),
+    bottom: 250,
     right: wp('3%'),
     zIndex: 10,
     backgroundColor: "white",
@@ -620,11 +656,27 @@ const styles = StyleSheet.create({
     paddingBottom: hp('1%'),
     paddingLeft: wp('1%'),
     paddingRight: wp('1%'),
-    borderRadius: 12
+    borderRadius: 12,
+  },
+  backward: {
+    position: "absolute",
+    bottom: 170,
+    right: wp('3%'),
+    zIndex: 10,
+    backgroundColor: "white",
+    paddingTop: hp('1%'),
+    paddingBottom: hp('1%'),
+    paddingLeft: wp('1%'),
+    paddingRight: wp('1%'),
+    width: wp('12%'), 
+    height: wp('12%'),
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   broom: {
     position: "absolute",
-    bottom: hp("40%"),
+    bottom:170,
     right: wp('3%'),
     zIndex: 10,
     backgroundColor: "white",
@@ -632,25 +684,23 @@ const styles = StyleSheet.create({
     paddingBottom: hp('1%'),
     paddingLeft: wp('1%'),
     paddingRight: wp('1%'),
-    
     borderRadius: 12
   },
     zoomIn: {
     position: "absolute",
-    bottom: hp("30%"),
+    bottom: 90,
     right: wp('3%'),
     zIndex: 10,
     backgroundColor: "white",
     paddingTop: hp('1%'),
     paddingBottom: hp('1%'),
     paddingLeft: wp('1%'),
-    paddingRight: wp('1%'),
-    
+    paddingRight: wp('1%'),    
     borderRadius: 12
   },
     zoomOut: {
     position: "absolute",
-    bottom: hp("20%"),
+    bottom: 10,
     right: wp('3%'),
     zIndex: 10,
     backgroundColor: "white",
@@ -658,8 +708,22 @@ const styles = StyleSheet.create({
     paddingBottom: hp('1%'),
     paddingLeft: wp('1%'),
     paddingRight: wp('1%'),
-    
     borderRadius: 12
+  },
+  contain_distance: {
+      position: "absolute",
+      bottom: 330,
+      right: wp('3%'),
+      zIndex: 10,
+      backgroundColor: "white",
+      paddingTop: hp('1%'),
+      paddingBottom: hp('1%'),
+      paddingLeft: wp('1%'),
+      paddingRight: wp('1%'),
+      borderRadius: 12,
+      width: wp('13%'),
+      alignItems: 'center',
+      justifyContent: 'center'
   },
   loading_container: {
     position: 'absolute',

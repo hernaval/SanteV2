@@ -26,6 +26,7 @@ class MapScreen extends Component {
 
     this.GOOGLE_API_KEY = "AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs";
   }
+  
   componentDidMount() {
     console.log(this.props);
     const { navigation } = this.props;
@@ -33,7 +34,7 @@ class MapScreen extends Component {
     const placeType = 'pharmacy';
     this.setState({ placeType: placeType });
 
-      this.getCurrentLocation();
+      // this.getCurrentLocation();
   }
 
   /**
@@ -109,10 +110,8 @@ class MapScreen extends Component {
           <HeaderMenu navigation={this.props.navigation} mapview={1}/>
         </View>
 
-
-            <View style={styles.mapView}>
-            
-              
+        {/**
+                    <View style={styles.mapView}>
               <MapView
               style={{
                 flex: 1
@@ -136,17 +135,14 @@ class MapScreen extends Component {
                 />
               ))}
             </MapView>
-              
-
           </View>
+
           <View style={styles.placeList}>
           {
             places.length > 0 ? <PlaceList places={places}/> : null
           }
           </View>
-
-
-
+        */}
       </View>
     );
   }

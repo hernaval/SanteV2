@@ -20,6 +20,7 @@ import RegisterDoctor from '../component/RegisterDoctor'
 import SecondAdd from '../component/SecondAdd'
 import SecondProfil from '../component/SeconProfil'
 import Forgot from '../component/forgot'
+import Setting from '../component/Setting'
 import BaseProfile from '../component/BaseProfile'
 import SecondBaseProfile from '../component/SecondBaseProfile'
 import FicheMedicale from '../component/FicheMedicale'
@@ -39,6 +40,8 @@ import MySante from '../Screens/Profiles/MySante'
 import MySecondSante from '../Screens/Profiles/MySecondSante'
 import MySecondProfil from '../Screens/Profiles/MySecondProfil'
 import SwitchSecond from '../Screens/Profiles/SwitchSecond'
+import InfoSecond from '../Screens/Profiles/InfoSecond'
+import SanteSecond from '../Screens/Profiles/SanteSecond'
 import FileManager from '../Screens/Documents/FileManager'
 import Emergency from '../Screens/Emergency'
 import Test from '../Screens/Documents/Test'
@@ -61,8 +64,9 @@ import ContactUrgence from '../Screens/Contacts/ContactUrgence'
 import Calendars from '../Screens/Rappel/Calendars'
 import UserResponded from "../Screens/Samaritain/UserResponded"
 import VoiceScreen from "../Screens/VoiceScreen"
+
 const NavigationBest4Sante = createStackNavigator(
-    {
+    {   
         VoiceScreen : {
             screen : VoiceScreen
         },
@@ -164,6 +168,18 @@ const NavigationBest4Sante = createStackNavigator(
             screen: RequireAuthentification(SwitchSecond),
             navigation: {
                 title: 'SwitchSecond'
+            }
+        },
+        InfoSecond: {
+            screen: RequireAuthentification(InfoSecond),
+            navigation: {
+                title: 'InfoSecond'
+            }
+        },
+        SanteSecond: {
+            screen: RequireAuthentification(SanteSecond),
+            navigation: {
+                title: 'SanteSecond'
             }
         },
         FileManager: {
@@ -355,6 +371,12 @@ const NavigationBest4Sante = createStackNavigator(
                 title: 'Forgot'
             }
         },
+        Setting: {
+            screen: RequireAuthentification(Setting),
+            navigationOption: {
+                title: 'Setting'
+            }
+        },
         BaseProfile: {
             screen: BaseProfile,
             navigationOption: {
@@ -404,7 +426,7 @@ const NavigationBest4Sante = createStackNavigator(
             }
         }
     }, {
-        initialRouteName: 'VoiceScreen',
+        initialRouteName: 'Login',
         headerMode: 'none'
     }
 )

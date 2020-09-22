@@ -105,10 +105,10 @@ export function ModifySecondPhoto(data) {
 		const idUser = data.idSecondUser
 		axios.put(`${Bdd.api_url_second}/${idUser}/image`, data)
 			.then(user => {
-				dispatch({
-					type: CHANGE_SECOND_PDP,
-					payload: user
-				})
+				// dispatch({
+				// 	type: CHANGE_SECOND_PDP,
+				// 	payload: user
+				// })
 			})
 	}
 

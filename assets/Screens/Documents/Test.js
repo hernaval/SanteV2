@@ -14,12 +14,14 @@ import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 import { connect } from 'react-redux';
 import TopMenu from "../../component/Menu/TopMenu"
+import HeaderMenu from "../../component/Menu/HeaderMenu"
 import axios from 'axios'
 import Bdd from "../../API/Bdd"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import * as firebase from 'firebase';
-import firestore from 'firebase/firestore'
+import firestore from 'firebase/firestore';
+
 const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4', 'Page 5']
 
 /* 
@@ -95,19 +97,22 @@ class Test extends Component {
   }
 
   _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing : true,
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   allowsEditing : true,
+    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+    // });
+
+    let result = await DocumentPicker.getDocumentAsync({
+      type: '*/*',
+      copyToCacheDirectory: false
     });
 
     //console.log(result)
 
     this._handleImagePicked(result);
-
   }
 
   takePictureAndCreateAlbum = async () => {
-    
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing : true,
       quality : 0.5
@@ -126,8 +131,6 @@ class Test extends Component {
       if (!pickerResult.cancelled) {
         uploadUrl = await this.uploadImageAsync(pickerResult.uri);
         this.setState({uri_doc : uploadUrl})
-
-     
         
       }
     } catch (e) {
@@ -174,19 +177,19 @@ class Test extends Component {
  async saveDoc(){
    console.log("doc savena eto")
     let data = {
-    
       idUser : this.props.user.user.idUser,
       nomDoc : this.state.name,
       cateDoc : this.state.docCategorie,
       typeDoc : this.state.uri_doc,
-
     }
        //
+       this.setState({ isLoading: true });
        await axios.post(`${Bdd.api_url}/document`,data)
         .then(_=> {
           this.props.navigation.navigate("FileManager")
         })
         .catch(err=> console.log(err))
+        this.setState({ isLoading: false });
   }
   
   getCamera() {
@@ -290,11 +293,11 @@ class Test extends Component {
       })} placeholder="autre doc" />}
       {this.state.docCategorie !== "" &&
       <TouchableOpacity
-         style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+         style={{ ...styles.openButton, backgroundColor: "#FFFFFF" }}
       onPress={() => {
         this.viewPager.setPage(2)
       }}>
-         <Text style={styles.textStyle}>Suivant</Text> 
+         <Text style={styles.textSuivant}>Suivant</Text> 
         
       </TouchableOpacity>}
     </View>
@@ -318,32 +321,32 @@ class Test extends Component {
           <View style={styles.modalView}>
           <TouchableOpacity ></TouchableOpacity>
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              style={{ ...styles.openButton2, backgroundColor: "#2196F3", marginBottom: 20 }}
               onPress={() => {
                 this.setState({ modalVisible: !this.state.modalVisible })
                 this._pickImage()
               }}
             >
-              <Text style={styles.textStyle}>Importer  </Text>
+              <Text style={styles.textStyle}>Importer une photo</Text>
             </TouchableHighlight>
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              style={{ ...styles.openButton2, backgroundColor: "#2196F3", marginBottom: 20 }}
               onPress={() => {
                 this.setState({ modalVisible: !this.state.modalVisible})
                 this.takePictureAndCreateAlbum()
               }}
             >
-              <Text style={styles.textStyle}>Utiliser caméra</Text>
+              <Text style={styles.textStyle}>Prendre une photo</Text>
 
             </TouchableHighlight>
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#d3d3d3" }}
+              style={{ ...styles.openButton2, backgroundColor: "#d3d3d3" }}
               onPress={() => {
                 this.setState({ modalVisible: !this.state.modalVisible})
               
               }}
             >
-              <Text style={styles.textStyle}>annuler</Text>
+              <Text style={styles.textStyle}>Annuler</Text>
 
             </TouchableHighlight>
           </View>
@@ -359,23 +362,23 @@ class Test extends Component {
       </TouchableOpacity  >
     
       
-      {this.state.uri_doc !== null && <Text style={styles.docText}>Votre document est sélectionné</Text>}
-      {this.state.uri_pict !== null && <Text style={styles.docText}>Votre photo est sélectionné</Text>}
+      {this.state.uri_doc !== null && <Text style={styles.docText}>Votre document est prêt</Text>}
+      {this.state.uri_pict !== null && <Text style={styles.docText}>Votre photo est prêt</Text>}
         
       {this.state.uri_doc !== null && 
 
        <TouchableOpacity 
-       style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+       style={{ ...styles.openButton, backgroundColor: "#FFFFFF" }}
        onPress={() => this.viewPager.setPage(1 )}
         >
-           <Text style={styles.textStyle}>Suivant</Text>
+           <Text style={styles.textSuivant}>Suivant</Text>
           
          
         </TouchableOpacity>} 
         {this.state.uri_pict !== null && 
 
 <TouchableOpacity 
-style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+style={{ ...styles.openButton, backgroundColor: "#FFFFFF" }}
 onPress={() => this.viewPager.setPage(1 )}
  >
     <Text style={styles.textStyle}>Suivant</Text>
@@ -387,14 +390,14 @@ onPress={() => this.viewPager.setPage(1 )}
 
   renderDocumentName = () => (
     <View style={styles.page}>
-      <Text style={{fontWeight : "bold",fontSize : 20,paddingBottom : 70}}>Donnez un nom à votre document</Text>
-      <TextInput style={{padding : 10, borderColor : "#000"}} onChangeText={(value) => {
+      <Text style={{fontWeight : "bold",fontSize : 20,paddingBottom : 40}}>Nom du document</Text>
+      <TextInput style={{padding : 5, borderColor : "#000", fontSize: 18}} onChangeText={(value) => {
         this.setState({ name: value })
-      }} placeholder="nom du doc" />
-      <TouchableOpacity style={{padding : 10,backgroundColor : "#00C1B4"}} onPress={() => { this.saveDoc() }}>
-        <Text style={styles.textStyle}>
+      }} placeholder="Mon document" />
+      <TouchableOpacity style={{padding : 10,backgroundColor : "#00C1B4", marginTop: 10}} onPress={() => { this.saveDoc() }}>
+        <Text style={[styles.textStyle, {fontSize: 16}]}>
           Sauvegarder le  document
-      </Text>
+        </Text>
       </TouchableOpacity>
       
     </View>
@@ -415,13 +418,14 @@ onPress={() => this.viewPager.setPage(1 )}
     return (
       <View style={styles.container}>
         {this.state.isLoading && <View style={styles.loading_container}>
+          <Text style={{color: '#00C1B4'}}>Chargement ...</Text>
           <ActivityIndicator size="large" />
         </View>}
 
         {this.state.isCamera === true && this.getCamera()}
         {this.state.isCamera === false &&
           <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-            <TopMenu navigation={this.props.navigation} />
+            <HeaderMenu navigation={this.props.navigation} addDocument={1}/>
           </View>  }
 
          {this.state.isCamera === false && 
@@ -545,10 +549,22 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
+  openButton2: {
+    backgroundColor: "#F194FF",
+    padding: 10,
+    elevation: 2,
+    width: wp('40%'),
+    alignItems: 'center'
+  },
   textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center"
+  },
+  textSuivant: {
+    color: '#2196F3',
+    fontWeight: "bold",
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
@@ -617,7 +633,9 @@ const styles = StyleSheet.create({
     //width: wp('70%')
   }, 
   docText: {
-    
+    fontSize: 18,
+    marginTop: 15,
+    marginBottom: 15
   },
   buttonSave: {
     backgroundColor: "#00C1B4",

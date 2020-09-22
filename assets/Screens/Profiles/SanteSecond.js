@@ -34,13 +34,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft, faFilePdf, faShareAlt as faShare } from '@fortawesome/free-solid-svg-icons'
 const DEFAUTL_USER = 'https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg'
 
-class MySante extends Component {
+class SanteSecond extends Component {
     constructor (props) {
         super(props)
         this.state = {
             isModifbegin: false,
             isSelectedProfile: false,
-            id: null,
+            id: this.props.navigation.state.params.id,
             uri_pdf: null,
             photo_pdf: 'vide',
             name_pdf: 'Mon Fichier PDF',
@@ -51,7 +51,7 @@ class MySante extends Component {
             secu: null,
             idFiche: null,
 
-            photoUri: '',
+            photoUri: this.props.navigation.state.params.profil,
 
             medecin: '',
             allergies: '',
@@ -73,71 +73,56 @@ class MySante extends Component {
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this)
     }
 
-    async componentDidMount () {
-        console.log('start loading fiche sante')
-        this.setState({
-            isLoading: true,
-            photoUri: this.props.user.user.imageUser,
-            id: this.props.user.user.idUser
-        })
-        
-        if (this.props.navigation.state.params) {
-            if (this.props.navigation.state.params.profil !== undefined) {
-                this.setState({ photoUri: this.props.navigation.state.params.profil })
-            }
-        }
-        
-        this.setState({
-            isLoading: false
-        })
-        await this.getCameraPermissions()
+    componentDidMount = async () => {
+        console.log('Sante Second')
+        this.setState({ isLoading: true })
         await this.fetchSante()
-        console.log('end loading fiche sante')
+        this.setState({ isLoading: false })
+        if (this.props.navigation.state.params.profil !== undefined) {
+          this.setState({photoUri: this.props.navigation.state.params.profil})
+        }
     }
 
-    componentWillMount () {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick)
+    componentWillMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+    
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+    
+    handleBackButtonClick() {
+      console.log('Go to switch sante avec', this.state.photoUri)
+        this.props.navigation.navigate("InfoSecond", {
+            profil: this.state.photoUri,
+            id: this.state.id
+        })
+        return true;
     }
 
-    UNSAFE_componentWillUnmount () {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick)
-    }
-
-    handleBackButtonClick () {
-        this.props.navigation.navigate('MyProfil', { profil: this.state.photoUri })
-        return true
-    }
-
-    async fetchSante () {
-        await axios.get(`${Bdd.api_url}/fiche-sante/list?idUser=${this.state.id}`)
-            .then(async res => {
-                if (await !res) {
-                    console.log('tena misy olana')
-                } else {
-                    const fiche = res.data.data
-                    console.log('get fiche')
-                    console.log(fiche)
-                    if (res.data === null) this.setState({ isFirst: true })
-                    else {
-                        this.setState({
-                            isFirst: false,
-                            blood: fiche.groupeSanguin,
-                            size: fiche.taille,
-                            weight: fiche.poids,
-                            medecin: fiche.medecinTraitant,
-                            secu: fiche.numSecu,
-                            donate: fiche.donnateur,
-                            idFiche: fiche.idFiche,
-                            allergies: fiche.allergies
-                        })
-                    }
-                }
-            })
-            .catch(err => {
-                console.log('erreur fetch sante')
-                console.log(err)
-            })
-    }
+    fetchSante = async () => {
+        console.log('fetch sante second de ', this.state.id)
+        await axios.get(`${Bdd.api_url_second}/fiche-sante/list?idSecondUser=${this.state.id}`)
+          .then(async res => {
+            if (await !res) {
+              console.log("tena misy olana")
+            } else {
+              const fiche = res.data.data
+              console.log('resultat de fiche sante ', fiche)
+              if (res.data === null) this.setState({ isFirst: true })
+              else this.setState({
+                isFirst: false,
+                blood: fiche.groupeSanguin, size: fiche.taille,
+                weight: fiche.poids, medecin: fiche.medecinTraitant,
+                secu: fiche.numSecu, donate: fiche.donnateur,
+                idFiche: fiche.idFiche, allergies: fiche.allergies
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
 
     async getCameraPermissions () {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -332,7 +317,6 @@ class MySante extends Component {
     }
 
     renderHeader_1 = () => {
-
         return (
             <View style={styles.main_profil}>
                 <View style={styles.under_main_profil_1}>
@@ -344,7 +328,9 @@ class MySante extends Component {
                 </View>
     
                 <View style={styles.under_main_profil_2}>
-                    <Text style={styles.text_under_main_profil_2}>{this.props.user.user.nomUser}{"  "}{this.props.user.user.prenomUser}</Text>
+                    <Text style={styles.text_under_main_profil_2}>
+                    {this.props.navigation.state.params.firstName}{"  "}{this.props.navigation.state.params.lastName}
+                    </Text>
                     {this.state.weight != '' && (
                         <Text style={styles.descr_under_main_profil_2}>
                         {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
@@ -369,16 +355,16 @@ class MySante extends Component {
                             </TouchableOpacity>
                             : <TouchableOpacity
                                 style={{ flexDirection: 'row', alignItems: 'center' }}
-                                onPress={() => this.props.navigation.navigate('MyProfil')} >
+                                onPress={() => this.props.navigation.navigate('InfoSecond')} >
                                 <FontAwesomeIcon
                                     icon={faAngleLeft}
                                     color="white"
                                     size={24}
                                 />
-                                <Text style={styles.header}>Profil</Text>
+                                <Text style={styles.header}>Retour</Text>
                             </TouchableOpacity>
                     }
-                    <Text style={styles.header}>Ma Fiche Santé</Text>
+                    <Text style={styles.header}>Profil Secondaire</Text>
                     {
                         this.state.isModifbegin
                             ? <TouchableOpacity
@@ -416,55 +402,61 @@ class MySante extends Component {
         )
     }
 
-    addFiche () {
-        this.setState({ isLoading: true })
-        const data = {
-            idUser: this.props.user.user.idUser,
-            groupeSanguin: this.state.blood,
-            taille: this.state.size,
-            poids: this.state.weight,
-            donnateur: this.state.donate,
-            numSecu: this.state.secu,
-            medecinTraitant: this.state.medecin,
-            allergies: this.state.allergies
+    addFiche = async () => {
+        //this.setState({ isLoading: true })
+        let data = {
+          // idUser: this.props.user.user.idUser,
+          idSecondUser: this.state.id,
+          groupeSanguin: this.state.blood,
+          taille: this.state.size,
+          poids: this.state.weight,
+          donnateur: this.state.donate,
+          numSecu: this.state.secu,
+          medecinTraitant: this.state.medecin,
+          allergies : this.state.allergies
         }
+        console.log(data)
+    
+        await axios.post(`${Bdd.api_url_second}/fiche-sante`, data)
+          .then( res => {
+            console.log('resultat add fiche sante ', res)
+            this.setState({ isModifbegin: false, isLoading: false })
+          })
+          .catch(err => console.log(err))
+       // this.setState({ isLoading: false })
+      }
 
-        axios.post(`${Bdd.api_url}/fiche-sante`, data)
-            .then(_ => {
-                this.setState({ isModifbegin: false, isLoading: false })
-            })
-            .catch(err => console.log(err))
-        this.setState({ isLoading: false })
-    }
 
-    modifFiche () {
-        console.log('begin Put fiche sante')
+      modifFiche() {
         this.setState({ isLoading: true })
-        const userModified = {
-            groupeSanguin: this.state.blood,
-            taille: this.state.size,
-            poids: this.state.weight,
-            donnateur: this.state.donate,
-            numSecu: this.state.secu,
-            medecinTraitant: this.state.medecin,
-            allergies: this.state.allergies
+        let userModified = {
+    
+          groupeSanguin: this.state.blood,
+          taille: this.state.size,
+          poids: this.state.weight,
+          donnateur: this.state.donate,
+          numSecu: this.state.secu,
+          medecinTraitant: this.state.medecin,
+          allergies : this.state.allergies
         }
-
-        console.log(this.state)
-        console.log('----------')
+    
+        userModified.groupeSanguin = this.state.blood
+        userModified.taille = this.state.size
+        userModified.poids = this.state.weight
+        userModified.numSecu = this.state.secu
+        userModified.donnateur = this.state.donate
+        userModified.allergies = this.state.allergies
+    
         console.log(userModified)
-        // this.saveAutre(this.state.medecin, this.state.allergies, this.state.traitement)
-        axios.put(`${Bdd.api_url}/fiche-sante/${this.state.idFiche}`, userModified)
-            .then(res => {
-                console.log('Put fiche sante')
-                this.setState({ isLoading: false, isModifbegin: false })
-            })
-            .catch(err => {
-                this.setState({ isLoading: false, isModifbegin: false })
-                console.log('erreur put fiche sante')
-                console.log(err)
-            })
-    }
+        // this.saveAutre(this.state.medecin, this.state.allergie, this.state.traitement)
+        axios.put(`${Bdd.api_url_second}/fiche-sante/${this.state.idFiche}`, userModified)
+          .then(res => {
+            console.log('resultat modif fiche', res)
+            this.setState({ isLoading: false, isModifbegin: false })
+          })
+          .catch(err => console.log(err))
+        this.setState({ isLoading: false, isModifbegin: false })
+      }
 
     createTaille () {
         const taille = []
@@ -634,7 +626,9 @@ class MySante extends Component {
                                     </Text>
                             }
                         </View>
-                        <View style={{ marginTop: 50 }}>
+
+                        {/**
+                                               <View style={{ marginTop: 50 }}>
                             <View
                                 style={{
                                     flexDirection: 'row',
@@ -728,6 +722,10 @@ class MySante extends Component {
                             </TouchableOpacity>
 
                         </View>
+ 
+                        */}
+
+
                     </View>
                 </View>
             </ScrollView>
@@ -906,15 +904,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (store) => {
     return {
-        user: store.user
+      user: store.user,
+  
+      second: store.second 
     }
-}
-
-const mapDispatchToProps = {
+  }
+  
+  const mapDispatchToProps = {
     deleteContact,
     modifyUserInfo,
     setSecondInfo,
     setIndexSelected
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MySante)
+  }
+  export default connect(mapStateToProps, mapDispatchToProps)(SanteSecond)

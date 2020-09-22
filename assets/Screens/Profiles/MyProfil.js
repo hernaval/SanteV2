@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet,SafeAreaView, Share, Alert, Text, View, AsyncStorage, ScrollView, ActivityIndicator, TouchableOpacity, Image, CheckBox, Modal } from 'react-native'
+import { StyleSheet,SafeAreaView, Share, Alert, Text, View, Modal, 
+        AsyncStorage, ScrollView, ActivityIndicator, TouchableOpacity, Image, CheckBox } from 'react-native'
 import { connect } from 'react-redux'
 import {
     widthPercentageToDP as wp,
@@ -13,7 +14,9 @@ import { Avatar, ListItem, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo, ModifyPhoto } from '../../Action/action-type';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, faExclamationCircle, faFirstAid } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, 
+faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, 
+faExclamationCircle, faFirstAid, faCog } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 import { TouchableHighlight, TextInput } from 'react-native-gesture-handler'
@@ -57,7 +60,8 @@ class MyProfil extends Component {
             isFirst: false,
             blood: '', 
             size: '',
-            weight: ''
+            weight: '',
+            modalVisible: false
         }
         // console.log(this.props.user.user)
 
@@ -71,6 +75,11 @@ class MyProfil extends Component {
 
         this._subscribe = this.props.navigation.addListener('didFocus', async () => {
             this.fetchSante()
+            this.setState({
+            firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
+            lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
+            photoUri: this.props.user.user != null ? this.props.user.user.imageUser : '',
+            })
        });
     }
 
@@ -88,7 +97,74 @@ class MyProfil extends Component {
     
         this._handleImagePicked(result);
     
-      }
+    }
+
+    takePictureAndCreateAlbum = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing : true,
+      quality : 0.5
+    });
+
+    this._handleImagePicked(result)
+  }
+
+    showModal() {
+        return(
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+        >
+        
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 22}}>
+          <View 
+          style={{margin: 20, backgroundColor: 'white', borderRadius: 20, padding: 35, 
+          alignItems: 'center', shadowColor: '#000', shadowOffset: {width: 0, height: 2},
+          shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5}}>
+        
+            <TouchableOpacity
+               style={{ padding: 10, width: wp('40%'), alignItems: 'center', 
+              backgroundColor: "#2196F3", marginBottom: 20 }}
+              onPress={() => {
+                this.setState({ modalVisible: !this.state.modalVisible })
+                this._pickImage()
+              }}
+            >
+
+              <Text style={styles.textStyle}>Importer une photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ padding: 10, width: wp('40%'), alignItems: 'center', 
+              backgroundColor: "#2196F3", marginBottom: 20 }}
+              onPress={() => {
+                this.setState({ modalVisible: !this.state.modalVisible})
+                this.takePictureAndCreateAlbum()
+              }}
+            >
+              <Text style={styles.textStyle}>Prendre une photo</Text>
+
+            </TouchableOpacity>
+            <TouchableOpacity
+            style={{ padding: 10, width: wp('40%'), alignItems: 'center', 
+              backgroundColor: "#d3d3d3", marginBottom: 20 }}
+              onPress={() => {
+                this.setState({ modalVisible: false})
+                console.log('Annuler')
+              }}
+            >
+              <Text style={styles.textStyle}>Annuler</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        </Modal>
+        </View>
+        )
+    }
+
       _handleImagePicked = async pickerResult => {
         let uploadUrl =""
         try {
@@ -109,6 +185,7 @@ class MyProfil extends Component {
         } finally {
           this.setState({ isLoading: false });
           /* this.props.navigation.navigate("MonProfil") */
+          console.log('Upload Url ', uploadUrl)
           this.setState({photoUri : uploadUrl})
         }
       }
@@ -181,6 +258,7 @@ class MyProfil extends Component {
         return (
             <View style={styles.main_profil}>
             {this.changeProfil()}
+            {this.showModal()}
                 <View style={styles.under_main_profil_1}>
                 <Avatar
                 size={100}
@@ -190,7 +268,7 @@ class MyProfil extends Component {
                 </View>
 
                 <View style={styles.btn_photo}>
-                <TouchableOpacity onPress={() => this._pickImage() }>
+                <TouchableOpacity onPress={() => this.setState({ modalVisible: true}) }>
                 <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
                 </TouchableOpacity>
                 </View>
@@ -260,11 +338,11 @@ class MyProfil extends Component {
     render() {
         // console.log(this.state.photoUri)
        
-        const rightButtons = [
-            <TouchableHighlight onPress={() => this.setState({ modalVisible: true })} style={styles.editBtn}>
-                <FontAwesomeIcon color="white" size={40} icon={faEdit} />
-            </TouchableHighlight>,
-        ];
+        // const rightButtons = [
+        //     <TouchableHighlight onPress={() => this.setState({ modalVisible: true })} style={styles.editBtn}>
+        //         <FontAwesomeIcon color="white" size={40} icon={faEdit} />
+        //     </TouchableHighlight>,
+        // ];
 
         return (
             <View style={styles.container}>
@@ -292,10 +370,10 @@ class MyProfil extends Component {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil")}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil", {id: this.state.id})}>
                         <ListItem
                         chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                            title="Mes profils secondaires"
+                            title="Mes Profils secondaires"
                             leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUsers} />}
                             titleStyle={{ fontWeight: "600" }}
                             containerStyle={styles.listItemContainer}
@@ -305,7 +383,7 @@ class MyProfil extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("ContactUrgence")} >
                         <ListItem
                         chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                            title="Mes contacts d'urgences"
+                            title="Mes Contacts d'urgences"
                             leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faExclamationCircle} />}
                             titleStyle={{ fontWeight: "600" }}                               
                             containerStyle={styles.listItemContainer}
@@ -326,6 +404,16 @@ class MyProfil extends Component {
                             <ListItem                            
                                 title=" Mes Activités Bon Samaritain"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFirstAid} />}
+                                titleStyle={{ fontWeight: "600" }}                                
+                                containerStyle={styles.listItemContainer}
+                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Setting")} >
+                            <ListItem                            
+                                title=" Mes Paramètres"
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faCog} />}
                                 titleStyle={{ fontWeight: "600" }}                                
                                 containerStyle={styles.listItemContainer}
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
@@ -392,23 +480,23 @@ class MyProfil extends Component {
 const styles = StyleSheet.create({
     shadow: {
         borderWidth: 1,
-        borderColor: '#FFFFFF',
+        borderColor: '#363535',
         width: 70,
         height: 70,
         borderRadius: 35,
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 23,
+        paddingTop: 21,
         padding: 20,
-        shadowColor: "#363535",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 4.65,
-        elevation: 1,
+        // shadowColor: "#363535",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 3,
+        // },
+        // shadowOpacity: 0.2,
+        // shadowRadius: 4.65,
+        // elevation: 1,
         marginRight: 15
     },
     list_icon: {
@@ -475,7 +563,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         marginTop: 27,
-        marginLeft: 20,
+        marginLeft: -20,
         marginBottom: 35
     },
     under_main_profil_1: {
@@ -497,7 +585,7 @@ const styles = StyleSheet.create({
     btn_photo: {
       flex: 1,
       paddingTop: 70,
-      paddingLeft: 5
+      paddingLeft: 0
     },
     img_profil: {
         width: 200

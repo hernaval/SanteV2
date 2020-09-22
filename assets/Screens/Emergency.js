@@ -43,38 +43,46 @@ class Emergency extends Component {
 
 
     sendmail = async (type, msg) => {
-
+        let data = {
+            typeUrgence : type,
+            geolocUrgence : "2",
+            idUser : this.props.user.user.idUser
+        }
         let idUser = this.props.user.user.idUser
         await axios.post(`${Bdd.api_url}/contact/inform/${idUser}`)
             .then(async _ => {
                 console.log("ok")
+            })
+        await axios.post(`${Bdd.api_url}/urgence`,data)
+            .then(async res =>{
+                console.log(res.data.data)
             })
     }
 
     callUrgence = async () => {
         let num = await this.findNumber()
         this.callPerson(num.ambulance)
-        await this.sendmail()
+        await this.sendmail("Ambulance")
     }
     callAccident = async () => {
         let num = await this.findNumber()
         this.callPerson(num.fire)
 
-        await this.sendmail()
+        await this.sendmail("Accident")
     }
 
     callAgression = async () => {
         let num = await this.findNumber()
         this.callPerson(num.police)
 
-        await this.sendmail()
+        await this.sendmail("Agression")
     }
 
     callCovid = async () => {
         let num = await this.findNumber()
         this.callPerson(num.covid)
 
-        await this.sendmail()
+        await this.sendmail("Covid")
 
     }
 

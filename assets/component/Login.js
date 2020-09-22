@@ -164,9 +164,7 @@ class Login extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-
       <KeyboardAwareScrollView style={{ flex: 1 }}>
-
         <View style={styles.main_contenair}>
           <Loader loading={this.state.isLoading} />
           <View style={styles.main_logo}>
@@ -176,16 +174,16 @@ class Login extends React.Component {
           </View>
 
           <View style={styles.main_Input} >
-          <Tabs tabBarUnderlineStyle={{borderBottomWidth:2, borderBottomColor: '#008ac8'}} tabContainerStyle={{
+          <Tabs tabBarUnderlineStyle={{borderBottomWidth: 4, borderBottomColor: '#00C1B4'}} tabContainerStyle={{
             elevation:0
           }}>
               <Tab heading="Connexion" tabStyle={{backgroundColor: 'white'}} textStyle={{color: '#000', fontSize: 17}}
-              activeTabStyle={{backgroundColor: 'white'}} activeTextStyle={{color: '#008ac8', fontWeight: 'bold'}}>
+              activeTabStyle={{backgroundColor: 'white'}} activeTextStyle={{color: '#00C1B4', fontWeight: 'bold'}}>
                 <LoginNew navigation={this.props.navigation}/>
               </Tab>
 
               <Tab heading="Créer un compte" tabStyle={{backgroundColor: 'white'}} textStyle={{color: '#000'}}
-              activeTabStyle={{backgroundColor: 'white', borderColor: '#008ac8'}} activeTextStyle={{color: '#008ac8', fontWeight: 'bold'}}>
+              activeTabStyle={{backgroundColor: 'white', borderColor: '#00C1B4'}} activeTextStyle={{color: '#00C1B4', fontWeight: 'bold'}}>
                 <ScrollView>
                   <SignupNew navigation={this.props.navigation}/>
                 </ScrollView>
@@ -209,10 +207,9 @@ class Login extends React.Component {
 }
 const styles = StyleSheet.create(
   {
-
     main_contenair: {
       flex: 1,
-      height: hp("120%"),
+      height: hp("105%"),
       zIndex: 0
     },
     buttonContainer: {
@@ -363,7 +360,6 @@ const styles = StyleSheet.create(
       backgroundColor: "#fff",
       borderRadius: 20,
       padding: 10,
-      
       shadowOffset: {
         width: 0,
         height: 3

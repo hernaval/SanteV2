@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, Image, Dimensions, Platform, PixelRatio } from 'react-native'
 import {
     widthPercentageToDP as wp,
-    heightPercentageToDP as hp
+    heightPercentageToDP as hp,
+    listenOrientationChange as loc,
+    removeOrientationListener as rol
 } from 'react-native-responsive-screen'
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -25,10 +27,15 @@ class TopMenu extends Component {
     }
 
     componentDidMount = async () => {
+        loc(this);
         const taille = this.normalize(23)
         this.setState({
             size: taille
         })
+    }
+
+    componentWillUnMount() {
+        rol();
     }
 
     normalize (size) {
@@ -155,7 +162,9 @@ const styles = StyleSheet.create({
         marginLeft: 6
     },
     main_contain: {
-        flexDirection: 'column'
+        flexDirection: 'column',
+        width: '100%',
+        flex: 1
     },
     under: {
         backgroundColor: '#00C1B4',
