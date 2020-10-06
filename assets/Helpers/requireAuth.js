@@ -61,6 +61,8 @@ export default function(ChildComponent) {
 						
 						this.props.setUserInfo(token)
 						this.props.mySecondProfil(token)
+
+						// this.props.setUserSession(token)
 					}
 				})
 				.catch((err)=>{

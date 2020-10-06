@@ -67,6 +67,7 @@ class MyProfil extends Component {
 
         this.ref = firebase.firestore().collection('profile');
         this.countProfil = 0;
+        this.localCode =null;
     }
 
     componentDidMount = async () => {
@@ -81,6 +82,8 @@ class MyProfil extends Component {
             photoUri: this.props.user.user != null ? this.props.user.user.imageUser : '',
             })
        });
+       let location = await getCurrentLocation()
+       this.localCode = await getCountryCode(location.coords.latitude, location.coords.longitude, API_KEY)
     }
 
     _pickImage = async () => {
@@ -275,6 +278,7 @@ class MyProfil extends Component {
 
                 <View style={styles.under_main_profil_2}>
                     <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
+                    <Avatar  source={{uri: `https://www.countryflags.io/MG/flat/64.png`}} />
                     {this.state.weight != '' && (
                         <Text style={styles.descr_under_main_profil_2}>
                         {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
@@ -400,9 +404,9 @@ class MyProfil extends Component {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("UserConnected")} >
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MapUser")} >
                             <ListItem                            
-                                title=" Mes Activités Bon Samaritain"
+                                title=" Ma communauté  Bon Samaritain"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFirstAid} />}
                                 titleStyle={{ fontWeight: "600" }}                                
                                 containerStyle={styles.listItemContainer}
@@ -410,7 +414,7 @@ class MyProfil extends Component {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Setting")} >
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Signal")} >
                             <ListItem                            
                                 title=" Mes Paramètres"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faCog} />}
@@ -537,19 +541,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: '#FFFFFF',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'red',
         padding: 15,
         borderRadius: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 6,
-        marginBottom: 20,
-        marginTop: 10
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 3,
+        // },
+        // shadowOpacity: 0.29,
+        // shadowRadius: 4.65,
+        // elevation: 6,
+        // marginBottom: 20,
+        // marginTop: 10
     },
     btn_share: {
         color: '#FFFFFF',

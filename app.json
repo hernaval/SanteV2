@@ -6,8 +6,10 @@
     "android" :{
       "package": "com.acadys.Best4Sante",
       "versionCode" :1,
-      "config": {
-        "googleMaps": { "apiKey": "AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs" }   
+      "googleServicesFile": "./google-services.json",
+      "config": { 
+        "googleMaps": { "apiKey": "AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs" }
+        
      },
      "permissions" : ["RECORD_AUDIO","NOTIFICATIONS","READ_CALENDAR","WRITE_CALENDAR","ACCESS_FINE_LOCATION","C2D_MESSAGE","CAMERA","CAMERA_ROLL","READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"],
     "icon": "./assets/splash.png",

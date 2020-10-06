@@ -64,9 +64,17 @@ import ContactUrgence from '../Screens/Contacts/ContactUrgence'
 import Calendars from '../Screens/Rappel/Calendars'
 import UserResponded from "../Screens/Samaritain/UserResponded"
 import VoiceScreen from "../Screens/VoiceScreen"
+import MapUser from "../Screens/Samaritain/MapUser"
 
+import Signal from "../Screens/Settings/Signal"
 const NavigationBest4Sante = createStackNavigator(
     {   
+        Signal : {
+            screen : Signal
+        },
+        MapUser : {
+            screen : MapUser
+        },
         VoiceScreen : {
             screen : VoiceScreen
         },

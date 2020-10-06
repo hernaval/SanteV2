@@ -26,7 +26,7 @@ import Footer from './Menu/Footer'
 import TopMenu from './Menu/TopMenu';
 import HeaderMenu from './Menu/HeaderMenu';
 import BottomMenu from "./Menu/BottomMenu";
-
+import google from "../API/google"
 const DEFAULT_COORD = {coords: {
     latitude: 48.859268,
     longitude: 2.347060
@@ -41,7 +41,7 @@ const DEST_COORD = {
   latitude: -23.3568974,
   longitude: 43.664497
 }
-const API_KEY = 'AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs';
+const API_KEY = google.cloud_key;
 class Home extends React.Component{
 
   constructor(props) {

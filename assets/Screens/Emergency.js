@@ -16,10 +16,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import Bdd from "../API/Bdd"
 import ViewPager from '@react-native-community/viewpager';
 import { Avatar } from 'react-native-elements';
+import { getCurrentLocation } from '../services/location'
+import  google  from "../API/google";
 
-// const API_KEY = 'AIzaSyApjuz39FHMGBsy9lo7FobJQJtZKNra8P8';
 
-const API_KEY = 'AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs';
+ const API_KEY = google.cloud_key;
+
 
 class Emergency extends Component {
 
@@ -43,26 +45,34 @@ class Emergency extends Component {
 
 
     sendmail = async (type, msg) => {
+
+        let location = await getCurrentLocation()
+
+       
         let data = {
-            typeUrgence : type,
-            geolocUrgence : "2",
-            idUser : this.props.user.user.idUser
+            typeUrgence: type,
+            geolocUrgence: `${location.coords.latitude},${location.coords.longitude}`,
+            idUser: this.props.user.user.idUser
         }
         let idUser = this.props.user.user.idUser
+
+       
+
+        await axios.post(`${Bdd.api_url}/urgence`, data)
+            .then(async res => {
+                console.log("eto le izy ", res.data.data)
+            })
+
         await axios.post(`${Bdd.api_url}/contact/inform/${idUser}`)
             .then(async _ => {
-                console.log("ok")
-            })
-        await axios.post(`${Bdd.api_url}/urgence`,data)
-            .then(async res =>{
-                console.log(res.data.data)
+
             })
     }
 
     callUrgence = async () => {
         let num = await this.findNumber()
         this.callPerson(num.ambulance)
-        await this.sendmail("Ambulance")
+        await this.sendmail("Malaise")
     }
     callAccident = async () => {
         let num = await this.findNumber()
@@ -87,7 +97,8 @@ class Emergency extends Component {
     }
 
     findNumber = async () => {
-        // let urgence = this.state.urgence
+        
+        
         let num = {
             ambulance: null,
             fire: null,
@@ -99,7 +110,7 @@ class Emergency extends Component {
             console.log('No urgence')
         } else {
             let urgence = this.urgence
-
+            console.log("urgence",urgence)
             num = {
                 ambulance: urgence[0].Ambulance.All[0],
                 fire: urgence[0].Fire.All[0],
@@ -141,60 +152,63 @@ class Emergency extends Component {
 
 
     _getCountryCodeByLocation = async () => {
+        
         const key = 'permission_location';
         const value = await AsyncStorage.getItem(key)
 
-        if(value === null) {
-            Alert.alert('Localisation', 
-            'Nous demandons votre permission afin de récuperer votre localisation en référence avec les contacts d\'urgences', [
-            {
-                text: 'Suivant',
-                onPress: async () => { 
-                    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (value === null) {
+            Alert.alert('Localisation',
+                'Nous demandons votre permission afin de récuperer votre localisation en référence avec les contacts d\'urgences', [
+                {
+                    text: 'Suivant',
+                    onPress: async () => {
+                        let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-                    if (status !== 'granted') {
-                        this.setState({
-                            errorMessage: 'Permission to access location was denied',
-                        });
-                    } else {
-                        let location = await Location.getCurrentPositionAsync({});
-                        await AsyncStorage.setItem(key, 'OK');
+                        if (status !== 'granted') {
+                            this.setState({
+                                errorMessage: 'Permission to access location was denied',
+                            });
+                        } else {
+                            let location = await Location.getCurrentPositionAsync({});
+                            await AsyncStorage.setItem(key, 'OK');
 
-                        //    axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=46.5286307,6.5124095&key=" + API_KEY)
-            
-                        axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.coords.latitude + "," + location.coords.longitude + "&key=" + API_KEY)
-                            .then(async response => {
-                                const globalRes = response.data.results[0].address_components
-            
-                                let resObj = await globalRes.filter(el => {
-                                    return el.types.includes("country")
+                            //    axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=46.5286307,6.5124095&key=" + API_KEY)
+
+                            axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.coords.latitude + "," + location.coords.longitude + "&key=" + API_KEY)
+                                .then(async response => {
+                                    const globalRes = response.data.results[0].address_components
+
+                                    let resObj = await globalRes.filter(el => {
+                                        return el.types.includes("country")
+                                    })
+                                    const local = await resObj[0].short_name
+                                    this.localCode = local
+                                    console.log("Short name local :", this.localCode)
+                                    let res = urgency.data.filter(el => {
+                                        return el.Country.ISOCode == local
+                                    })
+
+                                    //    this.setState({
+                                    //        urgence : res
+                                    //    })
+                                    this.urgence = res
+                                    console.log('Urgence ', this.urgence.length)
+
                                 })
-                                const local = await resObj[0].short_name
-                                this.localCode = local
-                                console.log("Short name local :", this.localCode)
-                                let res = urgency.data.filter(el => {
-                                    return el.Country.ISOCode == local
+                                .catch(err => {
+                                    console.log(err)
                                 })
-            
-                                //    this.setState({
-                                //        urgence : res
-                                //    })
-                                this.urgence = res
-                                console.log('Urgence ', this.urgence.length)
-            
-                            })
-                            .catch(err => {
-                                console.log(err)
-                            })
+                        }
+
                     }
-            
                 }
-            }
             ])
         } else {
             let location = await Location.getCurrentPositionAsync({});
             axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.coords.latitude + "," + location.coords.longitude + "&key=" + API_KEY)
                 .then(async response => {
+
+                    
                     const globalRes = response.data.results[0].address_components
 
                     let resObj = await globalRes.filter(el => {
@@ -218,8 +232,8 @@ class Emergency extends Component {
 
     };
 
-    renderBtn = (index, url) => (
-        <TouchableOpacity onPress={() => {
+    renderBtn = (index, url,i) => (
+        <TouchableOpacity key={i} onPress={() => {
             this.setState({ current: index })
             this.viewPager.setPage(index)
         }}>
@@ -247,7 +261,7 @@ class Emergency extends Component {
                     <TopMenu navigation={this.props.navigation} />
                 </View>
                 <ViewPager
-                style={{ flexGrow: 1 }}
+                    style={{ flexGrow: 1 }}
                     ref={viewPager => {
                         this.viewPager = viewPager
                     }}
@@ -259,31 +273,31 @@ class Emergency extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.urgenceContainer}>
-                            <TouchableOpacity onPress={()=> this.callUrgence()} style={styles.urgenceBtn}>
+                        <TouchableOpacity onPress={() => this.callUrgence()} style={styles.urgenceBtn}>
                             <Image source={require("../images/sos.png")} />
-                            </TouchableOpacity>
-                            <Text  style={styles.legend}>MALAISE</Text>
-                        </View>
-                        <View style={styles.urgenceContainer}>
-                        <TouchableOpacity onPress={()=> this.callAgression()} style={styles.urgenceBtn}>
+                        </TouchableOpacity>
+                        <Text style={styles.legend}>MALAISE</Text>
+                    </View>
+                    <View style={styles.urgenceContainer}>
+                        <TouchableOpacity onPress={() => this.callAgression()} style={styles.urgenceBtn}>
                             <Image source={require("../images/sos.png")} />
-                            </TouchableOpacity>
-                            <Text  style={styles.legend}>AGRESSION</Text>
-                            
-                        </View>
-                        <View style={styles.urgenceContainer}>
-                        <TouchableOpacity onPress={()=> this.callCovid()} style={styles.urgenceBtn}>
+                        </TouchableOpacity>
+                        <Text style={styles.legend}>AGRESSION</Text>
+
+                    </View>
+                    <View style={styles.urgenceContainer}>
+                        <TouchableOpacity onPress={() => this.callCovid()} style={styles.urgenceBtn}>
                             <Image source={require("../images/sos.png")} />
-                            </TouchableOpacity>
-                            <Text  style={styles.legend}>COVID-19</Text>
-                            
-                        </View>
+                        </TouchableOpacity>
+                        <Text style={styles.legend}>COVID-19</Text>
+
+                    </View>
 
                 </ViewPager>
 
                 <View style={styles.bottonTabMenu}>
-                    {datas.map((data) => {
-                        return this.renderBtn(data.index, data.uri)
+                    {datas.map((data, i) => {
+                        return this.renderBtn(data.index, data.uri, i)
                     })}
                 </View>
 

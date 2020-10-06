@@ -13,8 +13,8 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 import * as Location from 'expo-location';
 import { urgency } from "../API/urgency";
-
-const API_KEY = 'AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs';
+import google from "../API/google"
+const API_KEY = google.cloud_key;
 
 class SignupNew extends React.Component {
   constructor(props) {

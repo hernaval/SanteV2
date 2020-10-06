@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "76849620029",
+    "firebase_url": "https://best4sante-61097.firebaseio.com",
+    "project_id": "best4sante-61097",
+    "storage_bucket": "best4sante-61097.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76849620029:android:6814ace978ab7a40bef654",
+        "android_client_info": {
+          "package_name": "com.acadys.Best4Sante"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76849620029-bdt08rrb6qe2vsirfitodstarvke26p6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsT0AMGQ7D_gzbY8m3Sxy7FBb2Zb2-XZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76849620029-bdt08rrb6qe2vsirfitodstarvke26p6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -541,6 +541,56 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                             )
                         }
 
+{
+                            (this.props.signaler &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                    <Text style={styles.profil_txt}>Signaler</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
+{
+                            (this.props.mapUser &&
+                                (
+                                <View style={styles.contain_perso}>
+                                    <View style={styles.contain_perso_1}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.contain_perso_2}>
+                                    <Text style={styles.profil_txt}>Bons Samaritains</Text>
+                                    </View>
+                                    <View style={styles.contain_perso_3}>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+
                         {
                             (this.props.userConnected &&
                                 (

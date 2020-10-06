@@ -65,6 +65,7 @@ export function modifyUserInfo(userModif) {
 	}
 }
 
+
 export function modifySecondUserInfo(userModif){
 	return function(dispatch){
 		const idUser = userModif.idSecondUser

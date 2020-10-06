@@ -64,7 +64,6 @@ class UserConnected extends Component {
   
         let socketSrv = new SocketService("samaritain")
             socketSrv.onSamaritainListChange(async (userList) => {
-               
                 this.props.onlineUser(userList)
             })
       
@@ -118,7 +117,10 @@ class UserConnected extends Component {
         }
         await Axios.post(`${Bdd.api_url}/samaritain/request?idUser=${idUser}`,data)
             .then(res=>{
-                console.log(res.data)
+                // console.log(res.data)
+            })
+            .catch(err =>{
+                console.log("error reuqest", err)
             })
         
         this.setState({isVisible : false})

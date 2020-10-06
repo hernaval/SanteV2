@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Modal, View, Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Animated, Text, Alert, ActivityIndicator } from 'react-native';
+import { Modal, View, Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Animated, Text, Alert, ActivityIndicator,Share } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -54,6 +54,25 @@ class BottomMenu extends Component {
 
     }
 
+    shareLink() {
+        const url = 'https://exp.host/@stenny453/Best4Sante';
+        Share.share({title: 'Best4Santé', message: url}).then(
+            Alert.alert('Succes', 'Lien Partagé', [
+                {
+                    text: 'OK',
+                    onPress: () => {}
+                }
+            ])
+        ).catch(
+            err => Alert.alert('Echec', 'Erreur lors de partage de lien', [
+                {
+                    text: 'OK',
+                    onPress: () => {}
+                }
+            ])
+        )
+    }
+
 
     deleteRecordingFile = async () => {
         try {
@@ -104,7 +123,21 @@ class BottomMenu extends Component {
                     this.props.navigation.navigate("Favorite")
                     break;
                 
+                case "contact" : 
+                    this.props.navigation.navigate("ContactUrgence")
+                    break;
                 
+                case "ps" : 
+                    this.props.navigation.navigate("Home")
+                    break;
+                
+                case "seconduser" :
+                    this.props.navigation.navigate("MySecondProfil", {id: this.props.user.user.idUser})
+                    break;
+                
+                case "shareapps" : 
+                    this.shareLink();
+                    break;
         
             }
             this.setState({isVisible: false})
@@ -118,6 +151,8 @@ class BottomMenu extends Component {
         }
         this.setState({isFetching : false})
     }
+
+
 
      stopRecording = async () => {
          console.log("mijanona e")
