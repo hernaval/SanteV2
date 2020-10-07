@@ -699,7 +699,7 @@ class MySante extends Component {
                             >
                                 <Text>
                                     Partagez en toute sécurité avec votre
-                                    médecin, coach ou famille Mon rapport médical
+                                    médecin, coach ou famille votre rapport médical
                                 </Text>
                             </View>
                             <TouchableOpacity
