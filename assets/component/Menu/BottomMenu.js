@@ -225,7 +225,7 @@ class BottomMenu extends Component {
                         }
 
                         {!this.state.isRecording && 
-                            <Text style={{ color: "red", fontWeight: "bold", textAlign : "center",padding : 2, fontSize: 30 }}>
+                            <Text style={{ color: "white", fontWeight: "bold", textAlign : "center",padding : 2, fontSize: 30 }}>
                            Appuyer longuement pour commencer
                             </Text>
                         }
