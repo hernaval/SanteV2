@@ -159,8 +159,8 @@ class SecondAdd extends React.Component {
         <HeaderMenu navigation={this.props.navigation} secondAdd={1} enregistrerSecondProfil={this.saveSecondProfil}/>
         </View>
 
-        <KeyboardAwareScrollView style={{ flex: 1, height: hp("90%") }}>        
-        <View style={{marginTop: hp("10%")}}>
+        <KeyboardAwareScrollView style={{ flex: 1, height: hp("90%"), marginTop: hp('5%') }}>        
+        <View style={{marginTop: hp("0%")}}>
         <Form>
         <Item stackedLabel>
           <Label style={styles.my_label}>Prénom</Label>
@@ -192,7 +192,7 @@ class SecondAdd extends React.Component {
         </Item>
 
         <Item stackedLabel last>
-        <Label style={styles.my_label}>Code postale</Label>
+        <Label style={styles.my_label}>Code postal</Label>
         <Input inputStyle={{'color': 'black'}} 
         keyboardType={"numeric"}
         returnKeyType="next"

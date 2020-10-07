@@ -621,7 +621,7 @@ Savemodify() {
                 !this.state.modifying && (
                   <TouchableOpacity style={styles.fiche_sante} onPress={() => this.goToSecondSante()}>
                   <FontAwesomeIcon color="#FFFFFF" size={20} icon={faFileMedicalAlt} />
-                  <Text style={styles.text_fiche_sante}>Fiche Santé</Text>
+                  <Text style={styles.text_fiche_sante}>Fiche santé</Text>
                   </TouchableOpacity>
                 )
               }
