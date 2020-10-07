@@ -35,7 +35,7 @@ import { faAngleLeft, faFilePdf, faShareAlt as faShare } from '@fortawesome/free
 const DEFAUTL_USER = 'https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg'
 
 class MySante extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
         this.state = {
             isModifbegin: false,
@@ -43,7 +43,7 @@ class MySante extends Component {
             id: null,
             uri_pdf: null,
             photo_pdf: 'vide',
-            name_pdf: 'Mon Fichier PDF',
+            name_pdf: 'Mon fichier pdf',
             blood: '',
             size: 0,
             weight: 0,
@@ -73,42 +73,45 @@ class MySante extends Component {
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this)
     }
 
-    async componentDidMount () {
+    async componentDidMount() {
         console.log('start loading fiche sante')
         this.setState({
             isLoading: true,
             photoUri: this.props.user.user.imageUser,
             id: this.props.user.user.idUser
         })
-        
+
         if (this.props.navigation.state.params) {
             if (this.props.navigation.state.params.profil !== undefined) {
                 this.setState({ photoUri: this.props.navigation.state.params.profil })
             }
         }
-        
+
         this.setState({
             isLoading: false
         })
         await this.getCameraPermissions()
+        // await this.fetchSante()
         await this.fetchSante()
         console.log('end loading fiche sante')
     }
 
-    componentWillMount () {
+    componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick)
+        BackHandler.addEventListener('onOpen', this.fetchSante)
     }
 
-    UNSAFE_componentWillUnmount () {
+    UNSAFE_componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick)
+        BackHandler.removeEventListener('onOpen', this.fetchSante)
     }
 
-    handleBackButtonClick () {
+    handleBackButtonClick() {
         this.props.navigation.navigate('MyProfil', { profil: this.state.photoUri })
         return true
     }
 
-    async fetchSante () {
+    async fetchSante() {
         await axios.get(`${Bdd.api_url}/fiche-sante/list?idUser=${this.state.id}`)
             .then(async res => {
                 if (await !res) {
@@ -116,7 +119,7 @@ class MySante extends Component {
                 } else {
                     const fiche = res.data.data
                     console.log('get fiche')
-                    console.log(fiche)
+                    // console.log(fiche)
                     if (res.data === null) this.setState({ isFirst: true })
                     else {
                         this.setState({
@@ -139,7 +142,7 @@ class MySante extends Component {
             })
     }
 
-    async getCameraPermissions () {
+    async getCameraPermissions() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
         if (status !== 'granted') {
             Alert('permission not granteed')
@@ -155,7 +158,7 @@ class MySante extends Component {
         }
     }
 
-    async _pickImage () {
+    async _pickImage() {
         // launchCameraAsync
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
@@ -170,7 +173,7 @@ class MySante extends Component {
         this._handleImagePicked(result)
     }
 
-    async _handleImagePicked (pickerResult) {
+    async _handleImagePicked(pickerResult) {
         let uploadUrl = ''
         try {
             this.setState({ isLoading: true })
@@ -193,11 +196,11 @@ class MySante extends Component {
         }
     }
 
-    saveProfileImageInfo (data) {
+    saveProfileImageInfo(data) {
         this.props.ModifyPhoto(data)
     }
 
-    async uploadImageAsync (uri) {
+    async uploadImageAsync(uri) {
         // Why are we using XMLHttpRequest? See:
         // https://github.com/expo/expo/issues/2402#issuecomment-443726662
         const blob = await new Promise((resolve, reject) => {
@@ -231,101 +234,101 @@ class MySante extends Component {
             type: 'application/pdf',
             copyToCacheDirectory: false
         });
-        console.log(result.type);
-        console.log(result.name);
-        console.log(result.uri);
-        console.log(result.size);
+        // console.log(result.type);
+        // console.log(result.name);
+        // console.log(result.uri);
+        // console.log(result.size);
         this.setState({
-            name_pdf: result.name.substring(0,8)
+            name_pdf: result.name.substring(0, 8)
         })
         this._handlePdfPicked(result);
     }
 
     _pickPdf = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          allowsEditing : true,
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
         });
-    
+
         //console.log(result)
-    
+
         this._handlePdfPicked(result);
-      }
+    }
 
-      _handlePdfPicked = async pickerResult => {
-        let uploadUrl =""
+    _handlePdfPicked = async pickerResult => {
+        let uploadUrl = ""
         try {
-          this.setState({ isLoading: true });
-    
-          if (!pickerResult.cancelled) {
-            uploadUrl = await this.uploadPdfAsync(pickerResult.uri);
-            this.setState({uri_pdf : uploadUrl})
+            this.setState({ isLoading: true });
 
-          }
+            if (!pickerResult.cancelled) {
+                uploadUrl = await this.uploadPdfAsync(pickerResult.uri);
+                this.setState({ uri_pdf: uploadUrl })
+
+            }
         } catch (e) {
-          console.log(e);
-          alert('Upload failed, sorry :(');
+            console.log(e);
+            alert('Upload failed, sorry :(');
         } finally {
-          this.setState({ isLoading: false });
-          /* this.props.navigation.navigate("MonProfil") */
-          this.setState({photo_pdf : uploadUrl})
-          console.log('link share pdf ', this.state.photo_pdf);
+            this.setState({ isLoading: false });
+            /* this.props.navigation.navigate("MonProfil") */
+            this.setState({ photo_pdf: uploadUrl })
+            // console.log('link share pdf ', this.state.photo_pdf);
         }
-      }
+    }
 
-      uploadPdfAsync = async (uri)  =>{
+    uploadPdfAsync = async (uri) => {
         // Why are we using XMLHttpRequest? See:
         // https://github.com/expo/expo/issues/2402#issuecomment-443726662
         const blob = await new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.onload = function() {
-            resolve(xhr.response);
-          };
-          xhr.onerror = function(e) {
-            console.log(e);
-            reject(new TypeError('Network request failed'));
-          };
-         
-       xhr.responseType = 'blob';
-          xhr.open('GET', uri, true);
-          xhr.send(null);
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                console.log(e);
+                reject(new TypeError('Network request failed'));
+            };
+
+            xhr.responseType = 'blob';
+            xhr.open('GET', uri, true);
+            xhr.send(null);
         });
         const id = Math.random().toString()
         const ref = firebase
-          .storage()
-          .ref()
-          .child(id);
+            .storage()
+            .ref()
+            .child(id);
         const snapshot = await ref.put(blob);
-      
+
         // We're done with the blob, close and release it
         blob.close();
-      
-        return await snapshot.ref.getDownloadURL();
-      }
 
-      shareLink() {
-        if(this.state.photo_pdf === 'vide') {
+        return await snapshot.ref.getDownloadURL();
+    }
+
+    shareLink() {
+        if (this.state.photo_pdf === 'vide') {
             Alert.alert('Info', 'Veuillez choisir un fichier pdf', [
                 {
                     text: 'OK',
-                    onPress: () => {}
+                    onPress: () => { }
                 }
             ])
             return null;
         }
         const url = this.state.photo_pdf;
-        Share.share({title: 'Fiche Santé', message: url}).then(
+        Share.share({ title: 'Fiche Santé', message: url }).then(
             Alert.alert('Succes', 'Fichier Partagé', [
                 {
                     text: 'OK',
-                    onPress: () => {}
+                    onPress: () => { }
                 }
             ])
         ).catch(
             err => Alert.alert('Echec', 'Erreur lors de partage de lien', [
                 {
                     text: 'OK',
-                    onPress: () => {}
+                    onPress: () => { }
                 }
             ])
         )
@@ -336,30 +339,30 @@ class MySante extends Component {
         return (
             <View style={styles.main_profil}>
                 <View style={styles.under_main_profil_1}>
-                <Avatar
-                size={100}
-                rounded
-                source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
-                />
+                    <Avatar
+                        size={100}
+                        rounded
+                        source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
+                    />
                 </View>
-    
+
                 <View style={styles.under_main_profil_2}>
                     <Text style={styles.text_under_main_profil_2}>{this.props.user.user.nomUser}{"  "}{this.props.user.user.prenomUser}</Text>
                     {this.state.weight != '' && (
                         <Text style={styles.descr_under_main_profil_2}>
-                        {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
+                            {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
                         </Text>)
                     }
                 </View>
-                
+
             </View>
         )
-      }
+    }
 
-    renderHeader () {
+    renderHeader() {
         return (
             <View>
-                <View style={ styles.under}>
+                <View style={styles.under}>
                     {
                         this.state.isModifbegin
                             ? <TouchableOpacity
@@ -385,9 +388,9 @@ class MySante extends Component {
                                 style={{ padding: 10 }}
                                 onPress={async () => {
                                     if (this.state.isFirst === true) {
-                                      await this.addFiche()
+                                        await this.addFiche()
                                     } else {
-                                      await this.modifFiche()
+                                        await this.modifFiche()
                                     }
                                     await this.addFiche()
                                     this.setState({ isModifbegin: false })
@@ -396,7 +399,7 @@ class MySante extends Component {
                                     } else {
                                       await this.modifySecondInfoPerso()
                                     } */
-                                  }}>
+                                }}>
                                 <Text style={styles.header}>Enregistrer</Text>
                             </TouchableOpacity>
                             : <TouchableOpacity
@@ -416,7 +419,7 @@ class MySante extends Component {
         )
     }
 
-    addFiche () {
+    async addFiche() {
         this.setState({ isLoading: true })
         const data = {
             idUser: this.props.user.user.idUser,
@@ -429,7 +432,7 @@ class MySante extends Component {
             allergies: this.state.allergies
         }
 
-        axios.post(`${Bdd.api_url}/fiche-sante`, data)
+        await axios.post(`${Bdd.api_url}/fiche-sante`, data)
             .then(_ => {
                 this.setState({ isModifbegin: false, isLoading: false })
             })
@@ -437,7 +440,7 @@ class MySante extends Component {
         this.setState({ isLoading: false })
     }
 
-    modifFiche () {
+    async modifFiche() {
         console.log('begin Put fiche sante')
         this.setState({ isLoading: true })
         const userModified = {
@@ -450,11 +453,11 @@ class MySante extends Component {
             allergies: this.state.allergies
         }
 
-        console.log(this.state)
+        // console.log(this.state)
         console.log('----------')
-        console.log(userModified)
+        // console.log(userModified)
         // this.saveAutre(this.state.medecin, this.state.allergies, this.state.traitement)
-        axios.put(`${Bdd.api_url}/fiche-sante/${this.state.idFiche}`, userModified)
+        await axios.put(`${Bdd.api_url}/fiche-sante/${this.state.idFiche}`, userModified)
             .then(res => {
                 console.log('Put fiche sante')
                 this.setState({ isLoading: false, isModifbegin: false })
@@ -466,7 +469,7 @@ class MySante extends Component {
             })
     }
 
-    createTaille () {
+    createTaille() {
         const taille = []
         for (let i = 50; i <= 210; i++) {
             const item = {
@@ -478,7 +481,7 @@ class MySante extends Component {
         return taille
     }
 
-    createPoids () {
+    createPoids() {
         const poids = []
         for (let i = 1; i <= 180; i++) {
             const item = {
@@ -490,7 +493,7 @@ class MySante extends Component {
         return poids
     }
 
-    render () {
+    render() {
         var groupeSanguin = [
             { label: 'A+', value: 0 },
             { label: 'A-', value: 1 },
@@ -509,7 +512,7 @@ class MySante extends Component {
                         <View style={styles.loading_container}>
                             <ActivityIndicator size="large" />
                         </View>
-                        
+
                     }
 
                     <Card containerStyle={styles.cardContainer}>
@@ -594,7 +597,7 @@ class MySante extends Component {
                             }
                         </View>
                         <View>
-                            <Text style={styles.labelText}>Numéro de la sécurité sociale</Text>
+                            <Text style={styles.labelText}>Numéro d'assurance/ Sécurité sociale</Text>
                             {
                                 this.state.isModifbegin
                                     ? <Input
@@ -650,7 +653,7 @@ class MySante extends Component {
                                     }}
                                     onPress={() => this.takePdf()}
                                 >
-                                    <Text style={{ color: 'white' }}>Inserer PDF</Text>
+                                    <Text style={{ color: 'white' }}>Insérer PDF</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{ marginTop: 10 }}>
@@ -696,8 +699,7 @@ class MySante extends Component {
                             >
                                 <Text>
                                     Partagez en toute sécurité avec votre
-                                    médecin, coach ou famile votre rapport
-                                    médical
+                                    médecin, coach ou famille Mon rapport médical
                                 </Text>
                             </View>
                             <TouchableOpacity
@@ -742,31 +744,31 @@ const styles = StyleSheet.create({
         marginTop: 27,
         marginLeft: 20,
         marginBottom: 35
-      },
-      under_main_profil_1: {
-          flex: 1
-      },
-      under_main_profil_2: {
-          flex: 4,
-          paddingLeft: 45
-      },
-      text_under_main_profil_2: {
+    },
+    under_main_profil_1: {
+        flex: 1
+    },
+    under_main_profil_2: {
+        flex: 4,
+        paddingLeft: 45
+    },
+    text_under_main_profil_2: {
         fontSize: 28,
         fontWeight: '200',
         paddingTop: 7
-      },
-      descr_under_main_profil_2: {
+    },
+    descr_under_main_profil_2: {
         fontSize: 17,
         paddingTop: 17
-      },
-      btn_photo: {
+    },
+    btn_photo: {
         flex: 1,
         paddingTop: 70,
         paddingLeft: 5
-      },
-      img_profil: {
-          width: 200
-      },    
+    },
+    img_profil: {
+        width: 200
+    },
     infoContainer: {
         padding: 20
     },
@@ -895,8 +897,8 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         padding: 10,
         width: wp('100%'),
-        height : hp("13%"),
-        backgroundColor : "#00C1B4"
+        height: hp("13%"),
+        backgroundColor: "#00C1B4"
     },
     header: {
         color: 'white',
