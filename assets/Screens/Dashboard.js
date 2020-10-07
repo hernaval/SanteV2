@@ -83,7 +83,7 @@ class Menu extends Component {
               </TouchableOpacity>
         </Col>
         <Col>
-              <TouchableOpacity onPress={()=> this.props.navigation.navigate("MapView")} style={[styles.cardContainer]}>
+              <TouchableOpacity onPress={()=> console.log('Empty')} style={[styles.cardContainer, {backgroundColor: '#cfcfcf'}]}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faNotesMedical } />
               <Text style={styles.cardText}>Ma {"  "}</Text>
               <Text style={[styles.cardText, {marginTop: 0}]}>Pharmacie {"  "}</Text>

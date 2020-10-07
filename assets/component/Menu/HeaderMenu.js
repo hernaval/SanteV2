@@ -166,7 +166,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -192,7 +192,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         <Text style={styles.txt_back_profil}>Profil</Text>
                                         </TouchableOpacity>
@@ -237,7 +237,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         <Text style={styles.txt_back_profil}>Annuler</Text>
                                         </TouchableOpacity>
@@ -259,13 +259,14 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 (
                                 <View style={styles.contain_perso}>
                                     <View style={styles.contain_perso_1}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} 
+                                        style={{flex:1, flexDirection: 'row'}}>
                                         <Icon
                                         name='chevron-left'
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         <Text style={styles.txt_back_profil}>Profil</Text>
                                         </TouchableOpacity>
@@ -294,7 +295,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         <Text style={styles.txt_back_profil}>Annuler</Text>
                                         </TouchableOpacity>
@@ -323,7 +324,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         <Text style={styles.txt_back_profil}>Annuler</Text>
                                         </TouchableOpacity>
@@ -353,7 +354,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         <Text style={styles.txt_back_profil}>Profil</Text>
                                         </TouchableOpacity>
@@ -434,8 +435,8 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                             (this.props.secondProfilInfo && !this.state.modifPersoSecond &&
                                 (
                                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',
-                                justifyContent: 'center', marginLeft: 10}}>
-                                    <View style={{flex: 1, flexDirection: 'row'}}>
+                                justifyContent: 'center', justifyContent: 'space-between'}}>
+                                    <View style={{marginLeft: 5, flexDirection: 'row'}}>
                                         <TouchableOpacity
                                          onPress={() => this.props.navigation.navigate("MySecondProfil", {update: true})}>
                                         <Icon
@@ -454,11 +455,11 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         </TouchableOpacity>
                                     </View>
 
-                                    <View style={{flex: 2, alignItems: 'center'}}>
+                                    <View style={{alignItems: 'center'}}>
                                         <Text style={styles.modif_txt}>Profil Secondaire</Text>
                                     </View>
 
-                                    <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 10}}>
+                                    <View style={{alignItems: 'flex-end', marginRight: 5}}>
                                      <TouchableOpacity onPress={() => this.modifProfilSecondaire()}>
                                         <Text style={styles.modif_txt}>Modifier</Text>
                                     </TouchableOpacity>
@@ -502,7 +503,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -527,7 +528,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -552,7 +553,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -577,7 +578,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -602,7 +603,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -627,7 +628,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -652,7 +653,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -677,7 +678,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         size={22}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={{fontWeight: '100', paddingTop: 4}}
+                                        style={styles.style_chevron}
                                         />
                                         </TouchableOpacity>
                                     </View>
@@ -698,6 +699,10 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
     }
 }
 const styles = StyleSheet.create({
+    style_chevron: {
+        fontWeight: 'normal', 
+        paddingTop: 4
+    },
     txt_back_profil: {
         color: "#FFFFFF",
         fontSize: 20,
@@ -707,18 +712,19 @@ const styles = StyleSheet.create({
     contain_perso: {
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     contain_perso_1: {
-        flex: 1,
-        paddingLeft: 10,
-        marginTop: 15,
+        // flex: 1,
+        paddingLeft: 5,
+        // marginTop: 15,
         flexDirection: 'row'
     },
     contain_perso_2: {
-        flex: 2,
-        justifyContent: 'center',
-        textAlign: 'center',
-        alignItems: 'center'
+        // flex: 2,
+        // justifyContent: 'center',
+        // textAlign: 'center',
+        // alignItems: 'center'
     },
     contain_perso_21: {
         flex: 3,
@@ -733,12 +739,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     contain_perso_3: {
-        flex: 1,
-        marginTop: 15,
+        paddingRight: 5,
+        // flex: 1,
+        // marginTop: 15,
     },
     contain_perso_31: {
-        flex: 2,
-        marginTop: 15,
+        paddingRight: 5,
+        // flex: 2,
+        // marginTop: 15,
     },
     contain_profil: {
         flex: 1,

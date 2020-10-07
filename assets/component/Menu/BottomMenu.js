@@ -4,7 +4,7 @@ import { Modal, View, Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedb
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { faHeart, faHeartbeat, faGrinHearts, faUser, faUserCircle, faUserEditCircle, faUserEdit, faStar, faMicrophoneAlt, faUmbrella, faMicrophoneSlash, faClosedCaptioning, faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHeartbeat, faGrinHearts, faUser, faUserCircle, faUserEditCircle, faUserEdit, faStar, faMicrophoneAlt, faUmbrella, faMicrophoneSlash, faClosedCaptioning, faWindowClose, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
@@ -334,7 +334,7 @@ class BottomMenu extends Component {
 
 
                     <View style={{
-                        flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                        flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginStart: -10
                     }}>
 
                         <TouchableOpacity
@@ -343,7 +343,7 @@ class BottomMenu extends Component {
 
                             <FontAwesomeIcon
 
-                                icon={faUmbrella}
+                                icon={faBell}
                                 color="#FFFFFF"
                                 size={30}
                                 style={{}} />
@@ -353,8 +353,29 @@ class BottomMenu extends Component {
                         <Text textBreakStrategy={'simple'} style={{ color: "#FFFFFF", justifyContent: 'center', alignItems: 'center' }}>Notif </Text>
                     </View>
 
+
                     <View style={{
                         flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginStart: 30
+                         
+                    }}>
+
+                        <TouchableOpacity
+                            onPress={() => this.setState({ isVisible: true })}
+
+                        >
+                            <FontAwesomeIcon
+                                icon={faMicrophoneAlt}
+                                size={30}
+                                color="#EFEAEA"
+                            />
+
+                        </TouchableOpacity>
+                        <Text textBreakStrategy={'simple'} style={{ color: "white", justifyContent: 'center', alignItems: 'center' }}>Vocal</Text>
+                    </View>
+
+                    <View style={{
+                        flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginStart: -30, 
+                        marginEnd: -10
                     }}>
 
                         <TouchableOpacity
@@ -372,23 +393,7 @@ class BottomMenu extends Component {
 
 
 
-                    <View style={{
-                        flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-                    }}>
 
-                        <TouchableOpacity
-                            onPress={() => this.setState({ isVisible: true })}
-
-                        >
-                            <FontAwesomeIcon
-                                icon={faMicrophoneAlt}
-                                size={30}
-                                color="#EFEAEA"
-                            />
-
-                        </TouchableOpacity>
-                        <Text textBreakStrategy={'simple'} style={{ color: "white", justifyContent: 'center', alignItems: 'center' }}>Vocale</Text>
-                    </View>
 
 
 

@@ -586,7 +586,7 @@ class SanteSecond extends Component {
                             }
                         </View>
                         <View>
-                            <Text style={styles.labelText}>Numéro de la sécurité sociale</Text>
+                            <Text style={styles.labelText}>Numéro d'assurance</Text>
                             {
                                 this.state.isModifbegin
                                     ? <Input
