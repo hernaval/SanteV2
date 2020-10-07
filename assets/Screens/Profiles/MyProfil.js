@@ -12,7 +12,7 @@ import TopMenu from "../../component/Menu/TopMenu"
 import HeaderMenu from "../../component/Menu/HeaderMenu"
 import { Avatar, ListItem, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo, ModifyPhoto } from '../../Action/action-type';
+import { setUserInfo,deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo ,ModifyPhoto } from '../../Action';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, 
 faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, 
@@ -28,28 +28,19 @@ import { saveInfo } from "../../API/firebase";
 import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import PopNav from "../../component/Menu/PopNav";
-
-const API_KEY = 'AIzaSyApjuz39FHMGBsy9lo7FobJQJtZKNra8P8';
+import Cloud from '../../API/Cloud';
+import google from "../../API/google"
+import {getCurrentLocation, getCountryCode} from "../../services/location"
+const API_KEY = google.cloud_key;
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBCUEbVyhoEsQH-ZQzcwXbzuwAdcLQev3E",
-    authDomain: "best4sante-61097.firebaseapp.com",
-    databaseURL: "https://best4sante-61097.firebaseio.com",
-    projectId: "best4sante-61097",
-    storageBucket: "best4sante-61097.appspot.com",
-    messagingSenderId: "76849620029",
-    appId: "1:76849620029:web:2350de3aed95f25cbef654",
-    measurementId: "G-R7JTYSVW52",
-
-};
 
 
 
 class MyProfil extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
+       
         this.state = {
             firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
             lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
@@ -61,13 +52,15 @@ class MyProfil extends Component {
             blood: '', 
             size: '',
             weight: '',
-            modalVisible: false
+            modalVisible: false,
+
+            localCode : null
         }
         // console.log(this.props.user.user)
 
         this.ref = firebase.firestore().collection('profile');
         this.countProfil = 0;
-        this.localCode =null;
+        
     }
 
     componentDidMount = async () => {
@@ -75,7 +68,7 @@ class MyProfil extends Component {
         this.fetchSante();
 
         this._subscribe = this.props.navigation.addListener('didFocus', async () => {
-            this.fetchSante()
+          /*   this.fetchSante() */
             this.setState({
             firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
             lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
@@ -83,7 +76,14 @@ class MyProfil extends Component {
             })
        });
        let location = await getCurrentLocation()
-       this.localCode = await getCountryCode(location.coords.latitude, location.coords.longitude, API_KEY)
+       let local  = await getCountryCode(location.coords.latitude, location.coords.longitude, API_KEY)
+       this.setState({
+           localCode : local
+       })
+
+       const token = await AsyncStorage.getItem("bosToken");
+                console.log(this.props)
+       
     }
 
     _pickImage = async () => {
@@ -105,7 +105,8 @@ class MyProfil extends Component {
     takePictureAndCreateAlbum = async () => {
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing : true,
-      quality : 0.5
+      quality : 0.5,
+      base64 : true
     });
 
     this._handleImagePicked(result)
@@ -169,60 +170,67 @@ class MyProfil extends Component {
     }
 
       _handleImagePicked = async pickerResult => {
+         
         let uploadUrl =""
         try {
           this.setState({ isLoading: true });
     
           if (!pickerResult.cancelled) {
-            uploadUrl = await this.uploadImageAsync(pickerResult.uri);
+            uploadUrl = await this.uploadImageAsync(pickerResult);
+            this.setState({photoUri : uploadUrl})
           let data = {
             imageUser :uploadUrl,
             idUser : this.props.user.user.idUser
           }
-             this.saveProfileImageInfo(data)
+         
+         
+            await  this.saveProfileImageInfo(data) 
             
           }
+
+          this.setState({ isLoading: false });
         } catch (e) {
           console.log(e);
-        //   alert('Upload failed, sorry :(');
-        } finally {
+       
           this.setState({ isLoading: false });
-          /* this.props.navigation.navigate("MonProfil") */
+         
           console.log('Upload Url ', uploadUrl)
-          this.setState({photoUri : uploadUrl})
+          
         }
       }
-      saveProfileImageInfo =  (data) => {
-        console.log('Modifier Photo')
-        this.props.ModifyPhoto(data)
+      saveProfileImageInfo =  async (data) => {
+         
+            
+            this.props.ModifyPhoto(data)
+            const token = await AsyncStorage.getItem("bosToken");
+               this.props.setUserInfo(token)
       }
       uploadImageAsync = async (uri)  =>{
-        // Why are we using XMLHttpRequest? See:
-        // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-        const blob = await new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.onload = function() {
-            resolve(xhr.response);
-          };
-          xhr.onerror = function(e) {
-            console.log(e);
-            reject(new TypeError('Network request failed'));
-          };
-          xhr.responseType = 'blob';
-          xhr.open('GET', uri, true);
-          xhr.send(null);
-        });
-        const id = Math.random().toString()
-        const ref = firebase
-          .storage()
-          .ref()
-          .child(id);
-        const snapshot = await ref.put(blob);
-      
-        // We're done with the blob, close and release it
-        blob.close();
-      
-        return await snapshot.ref.getDownloadURL();
+        let res = ""
+        let data = {
+            "file": `data:image/jpg;base64,${uri.base64}`,
+            "upload_preset": 'dtziwafw'
+        }
+        await fetch(Cloud.cloudinary_api_upload, {
+            body: JSON.stringify(data),
+            headers: {
+              'content-type': 'application/json'
+            },
+            method: 'POST',
+          }).then(async r => {
+              let data = await r.json()
+             
+
+              if(data.error) {
+                console.log('pas enregistré')
+                return ;
+              }
+
+              res = data.secure_url
+
+              
+        }).catch(err=>console.log(err))
+        return res
       }
     
 
@@ -256,6 +264,8 @@ class MyProfil extends Component {
         this.props.navigation.push("ContactList")
     }
 
+ 
+
     renderHeader = () => {
 
         return (
@@ -278,7 +288,7 @@ class MyProfil extends Component {
 
                 <View style={styles.under_main_profil_2}>
                     <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
-                    <Avatar  source={{uri: `https://www.countryflags.io/MG/flat/64.png`}} />
+                    <Avatar  source={{uri: `https://www.countryflags.io/${this.state.localCode}/flat/64.png`}} />
                     {this.state.weight != '' && (
                         <Text style={styles.descr_under_main_profil_2}>
                         {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
@@ -367,7 +377,7 @@ class MyProfil extends Component {
                         <TouchableOpacity onPress={() => this.goToInfoPerso()} >
                             <ListItem
                             chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                                title="Mes Informations Personnelles"
+                                title="Mes informations personnelles"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUserCircle} />}
                                 titleStyle={{ fontWeight: '600' }}                              
                                 containerStyle={styles.listItemContainer}
@@ -377,7 +387,7 @@ class MyProfil extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil", {id: this.state.id})}>
                         <ListItem
                         chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                            title="Mes Profils secondaires"
+                            title="Mes profils secondaires"
                             leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUsers} />}
                             titleStyle={{ fontWeight: "600" }}
                             containerStyle={styles.listItemContainer}
@@ -387,7 +397,7 @@ class MyProfil extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("ContactUrgence")} >
                         <ListItem
                         chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                            title="Mes Contacts d'urgences"
+                            title="Mes contacts d'urgences"
                             leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faExclamationCircle} />}
                             titleStyle={{ fontWeight: "600" }}                               
                             containerStyle={styles.listItemContainer}
@@ -396,7 +406,7 @@ class MyProfil extends Component {
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("MySante")} >
                             <ListItem                            
-                                title=" Ma Fiche santé"
+                                title=" Ma fiche Santé"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFileMedicalAlt} />}
                                 titleStyle={{ fontWeight: "600" }}                                
                                 containerStyle={styles.listItemContainer}
@@ -416,7 +426,7 @@ class MyProfil extends Component {
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("Signal")} >
                             <ListItem                            
-                                title=" Mes Paramètres"
+                                title=" Mes paramètres"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faCog} />}
                                 titleStyle={{ fontWeight: "600" }}                                
                                 containerStyle={styles.listItemContainer}
@@ -427,9 +437,9 @@ class MyProfil extends Component {
                     </View>
 
                     <SafeAreaView style={styles.main_profil_2}>
-                        <Text style={styles.title_main_profil_2}>Recommender Best4Santé</Text>
+                        <Text style={styles.title_main_profil_2}>Recommander Best4Santé</Text>
                         <Text style={styles.descr_main_profil_2}>
-                            Best4Santé est un application de santé, proposée pour tous.
+                            Best4Santé est un compagnon Santé au quotidien,gratuit et ouvert à tous.
                         </Text>
 
                         <TouchableOpacity style={styles.touch_share} onPress={() => this.shareLink()}>
@@ -541,19 +551,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: '#FFFFFF',
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         padding: 15,
         borderRadius: 10,
-        // shadowColor: "#000",
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 3,
-        // },
-        // shadowOpacity: 0.29,
-        // shadowRadius: 4.65,
-        // elevation: 6,
-        // marginBottom: 20,
-        // marginTop: 10
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 6,
+        marginBottom: 20,
+        marginTop: 10
     },
     btn_share: {
         color: '#FFFFFF',
@@ -836,20 +846,18 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (store) => {
     return {
-        user: store.user,
+        user: store.user
         // contact: store.contact,
         // second: store.second
     }
 }
 
 const mapDispatchToProps = {
-    deleteContact,
-    modifyUserInfo,
-    setSecondInfo,
-    setIndexSelected,
+    setUserInfo,
+   
     ModifyPhoto
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyProfil);
+export default connect(mapStateToProps, mapDispatchToProps)(MyProfil)
 

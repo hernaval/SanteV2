@@ -24,7 +24,7 @@ import {
 import PropTypes from 'prop-types'
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
-import { deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo ,ModifyPhoto } from '../../Action';
+import { setUserInfo,deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo ,ModifyPhoto } from '../../Action';
 import { Avatar } from 'react-native-elements';
 import TopMenu from "../../component/Menu/TopMenu"
 import HeaderMenu from "../../component/Menu/HeaderMenu"
@@ -35,7 +35,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 import { Container, Header, Content, Form, Item, Label } from 'native-base';
-
+import Cloud from '../../API/Cloud';
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
 class Switch extends Component {
 
@@ -102,6 +102,8 @@ class Switch extends Component {
     })
     this.setState({ isLoading: false })
     await this.getCameraPermissions()
+
+   
   }
 
   componentWillMount() {
@@ -386,7 +388,8 @@ Savemodify() {
   takePictureAndCreateAlbum = async () => {
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing : true,
-      quality : 0.5
+      quality : 0.5,
+      base64 : true
     });
 
     this._handleImagePicked(result)
@@ -449,61 +452,75 @@ Savemodify() {
         )
     }
 
-  _handleImagePicked = async pickerResult => {
-    let uploadUrl =""
-    try {
-      this.setState({ isLoading: true });
+ 
+    _handleImagePicked = async pickerResult => {
+         
+      let uploadUrl =""
+      try {
+        this.setState({ isLoading: true });
+  
+        if (!pickerResult.cancelled) {
+          uploadUrl = await this.uploadImageAsync(pickerResult);
+          this.setState({photoUri : uploadUrl})
+        let data = {
+          imageUser :uploadUrl,
+          idUser : this.props.user.user.idUser
+        }
+       
+       
+          await  this.saveProfileImageInfo(data) 
+          
+        }
 
-      if (!pickerResult.cancelled) {
-        uploadUrl = await this.uploadImageAsync(pickerResult.uri);
-      let data = {
-        imageUser :uploadUrl,
-        idUser : this.props.user.user.idUser
-      }
-         this.saveProfileImageInfo(data)
+        this.setState({ isLoading: false });
+      } catch (e) {
+        console.log(e);
+     
+        this.setState({ isLoading: false });
+       
+        console.log('Upload Url ', uploadUrl)
         
       }
-    } catch (e) {
-      console.log(e);
-      // alert('Upload failed, sorry :(');
-    } finally {
-      this.setState({ isLoading: false });
-      /* this.props.navigation.navigate("MonProfil") */
-      this.setState({photoUri : uploadUrl})
     }
-  }
-  saveProfileImageInfo =  (data) => {
-    console.log('Modifier Photo')
-    this.props.ModifyPhoto(data)
-  }
-  uploadImageAsync = async (uri)  =>{
-    // Why are we using XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function() {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function(e) {
-        console.log(e);
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      xhr.send(null);
-    });
-    const id = Math.random().toString()
-    const ref = firebase
-      .storage()
-      .ref()
-      .child(id);
-    const snapshot = await ref.put(blob);
+    saveProfileImageInfo =  async (data) => {
+       /*  let idUser = data.idUser
+      await axios.put(`${Bdd.api_url}/${idUser}/pdp`, data)
+    .then(async res => {
+              
+          }).catch(err=> console.log(err)) */
+          
+          this.props.ModifyPhoto(data)
+          const token = await AsyncStorage.getItem("bosToken");
+             this.props.setUserInfo(token)
+    }
+    uploadImageAsync = async (uri)  =>{
+      let res = ""
+      let data = {
+          "file": `data:image/jpg;base64,${uri.base64}`,
+          "upload_preset": 'dtziwafw'
+      }
+      await fetch(Cloud.cloudinary_api_upload, {
+          body: JSON.stringify(data),
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'POST',
+        }).then(async r => {
+            let data = await r.json()
+           
+
+            if(data.error) {
+              console.log('pas enregistré')
+              return ;
+            }
+
+            res = data.secure_url
+
+            
+      }).catch(err=>console.log(err))
+      return res
+    }
   
-    // We're done with the blob, close and release it
-    blob.close();
-  
-    return await snapshot.ref.getDownloadURL();
-  }
 
   goToProfil() {
     this.props.navigation.navigate("MyProfil", {
@@ -864,6 +881,7 @@ const mapStateToProps = (store) => {
 }
 
 const mapDispatchToProps = {
+  setUserInfo,
   deleteContact,
   modifyUserInfo,
   setSecondInfo,

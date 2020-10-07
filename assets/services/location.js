@@ -51,7 +51,7 @@ export const calculateDistanceBetween = async (myPosition, hisPosition) =>{
 
 export const  getCountryCode = async(lat, log, api) =>{
   let code = ""
-  await axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + log + "&key=" + api)
+  await Axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + log + "&key=" + api)
                 .then(async response => {
                     const globalRes = response.data.results[0].address_components
 
