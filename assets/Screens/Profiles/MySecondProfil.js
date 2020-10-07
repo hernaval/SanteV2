@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,TextInput, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { Text, View, TextInput, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import TopMenu from "../../component/Menu/TopMenu"
 import HeaderMenu from "../../component/Menu/HeaderMenu"
@@ -34,23 +34,22 @@ class MySecondProfil extends Component {
 
     componentDidMount() {
         this.fetchSecond()
-        console.log('id navigation ',this.props.navigation.state.params.id)
+        console.log('id navigation ', this.props.navigation.state.params.id)
         this.setState({
             idUser: this.props.navigation.state.params.id
         })
         this._subscribe = this.props.navigation.addListener('didFocus', async () => {
             this.fetchSecond()
-       });
+        });
     }
 
     fetchSecond = () => {
         let idUser = this.props.user.user.idUser ? this.props.user.user.idUser : this.state.idUser
         console.log('------8888------', idUser)
- 
+
         axios.get(`${Bdd.api_url_second}/list?idUser=${idUser}`)
             .then(
-                (res) => 
-                {
+                (res) => {
                     console.log('fetch second dans second profil')
                     console.log(res.data)
                     this.setState({ secondUser: res.data.data })
@@ -60,7 +59,7 @@ class MySecondProfil extends Component {
     }
 
 
-    renderItem = (index,idUser, fullname, lien, iniital, img) => (
+    renderItem = (index, idUser, fullname, lien, iniital, img) => (
         <ListItem
             containerStyle={{ margin: 10 }}
             title={fullname}
@@ -69,17 +68,16 @@ class MySecondProfil extends Component {
                 title: iniital
             }}
             bottomDivider
-            onPress={() => 
-                {
-                    // console.log('idUser ', idUser);
-                    // console.log('profil', img)
-                    this.props.setIndexSelected(index)
-                    this.props.navigation.navigate("InfoSecond", 
-                    {id: idUser, profil: img, index: index})
-                }
+            onPress={() => {
+                // console.log('idUser ', idUser);
+                // console.log('profil', img)
+                this.props.setIndexSelected(index)
+                this.props.navigation.navigate("InfoSecond",
+                    { id: idUser, profil: img, index: index })
+            }
             }
             rightElement={
-                <React.Fragment>                   
+                <React.Fragment>
                     <TouchableOpacity style={{ padding: 10 }} onPress={() => this.deleteSecondProfil(idUser)}>
                         <FontAwesomeIcon icon={faTrash} />
                     </TouchableOpacity>
@@ -107,15 +105,15 @@ class MySecondProfil extends Component {
     }
 
     renderAction = (idUser, index) => (
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly"}}>
+        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
 
 
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <TouchableOpacity onPress={() => this.deleteSecondProfil(idUser)}>
                     <FontAwesomeIcon icon={faTrashAlt} />
-                    <Text style={{textAlign : "center"}}>Supprimer</Text>
+                    <Text style={{ textAlign: "center" }}>Supprimer</Text>
                 </TouchableOpacity>
-                
+
             </View>
 
             <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -124,33 +122,32 @@ class MySecondProfil extends Component {
                     this.props.navigation.navigate("SwitchSecond")
                 }}>
                     <FontAwesomeIcon icon={faCheck} />
-                    <Text style={{textAlign : "center"}}>Modifier</Text>
+                    <Text style={{ textAlign: "center" }}>Modifier</Text>
                 </TouchableOpacity>
-                
+
             </View>
 
         </View>
     )
-    deleteSecondProfil(idUser){
+    deleteSecondProfil(idUser) {
         axios.delete(`${Bdd.api_url_second}/${idUser}`)
-			.then(response => {
+            .then(response => {
                 this.fetchSecond()
-                this.setState({actionIndex : -1})
-			})
+                this.setState({ actionIndex: -1 })
+            })
     }
 
     addSecondProfil() {
         this.props.navigation.navigate("SecondAdd")
     }
 
-    
+
     searchContact(search) {
         const taille = this.state.secondUserTemp.length;
         var tab = [];
-        for(let i = 0; i < taille; i++){
+        for (let i = 0; i < taille; i++) {
             var chaine = this.state.secondUserTemp[i];
-            if ((chaine.nomSecondUser.toString().toLowerCase().indexOf(search.toLowerCase()) > -1) || (chaine.prenomSecondUser.toString().toLowerCase().indexOf(search.toLowerCase()) > -1))
-            { 
+            if ((chaine.nomSecondUser.toString().toLowerCase().indexOf(search.toLowerCase()) > -1) || (chaine.prenomSecondUser.toString().toLowerCase().indexOf(search.toLowerCase()) > -1)) {
                 console.log('find ', chaine);
                 tab.push(chaine);
             } else {
@@ -170,29 +167,34 @@ class MySecondProfil extends Component {
                 </View>}
 
                 <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                    <HeaderMenu navigation={this.props.navigation} 
-                    secondProfil={1} ajouterSecondProfil={this.addSecondProfil}
-                    idUserSecond={this.props.user.user.idUser}/>
+                    <HeaderMenu
+                        navigation={this.props.navigation}
+                        secondProfil={1}
+                        ajouterSecondProfil={this.addSecondProfil}
+                        idUserSecond={this.props.user.user.idUser}
+                    />
                 </View>
 
                 <View style={styles.profilContainer}>
-                <View style={{marginBottom: 0, flexDirection: 'row', 
-                width: wp('90%'), marginLeft: wp('5%'), borderWidth: 1, 
-                padding: 10, borderRadius: 10, borderWidthColor: 'grey'}}> 
-                    <View>
-                        <Icon
-                          name='search'
-                          size={22}
-                          color='#696969'
-                          containerStyle={{marginRight: 50}}
-                        />
-                    </View>
+                    <View style={{
+                        marginBottom: 0, flexDirection: 'row',
+                        width: wp('90%'), marginLeft: wp('5%'), borderWidth: 1,
+                        padding: 10, borderRadius: 10, borderWidthColor: 'grey'
+                    }}>
+                        <View>
+                            <Icon
+                                name='search'
+                                size={22}
+                                color='#696969'
+                                containerStyle={{ marginRight: 50 }}
+                            />
+                        </View>
 
-                    <View style={{marginLeft: 20}}>
-                        <TextInput placeholder="Rechercher" style={{fontSize: 18}}
-                        onChangeText={(text) => this.searchContact(text)}/>
+                        <View style={{ marginLeft: 20 }}>
+                            <TextInput placeholder="Rechercher" style={{ fontSize: 18 }}
+                                onChangeText={(text) => this.searchContact(text)} />
+                        </View>
                     </View>
-                </View>
 
                     <ScrollView>
                         {this.state.secondUser !== null && this.state.secondUser.map((profil, index) => {
@@ -204,7 +206,7 @@ class MySecondProfil extends Component {
                             const img = profil.imageSecondUser
                             return (
                                 <View key={index}>
-                                    {this.renderItem(index,id, fullname, lien, inital, img)}
+                                    {this.renderItem(index, id, fullname, lien, inital, img)}
 
                                 </View>
                             )
@@ -226,27 +228,27 @@ class MySecondProfil extends Component {
 
 const styles = StyleSheet.create({
     inputSearch: {
-    fontSize: 16,
+        fontSize: 16,
     },
     contain_search: {
-    flex: 1, 
-    flexDirection: 'row', 
-    backgroundColor: 'white', 
-    width: wp("87%"), 
-    paddingTop: 17, 
-    paddingLeft: 15, 
-    height: 60, 
-    zIndex: 100,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        width: wp("87%"),
+        paddingTop: 17,
+        paddingLeft: 15,
+        height: 60,
+        zIndex: 100,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.10,
+        shadowRadius: 4.65,
+        elevation: 8,
+        borderRadius: 10
     },
-    shadowOpacity: 0.10,
-    shadowRadius: 4.65,
-    elevation: 8,
-    borderRadius: 10
-  },
     container: {
         flex: 1,
         backgroundColor: "white",
