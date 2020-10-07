@@ -17,10 +17,10 @@ import Bdd from "../API/Bdd"
 import ViewPager from '@react-native-community/viewpager';
 import { Avatar } from 'react-native-elements';
 import { getCurrentLocation } from '../services/location'
-import  google  from "../API/google";
+import google from "../API/google";
 
 
- const API_KEY = google.cloud_key;
+const API_KEY = google.cloud_key;
 
 
 class Emergency extends Component {
@@ -48,7 +48,7 @@ class Emergency extends Component {
 
         let location = await getCurrentLocation()
 
-       
+
         let data = {
             typeUrgence: type,
             geolocUrgence: `${location.coords.latitude},${location.coords.longitude}`,
@@ -56,7 +56,7 @@ class Emergency extends Component {
         }
         let idUser = this.props.user.user.idUser
 
-       
+
 
         await axios.post(`${Bdd.api_url}/urgence`, data)
             .then(async res => {
@@ -97,8 +97,8 @@ class Emergency extends Component {
     }
 
     findNumber = async () => {
-        
-        
+
+
         let num = {
             ambulance: null,
             fire: null,
@@ -110,7 +110,7 @@ class Emergency extends Component {
             console.log('No urgence')
         } else {
             let urgence = this.urgence
-            console.log("urgence",urgence)
+            console.log("urgence", urgence)
             num = {
                 ambulance: urgence[0].Ambulance.All[0],
                 fire: urgence[0].Fire.All[0],
@@ -152,7 +152,7 @@ class Emergency extends Component {
 
 
     _getCountryCodeByLocation = async () => {
-        
+
         const key = 'permission_location';
         const value = await AsyncStorage.getItem(key)
 
@@ -208,7 +208,7 @@ class Emergency extends Component {
             axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.coords.latitude + "," + location.coords.longitude + "&key=" + API_KEY)
                 .then(async response => {
 
-                    
+
                     const globalRes = response.data.results[0].address_components
 
                     let resObj = await globalRes.filter(el => {
@@ -232,11 +232,12 @@ class Emergency extends Component {
 
     };
 
-    renderBtn = (index, url,i) => (
-        <TouchableOpacity key={i} onPress={() => {
-            this.setState({ current: index })
-            this.viewPager.setPage(index)
-        }}>
+    renderBtn = (index, url, i) => (
+        <TouchableOpacity key={i}
+            onPress={() => {
+                this.setState({ current: index })
+                this.viewPager.setPage(index)
+            }}>
             {this.state.current !== index && <Avatar source={url} rounded size="medium" />}
             {this.state.current === index && <Avatar source={url} rounded size="large" />}
 
@@ -267,7 +268,8 @@ class Emergency extends Component {
                     }}
                 >
                     <View style={styles.urgenceContainer}>
-                        <TouchableOpacity onPress={() => this.callAccident()} style={styles.urgenceBtn}>
+                        <TouchableOpacity
+                            onPress={() => this.callAccident()} style={styles.urgenceBtn}>
                             <Image source={require("../images/sos.png")} />
                             <Text style={styles.legend}>ACCIDENT</Text>
                         </TouchableOpacity>
@@ -404,6 +406,8 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 50,
         marginTop: hp("3%"),
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     legend: {
         fontSize: 25,
