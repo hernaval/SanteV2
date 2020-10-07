@@ -404,7 +404,7 @@ class MyProfil extends Component {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MapUser")} >
+                        <TouchableOpacity style={{display: 'none'}} onPress={() => this.props.navigation.navigate("MapUser")} >
                             <ListItem                            
                                 title=" Ma communauté  Bon Samaritain"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFirstAid} />}

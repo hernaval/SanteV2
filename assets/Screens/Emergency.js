@@ -257,11 +257,11 @@ class Emergency extends Component {
         return (
 
             <View style={styles.container}>
-                <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
+                <View style={[Platform.OS === 'ios' ? styles.under_ios : styles.under]}>
                     <TopMenu navigation={this.props.navigation} />
                 </View>
                 <ViewPager
-                    style={{ flexGrow: 1 }}
+                    style={{ flexGrow: 1, marginTop: hp('15%') }}
                     ref={viewPager => {
                         this.viewPager = viewPager
                     }}
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
         height: hp("65%"),
         backgroundColor: "white",
         borderRadius: 50,
-        marginTop: hp("3%")
+        marginTop: hp("3%"),
     },
     legend: {
         fontSize: 25,
