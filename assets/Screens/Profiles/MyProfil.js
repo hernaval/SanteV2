@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { StyleSheet,SafeAreaView, Share, Alert, Text, View, Modal, 
-        AsyncStorage, ScrollView, ActivityIndicator, TouchableOpacity, Image, CheckBox } from 'react-native'
+import {
+    StyleSheet, SafeAreaView, Share, Alert, Text, View, Modal,
+    AsyncStorage, ScrollView, ActivityIndicator, TouchableOpacity, Image, CheckBox
+} from 'react-native'
 import { connect } from 'react-redux'
 import {
     widthPercentageToDP as wp,
@@ -12,11 +14,13 @@ import TopMenu from "../../component/Menu/TopMenu"
 import HeaderMenu from "../../component/Menu/HeaderMenu"
 import { Avatar, ListItem, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { setUserInfo,deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo ,ModifyPhoto } from '../../Action';
+import { setUserInfo, deleteContact, modifyUserInfo, setIndexSelected, setSecondInfo, ModifyPhoto } from '../../Action';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella, 
-faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers, 
-faExclamationCircle, faFirstAid, faCog } from '@fortawesome/free-solid-svg-icons';
+import {
+    faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella,
+    faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers,
+    faExclamationCircle, faFirstAid, faCog
+} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 import { TouchableHighlight, TextInput } from 'react-native-gesture-handler'
@@ -30,7 +34,7 @@ import firestore from 'firebase/firestore'
 import PopNav from "../../component/Menu/PopNav";
 import Cloud from '../../API/Cloud';
 import google from "../../API/google"
-import {getCurrentLocation, getCountryCode} from "../../services/location"
+import { getCurrentLocation, getCountryCode } from "../../services/location"
 const API_KEY = google.cloud_key;
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
 
@@ -40,7 +44,7 @@ const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
 class MyProfil extends Component {
     constructor(props) {
         super(props);
-       
+
         this.state = {
             firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
             lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
@@ -49,163 +53,171 @@ class MyProfil extends Component {
             photoUri: this.props.user.user != null ? this.props.user.user.imageUser : '',
             isLoading: false,
             isFirst: false,
-            blood: '', 
+            blood: '',
             size: '',
             weight: '',
             modalVisible: false,
 
-            localCode : null
+            localCode: null
         }
         // console.log(this.props.user.user)
 
         this.ref = firebase.firestore().collection('profile');
         this.countProfil = 0;
-        
+
     }
 
     componentDidMount = async () => {
-        console.log('id ',this.props.user.user.idUser)
+        console.log('id ', this.props.user.user.idUser)
         this.fetchSante();
 
         this._subscribe = this.props.navigation.addListener('didFocus', async () => {
-          /*   this.fetchSante() */
+            /*   this.fetchSante() */
             this.setState({
-            firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
-            lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
-            photoUri: this.props.user.user != null ? this.props.user.user.imageUser : '',
+                firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
+                lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
+                photoUri: this.props.user.user != null ? this.props.user.user.imageUser : '',
             })
-       });
-       let location = await getCurrentLocation()
-       let local  = await getCountryCode(location.coords.latitude, location.coords.longitude, API_KEY)
-       this.setState({
-           localCode : local
-       })
+        });
+        let location = await getCurrentLocation()
+        let local = await getCountryCode(location.coords.latitude, location.coords.longitude, API_KEY)
+        this.setState({
+            localCode: local
+        })
 
-       const token = await AsyncStorage.getItem("bosToken");
-                console.log(this.props)
-       
+        const token = await AsyncStorage.getItem("bosToken");
+        console.log(this.props)
+
     }
 
     _pickImage = async () => {
         //launchCameraAsync
         let result = await ImagePicker.launchImageLibraryAsync({
-          allowsEditing : true,
-          base64: true,
-          quality : 0.5
+            allowsEditing: true,
+            base64: true,
+            quality: 0.5
         });
-    
+
         if (result.cancelled) {
-          return
+            return
         }
-    
+
         this._handleImagePicked(result);
-    
+
     }
 
     takePictureAndCreateAlbum = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing : true,
-      quality : 0.5,
-      base64 : true
-    });
+        let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            quality: 0.5,
+            base64: true
+        });
 
-    this._handleImagePicked(result)
-  }
+        this._handleImagePicked(result)
+    }
 
     showModal() {
-        return(
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Modal
-        animationType="slide"
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
-        >
-        
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 22}}>
-          <View 
-          style={{margin: 20, backgroundColor: 'white', borderRadius: 20, padding: 35, 
-          alignItems: 'center', shadowColor: '#000', shadowOffset: {width: 0, height: 2},
-          shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5}}>
-        
-            <TouchableOpacity
-               style={{ padding: 10, width: wp('40%'), alignItems: 'center', 
-              backgroundColor: "#2196F3", marginBottom: 20 }}
-              onPress={() => {
-                this.setState({ modalVisible: !this.state.modalVisible })
-                this._pickImage()
-              }}
-            >
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        Alert.alert("Modal has been closed.");
+                    }}
+                >
 
-              <Text style={styles.textStyle}>Importer une photo</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ padding: 10, width: wp('40%'), alignItems: 'center', 
-              backgroundColor: "#2196F3", marginBottom: 20 }}
-              onPress={() => {
-                this.setState({ modalVisible: !this.state.modalVisible})
-                this.takePictureAndCreateAlbum()
-              }}
-            >
-              <Text style={styles.textStyle}>Prendre une photo</Text>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 22 }}>
+                        <View
+                            style={{
+                                margin: 20, backgroundColor: 'white', borderRadius: 20, padding: 35,
+                                alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+                                shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5
+                            }}>
 
-            </TouchableOpacity>
-            <TouchableOpacity
-            style={{ padding: 10, width: wp('40%'), alignItems: 'center', 
-              backgroundColor: "#d3d3d3", marginBottom: 20 }}
-              onPress={() => {
-                this.setState({ modalVisible: false})
-                console.log('Annuler')
-              }}
-            >
-              <Text style={styles.textStyle}>Annuler</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        </Modal>
-        </View>
+                            <TouchableOpacity
+                                style={{
+                                    padding: 10, width: wp('40%'), alignItems: 'center',
+                                    backgroundColor: "#2196F3", marginBottom: 20
+                                }}
+                                onPress={() => {
+                                    this.setState({ modalVisible: !this.state.modalVisible })
+                                    this._pickImage()
+                                }}
+                            >
+
+                                <Text style={styles.textStyle}>Importer une photo</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    padding: 10, width: wp('40%'), alignItems: 'center',
+                                    backgroundColor: "#2196F3", marginBottom: 20
+                                }}
+                                onPress={() => {
+                                    this.setState({ modalVisible: !this.state.modalVisible })
+                                    this.takePictureAndCreateAlbum()
+                                }}
+                            >
+                                <Text style={styles.textStyle}>Prendre une photo</Text>
+
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    padding: 10, width: wp('40%'), alignItems: 'center',
+                                    backgroundColor: "#d3d3d3", marginBottom: 20
+                                }}
+                                onPress={() => {
+                                    this.setState({ modalVisible: false })
+                                    console.log('Annuler')
+                                }}
+                            >
+                                <Text style={styles.textStyle}>Annuler</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
         )
     }
 
-      _handleImagePicked = async pickerResult => {
-         
-        let uploadUrl =""
-        try {
-          this.setState({ isLoading: true });
-    
-          if (!pickerResult.cancelled) {
-            uploadUrl = await this.uploadImageAsync(pickerResult);
-            this.setState({photoUri : uploadUrl})
-          let data = {
-            imageUser :uploadUrl,
-            idUser : this.props.user.user.idUser
-          }
-         
-         
-            await  this.saveProfileImageInfo(data) 
-            
-          }
+    _handleImagePicked = async pickerResult => {
 
-          this.setState({ isLoading: false });
+        let uploadUrl = ""
+        try {
+            this.setState({ isLoading: true });
+
+            if (!pickerResult.cancelled) {
+                uploadUrl = await this.uploadImageAsync(pickerResult);
+                this.setState({ photoUri: uploadUrl })
+                let data = {
+                    imageUser: uploadUrl,
+                    idUser: this.props.user.user.idUser
+                }
+
+
+                await this.saveProfileImageInfo(data)
+
+            }
+
+            this.setState({ isLoading: false });
         } catch (e) {
-          console.log(e);
-       
-          this.setState({ isLoading: false });
-         
-          console.log('Upload Url ', uploadUrl)
-          
+            console.log(e);
+
+            this.setState({ isLoading: false });
+
+            console.log('Upload Url ', uploadUrl)
+
         }
-      }
-      saveProfileImageInfo =  async (data) => {
-         
-            
-            this.props.ModifyPhoto(data)
-            const token = await AsyncStorage.getItem("bosToken");
-               this.props.setUserInfo(token)
-      }
-      uploadImageAsync = async (uri)  =>{
+    }
+    saveProfileImageInfo = async (data) => {
+
+
+        this.props.ModifyPhoto(data)
+        const token = await AsyncStorage.getItem("bosToken");
+        this.props.setUserInfo(token)
+    }
+    uploadImageAsync = async (uri) => {
         let res = ""
         let data = {
             "file": `data:image/jpg;base64,${uri.base64}`,
@@ -214,25 +226,25 @@ class MyProfil extends Component {
         await fetch(Cloud.cloudinary_api_upload, {
             body: JSON.stringify(data),
             headers: {
-              'content-type': 'application/json'
+                'content-type': 'application/json'
             },
             method: 'POST',
-          }).then(async r => {
-              let data = await r.json()
-             
+        }).then(async r => {
+            let data = await r.json()
 
-              if(data.error) {
+
+            if (data.error) {
                 console.log('pas enregistré')
-                return ;
-              }
+                return;
+            }
 
-              res = data.secure_url
+            res = data.secure_url
 
-              
-        }).catch(err=>console.log(err))
+
+        }).catch(err => console.log(err))
         return res
-      }
-    
+    }
+
 
     changeProfil() {
         console.log('Param myprofil ', this.props.navigation.state.params)
@@ -243,7 +255,7 @@ class MyProfil extends Component {
         }
         else {
             console.log('set state my profil')
-            this.setState({photoUri: this.props.navigation.state.params.profil})
+            this.setState({ photoUri: this.props.navigation.state.params.profil })
             this.countProfil++
         }
     }
@@ -264,39 +276,46 @@ class MyProfil extends Component {
         this.props.navigation.push("ContactList")
     }
 
- 
+
 
     renderHeader = () => {
 
         return (
             <View style={styles.main_profil}>
-            {this.changeProfil()}
-            {this.showModal()}
+                {this.changeProfil()}
+                {this.showModal()}
                 <View style={styles.under_main_profil_1}>
-                <Avatar
-                size={100}
-                rounded
-                source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
-                />
+                    <Avatar
+                        size={100}
+                        rounded
+                        source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
+                    />
                 </View>
 
                 <View style={styles.btn_photo}>
-                <TouchableOpacity onPress={() => this.setState({ modalVisible: true}) }>
-                <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.setState({ modalVisible: true })}>
+                        <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.under_main_profil_2}>
                     <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
-                    <Avatar  source={{uri: `https://www.countryflags.io/${this.state.localCode}/flat/64.png`}} />
+                    <Image
+                        source={{ uri: `https://www.countryflags.io/${this.state.localCode}/flat/64.png` }}
+                        style={{
+                            height: 20, width: 30,
+                            borderWidth: 1,
+                            borderColor: '#999999'
+                        }}
+                    />
                     {this.state.weight != '' && (
                         <Text style={styles.descr_under_main_profil_2}>
-                        {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
-                    </Text>
+                            {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
+                        </Text>
                     )
                     }
                 </View>
-                
+
             </View>
         )
     }
@@ -305,25 +324,25 @@ class MyProfil extends Component {
     fetchSante = async () => {
 
         await axios.get(`${Bdd.api_url}/fiche-sante/list?idUser=${this.state.id}`)
-          .then(async res => {
-            if (await !res) {
-              console.log("tena misy olana")
-            } else {
-              const fiche = res.data.data
-              if (res.data === null) this.setState({ isFirst: true })
-              else this.setState({
-                isFirst: false,
-                blood: fiche.groupeSanguin, size: fiche.taille,
-                weight: fiche.poids, medecin: fiche.medecinTraitant,
-                secu: fiche.numSecu, donate: fiche.donnateur,
-                idFiche: fiche.idFiche,
-                allergies: fiche.allergies
-              })
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
+            .then(async res => {
+                if (await !res) {
+                    console.log("tena misy olana")
+                } else {
+                    const fiche = res.data.data
+                    if (res.data === null) this.setState({ isFirst: true })
+                    else this.setState({
+                        isFirst: false,
+                        blood: fiche.groupeSanguin, size: fiche.taille,
+                        weight: fiche.poids, medecin: fiche.medecinTraitant,
+                        secu: fiche.numSecu, donate: fiche.donnateur,
+                        idFiche: fiche.idFiche,
+                        allergies: fiche.allergies
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     logout() {
@@ -332,18 +351,18 @@ class MyProfil extends Component {
 
     shareLink() {
         const url = 'https://exp.host/@stenny453/Best4Sante';
-        Share.share({title: 'Best4Santé', message: url}).then(
+        Share.share({ title: 'Best4Santé', message: url }).then(
             Alert.alert('Succes', 'Lien Partagé', [
                 {
                     text: 'OK',
-                    onPress: () => {}
+                    onPress: () => { }
                 }
             ])
         ).catch(
             err => Alert.alert('Echec', 'Erreur lors de partage de lien', [
                 {
                     text: 'OK',
-                    onPress: () => {}
+                    onPress: () => { }
                 }
             ])
         )
@@ -351,7 +370,7 @@ class MyProfil extends Component {
 
     render() {
         // console.log(this.state.photoUri)
-       
+
         // const rightButtons = [
         //     <TouchableHighlight onPress={() => this.setState({ modalVisible: true })} style={styles.editBtn}>
         //         <FontAwesomeIcon color="white" size={40} icon={faEdit} />
@@ -363,72 +382,72 @@ class MyProfil extends Component {
                 {this.state.isLoading && <View style={styles.loading_container}>
                     <ActivityIndicator size="large" />
                 </View>}
-                
-                
+
+
                 <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                    <HeaderMenu navigation={this.props.navigation} profile={1}/>
+                    <HeaderMenu navigation={this.props.navigation} profile={1} />
                 </View>
-                
+
 
                 <ScrollView style={[styles.scroll, { marginTop: 10 }]} >
                     {this.renderHeader()}
-                    
+
                     <View>
                         <TouchableOpacity onPress={() => this.goToInfoPerso()} >
                             <ListItem
-                            chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
+                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                                 title="Mes informations personnelles"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUserCircle} />}
-                                titleStyle={{ fontWeight: '600' }}                              
+                                titleStyle={{ fontWeight: '600' }}
                                 containerStyle={styles.listItemContainer}
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil", {id: this.state.id})}>
-                        <ListItem
-                        chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                            title="Mes profils secondaires"
-                            leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUsers} />}
-                            titleStyle={{ fontWeight: "600" }}
-                            containerStyle={styles.listItemContainer}
-                        />
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySecondProfil", { id: this.state.id })}>
+                            <ListItem
+                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
+                                title="Mes profils secondaires"
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUsers} />}
+                                titleStyle={{ fontWeight: "600" }}
+                                containerStyle={styles.listItemContainer}
+                            />
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("ContactUrgence")} >
-                        <ListItem
-                        chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                            title="Mes contacts d'urgences"
-                            leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faExclamationCircle} />}
-                            titleStyle={{ fontWeight: "600" }}                               
-                            containerStyle={styles.listItemContainer}
-                        />
+                            <ListItem
+                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
+                                title="Mes contacts d'urgences"
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faExclamationCircle} />}
+                                titleStyle={{ fontWeight: "600" }}
+                                containerStyle={styles.listItemContainer}
+                            />
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("MySante")} >
-                            <ListItem                            
+                            <ListItem
                                 title=" Ma fiche Santé"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFileMedicalAlt} />}
-                                titleStyle={{ fontWeight: "600" }}                                
+                                titleStyle={{ fontWeight: "600" }}
                                 containerStyle={styles.listItemContainer}
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{display: 'none'}} onPress={() => this.props.navigation.navigate("MapUser")} >
-                            <ListItem                            
+                        <TouchableOpacity style={{ display: 'none' }} onPress={() => this.props.navigation.navigate("MapUser")} >
+                            <ListItem
                                 title=" Ma communauté  Bon Samaritain"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFirstAid} />}
-                                titleStyle={{ fontWeight: "600" }}                                
+                                titleStyle={{ fontWeight: "600" }}
                                 containerStyle={styles.listItemContainer}
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             />
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("Signal")} >
-                            <ListItem                            
+                            <ListItem
                                 title=" Mes paramètres"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faCog} />}
-                                titleStyle={{ fontWeight: "600" }}                                
+                                titleStyle={{ fontWeight: "600" }}
                                 containerStyle={styles.listItemContainer}
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                             />
@@ -454,32 +473,32 @@ class MyProfil extends Component {
                         </Text>
 
                         <View style={styles.list_icon}>
-                        <Icon
-                        name='facebook'
-                        size={28}
-                        type='font-awesome'
-                        color='#008ac2'
-                        style={styles.shadow}
-                        onPress={() => console.log('hello')} />
-                        <Icon
-                        name='twitter'
-                        size={28}
-                        type='font-awesome'
-                        color='#008ac2'
-                        style={styles.shadow}
-                        onPress={() => console.log('hello')} />
-                        <Icon
-                        name='instagram'
-                        size={28}
-                        type='font-awesome'
-                        color='#008ac2'
-                        style={styles.shadow}
-                        onPress={() => console.log('hello')} />
+                            <Icon
+                                name='facebook'
+                                size={28}
+                                type='font-awesome'
+                                color='#008ac2'
+                                style={styles.shadow}
+                                onPress={() => console.log('hello')} />
+                            <Icon
+                                name='twitter'
+                                size={28}
+                                type='font-awesome'
+                                color='#008ac2'
+                                style={styles.shadow}
+                                onPress={() => console.log('hello')} />
+                            <Icon
+                                name='instagram'
+                                size={28}
+                                type='font-awesome'
+                                color='#008ac2'
+                                style={styles.shadow}
+                                onPress={() => console.log('hello')} />
                         </View>
 
                         <TouchableOpacity style={styles.touch_logout} onPress={() => this.logout()}>
-                        <Text style={styles.btn_logout}>
-                            Me déconnecter
+                            <Text style={styles.btn_logout}>
+                                Me déconnecter
                         </Text>
                         </TouchableOpacity>
 
@@ -588,18 +607,18 @@ const styles = StyleSheet.create({
         paddingLeft: 0
     },
     text_under_main_profil_2: {
-      fontSize: 28,
-      fontWeight: '900',
-      paddingTop: 7
+        fontSize: 28,
+        fontWeight: '900',
+        paddingTop: 7
     },
     descr_under_main_profil_2: {
-      fontSize: 17,
-      paddingTop: 17
+        fontSize: 17,
+        paddingTop: 17
     },
     btn_photo: {
-      flex: 1,
-      paddingTop: 70,
-      paddingLeft: 0
+        flex: 1,
+        paddingTop: 70,
+        paddingLeft: 0
     },
     img_profil: {
         width: 200
@@ -854,7 +873,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = {
     setUserInfo,
-   
+
     ModifyPhoto
 }
 
