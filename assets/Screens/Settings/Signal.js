@@ -12,6 +12,7 @@ import Axios from 'axios'
 import Bdd from '../../API/Bdd'
 import { GiftedChat,Send,Bubble } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
+import { Avatar } from 'react-native-elements'
 class Signal extends Component {
 
     constructor(){
@@ -25,31 +26,72 @@ class Signal extends Component {
               // example of system message
               {
                 _id: 0,
-                text: 'New room created.',
+                text: 'Nouvelle discussion créée',
                 createdAt: new Date().getTime(),
                 system: true
               },
               // example of chat message
               {
                 _id: 1,
-                text: 'Henlo!',
+                text: "Bonjour, l'équipe Best4Santé est à votre écoute. Laissez votre message et notre équipe reviendra vers vous le plus vite possible",
                 createdAt: new Date().getTime(),
                 user: {
                   _id: 2,
-                  name: 'Test User'
-                }
-              }
+                  name: 'Admin'
+                },
+
+                
+              },
+
+            
             ]
         }
         this.sujet = "",
         this.description = ""
     }
 
-    sendSignal = async () =>{
+    async componentDidMount(){
+      this.setState({isLoading : true})
+      await this.getAndConstructMessage()
+      this.setState({isLoading : false})
+    }
+
+    getAndConstructMessage = async() =>{
+      
+      await Axios.get(`http://adequa.club:3000/api-backoffice/user/signal/mysignal?idUser=${this.props.user.user.idUser}`)
+          .then(async res =>{
+            
+           let msg = []
+            res.data.forEach(el=>{
+              let data ={
+                _id: Math.random(),
+                text: el.descriSignal,
+                createdAt: new Date(el.createdAt).getTime(),
+                user: {
+                  _id: 1,
+                  name: el.user.nomUser
+                }
+              }
+
+              msg.push(data)
+            })
+           
+           this.state.messages.forEach(el=>{
+             msg.push(el)
+           })
+            this.setState({messages : msg})
+          })
+          .catch(err=>{
+            console.log(err)
+          })
+    }
+
+    sendSignal = async (message) =>{
+      console.log(message)
         this.setState({isLoading : true})
         let data = {
-            sujetSignal : this.sujet,
-            descriSignal : this.description,
+            sujetSignal : "Demande",
+            descriSignal : message.text,
             idUser : this.props.user.user.idUser
         }
         await Axios.post(`${Bdd.api_url}/signal`,data)
@@ -64,10 +106,12 @@ class Signal extends Component {
     }
 
      handleSend = (newMessage = []) =>{
-      console.log(newMessage)
+      
       this.setState({
         messages: GiftedChat.append(this.state.messages, newMessage)
       })
+
+      this.sendSignal(newMessage[0])
     
     }
     render() {
@@ -81,13 +125,19 @@ class Signal extends Component {
                     <HeaderMenu navigation={this.props.navigation} signaler={1} />
         </View>
 
+        
         <GiftedChat
+        
         placeholder={"Tapez vos remarques ici..."}
       messages={this.state.messages}
       onSend={newMessage => this.handleSend(newMessage)}
       user={{ _id: 1 }}
+     
       />
 
+      
+
+       
         {/* <View style={styles.textDescriContainer}>
             <Text style={styles.textDescri}>Si vous avez quelques choses à signaler auprès de l'admin BEST4SANTE, 
                 laissez votre  message ici. Vous allez être notifié dès qu'un admin reçoit votre demande.

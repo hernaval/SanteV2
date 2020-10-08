@@ -547,7 +547,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 (
                                 <View style={styles.contain_perso}>
                                     <View style={styles.contain_perso_1}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MainSetting")} style={{flex:1, flexDirection: 'row'}}>
                                         <Icon
                                         name='chevron-left'
                                         size={22}

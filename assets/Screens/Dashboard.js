@@ -69,7 +69,7 @@ class Menu extends Component {
               <TouchableOpacity onPress={()=> this.props.navigation.navigate("FileManager")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faFileArchive } />
               <Text style={styles.cardText}>Mes {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>Documents {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>documents {"  "}</Text>
               </TouchableOpacity>
         </Col>
           </Grid>
@@ -79,14 +79,14 @@ class Menu extends Component {
               <TouchableOpacity onPress={()=>this.props.navigation.navigate("ChoixAutoDiag")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faStethoscope } />
               <Text style={styles.cardText}> Mon {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>Autodiagnostic {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>autodiagnostic {"  "}</Text>
               </TouchableOpacity>
         </Col>
         <Col>
               <TouchableOpacity onPress={()=> console.log('Empty')} style={[styles.cardContainer, {backgroundColor: '#cfcfcf'}]}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faNotesMedical } />
               <Text style={styles.cardText}>Ma {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>Pharmacie {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>pharmacie {"  "}</Text>
               </TouchableOpacity>
         </Col>
        
@@ -95,7 +95,7 @@ class Menu extends Component {
         <Col size={50}>
               <TouchableOpacity onPress={()=>{this.props.navigation.navigate("Reminder")}}  style={styles.rappelContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faBell} />
-              <Text textBreakStrategy={'simple'} style={styles.cardText}>Mes{"  "} Rappels {"  "}</Text>
+              <Text textBreakStrategy={'simple'} style={styles.cardText}>Mes{"  "} rappels {"  "}</Text>
               </TouchableOpacity>
         </Col>
         </Grid>

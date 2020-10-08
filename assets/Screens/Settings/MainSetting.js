@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
     faHome, faBars, faTimes, faCaretDown, faChevronRight, faEdit, faUmbrella,
     faUserAlt, faClinicMedical, faFileMedicalAlt, faUserCircle, faUsers,
-    faExclamationCircle, faFirstAid, faCog
+    faExclamationCircle, faFirstAid, faCog, faUserLock, faWindowClose, faHandHolding, faHandPeace, faChartArea, faUserSecret, faMailBulk, faCodeBranch, faBookReader
 } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
@@ -80,242 +80,31 @@ class MainSetting extends Component {
             })
         });
         let location = await getCurrentLocation()
-        let local = await getCountryCode(location.coords.latitude, location.coords.longitude, API_KEY)
-        this.setState({
-            localCode: local
-        })
-
-        const token = await AsyncStorage.getItem("bosToken");
-        console.log(this.props)
+    
 
     }
 
-    _pickImage = async () => {
-        //launchCameraAsync
-        let result = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: true,
-            base64: true,
-            quality: 0.5
-        });
-
-        if (result.cancelled) {
-            return
-        }
-
-        this._handleImagePicked(result);
-
-    }
-
-    takePictureAndCreateAlbum = async () => {
-        let result = await ImagePicker.launchCameraAsync({
-            allowsEditing: true,
-            quality: 0.5,
-            base64: true
-        });
-
-        this._handleImagePicked(result)
-    }
-
-    showModal() {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert("Modal has been closed.");
-                    }}
-                >
-
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 22 }}>
-                        <View
-                            style={{
-                                margin: 20, backgroundColor: 'white', borderRadius: 20, padding: 35,
-                                alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-                                shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5
-                            }}>
-
-                            <TouchableOpacity
-                                style={{
-                                    padding: 10, width: wp('40%'), alignItems: 'center',
-                                    backgroundColor: "#2196F3", marginBottom: 20
-                                }}
-                                onPress={() => {
-                                    this.setState({ modalVisible: !this.state.modalVisible })
-                                    this._pickImage()
-                                }}
-                            >
-
-                                <Text style={styles.textStyle}>Importer une photo</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    padding: 10, width: wp('40%'), alignItems: 'center',
-                                    backgroundColor: "#2196F3", marginBottom: 20
-                                }}
-                                onPress={() => {
-                                    this.setState({ modalVisible: !this.state.modalVisible })
-                                    this.takePictureAndCreateAlbum()
-                                }}
-                            >
-                                <Text style={styles.textStyle}>Prendre une photo</Text>
-
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    padding: 10, width: wp('40%'), alignItems: 'center',
-                                    backgroundColor: "#d3d3d3", marginBottom: 20
-                                }}
-                                onPress={() => {
-                                    this.setState({ modalVisible: false })
-                                    console.log('Annuler')
-                                }}
-                            >
-                                <Text style={styles.textStyle}>Annuler</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Modal>
-            </View>
-        )
-    }
-
-    _handleImagePicked = async pickerResult => {
-
-        let uploadUrl = ""
-        try {
-            this.setState({ isLoading: true });
-
-            if (!pickerResult.cancelled) {
-                uploadUrl = await this.uploadImageAsync(pickerResult);
-                this.setState({ photoUri: uploadUrl })
-                let data = {
-                    imageUser: uploadUrl,
-                    idUser: this.props.user.user.idUser
-                }
-
-
-                await this.saveProfileImageInfo(data)
-
-            }
-
-            this.setState({ isLoading: false });
-        } catch (e) {
-            console.log(e);
-
-            this.setState({ isLoading: false });
-
-            console.log('Upload Url ', uploadUrl)
-
-        }
-    }
-    saveProfileImageInfo = async (data) => {
-
-
-        this.props.ModifyPhoto(data)
-        const token = await AsyncStorage.getItem("bosToken");
-        this.props.setUserInfo(token)
-    }
-    uploadImageAsync = async (uri) => {
-        let res = ""
-        let data = {
-            "file": `data:image/jpg;base64,${uri.base64}`,
-            "upload_preset": 'dtziwafw'
-        }
-        await fetch(Cloud.cloudinary_api_upload, {
-            body: JSON.stringify(data),
-            headers: {
-                'content-type': 'application/json'
-            },
-            method: 'POST',
-        }).then(async r => {
-            let data = await r.json()
-
-
-            if (data.error) {
-                console.log('pas enregistré')
-                return;
-            }
-
-            res = data.secure_url
-
-
-        }).catch(err => console.log(err))
-        return res
-    }
-
-
-    changeProfil() {
-        console.log('Param myprofil ', this.props.navigation.state.params)
-        console.log('Count profil ', this.countProfil)
-        if (this.props.navigation.state.params === undefined || this.countProfil !== 0) {
-            console.log('Quit change profil')
-            return
-        }
-        else {
-            console.log('set state my profil')
-            this.setState({ photoUri: this.props.navigation.state.params.profil })
-            this.countProfil++
-        }
-    }
-
-    goToInfoPerso() {
-        this.countProfil = 0;
-        this.props.navigation.navigate("Switch", {
-            size: this.state.size,
-            blood: this.state.blood,
-            weight: this.state.weight,
-            profile: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri
-        })
-    }
-
-
-    goToContactList = () => {
-        //.log(this.props.navigation);
-        this.props.navigation.push("ContactList")
-    }
-
-
+  
 
     renderHeader = () => {
 
         return (
             <View style={styles.main_profil}>
-                {this.changeProfil()}
-                {this.showModal()}
-                <View style={styles.under_main_profil_1}>
-                    <Avatar
-                        size={100}
-                        rounded
-                        source={{ uri: this.state.photoUri == null ? DEFAUTL_USER : this.state.photoUri }}
-                    />
+
+                <Text style={{fontSize : 28}}>{this.props.user.user.prenomUser} {this.props.user.user.nomUser}</Text>
+                
+               {/*  <View style={styles.scoreContainer}>
+                <View style={{alignItems :"center", marginRight : 5}}>
+                    <Text style={styles.scoreTitle}>Ancienneté</Text>
+                    <Text>5j</Text>
                 </View>
 
-                <View style={styles.btn_photo}>
-                    <TouchableOpacity onPress={() => this.setState({ modalVisible: true })}>
-                        <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
-                    </TouchableOpacity>
+                <View style={{alignItems :"center"}}>
+                    <Text style={styles.scoreTitle}>Présence</Text>
+                    <Text>Fréquent</Text>
                 </View>
-
-                <View style={styles.under_main_profil_2}>
-                    <Text style={styles.text_under_main_profil_2}>{this.state.firstName} {this.state.lastName}</Text>
-                    <Image
-                        source={{ uri: `https://www.countryflags.io/${this.state.localCode}/flat/64.png` }}
-                        style={{
-                            height: 20, width: 30,
-                            borderWidth: 1,
-                            borderColor: '#999999'
-                        }}
-                    />
-                    {this.state.weight != '' && (
-                        <Text style={styles.descr_under_main_profil_2}>
-                            {this.state.size} cm - {this.state.weight} kg - {this.state.blood}
-                        </Text>
-                    )
-                    }
-                </View>
-
+                </View> */}
+               
             </View>
         )
     }
@@ -385,127 +174,84 @@ class MainSetting extends Component {
 
 
                 <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-                    <HeaderMenu navigation={this.props.navigation} profile={1} />
+                    <HeaderMenu navigation={this.props.navigation} setting={1} />
                 </View>
 
 
                 <ScrollView style={[styles.scroll, { marginTop: 10 }]} >
                     {this.renderHeader()}
 
-                    <View>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Signaler")} >
-                        <Text>Mon compte ckpi-eiff-knfg-gctj-aqvs </Text>
-                        
+                    <View style={{padding : 10}}>
+                    <Text style={styles.section}>Compte</Text>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Forgot")} >
+                            
                             <ListItem
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                                title="Changer mot de passe"
-                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUserCircle} />}
+                                title="Changer mon  mot de passe"
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUserLock} />}
                                 titleStyle={{ fontWeight: '600' }}
                                 containerStyle={styles.listItemContainer}
                             />
                         </TouchableOpacity> 
-                        <Text>Admin </Text>
+                        <TouchableOpacity disabled onPress={() => this.props.navigation.navigate("forgot")} >
+                            
+                            <ListItem
+                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
+                                title="Fermer mon compte "
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faWindowClose} />}
+                                titleStyle={{ fontWeight: '600' }}
+                                containerStyle={styles.listItemContainer}
+                            />
+                        </TouchableOpacity> 
+                      
+                        <Text style={styles.section}>Support </Text>
+                      
+                      
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("Signal")}>
                             <ListItem
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                                 title="Contacter Best4Santé"
-                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faUsers} />}
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faMailBulk} />}
                                 titleStyle={{ fontWeight: "600" }}
                                 containerStyle={styles.listItemContainer}
                             />
                         </TouchableOpacity>
-                        <Text>Statistiques </Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("ContactUrgence")} >
+                        <Text style={styles.section}>Statistiques </Text>
+                        <TouchableOpacity disabled onPress={() => this.props.navigation.navigate("ContactUrgence")} >
                             <ListItem
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                                 title="Usage"
-                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faExclamationCircle} />}
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faChartArea} />}
                                 titleStyle={{ fontWeight: "600" }}
                                 containerStyle={styles.listItemContainer}
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MySante")} >
+                        <Text style={styles.section}>Termes et Conditions </Text>
+                        <TouchableOpacity disabled onPress={() => this.props.navigation.navigate("ContactUrgence")} >
                             <ListItem
-                                title=" Ma fiche Santé"
-                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFileMedicalAlt} />}
+                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
+                                title="CGU"
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faBookReader} />}
                                 titleStyle={{ fontWeight: "600" }}
                                 containerStyle={styles.listItemContainer}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity disabled onPress={() => this.props.navigation.navigate("ContactUrgence")} >
+                            <ListItem
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
+                                title="Politique de la protection de données"
+                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faCodeBranch} />}
+                                titleStyle={{ fontWeight: "600" }}
+                                containerStyle={styles.listItemContainer}
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ display: 'none' }} onPress={() => this.props.navigation.navigate("MapUser")} >
-                            <ListItem
-                                title=" Ma communauté  Bon Samaritain"
-                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faFirstAid} />}
-                                titleStyle={{ fontWeight: "600" }}
-                                containerStyle={styles.listItemContainer}
-                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                            />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Signal")} >
-                            <ListItem
-                                title=" Mes paramètres"
-                                leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faCog} />}
-                                titleStyle={{ fontWeight: "600" }}
-                                containerStyle={styles.listItemContainer}
-                                chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
-                            />
-                        </TouchableOpacity>
+                        
 
                     </View>
 
-                    <SafeAreaView style={styles.main_profil_2}>
-                        <Text style={styles.title_main_profil_2}>Recommander Best4Santé</Text>
-                        <Text style={styles.descr_main_profil_2}>
-                            Best4Santé est un compagnon Santé au quotidien,gratuit et ouvert à tous.
-                        </Text>
-
-                        <TouchableOpacity style={styles.touch_share} onPress={() => this.shareLink()}>
-                            <Text style={styles.btn_share}>
-                                Partager le lien
-                            </Text>
-                        </TouchableOpacity>
-
-                        <Text style={styles.title_main_profil_2}>Suivez-nous</Text>
-                        <Text style={styles.descr_main_profil_2}>
-                            Suivez-nous sur Facebook, Twitter et Instagram.
-                        </Text>
-
-                        <View style={styles.list_icon}>
-                            <Icon
-                                name='facebook'
-                                size={28}
-                                type='font-awesome'
-                                color='#008ac2'
-                                style={styles.shadow}
-                                onPress={() => console.log('hello')} />
-                            <Icon
-                                name='twitter'
-                                size={28}
-                                type='font-awesome'
-                                color='#008ac2'
-                                style={styles.shadow}
-                                onPress={() => console.log('hello')} />
-                            <Icon
-                                name='instagram'
-                                size={28}
-                                type='font-awesome'
-                                color='#008ac2'
-                                style={styles.shadow}
-                                onPress={() => console.log('hello')} />
-                        </View>
-
-                        <TouchableOpacity style={styles.touch_logout} onPress={() => this.logout()}>
-                            <Text style={styles.btn_logout}>
-                                Me déconnecter
-                        </Text>
-                        </TouchableOpacity>
-
-                    </SafeAreaView>
-
+                    
                 </ScrollView>
 
             </View>
@@ -596,10 +342,10 @@ const styles = StyleSheet.create({
     },
     main_profil: {
         flex: 1,
-        flexDirection: 'row',
-        marginTop: 27,
-        marginLeft: -20,
-        marginBottom: 35
+       
+        justifyContent : "center",
+        alignItems : "center",
+        marginTop : hp("2%")
     },
     under_main_profil_1: {
         flex: 1
@@ -710,8 +456,8 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     listItemContainer: {
-
-        borderRadius: 5,
+        marginVertical : hp("0.5%"),
+        borderRadius: 10,
         height: 55,
         borderWidth: 0.5,
         borderColor: '#ECECEC',
@@ -862,6 +608,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+
+
+    section : {
+        color : "silver",
+        fontSize : 30
+    },
+
+    scoreContainer : {
+        flexDirection : "row",
+       
+    },
+    scoreTitle : {
+        fontSize : 20,
+        color : "grey"
+    }
 
 });
 
