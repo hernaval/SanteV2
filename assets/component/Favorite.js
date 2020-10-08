@@ -13,9 +13,9 @@ import BottomMenu from "./Menu/BottomMenu"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faStar, faAngleDown, faAngleUp} from '@fortawesome/free-solid-svg-icons'
 import Bdd from '../API/Bdd';
+import google from "../API/google"
 
-
-const API_KEY = 'AIzaSyBOoJBp0W8ksY21rV4yAGoHHCSaJRVyibs';
+const API_KEY = google.cloud_key;
 
 
 class Favorite extends React.Component {

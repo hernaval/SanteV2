@@ -394,6 +394,7 @@ class MyProfil extends Component {
 
                     <View>
                         <TouchableOpacity onPress={() => this.goToInfoPerso()} >
+                           
                             <ListItem
                                 chevron={<FontAwesomeIcon color="#000000" size={18} icon={faChevronRight} />}
                                 title="Mes informations personnelles"
@@ -443,7 +444,7 @@ class MyProfil extends Component {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Signal")} >
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MainSetting")} >
                             <ListItem
                                 title=" Mes paramètres"
                                 leftIcon={<FontAwesomeIcon color="#000000" size={20} icon={faCog} />}

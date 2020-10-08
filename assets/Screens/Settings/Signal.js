@@ -10,12 +10,36 @@ import HeaderMenu from '../../component/Menu/HeaderMenu'
 import { TextInput } from 'react-native-paper';
 import Axios from 'axios'
 import Bdd from '../../API/Bdd'
+import { GiftedChat,Send,Bubble } from 'react-native-gifted-chat';
+import { IconButton } from 'react-native-paper';
 class Signal extends Component {
 
     constructor(){
         super()
         this.state = {
-            isLoading :false
+            isLoading :false,
+            messages : [
+              /**
+               * Mock message data
+               */
+              // example of system message
+              {
+                _id: 0,
+                text: 'New room created.',
+                createdAt: new Date().getTime(),
+                system: true
+              },
+              // example of chat message
+              {
+                _id: 1,
+                text: 'Henlo!',
+                createdAt: new Date().getTime(),
+                user: {
+                  _id: 2,
+                  name: 'Test User'
+                }
+              }
+            ]
         }
         this.sujet = "",
         this.description = ""
@@ -38,6 +62,14 @@ class Signal extends Component {
             })
         this.setState({isLoading : false})
     }
+
+     handleSend = (newMessage = []) =>{
+      console.log(newMessage)
+      this.setState({
+        messages: GiftedChat.append(this.state.messages, newMessage)
+      })
+    
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -49,7 +81,14 @@ class Signal extends Component {
                     <HeaderMenu navigation={this.props.navigation} signaler={1} />
         </View>
 
-        <View style={styles.textDescriContainer}>
+        <GiftedChat
+        placeholder={"Tapez vos remarques ici..."}
+      messages={this.state.messages}
+      onSend={newMessage => this.handleSend(newMessage)}
+      user={{ _id: 1 }}
+      />
+
+        {/* <View style={styles.textDescriContainer}>
             <Text style={styles.textDescri}>Si vous avez quelques choses à signaler auprès de l'admin BEST4SANTE, 
                 laissez votre  message ici. Vous allez être notifié dès qu'un admin reçoit votre demande.
             </Text>
@@ -79,7 +118,7 @@ class Signal extends Component {
             <Text style={{textAlign : "center",color :"white"}}>Valider</Text>
           </TouchableOpacity>
         </View>
-
+ */}
       </View>
         )
     }

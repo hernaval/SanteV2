@@ -558,7 +558,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Signaler</Text>
+                                    <Text style={styles.profil_txt}>Besoin d'aide</Text>
                                     </View>
                                     <View style={styles.contain_perso_3}>
                                     </View>

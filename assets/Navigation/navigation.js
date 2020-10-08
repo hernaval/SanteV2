@@ -67,8 +67,11 @@ import VoiceScreen from "../Screens/VoiceScreen"
 import MapUser from "../Screens/Samaritain/MapUser"
 
 import Signal from "../Screens/Settings/Signal"
+import MainSetting from "../Screens/Settings/MainSetting"
 const NavigationBest4Sante = createStackNavigator(
-    {   
+    {   MainSetting : {
+        screen : MainSetting
+    },
         Signal : {
             screen : Signal
         },
