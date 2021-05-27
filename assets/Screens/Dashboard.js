@@ -17,7 +17,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHome,  faBars, faTimes, faCaretDown, faNotesMedical, faHandsHelping, faPumpMedical, faDisease, faSearch, faFileArchive, faBell, faStethoscope } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTimes, faCaretDown, faNotesMedical, faSyringe, faFileAlt, faSearch, faFileArchive, faBell, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
@@ -62,14 +62,14 @@ class Menu extends Component {
               <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faSearch } />
               <Text style={styles.cardText}>Professionnel{"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>de santé{"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>De santé{"  "}</Text>
               </TouchableOpacity>
         </Col>
         <Col>
               <TouchableOpacity onPress={()=> this.props.navigation.navigate("FileManager")} style={styles.cardContainer}>
-              <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faFileArchive } />
+              <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faFileAlt} />
               <Text style={styles.cardText}>Mes {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>documents {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>Documents {"  "}</Text>
               </TouchableOpacity>
         </Col>
           </Grid>
@@ -79,26 +79,42 @@ class Menu extends Component {
               <TouchableOpacity onPress={()=>this.props.navigation.navigate("ChoixAutoDiag")} style={styles.cardContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faStethoscope } />
               <Text style={styles.cardText}> Mon {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>autodiagnostic {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>Autodiagnostic {"  "}</Text>
               </TouchableOpacity>
         </Col>
         <Col>
               <TouchableOpacity onPress={()=> console.log('Empty')} style={[styles.cardContainer, {backgroundColor: '#cfcfcf'}]}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faNotesMedical } />
               <Text style={styles.cardText}>Ma {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>pharmacie {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>Pharmacie {"  "}</Text>
               </TouchableOpacity>
         </Col>
        
         </Grid>
         <Grid>
+          <Col>
+              <TouchableOpacity onPress={()=>this.props.navigation.navigate("Vaccin")} style={styles.cardContainer}>
+              <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faSyringe } />
+              <Text style={styles.cardText}> Mes {"  "}</Text>
+              <Text style={[styles.cardText, {marginTop: 0}]}>Vaccins {"  "}</Text>
+              </TouchableOpacity>
+          </Col>
+          <Col>
+                <TouchableOpacity onPress={()=>{this.props.navigation.navigate("Reminder")}}  style={styles.cardContainer}>
+                <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faBell} />
+                <Text style={styles.cardText}> Mes {"  "}</Text>
+                <Text style={[styles.cardText, {marginTop: 0}]}>Rappels {"  "}</Text>
+                </TouchableOpacity>
+          </Col>
+        </Grid>
+        {/* <Grid>
         <Col size={50}>
               <TouchableOpacity onPress={()=>{this.props.navigation.navigate("Reminder")}}  style={styles.rappelContainer}>
               <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faBell} />
               <Text textBreakStrategy={'simple'} style={styles.cardText}>Mes{"  "} rappels {"  "}</Text>
               </TouchableOpacity>
         </Col>
-        </Grid>
+        </Grid> */}
         
         </View>
       
@@ -135,7 +151,7 @@ const styles = StyleSheet.create({
     justifyContent : "center",
   },
   cardContainer: {
-    height : hp("25%"),
+    height : hp("23%"),
     borderRadius : 10,
     paddingLeft : 10,
     paddingRight : 5,
@@ -163,8 +179,8 @@ const styles = StyleSheet.create({
     fontSize : 20,
     alignSelf : "center",
     textAlign : "center",
-    fontWeight : "900"
-    
+    fontWeight : "900",
+    paddingLeft: 12
   },
   iconCard : {
     color : "#008AC8",

@@ -156,6 +156,52 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                 <View style={styles.main_contain}>
                 <View style={styles.under}>
                         {
+                            (this.props.detail_vaccin && 
+                                (
+                                <View style={styles.container_view}>
+                                    <View style={styles.arrow_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Vaccin")}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={styles.style_chevron}
+                                        />
+                                    </TouchableOpacity>
+                                    </View>
+
+                                    <View>
+                                        <Text style={styles.profil_txt}>Mon suivi vaccinal</Text>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        } 
+                        {
+                            (this.props.vaccin && 
+                                (
+                                <View style={styles.container_view}>
+                                    <View style={styles.arrow_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={styles.style_chevron}
+                                        />
+                                    </TouchableOpacity>
+                                    </View>
+
+                                    <View>
+                                        <Text style={styles.profil_txt}>Mon suivi vaccinal</Text>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        } 
+                        {
                             (this.props.profile && 
                                 (
                                 <View style={styles.contain_perso}>
@@ -699,6 +745,17 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
     }
 }
 const styles = StyleSheet.create({
+    container_view: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    arrow_back:{
+        position: 'absolute',
+        left: 10,
+        paddingTop: 0
+    },
     style_chevron: {
         fontWeight: 'normal', 
         paddingTop: 4

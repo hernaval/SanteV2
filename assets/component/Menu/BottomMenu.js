@@ -334,7 +334,7 @@ class BottomMenu extends Component {
 
 
                     <View style={{
-                        flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginStart: -10
+                        flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginStart: -30
                     }}>
 
                         <TouchableOpacity
@@ -350,7 +350,10 @@ class BottomMenu extends Component {
 
 
                         </TouchableOpacity>
-                        <Text textBreakStrategy={'simple'} style={{ color: "#FFFFFF", justifyContent: 'center', alignItems: 'center' }}>Notif </Text>
+                        <Text textBreakStrategy={'simple'} 
+                            style={{ color: "#FFFFFF", justifyContent: 'center', alignItems: 'center'}}>
+                                Notifications 
+                        </Text>
                     </View>
 
 
@@ -370,7 +373,7 @@ class BottomMenu extends Component {
                             />
 
                         </TouchableOpacity>
-                        <Text textBreakStrategy={'simple'} style={{ color: "white", justifyContent: 'center', alignItems: 'center' }}>Vocal</Text>
+                        <Text textBreakStrategy={'simple'} style={{ color: "white", justifyContent: 'center', alignItems: 'center' }}>Voix</Text>
                     </View>
 
                     <View style={{

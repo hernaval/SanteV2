@@ -68,6 +68,8 @@ import MapUser from "../Screens/Samaritain/MapUser"
 
 import Signal from "../Screens/Settings/Signal"
 import MainSetting from "../Screens/Settings/MainSetting"
+import ListVaccin from '../Screens/vaccin/ListVaccin'
+import DetailVaccin from '../Screens/vaccin/DetailVaccin'
 const NavigationBest4Sante = createStackNavigator(
     {   MainSetting : {
         screen : MainSetting
@@ -93,7 +95,6 @@ const NavigationBest4Sante = createStackNavigator(
                 title: 'UserConnected'
             }
         },
-
         Calendars: {
             screen: Calendars,
             navigationOptions: {
@@ -435,7 +436,19 @@ const NavigationBest4Sante = createStackNavigator(
             navigationOption: {
                 title: 'PlaceList'
             }
-        }
+        },
+        Vaccin: {
+            screen: RequireAuthentification(ListVaccin),
+            navigationOption: {
+                title: 'Vaccin'
+            }
+        },
+        DetailVaccin: {
+            screen: RequireAuthentification(DetailVaccin),
+            navigationOption: {
+                title: 'DetailVaccin'
+            }
+        },
     }, {
         initialRouteName: 'Login',
         headerMode: 'none'
