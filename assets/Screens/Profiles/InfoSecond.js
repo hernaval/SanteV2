@@ -515,7 +515,7 @@ Savemodify() {
 
         {this.showModal()}
         {this.changeProfil()}
-          <ScrollView style={[styles.scroll_1, { marginTop: 10 }]} >
+          <ScrollView style={this.state.modifying ? styles.scroll_1 : styles.scroll_2}>
               {this.renderHeader_1()}
 
               {
@@ -646,7 +646,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#008ac8',
     padding: 5,
     borderRadius: 5,
-    marginTop: 5,
+    marginTop: 15,
     height: 60
   },
   text_fiche_sante: {
@@ -716,13 +716,21 @@ labelValue: {
   btn_photo: {
     flex: 1,
     paddingTop: 70,
-    paddingLeft: 0
+    position: "relative",
+    left: -20
   },
   img_profil: {
       width: 200
   },
   scroll_1: {
     backgroundColor: 'white',
+    marginTop: -150
+    // borderTopRightRadius: 20,
+    // borderTopLeftRadius: 20
+  },
+  scroll_2: {
+    backgroundColor: 'white',
+    marginTop: -170
     // borderTopRightRadius: 20,
     // borderTopLeftRadius: 20
   },

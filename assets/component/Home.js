@@ -737,13 +737,13 @@ const styles = StyleSheet.create({
   },
   under: {
   
-    height: hp('10%'),
+    height: hp('13%'),
     width: wp("100%")
    // zIndex: 2
   },
   under_ios: {
     width: wp("100%"),
-    height: hp('10%'),
+    height: hp('13%'),
     zIndex: 2
   },
   card: {
