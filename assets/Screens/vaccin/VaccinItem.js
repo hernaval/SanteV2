@@ -26,7 +26,9 @@ class VaccinItem extends Component {
                                 </Text>
                             </View>
                             <TouchableOpacity 
-                                onPress={() => this.props.navigation.navigate("DetailVaccin", {id: this.props.id})}>
+                                onPress={() => this.props.navigation.navigate("DetailVaccin", 
+                                {id: this.props.id, firstname: this.props.firstname, lastname: this.props.lastname,
+                                naissance: this.props.naissance, age: this.props.age, sexe: this.props.sexe})}>
                                 <FontAwesomeIcon size={30} icon={faArrowRight} style={styles.iconCard}/>    
                             </TouchableOpacity>
                         </View>

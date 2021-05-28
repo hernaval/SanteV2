@@ -57,7 +57,6 @@ class MyProfil extends Component {
             size: '',
             weight: '',
             modalVisible: false,
-
             localCode: null
         }
         // console.log(this.props.user.user)
@@ -294,7 +293,8 @@ class MyProfil extends Component {
 
                 <View style={styles.btn_photo}>
                     <TouchableOpacity onPress={() => this.setState({ modalVisible: true })}>
-                        <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} icon={{ name: 'camera', type: 'font-awesome' }} />
+                        <Avatar size={30} rounded overlayContainerStyle={{ backgroundColor: "#008AC8" }} 
+                        icon={{ name: 'camera', type: 'font-awesome' }} />
                     </TouchableOpacity>
                 </View>
 
@@ -596,7 +596,7 @@ const styles = StyleSheet.create({
     main_profil: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: 27,
+        marginTop: 35,
         marginLeft: -20,
         marginBottom: 35
     },
@@ -619,7 +619,8 @@ const styles = StyleSheet.create({
     btn_photo: {
         flex: 1,
         paddingTop: 70,
-        paddingLeft: 0
+        position: "relative",
+        left: -15
     },
     img_profil: {
         width: 200

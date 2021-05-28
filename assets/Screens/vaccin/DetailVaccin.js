@@ -16,17 +16,19 @@ import vaccins from './data.js'
 class DetailVaccin extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isLoading: false,
-        }
         const {params} = this.props.navigation.state;
         var id = params.id;
-        console.log(id);
         var myModule = require('./data');
         var vaccins = myModule.vaccins;
+
         this.state = {
             isLoading: false,
-            current: vaccins[id]
+            current: vaccins[id],
+            firstname: params.firstname,
+            lastname: params.lastname,
+            naissance: params.naissance,
+            age: params.age,
+            sexe: params.sexe
         }
     }
 
@@ -63,7 +65,7 @@ class DetailVaccin extends Component {
                                 Nom
                             </Text>
                             <Text style={styles.simple_text}>
-                                Joyce Meyer
+                                {this.state.firstname}&nbsp;{this.state.lastname}
                             </Text>
                         </View>
                         <View style={styles.row}>
@@ -71,23 +73,25 @@ class DetailVaccin extends Component {
                                 Date de naissance
                             </Text>
                             <Text style={styles.simple_text}>
-                                10/02/1990
+                                {this.state.naissance}
                             </Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.simple_text}>
                                 Age
                             </Text>
+                            {this.state.age && (
                             <Text style={styles.simple_text}>
-                                30 ans
+                                {this.state.age} ans
                             </Text>
+                            )}
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.simple_text}>
                                 Sexe
                             </Text>
                             <Text style={styles.simple_text}>
-                                Masculin
+                                {this.state.sexe}
                             </Text>
                         </View>
 

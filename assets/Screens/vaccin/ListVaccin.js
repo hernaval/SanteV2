@@ -14,47 +14,6 @@ import Bdd from "../../API/Bdd";
 import { faArrowRight, faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import VaccinItem from './VaccinItem'
-
-
-// const vaccins = [
-//     {
-//         nom_vaccin: "Vaccin covid 19", 
-//         type_vaccin: "covid 19", 
-//         doses : [
-//             {
-//                 nomination: "1ère dosage",
-//                 status: 1,
-//                 date: "12/01/2021",
-//                 lieu: "Antananarivo",
-//                 pays: "MADAGASCAR"
-//             },
-//             {
-//                 nomination: "2ème dosage",
-//                 status: 1,
-//                 date: "25/07/2021",
-//                 lieu: "Antananarivo",
-//                 pays: "MADAGASCAR"
-//             }
-//         ]
-//     },
-//     {
-//         nom_vaccin: "Vaccin kitrotro", 
-//         type_vaccin: "kitrotro", 
-//         doses : [
-//             {
-//                 nomination: "1ère dosage",
-//                 status: 1,
-//                 date: "12/01/2021",
-//                 lieu: "Antananarivo",
-//                 pays: "MADAGASCAR"
-//             }, {
-//                 nomination: "2ème dosage",
-//                 status: 0,
-//             }
-//         ]
-//     }
-// ]
-
 class ListVaccin extends Component {
     constructor(props) {
         super(props);
@@ -62,7 +21,12 @@ class ListVaccin extends Component {
 
         this.state = {
             isLoading: false,
-            vaccins: myModule.vaccins
+            vaccins: myModule.vaccins,
+            firstName: this.props.user.user != null ? this.props.user.user.nomUser : '',
+            lastName: this.props.user.user != null ? this.props.user.user.prenomUser : '',
+            naissance: this.props.user.user != null ? this.props.user.user.naissanceUser : '',
+            age: this.props.user.user != null ? this.props.user.user.ageUser : '',
+            sexe: this.props.user.user != null ? this.props.user.user.sexeUser : '',
         }
     }
 
@@ -88,11 +52,15 @@ class ListVaccin extends Component {
 
                     {this.state.vaccins.map((item, index) => {
                         return <VaccinItem navigation={this.props.navigation} 
-                                detail={item}
                                 nom={item.nom_vaccin}
                                 type={item.type_vaccin}
                                 doses={item.doses}
-                                id={index}>
+                                id={index}
+                                firstname={this.state.firstName}
+                                lastname={this.state.lastName}
+                                naissance={this.state.naissance}
+                                age={this.state.age}
+                                sexe={this.state.sexe}>
                         </VaccinItem>
             })}
                 </ScrollView>

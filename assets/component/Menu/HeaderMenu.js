@@ -200,13 +200,13 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 </View>
                                 )
                             )
-                        } 
+                        }
                         {
                             (this.props.profile && 
                                 (
-                                <View style={styles.contain_perso}>
-                                    <View style={styles.contain_perso_1}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")} style={{flex:1, flexDirection: 'row'}}>
+                                <View style={styles.container_view}>
+                                    <View style={styles.arrow_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Menu")}>
                                         <Icon
                                         name='chevron-left'
                                         size={22}
@@ -214,19 +214,16 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         color='#FFFFFF'
                                         style={styles.style_chevron}
                                         />
-                                        </TouchableOpacity>
+                                    </TouchableOpacity>
                                     </View>
-                                    <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Profil</Text>
-                                    </View>
-                                    <View style={styles.contain_perso_3}>
-                                    
+
+                                    <View>
+                                        <Text style={styles.profil_txt}>Profil</Text>
                                     </View>
                                 </View>
                                 )
                             )
-                        } 
-
+                        }
                         {
                             (this.props.urgence &&
                                 (
@@ -455,10 +452,32 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                             )
                         }
 
-                        {
+{
                             (this.props.perso && this.state.modifPerso &&
                                 (
-                                <View style={styles.contain_perso}>
+                                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',
+                                justifyContent: 'center', marginLeft: 10}}>
+                                    <View style={{flex: 1, alignItems: 'flex-start', paddingRight: 10}}>
+                                    <TouchableOpacity onPress={() => this.cancelModif()}>
+                                        <Text style={styles.txt_back_profil}>Annuler</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 10}}>
+                                    <TouchableOpacity onPress={() => this.saveModif()}>
+                                        <Text style={styles.modif_txt}>Enregistrer</Text>
+                                    </TouchableOpacity>
+                                    </View>
+
+                                </View>
+                                )
+                            )
+                        }
+
+                        {/* {
+                            (this.props.perso && this.state.modifPerso &&
+                                (
+                                <View style={[styles.contain_perso, {height: hp("20%")}]}>
                                     <View style={styles.contain_perso_1}>
                                         <TouchableOpacity onPress={() => this.cancelModif()} style={{flex:1, flexDirection: 'row'}}>
                                         <Text style={styles.txt_back_profil}>Annuler</Text>
@@ -475,7 +494,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 </View>
                                 )
                             )
-                        }
+                        } */}
 
                         {
                             (this.props.secondProfilInfo && !this.state.modifPersoSecond &&
@@ -767,7 +786,7 @@ const styles = StyleSheet.create({
         paddingTop: -10
     },
     contain_perso: {
-        flex: 1,
+        display: "flex",
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
@@ -861,7 +880,7 @@ const styles = StyleSheet.create({
     under: {
         backgroundColor : "#00C1B4",
         flexDirection: 'row',
-         paddingTop: hp("5%"),
+        paddingTop: hp("5%"),
         width: wp('100%'),
         height : hp("13%"),
         textAlign: 'center',

@@ -19,7 +19,9 @@ import {
   Alert,
   AsyncStorage,
   Modal,
-  TouchableOpacity
+  TouchableOpacity,
+  Picker,
+  TextInput
 } from 'react-native'
 import PropTypes from 'prop-types'
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
@@ -36,6 +38,8 @@ import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 import { Container, Header, Content, Form, Item, Label } from 'native-base';
 import Cloud from '../../API/Cloud';
+import DatePicker from 'react-native-datepicker';
+ 
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
 class Switch extends Component {
 
@@ -59,6 +63,9 @@ class Switch extends Component {
       zip: this.props.user.user.zipUser,
       city: this.props.user.user.villeUser,
       id: this.props.user.user.idUser,
+      dateNaissance: this.props.user.user.naissanceUser ? this.props.user.user.naissanceUser : '',
+      age: this.props.user.user.ageUser ? this.props.user.user.ageUser : '',
+      sexe: this.props.user.user.sexeUser ? this.props.user.user.sexeUser : '',
       firstName_: this.props.user.user.nomUser,
       lastName_: this.props.user.user.prenomUser,
       name_: this.props.user.user.nomUser + ' ' + this.props.user.user.prenomUser,
@@ -67,6 +74,9 @@ class Switch extends Component {
       zip_: this.props.user.user.zipUser,
       city_: this.props.user.user.villeUser,
       id_: this.props.user.user.idUser,
+      dateNaissance_: this.props.user.user.naissanceUser ? this.props.user.user.naissanceUser : '',
+      age_: this.props.user.user.ageUser ? this.props.user.user.ageUser : '',
+      sexe_: this.props.user.user.sexeUser ? this.props.user.user.sexeUser : '',
       rollGranted: true,
       cameraGranted: false,
       uri_doc: null,
@@ -86,6 +96,7 @@ class Switch extends Component {
     this.ref = firebase.firestore().collection('profile');
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.goToProfil = this.goToProfil.bind(this);
+
   }
 
   componentDidMount = async () => {
@@ -129,16 +140,16 @@ Endmodify() {
   this.setState({
     modifying: false
   })
-  this.setState({
-    firstName : this.state.firstName_,
-    lastName : this.state.lastName_,
-    name : this.state.firstName_ + ' ' + this.state.lastName_,
-    phone : this.state.phone_,
-    address : this.state.address_,
-    city : this.state.city_,
-    zip : this.state.zip_,
-    name_ : this.state.firstName_ + ' ' + this.state.lastName_
-  })
+  // this.setState({
+  //   firstName : this.state.firstName_,
+  //   lastName : this.state.lastName_,
+  //   name : this.state.firstName_ + ' ' + this.state.lastName_,
+  //   phone : this.state.phone_,
+  //   address : this.state.address_,
+  //   city : this.state.city_,
+  //   zip : this.state.zip_,
+  //   name_ : this.state.firstName_ + ' ' + this.state.lastName_
+  // })
 }
 
 Savemodify() {
@@ -253,6 +264,9 @@ Savemodify() {
       adresseUser: this.props.user.user.adresseUser,
       zipUser: this.props.user.user.zipUser,
       villeUser: this.props.user.user.villeUser,
+      naissanceUser: this.props.user.user.naissanceUser,
+      ageUser: this.props.user.user.ageUser,
+      sexeUser: this.props.user.user.sexeUser
     }
 
 
@@ -263,6 +277,9 @@ Savemodify() {
     userModified.adresseUser = this.state.address
     userModified.villeUser = this.state.city
     userModified.zipUser = this.state.zip
+    userModified.naissanceUser = this.state.dateNaissance
+    userModified.ageUser = this.state.ageUser
+    userModified.sexeUser = this.state.sexeUser
     console.log(userModified)
 
     this.setState({
@@ -273,6 +290,9 @@ Savemodify() {
       address_ : this.state.address,
       city_ : this.state.city,
       zip_ : this.state.zip,
+      dateNaissance_ : this.state.dateNaissance,
+      age_ : this.state.age,
+      sexe_ : this.state.sexe,
     })
 
    // let errorCount = await this.validationInfo(userModified)
@@ -528,6 +548,12 @@ Savemodify() {
     })
   }
 
+  _onChange = (item) => {
+    console.log(item);
+    // the full item as defined in the list of items is passed to the onChange handler to give full
+    // flexibility on what to do... 
+  }
+
 
   render() {
     console.log("render")
@@ -550,7 +576,7 @@ Savemodify() {
 
           {this.showModal()}
 
-          <ScrollView style={[styles.scroll_1, { marginTop: -60 }]} >
+          <ScrollView style={this.state.modifying ? styles.scroll_1 : styles.scroll_2}>
               {this.renderHeader_1()}
 
               {
@@ -567,6 +593,35 @@ Savemodify() {
                         </Text>
                     </View>
 
+                    <View style={styles.contain_info}>
+                        <Text style={styles.labelInfo}>
+                            Date de naissance
+                        </Text>
+                        <Text 
+                        style={styles.valueInfo}>
+                            {this.state.dateNaissance_}
+                        </Text>
+                    </View>
+
+                    <View style={styles.contain_info}>
+                        <Text style={styles.labelInfo}>
+                            Age
+                        </Text>
+                        <Text 
+                        style={styles.valueInfo}>
+                            {this.state.age_}
+                        </Text>
+                    </View>
+
+                    <View style={styles.contain_info}>
+                        <Text style={styles.labelInfo}>
+                            Sexe
+                        </Text>
+                        <Text 
+                        style={styles.valueInfo}>
+                            {this.state.sexe_}
+                        </Text>
+                    </View>
                     <View style={styles.contain_info}>
                         <Text style={styles.labelInfo}>
                             Ville
@@ -626,6 +681,59 @@ Savemodify() {
                       <Input value={this.state.lastName} onChangeText={(text) => this.setState({ lastName: text })}/>
                     </Item>
                   
+                    <Item stackedLabel last>
+                    <Label style={styles.labelInfo}>Date de naissance</Label>
+                    <DatePicker
+                      style={styles.datePickerStyle}
+                      date={this.state.dateNaissance}
+                      mode="date" // The enum of date, datetime and time
+                      placeholder="select date"
+                      format="DD-MM-YYYY"
+                      confirmBtnText="Confirmer"
+                      cancelBtnText="Annuler"
+                      customStyles={{
+                        dateIcon: {
+                          //display: 'none',
+                          position: 'absolute',
+                          left: 0,
+                          top: 4,
+                          marginLeft: 0,
+                        },
+                        dateInput: {
+                          marginLeft: 36,
+                        },
+                      }}
+                      onDateChange={(date) => {
+                        this.setState({ dateNaissance: date })
+                      }}
+                    />
+                    </Item>
+
+                    <Item stackedLabel last>
+                    <Label style={styles.labelInfo}>Age</Label>
+                    <TextInput
+                    style={{width: "100%", marginTop: 15}}
+                    placeholder="Votre age"
+                    placeholderTextColor="#60605e"
+                    numeric
+                    keyboardType={'numeric'}
+                    onChangeText={(text)=> this.setState({ age: text })}
+                    value={this.state.age}
+                    />
+                      {/* <Input value={this.state.age} onChangeText={(text) => this.setState({ age: text })}/> */}
+                    </Item>
+
+                    <Item stackedLabel last>
+                    <Label style={styles.labelInfo}>Sexe</Label>
+                    <Picker
+                      selectedValue={this.state.sexe}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) => this.setState({ sexe: itemValue })}
+                    >
+                      <Picker.Item label="Masculin" value="Masculin" />
+                      <Picker.Item label="Feminin" value="Feminin" />
+                    </Picker>
+                    </Item>
                     
                     <Item stackedLabel last>
                     <Label style={styles.labelInfo}>Ville</Label>
@@ -660,6 +768,12 @@ Savemodify() {
   }
 }
 const styles = StyleSheet.create({
+  datePickerStyle: {
+    marginTop: 15,
+    width: "90%",
+    marginRight: "10%",
+    marginBottom: 15
+  },
   contain_info: {
     marginBottom: 10
   },
@@ -698,12 +812,13 @@ labelValue: {
   main_profil: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 27,
+    marginTop: 30,
     marginLeft: 20,
     marginBottom: 35
   },
   under_main_profil_1: {
-      flex: 1
+      flex: 1,
+      marginLeft: 50
   },
   under_main_profil_2: {
       flex: 4,
@@ -721,19 +836,27 @@ labelValue: {
   btn_photo: {
     flex: 1,
     paddingTop: 70,
-    paddingLeft: 0
+    position: "relative",
+    left: -15
   },
   img_profil: {
       width: 200
   },
   scroll_1: {
     backgroundColor: 'white',
+    marginTop: 120
+    // borderTopRightRadius: 20,
+    // borderTopLeftRadius: 20
+  },
+  scroll_2: {
+    backgroundColor: 'white',
+    marginTop: 50
     // borderTopRightRadius: 20,
     // borderTopLeftRadius: 20
   },
   under: {
-    height: hp('10%'),
-    zIndex: 99
+    height: 0,
+    // zIndex: 99
   },
   loading_container_1: {
     position: 'absolute',
