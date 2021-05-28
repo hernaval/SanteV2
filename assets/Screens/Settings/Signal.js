@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity,StyleSheet  } from 'react-native'
+import { Text, View, TouchableOpacity,StyleSheet ,ScrollView ,Image} from 'react-native'
 import { connect } from 'react-redux'
 import Loader from '../../component/loader'
 import {
@@ -13,6 +13,10 @@ import Bdd from '../../API/Bdd'
 import { GiftedChat,Send,Bubble } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
 import { Avatar } from 'react-native-elements'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
+
 class Signal extends Component {
 
     constructor(){
@@ -88,7 +92,7 @@ class Signal extends Component {
 
     sendSignal = async (message) =>{
       console.log(message)
-        this.setState({isLoading : true})
+       
         let data = {
             sujetSignal : "Demande",
             descriSignal : message.text,
@@ -102,7 +106,7 @@ class Signal extends Component {
                 console.log(err)
                 this.setState({isLoading : false})
             })
-        this.setState({isLoading : false})
+        
     }
 
      handleSend = (newMessage = []) =>{
@@ -121,19 +125,21 @@ class Signal extends Component {
          <Loader loading={this.state.isLoading} />
         </View>}
 
-        <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
+        <View style={[Platform.OS === 'ios' ? styles.under_ios : styles.under, {marginBottom : 20}]}>
                     <HeaderMenu navigation={this.props.navigation} signaler={1} />
         </View>
 
-        
+       
         <GiftedChat
-        
+      
         placeholder={"Tapez vos remarques ici..."}
       messages={this.state.messages}
       onSend={newMessage => this.handleSend(newMessage)}
       user={{ _id: 1 }}
      
       />
+        
+        
 
       
 

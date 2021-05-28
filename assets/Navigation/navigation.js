@@ -68,8 +68,13 @@ import MapUser from "../Screens/Samaritain/MapUser"
 
 import Signal from "../Screens/Settings/Signal"
 import MainSetting from "../Screens/Settings/MainSetting"
+import Loading from "../Screens/Loading"
 const NavigationBest4Sante = createStackNavigator(
-    {   MainSetting : {
+    { 
+        Loading : {
+            screen : IsAuth(Loading)
+        },
+        MainSetting : {
         screen : MainSetting
     },
         Signal : {
@@ -260,7 +265,7 @@ const NavigationBest4Sante = createStackNavigator(
             }
         },
         Login: {
-            screen: IsAuth(Login),
+            screen: Login,
             navigationOption: {
                 title: 'Login'
 
@@ -437,7 +442,7 @@ const NavigationBest4Sante = createStackNavigator(
             }
         }
     }, {
-        initialRouteName: 'Login',
+        initialRouteName: 'Loading',
         headerMode: 'none'
     }
 )

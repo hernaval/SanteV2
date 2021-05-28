@@ -37,8 +37,8 @@ export default function(ChildComponent) {
 				.then(async (res)=>{
 					
 					if(res.status !== 200) {
-                        // this.props.navigation.push("Login");
-                        console.log('status 200')
+                      this.props.navigation.push("Login");
+                        console.log('status 500')
 					}
 
 					else {
@@ -57,15 +57,20 @@ export default function(ChildComponent) {
 						socketSrv.emitEvent("status_change",{token : value, socketListenId : socketListenId, coords : coords, type  :"join"})
 						
 						this.props.setUserInfo(token);
-                        this.props.mySecondProfil(token);
-                        this.props.navigation.navigate("Menu");
+						this.props.mySecondProfil(token);
+						
+						setTimeout(() =>{
+							this.props.navigation.navigate("Menu");
+						},1500)
+                        
 					}
 				})
 				.catch((err)=>{
-					console.log(err)
+					console.log("eto ilay error, resaka jwt io ",err)
+					 this.props.navigation.push("Login");
 				})
 			  } else {
-				console.log('stay here to Login')
+				this.props.navigation.navigate("Login");
 			   
 			  }
 			} catch (error) {
