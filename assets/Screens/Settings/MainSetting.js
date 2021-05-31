@@ -612,7 +612,7 @@ const styles = StyleSheet.create({
 
     section : {
         color : "silver",
-        fontSize : 30
+        fontSize : 26
     },
 
     scoreContainer : {

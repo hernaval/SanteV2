@@ -70,8 +70,13 @@ import Signal from "../Screens/Settings/Signal"
 import MainSetting from "../Screens/Settings/MainSetting"
 import ListVaccin from '../Screens/vaccin/ListVaccin'
 import DetailVaccin from '../Screens/vaccin/DetailVaccin'
+import Loading from "../Screens/Loading"
 const NavigationBest4Sante = createStackNavigator(
-    {   MainSetting : {
+    { 
+        Loading : {
+            screen : IsAuth(Loading)
+        },
+        MainSetting : {
         screen : MainSetting
     },
         Signal : {
@@ -261,7 +266,7 @@ const NavigationBest4Sante = createStackNavigator(
             }
         },
         Login: {
-            screen: IsAuth(Login),
+            screen: Login,
             navigationOption: {
                 title: 'Login'
 
@@ -450,7 +455,7 @@ const NavigationBest4Sante = createStackNavigator(
             }
         },
     }, {
-        initialRouteName: 'Login',
+        initialRouteName: 'Loading',
         headerMode: 'none'
     }
 )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, AsyncStorage } from 'react-native';
-import {setUserInfo,mySecondProfil, setContactInfo, setFavoriteInfo, setSecondInfo, onlineUser} from '../Action'
+import {setUserInfo,mySecondProfil, setContactInfo, setFavoriteInfo, setSecondInfo, onlineUser,setAuthentification} from '../Action'
 import { connect } from "react-redux";
 import 	axios from "axios";
 import Bdd from '../API/Bdd'
@@ -61,7 +61,7 @@ export default function(ChildComponent) {
 						
 						this.props.setUserInfo(token)
 						this.props.mySecondProfil(token)
-
+						this.props.setAuthentification(true)
 						
 						// this.props.setUserSession(token)
 					}
@@ -100,7 +100,8 @@ export default function(ChildComponent) {
 		setContactInfo,
 		setFavoriteInfo,
 		setSecondInfo,
-		onlineUser
+		onlineUser,
+		setAuthentification
 	}
 
 	

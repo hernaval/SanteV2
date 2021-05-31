@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TextInput, Button, TouchableHighlight, Alert, TouchableOpacity, ScrollView, AsyncStorage, Keyboard } from 'react-native'
+import {ToastAndroid , View, Text, StyleSheet, Image, TextInput, Button, TouchableHighlight, Alert, TouchableOpacity, ScrollView, AsyncStorage, Keyboard } from 'react-native'
 import Bdd from '../API/Bdd'
 import axios from 'axios';
 import Loader from './loader'
@@ -156,7 +156,14 @@ class LoginNew extends React.Component {
 
       }).catch((err) => {
         console.log('erreur login ', err);
-
+        ToastAndroid.showWithGravityAndOffset(
+          "Vérifiez votre connexion internet",
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50
+        );
+        this.setState({isLoading : false})
       })
   }
   render() {
