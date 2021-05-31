@@ -14,12 +14,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
   ActivityIndicator,
   Alert,
   AsyncStorage,
   Modal,
-  TouchableOpacity
+  TouchableOpacity,
+  Picker
 } from 'react-native'
 import PropTypes from 'prop-types'
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
@@ -36,9 +38,9 @@ import * as ImagePicker from 'expo-image-picker'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFileMedicalAlt} from '@fortawesome/free-solid-svg-icons';
 import { Container, Header, Content, Form, Item, Label } from 'native-base';
-import axios from 'axios'
-import Bdd from '../../API/Bdd'
-
+import axios from 'axios';
+import Bdd from '../../API/Bdd';
+import DatePicker from 'react-native-datepicker';
 
 const DEFAUTL_USER = "https://www.nehome-groupe.fr/wp-content/uploads/2015/09/image-de-profil-2.jpg"
 class InfoSecond extends Component {
@@ -61,6 +63,9 @@ class InfoSecond extends Component {
       address: this.props.second.second_users[this.props.second.indexSelected].adresseSecondUser,
       zip: this.props.second.second_users[this.props.second.indexSelected].zipSecondUser,
       city: this.props.second.second_users[this.props.second.indexSelected].villeSecondUser,
+      naissance: this.props.second.second_users[this.props.second.indexSelected].naissanceSecondUser,
+      age: this.props.second.second_users[this.props.second.indexSelected].ageSecondUser,
+      sexe: this.props.second.second_users[this.props.second.indexSelected].sexeSecondUser,
       id: this.props.navigation.state.params.id,
 
       name: this.props.second.second_users[this.props.second.indexSelected].nomSecondUser + ' ' + this.props.second.second_users[this.props.second.indexSelected].prenomSecondUser,
@@ -71,6 +76,9 @@ class InfoSecond extends Component {
       address_: this.props.second.second_users[this.props.second.indexSelected].adresseSecondUser,
       zip_: this.props.second.second_users[this.props.second.indexSelected].zipSecondUser,
       city_: this.props.second.second_users[this.props.second.indexSelected].villeSecondUser,
+      naissance_: this.props.second.second_users[this.props.second.indexSelected].naissanceSecondUser,
+      age_: this.props.second.second_users[this.props.second.indexSelected].ageSecondUser,
+      sexe_: this.props.second.second_users[this.props.second.indexSelected].sexeSecondUser,
       id_: this.props.navigation.state.params.id,
       rollGranted: true,
       cameraGranted: false,
@@ -148,7 +156,10 @@ Endmodify() {
     address : this.state.address_,
     city : this.state.city_,
     zip : this.state.zip_,
-    name_ : this.state.firstName_ + ' ' + this.state.lastName_
+    name_ : this.state.firstName_ + ' ' + this.state.lastName_,
+    naissance: this.state.naissance_,
+    age: this.state.age_,
+    sexe: this.state.sexe_,
   })
 }
 
@@ -211,6 +222,9 @@ Savemodify() {
     userModified.adresseSecondUser = this.state.address
     userModified.villeSecondUser = this.state.city
     userModified.zipSecondUser = this.state.zip
+    userModified.naissanceSecondUser = this.state.naissance
+    userModified.ageSecondUser = this.state.age
+    userModified.sexeSecondUser = this.state.sexe
     console.log('-----------')
     console.log(userModified)
     console.log('----------')
@@ -223,6 +237,9 @@ Savemodify() {
       address_ : this.state.address,
       city_ : this.state.city,
       zip_ : this.state.zip,
+      naissance_ : this.state.naissance,
+      age_ : this.state.age,
+      sexe_ : this.state.sexe,
     })
       this.props.modifySecondUserInfo(userModified)
       this.setState({isModifbegin : false,isLoading : false})
@@ -534,6 +551,36 @@ Savemodify() {
 
                     <View style={styles.contain_info}>
                         <Text style={styles.labelInfo}>
+                            Date de naissance
+                        </Text>
+                        <Text 
+                        style={styles.valueInfo}>
+                            {this.state.naissance_}
+                        </Text>
+                    </View>
+
+                    <View style={styles.contain_info}>
+                        <Text style={styles.labelInfo}>
+                            Age
+                        </Text>
+                        <Text 
+                        style={styles.valueInfo}>
+                            {this.state.age_}
+                        </Text>
+                    </View>
+
+                    <View style={styles.contain_info}>
+                        <Text style={styles.labelInfo}>
+                            Sexe
+                        </Text>
+                        <Text 
+                        style={styles.valueInfo}>
+                            {this.state.sexe_}
+                        </Text>
+                    </View>
+
+                    <View style={styles.contain_info}>
+                        <Text style={styles.labelInfo}>
                             Ville
                         </Text>
                         <Text 
@@ -591,6 +638,59 @@ Savemodify() {
                       <Input value={this.state.lastName} onChangeText={(text) => this.setState({ lastName: text })}/>
                     </Item>
                   
+                    <Item stackedLabel last>
+                    <Label style={styles.labelInfo}>Date de naissance</Label>
+                    <DatePicker
+                      style={styles.datePickerStyle}
+                      date={this.state.naissance}
+                      mode="date" // The enum of date, datetime and time
+                      placeholder="select date"
+                      format="DD-MM-YYYY"
+                      confirmBtnText="Confirmer"
+                      cancelBtnText="Annuler"
+                      customStyles={{
+                        dateIcon: {
+                          //display: 'none',
+                          position: 'absolute',
+                          left: 0,
+                          top: 4,
+                          marginLeft: 0,
+                        },
+                        dateInput: {
+                          marginLeft: 36,
+                        },
+                      }}
+                      onDateChange={(date) => {
+                        this.setState({ naissance: date })
+                      }}
+                    />
+                    </Item>
+
+                    <Item stackedLabel last>
+                    <Label style={styles.labelInfo}>Age</Label>
+                    <TextInput
+                    style={{width: "100%", marginTop: 10, marginBottom: 5, paddingLeft: 10}}
+                    placeholder="Votre age"
+                    placeholderTextColor="#60605e"
+                    numeric
+                    keyboardType={'numeric'}
+                    onChangeText={(text)=> this.setState({ age: text })}
+                    value={this.state.age}
+                    />
+                      {/* <Input value={this.state.age} onChangeText={(text) => this.setState({ age: text })}/> */}
+                    </Item>
+
+                    <Item stackedLabel last>
+                    <Label style={styles.labelInfo}>Sexe</Label>
+                    <Picker
+                      selectedValue={this.state.sexe}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) => this.setState({ sexe: itemValue })}
+                    >
+                      <Picker.Item label="Masculin" value="Masculin" />
+                      <Picker.Item label="Feminin" value="Feminin" />
+                    </Picker>
+                    </Item>
                     
                     <Item stackedLabel last>
                     <Label style={styles.labelInfo}>Ville</Label>
@@ -634,6 +734,12 @@ Savemodify() {
   }
 }
 const styles = StyleSheet.create({
+  datePickerStyle: {
+    marginTop: 15,
+    width: "90%",
+    marginRight: "10%",
+    marginBottom: 15
+  },
   fiche_sante: {
     width: wp('70%'),
     marginLeft: wp('15%'),
@@ -647,7 +753,8 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     marginTop: 15,
-    height: 60
+    height: 60,
+    marginBottom: 50
   },
   text_fiche_sante: {
     fontSize: 18,
@@ -656,7 +763,8 @@ const styles = StyleSheet.create({
     paddingLeft: 15
   },
   contain_info: {
-    marginBottom: 10
+    marginBottom: 10,
+    marginTop: 5
   },
   labelInfo: {
     color: 'black', 
@@ -724,13 +832,11 @@ labelValue: {
   },
   scroll_1: {
     backgroundColor: 'white',
-    marginTop: -150
-    // borderTopRightRadius: 20,
-    // borderTopLeftRadius: 20
+    marginTop: 30
   },
   scroll_2: {
     backgroundColor: 'white',
-    marginTop: -170
+    marginTop: 30
     // borderTopRightRadius: 20,
     // borderTopLeftRadius: 20
   },

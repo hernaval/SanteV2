@@ -34,15 +34,15 @@ class SwitchSecond extends Component {
     super(props)
     this.state = {
       isSelectedProfile: false,
-      // photoUri: "", 
-       
-    
       firstName: this.props.second.second_users[this.props.second.indexSelected].nomSecondUser,
       lastName: this.props.second.second_users[this.props.second.indexSelected].prenomSecondUser,
       phone: this.props.second.second_users[this.props.second.indexSelected].phoneSecondUser,
       address: this.props.second.second_users[this.props.second.indexSelected].adresseSecondUser,
       zip: this.props.second.second_users[this.props.second.indexSelected].zipSecondUser,
       city: this.props.second.second_users[this.props.second.indexSelected].villeSecondUser,
+      naissance: this.props.second.second_users[this.props.second.indexSelected].naissanceSecondUser,
+      age: this.props.second.second_users[this.props.second.indexSelected].ageSecondUser,
+      sexe: this.props.second.second_users[this.props.second.indexSelected].sexeSecondUser,
       // id: this.props.second.second_users[this.props.second.indexSelected].idSecondUser,
       id: this.props.navigation.state.params.id,
       rollGranted: true,
@@ -57,11 +57,8 @@ class SwitchSecond extends Component {
       errZip: "",
       errVille: "",
       errPhone: "",
-
       isLoading: false,
-
       isModifbegin: false
-
     }
     this.ref = firebase.firestore().collection('profile');
     this.countProfil = 0;
@@ -167,6 +164,9 @@ class SwitchSecond extends Component {
       adresseSecondUser: this.props.second.second_users[this.props.second.indexSelected].adresseSecondUser,
       zipSecondUser: this.props.second.second_users[this.props.second.indexSelected].zipSecondUser,
       villeSecondUser: this.props.second.second_users[this.props.second.indexSelected].villeSecondUser,
+      naissanceSecondUser: this.props.second.second_users[this.props.second.indexSelected].naissanceSecondUser,
+      ageSecondUser: this.props.second.second_users[this.props.second.indexSelected].ageSecondUser,
+      sexeSecondUser: this.props.second.second_users[this.props.second.indexSelected].sexeSecondUser,
     }
 
 
@@ -177,6 +177,9 @@ class SwitchSecond extends Component {
     userModified.adresseSecondUser = this.state.address
     userModified.villeSecondUser = this.state.city
     userModified.zipSecondUser = this.state.zip
+    userModified.naissanceSecondUser = this.state.naissance
+    userModified.ageSecondUser = this.state.age
+    userModified.sexeSecondUser = this.state.sexe
 
   
       this.props.modifySecondUserInfo(userModified)
@@ -386,8 +389,42 @@ class SwitchSecond extends Component {
               }
             </View>
 
+            <View>
+              <Text style={styles.labelText}>Date de naissance</Text>
+              {this.state.isModifbegin === true && <Input
+                onChangeText={(text) => this.setState({ lastName: text })}
+                value={this.state.lastName}
+              />
+              }
+              {this.state.isModifbegin === false &&
+                <Text style={styles.labelValue}>{this.state.lastName}</Text>
+              }
+            </View>
 
+            <View>
+              <Text style={styles.labelText}>Age</Text>
+              {this.state.isModifbegin === true && <Input
 
+                onChangeText={(text) => this.setState({ lastName: text })}
+                value={this.state.lastName}
+              />
+              }
+              {this.state.isModifbegin === false &&
+                <Text style={styles.labelValue}>{this.state.lastName}</Text>
+              }
+            </View>
+
+            <View>
+              <Text style={styles.labelText}>Sexe</Text>
+              {this.state.isModifbegin === true && <Input
+                onChangeText={(text) => this.setState({ lastName: text })}
+                value={this.state.lastName}
+              />
+              }
+              {this.state.isModifbegin === false &&
+                <Text style={styles.labelValue}>{this.state.lastName}</Text>
+              }
+            </View>
 
             <View>
               <Text style={styles.labelText}>Ville</Text>

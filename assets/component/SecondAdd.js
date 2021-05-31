@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage, ScrollView, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { StyleSheet, TextInput, Text,  View,
+        AsyncStorage, ScrollView, TouchableOpacity, 
+        Image, ActivityIndicator, Picker } from 'react-native';
 import { Button } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -21,8 +23,8 @@ import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'reac
 import RNPickerSelect from 'react-native-picker-select';
 import MyProfil from './../Screens/Profiles/MyProfil'
 import { Container, Header, Content, Form, Item, Label } from 'native-base';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+import DatePicker from 'react-native-datepicker';
 class SecondAdd extends React.Component {
 
   constructor(props) {
@@ -47,7 +49,9 @@ class SecondAdd extends React.Component {
         errVille: null,
         errAddress: null,
         errPhone: null,
-
+        sexe: null,
+        naissance: null,
+        age: null,
         lien : "",
       }
 
@@ -75,6 +79,9 @@ class SecondAdd extends React.Component {
       zipSecondUser: this.zip,
       lienSecondUser: this.state.lien,
       phoneSecondUser : this.phone,
+      naissanceSecondUser : this.state.naissance,
+      ageSecondUser : this.state.age,
+      sexeSecondUser : this.state.sexe,
       idUser : this.props.user.user.idUser
     }
     // console.log('save second profil')
@@ -176,6 +183,62 @@ class SecondAdd extends React.Component {
         returnKeyType="next"
         onChangeText={(text) => { this.lastName = text }}/>
         </Item>
+
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Date de naissance</Label>
+        <DatePicker
+                      style={styles.datePickerStyle}
+                      date={this.state.naissance}
+                      mode="date" // The enum of date, datetime and time
+                      placeholder="select date"
+                      format="DD-MM-YYYY"
+                      confirmBtnText="Confirmer"
+                      cancelBtnText="Annuler"
+                      customStyles={{
+                        dateIcon: {
+                          //display: 'none',
+                          position: 'absolute',
+                          left: 0,
+                          top: 4,
+                          marginLeft: 0,
+                        },
+                        dateInput: {
+                          marginLeft: 36,
+                        },
+                      }}
+                      onDateChange={(date) => {
+                        this.setState({ naissance: date })
+                      }}
+                    />
+        {/* <Input inputStyle={{'color': 'black'}} 
+        returnKeyType="next"
+        onChangeText={(text) => { this.lastName = text }}/> */}
+        </Item>
+
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Age</Label>
+        <TextInput
+                    style={{width: "100%", marginTop: 10, marginBottom: 5, paddingLeft: 10}}
+                    placeholder="age"
+                    placeholderTextColor="#60605e"
+                    numeric
+                    keyboardType={'numeric'}
+                    onChangeText={(text)=> this.setState({ age: text })}
+                    value={this.state.age}
+        />
+        </Item>
+
+        <Item stackedLabel last>
+        <Label style={styles.my_label}>Sexe</Label>
+        <Picker
+                      selectedValue={this.state.sexe}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) => this.setState({ sexe: itemValue })}
+                    >
+                      <Picker.Item label="Masculin" value="Masculin" />
+                      <Picker.Item label="Feminin" value="Feminin" />
+        </Picker>
+        </Item>
       
         <Item stackedLabel last>
         <Label style={styles.my_label}>Ville</Label>
@@ -247,6 +310,12 @@ class SecondAdd extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  datePickerStyle: {
+    marginTop: 15,
+    width: "90%",
+    marginRight: "10%",
+    marginBottom: 15
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',

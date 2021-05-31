@@ -90,8 +90,43 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
             <React.Fragment>
                 <View style={styles.main_contain}>
                 <View style={styles.under}>
+                {
+                            (this.props.addContact &&
+                                (
+                                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',
+                                justifyContent: 'center', marginLeft: 10}}>
+                                    <View style={{flex: 1, flexDirection: 'row'}}>
+                                        <TouchableOpacity
+                                         onPress={() => this.backContactUrgence()}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={20}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={{fontWeight: '100', paddingRight: 5, paddingTop: 4}}
+                                        />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                         onPress={() => this.backContactUrgence()}>
+                                         <Text style={styles.modif_txt}>Annuler</Text>
+                                         </TouchableOpacity>
+                                    </View>
 
-                        {
+                                    <View style={{flex: 2, alignItems: 'center'}}>
+                                        <Text style={styles.modif_txt}>Nouveau Contact</Text>
+                                    </View>
+
+                                    <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 10}}>
+                                     <TouchableOpacity onPress={() => this.saveNewContact()}>
+                                        <Text style={styles.modif_txt}>Enregistrer</Text>
+                                    </TouchableOpacity>
+                                    </View>
+
+                                </View>
+                                )
+                            )
+                        }
+                        {/* {
                             (this.props.addContact &&
                                 (
                                 <View style={styles.contain_perso}>
@@ -118,7 +153,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 </View>
                                 )
                             )
-                        }
+                        } */}
                         
                 
                     </View>

@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
         textAlign : "center",
         position : "relative",
         top : hp("-25%"),
-        color : "#00C1B4"
+        color : "#00C1B4",
+        paddingTop: 10
     },
    
 })

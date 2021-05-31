@@ -712,7 +712,7 @@ Savemodify() {
                     <Item stackedLabel last>
                     <Label style={styles.labelInfo}>Age</Label>
                     <TextInput
-                    style={{width: "100%", marginTop: 15}}
+                    style={{width: "100%", marginTop: 10, marginBottom: 5, paddingLeft: 10}}
                     placeholder="Votre age"
                     placeholderTextColor="#60605e"
                     numeric
@@ -775,6 +775,7 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   contain_info: {
+    marginTop: 5,
     marginBottom: 10
   },
   labelInfo: {
@@ -850,7 +851,7 @@ labelValue: {
   },
   scroll_2: {
     backgroundColor: 'white',
-    marginTop: 50
+    marginTop: 90
     // borderTopRightRadius: 20,
     // borderTopLeftRadius: 20
   },

@@ -250,32 +250,39 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                         {
                             (this.props.urgence &&
                                 (
-                                <View style={styles.contain_perso}>
-                                    <View style={styles.contain_perso_1}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',
+                                justifyContent: 'center', marginLeft: 10}}>
+                                    <View style={{flex: 1, flexDirection: 'row'}}>
+                                        <TouchableOpacity
+                                         onPress={() => this.props.navigation.navigate("MyProfil")}>
                                         <Icon
                                         name='chevron-left'
-                                        size={22}
+                                        size={20}
                                         type='font-awesome'
                                         color='#FFFFFF'
-                                        style={styles.style_chevron}
+                                        style={{fontWeight: '100', paddingRight: 5, paddingTop: 4}}
                                         />
-                                        <Text style={styles.txt_back_profil}>Profil</Text>
                                         </TouchableOpacity>
+                                        <TouchableOpacity
+                                         onPress={() => this.props.navigation.navigate("MyProfil")}>
+                                         <Text style={styles.modif_txt}>Profil</Text>
+                                         </TouchableOpacity>
                                     </View>
-                                    <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Contacts d'urgence</Text>
+
+                                    <View style={{flex: 2, alignItems: 'center'}}>
+                                        <Text style={styles.modif_txt}>Contacts d'urgence</Text>
                                     </View>
-                                    <View style={styles.contain_perso_3}>
-                                    <TouchableOpacity onPress={() => this.addContactUrgence()}>
+
+                                    <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 10}}>
+                                     <TouchableOpacity onPress={() => this.addContactUrgence()}>
                                         <Text style={styles.modif_txt}>Ajouter</Text>
                                     </TouchableOpacity>
                                     </View>
+
                                 </View>
                                 )
                             )
                         }
-
                         {
                             (this.props.reminder &&
                                 (
