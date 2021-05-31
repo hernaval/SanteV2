@@ -13,7 +13,9 @@ import { connect } from 'react-redux';
 import { TextInput } from 'react-native-paper';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import TopMenu from "./Menu/TopMenu"
+import TopMenu from "./Menu/TopMenu";
+import HeaderMenu from "./Menu/HeaderMenu";
+
 class Forgot extends React.Component {
 
   constructor(props) {
@@ -89,15 +91,16 @@ class Forgot extends React.Component {
         </View>}
 
         <View style={Platform.OS === 'ios' ? styles.under_ios : styles.under}>
-          <TopMenu navigation={this.props.navigation} />
+          {/* <TopMenu navigation={this.props.navigation} /> */}
+          <HeaderMenu navigation={this.props.navigation} forgot={1} />
         </View>
 
-        <View style={{marginTop : hp("5%"), flex: 1, justifyContent: 'center', alignItems: 'center'}} >
+        <View style={{marginTop : 0, flex: 1, justifyContent: 'center', alignItems: 'center'}} >
           <Text style={{textAlign : "center", fontWeight : "bold",fontSize: 23}}>Changer de mot passe </Text>
           <Image source={require("../images/reset.png")}  />
         </View>
 
-        <View style={{ flex: 1, justifyContent: "center", marginLeft: 20, marginRight: 20}} >
+        <View style={{ flex: 1, justifyContent: "center", marginLeft: 20, marginRight: 20, marginTop: -150}} >
           <TextInput
             style={{ marginBottom: 20, backgroundColor : "white" }}
             onChangeText={(text) => this.currentPass = text}

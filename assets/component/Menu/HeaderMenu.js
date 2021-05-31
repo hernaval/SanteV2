@@ -202,6 +202,29 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                             )
                         }
                         {
+                            (this.props.forgot && 
+                                (
+                                <View style={styles.container_view}>
+                                    <View style={styles.arrow_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("MainSetting")}>
+                                        <Icon
+                                        name='chevron-left'
+                                        size={22}
+                                        type='font-awesome'
+                                        color='#FFFFFF'
+                                        style={styles.style_chevron}
+                                        />
+                                    </TouchableOpacity>
+                                    </View>
+
+                                    <View>
+                                        <Text style={styles.profil_txt}>Modifier mot de passe</Text>
+                                    </View>
+                                </View>
+                                )
+                            )
+                        }
+                        {
                             (this.props.profile && 
                                 (
                                 <View style={styles.container_view}>
@@ -268,13 +291,12 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                 )
                             )
                         }
-
                         {
-                            (this.props.ajoutEvent &&
+                            (this.props.ajoutEvent && 
                                 (
-                                <View style={styles.contain_perso}>
-                                    <View style={styles.contain_perso_1}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Reminder")} style={{flex:1, flexDirection: 'row'}}>
+                                <View style={styles.container_view}>
+                                    <View style={styles.arrow_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Reminder")}>
                                         <Icon
                                         name='chevron-left'
                                         size={22}
@@ -282,19 +304,17 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         color='#FFFFFF'
                                         style={styles.style_chevron}
                                         />
-                                        <Text style={styles.txt_back_profil}>Annuler</Text>
-                                        </TouchableOpacity>
+                                    </TouchableOpacity>
                                     </View>
-                                    <View style={styles.contain_perso_2}>
-                                    
-                                    </View>
-                                    <View style={styles.contain_perso_31}>
-                                    <Text style={styles.profil_txt}>Ajout de Rappel</Text>
+
+                                    <View>
+                                        <Text style={styles.profil_txt}>Ajout de Rappel</Text>
                                     </View>
                                 </View>
                                 )
                             )
                         }
+
                         {
                             (this.props.secondProfil &&
                                 (
@@ -593,12 +613,12 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                             )
                         }
 
-                                                {
-                            (this.props.setting &&
+                        {
+                            (this.props.setting && 
                                 (
-                                <View style={styles.contain_perso}>
-                                    <View style={styles.contain_perso_1}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                <View style={styles.container_view}>
+                                    <View style={styles.arrow_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")}>
                                         <Icon
                                         name='chevron-left'
                                         size={22}
@@ -606,24 +626,22 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         color='#FFFFFF'
                                         style={styles.style_chevron}
                                         />
-                                        </TouchableOpacity>
+                                    </TouchableOpacity>
                                     </View>
-                                    <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Paramètres</Text>
-                                    </View>
-                                    <View style={styles.contain_perso_3}>
+
+                                    <View>
+                                        <Text style={styles.profil_txt}>Paramètres</Text>
                                     </View>
                                 </View>
                                 )
                             )
                         }
-
-{
-                            (this.props.signaler &&
+                        {
+                            (this.props.signaler && 
                                 (
-                                <View style={styles.contain_perso}>
-                                    <View style={styles.contain_perso_1}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MainSetting")} style={{flex:1, flexDirection: 'row'}}>
+                                <View style={styles.container_view}>
+                                    <View style={styles.arrow_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("MainSetting")}>
                                         <Icon
                                         name='chevron-left'
                                         size={22}
@@ -631,24 +649,23 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         color='#FFFFFF'
                                         style={styles.style_chevron}
                                         />
-                                        </TouchableOpacity>
+                                    </TouchableOpacity>
                                     </View>
-                                    <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Besoin d'aide</Text>
-                                    </View>
-                                    <View style={styles.contain_perso_3}>
+
+                                    <View>
+                                        <Text style={styles.profil_txt}>Besoin d'aide</Text>
                                     </View>
                                 </View>
                                 )
                             )
                         }
 
-{
-                            (this.props.mapUser &&
+                        {
+                            (this.props.mapUser && 
                                 (
-                                <View style={styles.contain_perso}>
-                                    <View style={styles.contain_perso_1}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")} style={{flex:1, flexDirection: 'row'}}>
+                                <View style={styles.container_view}>
+                                    <View style={styles.arrow_back}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate("MyProfil")}>
                                         <Icon
                                         name='chevron-left'
                                         size={22}
@@ -656,18 +673,16 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                         color='#FFFFFF'
                                         style={styles.style_chevron}
                                         />
-                                        </TouchableOpacity>
+                                    </TouchableOpacity>
                                     </View>
-                                    <View style={styles.contain_perso_2}>
-                                    <Text style={styles.profil_txt}>Bons Samaritains</Text>
-                                    </View>
-                                    <View style={styles.contain_perso_3}>
+
+                                    <View>
+                                        <Text style={styles.profil_txt}>Bons Samaritains</Text>
                                     </View>
                                 </View>
                                 )
                             )
-                        }
-
+                        }                    
                         {
                             (this.props.userConnected &&
                                 (

@@ -80,11 +80,14 @@ class DetailVaccin extends Component {
                             <Text style={styles.simple_text}>
                                 Age
                             </Text>
+                            <View>
                             {this.state.age && (
                             <Text style={styles.simple_text}>
                                 {this.state.age} ans
                             </Text>
                             )}
+                            </View>
+
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.simple_text}>
@@ -114,7 +117,9 @@ class DetailVaccin extends Component {
                         <Text style={[{marginTop: 5}]}></Text>
 
                         {this.state.current.doses.map((item, index) => {
-                        return <DoseDetailVaccin nom={item.nomination}
+                        return <DoseDetailVaccin 
+                                key={index}
+                                nom={item.nomination}
                                 status={item.status} 
                                 lieu={item.lieu} 
                                 pays={item.pays} 

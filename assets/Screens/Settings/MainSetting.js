@@ -91,7 +91,9 @@ class MainSetting extends Component {
         return (
             <View style={styles.main_profil}>
 
-                <Text style={{fontSize : 28}}>{this.props.user.user.prenomUser} {this.props.user.user.nomUser}</Text>
+                <Text style={{fontSize : 28, paddingTop: 20}}>
+                    {this.props.user.user.prenomUser} {this.props.user.user.nomUser}
+                </Text>
                 
                {/*  <View style={styles.scoreContainer}>
                 <View style={{alignItems :"center", marginRight : 5}}>
@@ -612,7 +614,9 @@ const styles = StyleSheet.create({
 
     section : {
         color : "silver",
-        fontSize : 26
+        fontSize : 25,
+        marginBottom: 5,
+        marginTop: 15
     },
 
     scoreContainer : {

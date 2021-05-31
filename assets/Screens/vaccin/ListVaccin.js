@@ -51,7 +51,9 @@ class ListVaccin extends Component {
                     </View>
 
                     {this.state.vaccins.map((item, index) => {
-                        return <VaccinItem navigation={this.props.navigation} 
+                        return <VaccinItem 
+                                key={index}
+                                navigation={this.props.navigation} 
                                 nom={item.nom_vaccin}
                                 type={item.type_vaccin}
                                 doses={item.doses}

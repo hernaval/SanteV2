@@ -35,7 +35,7 @@ export default class Loading extends Component {
                 <Text style={styles.best} >BEST4SANTE</Text>
                <View>
                <Flow color="#008ac890" size={100} />
-                <Text>Veuillez patientez</Text>
+                <Text>Veuillez patienter</Text>
                </View>
                
             </View>

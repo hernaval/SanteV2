@@ -32,9 +32,11 @@ class VaccinItem extends Component {
                                 <FontAwesomeIcon size={30} icon={faArrowRight} style={styles.iconCard}/>    
                             </TouchableOpacity>
                         </View>
-                        {this.props.doses.map(item => {
-                        return <DoseList nomination={item.nomination}
-                                            status={item.status}>
+                        {this.props.doses.map((item, index) => {
+                        return <DoseList 
+                                key={index}
+                                nomination={item.nomination}
+                                status={item.status}>
                         </DoseList>
                         })}
                     </View>
