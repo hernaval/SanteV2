@@ -93,6 +93,9 @@ class Switch extends Component {
       modalVisible: false
     }
 
+    console.log("deb");
+    console.log(this.props.user);
+
     this.ref = firebase.firestore().collection('profile');
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.goToProfil = this.goToProfil.bind(this);
@@ -196,7 +199,6 @@ Savemodify() {
               {this.state.isModifbegin === true &&
                 <View style={styles.actionBtn}>
                   <TouchableOpacity onPress={() => {   
-                    console.log("ato tsika e")
                       this.modifInfoPerso()
 
                   }}>
@@ -461,7 +463,6 @@ Savemodify() {
               backgroundColor: "#d3d3d3", marginBottom: 20 }}
               onPress={() => {
                 this.setState({ modalVisible: false})
-                console.log('Annuler')
               }}
             >
               <Text style={styles.textStyle}>Annuler</Text>
@@ -549,15 +550,7 @@ Savemodify() {
     })
   }
 
-  _onChange = (item) => {
-    console.log(item);
-    // the full item as defined in the list of items is passed to the onChange handler to give full
-    // flexibility on what to do... 
-  }
-
-
   render() {
-    console.log("render")
     return (
       <View style={styles.container_1}>
           {this.state.isLoading && <View style={styles.loading_container_1}>
