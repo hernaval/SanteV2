@@ -278,10 +278,11 @@ Savemodify() {
     userModified.villeUser = this.state.city
     userModified.zipUser = this.state.zip
     userModified.naissanceUser = this.state.dateNaissance
-    userModified.ageUser = this.state.ageUser
-    userModified.sexeUser = this.state.sexeUser
-    console.log(userModified)
-
+    userModified.ageUser = this.state.age
+    userModified.sexeUser = this.state.sexe
+    console.log("---------");
+    console.log(userModified);
+    console.log("---------");
     this.setState({
       firstName_ : this.state.firstname,
       lastName_ : this.state.lastName,

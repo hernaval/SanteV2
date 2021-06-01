@@ -46,7 +46,7 @@ class ListVaccin extends Component {
                 <ScrollView style={[styles.scroll]}>
                     <View>
                         <Text style={styles.title_text}>
-                            Les vaccins réalisés
+                            Vaccins réalisés
                         </Text>
                     </View>
 

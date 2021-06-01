@@ -172,7 +172,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                     </View>
 
                                     <View>
-                                        <Text style={styles.profil_txt}>Mon suivi vaccinal</Text>
+                                        <Text style={styles.profil_txt}>Mes vaccins</Text>
                                     </View>
                                 </View>
                                 )
@@ -195,7 +195,7 @@ const DEFAUTL_USER  ="https://www.nehome-groupe.fr/wp-content/uploads/2015/09/im
                                     </View>
 
                                     <View>
-                                        <Text style={styles.profil_txt}>Mon suivi vaccinal</Text>
+                                        <Text style={styles.profil_txt}>Mes vaccins</Text>
                                     </View>
                                 </View>
                                 )

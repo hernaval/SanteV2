@@ -57,40 +57,6 @@ class Menu extends Component {
 
         <View style={{marginTop : hp("2%"), zIndex: 10}}>
 
-          <Grid>
-          <Col >
-              <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.cardContainer}>
-              <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faSearch } />
-              <Text style={styles.cardText}>Professionnel{"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>De santé{"  "}</Text>
-              </TouchableOpacity>
-        </Col>
-        <Col>
-              <TouchableOpacity onPress={()=> this.props.navigation.navigate("FileManager")} style={styles.cardContainer}>
-              <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faFileAlt} />
-              <Text style={styles.cardText}>Mes {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>Documents {"  "}</Text>
-              </TouchableOpacity>
-        </Col>
-          </Grid>
-          
-          <Grid>
-          <Col>
-              <TouchableOpacity onPress={()=>this.props.navigation.navigate("ChoixAutoDiag")} style={styles.cardContainer}>
-              <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faStethoscope } />
-              <Text style={styles.cardText}> Mon {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>Autodiagnostic {"  "}</Text>
-              </TouchableOpacity>
-        </Col>
-        <Col>
-              <TouchableOpacity onPress={()=> console.log('Empty')} style={[styles.cardContainer, {backgroundColor: '#cfcfcf'}]}>
-              <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faNotesMedical } />
-              <Text style={styles.cardText}>Ma {"  "}</Text>
-              <Text style={[styles.cardText, {marginTop: 0}]}>Pharmacie {"  "}</Text>
-              </TouchableOpacity>
-        </Col>
-       
-        </Grid>
         <Grid>
           <Col>
               <TouchableOpacity onPress={()=>this.props.navigation.navigate("Vaccin")} style={styles.cardContainer}>
@@ -100,6 +66,40 @@ class Menu extends Component {
               </TouchableOpacity>
           </Col>
           <Col>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.cardContainer}>
+                <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faSearch } />
+                <Text style={styles.cardText}>Professionnel{"  "}</Text>
+                <Text style={[styles.cardText, {marginTop: 0}]}>De santé{"  "}</Text>
+                </TouchableOpacity>
+          </Col>
+        </Grid>
+          
+        <Grid>
+          <Col>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate("FileManager")} style={styles.cardContainer}>
+                <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faFileAlt} />
+                <Text style={styles.cardText}>Mes {"  "}</Text>
+                <Text style={[styles.cardText, {marginTop: 0}]}>Documents {"  "}</Text>
+                </TouchableOpacity>
+          </Col>
+          <Col>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate("ChoixAutoDiag")} style={styles.cardContainer}>
+                <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faStethoscope } />
+                <Text style={styles.cardText}> Mon {"  "}</Text>
+                <Text style={[styles.cardText, {marginTop: 0}]}>Autodiagnostic {"  "}</Text>
+                </TouchableOpacity>
+          </Col>
+        </Grid>
+
+        <Grid>
+          <Col>
+                <TouchableOpacity onPress={()=> console.log('Empty')} style={[styles.cardContainer, {backgroundColor: '#cfcfcf'}]}>
+                <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faNotesMedical } />
+                <Text style={styles.cardText}>Ma {"  "}</Text>
+                <Text style={[styles.cardText, {marginTop: 0}]}>Pharmacie {"  "}</Text>
+                </TouchableOpacity>
+          </Col>
+          <Col>
                 <TouchableOpacity onPress={()=>{this.props.navigation.navigate("Reminder")}}  style={styles.cardContainer}>
                 <FontAwesomeIcon size = {30}  style={styles.iconCard}   icon={faBell} />
                 <Text style={styles.cardText}> Mes {"  "}</Text>
@@ -107,6 +107,7 @@ class Menu extends Component {
                 </TouchableOpacity>
           </Col>
         </Grid>
+
         {/* <Grid>
         <Col size={50}>
               <TouchableOpacity onPress={()=>{this.props.navigation.navigate("Reminder")}}  style={styles.rappelContainer}>

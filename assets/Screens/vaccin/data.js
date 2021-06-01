@@ -4,14 +4,14 @@ var vaccins = [
         type_vaccin: "covid 19", 
         doses : [
             {
-                nomination: "1ère dosage",
+                nomination: "1ère dose",
                 status: 1,
                 date: "12/01/2021",
                 lieu: "Antananarivo",
                 pays: "MADAGASCAR"
             },
             {
-                nomination: "2ème dosage",
+                nomination: "2ème dose",
                 status: 1,
                 date: "25/07/2021",
                 lieu: "Antananarivo",
@@ -24,13 +24,13 @@ var vaccins = [
         type_vaccin: "kitrotro", 
         doses : [
             {
-                nomination: "1ère dosage",
+                nomination: "1ère dose",
                 status: 1,
                 date: "12/01/2021",
                 lieu: "Antananarivo",
                 pays: "MADAGASCAR"
             }, {
-                nomination: "2ème dosage",
+                nomination: "2ème dose",
                 status: 0,
             }
         ]

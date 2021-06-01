@@ -23,7 +23,7 @@ class DoseDetailVaccin extends Component {
                     {
                                 this.props.status == 1 && (
                                     <Text style={[styles.complic_text, {color: "#00C1B4"}]}>
-                                        Réalisé
+                                        Réalisée
                                     </Text>
                                 )
                     }
@@ -41,7 +41,7 @@ class DoseDetailVaccin extends Component {
                     <View>
                         <View style={styles.row}>
                                     <Text style={styles.simple_text}>
-                                        Date d'injection
+                                        Date
                                     </Text>
                                     <Text style={styles.simple_text}>
                                     {this.props.date}
@@ -49,7 +49,7 @@ class DoseDetailVaccin extends Component {
                         </View>
                         <View style={styles.row}>
                                     <Text style={styles.simple_text}>
-                                        Lieu de vaccination
+                                        Lieu
                                     </Text>
                                     <Text style={styles.simple_text}>
                                     {this.props.lieu}
@@ -73,7 +73,8 @@ class DoseDetailVaccin extends Component {
 
 const styles = StyleSheet.create({
     main: {
-        paddingTop: 10
+        paddingTop: 10,
+        marginBottom: 20
     },  
     row: {
         display: 'flex',
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
         color: "#666666"
     },
     complic_text: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: "900"
     },
 })

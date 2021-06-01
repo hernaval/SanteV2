@@ -16,20 +16,20 @@ class DoseList extends Component {
                             {
                                 this.props.status == 1 && (
                                     <Text style={[styles.text_status, {color: "#00C1B4"}]}>
-                                        Réalisé
+                                        Réalisée
                                     </Text>
                                 )
                             }
                             {
                                 this.props.status == 0 && (
                                     <Text style={[styles.text_status, {color: "red"}]}>
-                                        Attente
+                                        En attente
                                     </Text>
                                 )
                             }
 
                         </View>
-                </View>
+            </View>
         )
     }
 }

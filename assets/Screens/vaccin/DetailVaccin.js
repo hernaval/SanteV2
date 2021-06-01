@@ -114,7 +114,7 @@ class DetailVaccin extends Component {
                                 {this.state.current.type_vaccin}
                             </Text>
                         </View>
-                        <Text style={[{marginTop: 5}]}></Text>
+                        <Text style={[{marginTop: 0}]}></Text>
 
                         {this.state.current.doses.map((item, index) => {
                         return <DoseDetailVaccin 
@@ -221,15 +221,15 @@ const styles = StyleSheet.create({
         borderColor: "#cccccc",
         borderWidth: 2,
         borderRadius: 10,
-        width: "70%",
-        marginLeft: "15%",
+        width: "88%",
+        marginLeft: "6%",
         marginBottom: 10
         // height: "30%",
         // width: "50%"
     },
     img_qr : {
-        width: 320,
-        height: 320
+        width: 300,
+        height: 300
     }
 });
 
