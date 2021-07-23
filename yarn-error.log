@@ -1,21 +1,29 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add expo-av@~8.1.0
+  C:\Program Files\nodejs\node.exe C:\Users\Stenny Gabriel\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Admin\bin;C:\Python27;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Program Files\Microsoft SQL Server\110\Tools\Binn;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs;C:\maven\apache-maven-3.6.2-bin\apache-maven-3.6.2\bin;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn;C:\Program Files\Microsoft SQL Server\120\Tools\Binn;C:\Program Files\Microsoft SQL Server\120\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn;C:\flutter_windows_v1.9.1+hotfix.6-stable\flutter\bin;C:\ProgramData\ComposerSetup\bin;C:\Users\Admin\android-sdks\tools\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;C:\Program Files\MongoDB\Server\4.2\bin;C:\gradle-6.3\bin;C:\Apache Software Foundation\Apache Tomcat 8.0.27\bin;C:\wamp64\bin\php\php7.3.5;C:\Program Files (x86)\Bitvise SSH Client;C:\Users\Admin\android-sdks\platform-tools;C:\Program Files (x86)\Yarn\bin;C:\Users\Admin\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Users\Admin\AppData\Roaming\npm;C:\Apache Software Foundation\Apache Tomcat 8.0.27\bin;C:\Users\Admin\android-sdks\tools;C:\flutter_windows_v1.9.1+hotfix.6-stable\flutter\bin;C:\Users\Admin\AppData\Roaming\Composer\vendor\bin;C:\Users\Admin\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Program Files\MongoDB\Server\4.2\bin;C:\wamp64\bin\php\php7.3.5;C:\Program Files\JetBrains\PyCharm 2020.1.3\bin;C:\Users\Admin\AppData\Local\Yarn\bin
+  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Python39\Scripts\;C:\Python39\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\PROGRA~2\PICC;C:\Program Files\nodejs\;C:\Users\Stenny Gabriel\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.1.3\bin;;C:\Users\Stenny Gabriel\AppData\Roaming\npm
 
 Yarn version: 
-  1.22.5
+  1.22.10
 
 Node version: 
-  12.13.1
+  12.22.3
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: connect EHOSTUNREACH 104.16.27.35:443
-      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1129:14)
+  Error: https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.12.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Users\Stenny Gabriel\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141289:19)
+      at Object.onceWrapper (events.js:420:28)
+      at ClientRequest.emit (events.js:314:20)
+      at TLSSocket.emitRequestTimeout (_http_client.js:715:9)
+      at Object.onceWrapper (events.js:420:28)
+      at TLSSocket.emit (events.js:326:22)
+      at TLSSocket.Socket._onTimeout (net.js:483:8)
+      at listOnTimeout (internal/timers.js:554:17)
+      at processTimers (internal/timers.js:497:7)
 
 npm manifest: 
   {
@@ -39,10 +47,11 @@ npm manifest:
       "@react-navigation/bottom-tabs": "^5.4.7",
       "axios": "^0.19.2",
       "expo": "~37.0.3",
+      "expo-av": "~8.1.0",
       "expo-calendar": "~8.1.0",
       "expo-camera": "~8.2.0",
       "expo-constants": "^9.0.0",
-      "expo-document-picker": "~8.1.0",
+      "expo-document-picker": "8.1.0",
       "expo-facebook": "~8.1.0",
       "expo-file-system": "~8.1.0",
       "expo-image-picker": "~8.1.0",
@@ -54,6 +63,7 @@ npm manifest:
       "firebase": "7.9.0",
       "moment": "^2.26.0",
       "native-base": "2.12.1",
+      "node-nlp-rn": "^3.5.2",
       "radio-buttons-react-native": "^1.0.4",
       "react": "~16.9.0",
       "react-dom": "~16.9.0",
@@ -61,18 +71,23 @@ npm manifest:
       "react-native-action-button": "^2.8.5",
       "react-native-add-calendar-event": "^3.0.2",
       "react-native-androw": "0.0.34",
+      "react-native-animated-spinkit": "^1.4.1",
       "react-native-bottom-bar": "^0.3.2",
       "react-native-calendars": "^1.289.0",
       "react-native-custom-picker": "^0.4.0",
       "react-native-dashboard": "0.0.4",
+      "react-native-datepicker": "^1.7.2",
+      "react-native-document-picker": "3.5.4",
       "react-native-dropdown": "0.0.6",
       "react-native-dynamic-vector-icons": "^0.1.1",
       "react-native-easy-grid": "^0.2.2",
       "react-native-elements": "^1.2.7",
       "react-native-gesture-handler": "~1.6.0",
+      "react-native-gifted-chat": "^0.16.3",
       "react-native-image-viewing": "^0.2.0",
       "react-native-iphone-x-helper": "^1.2.1",
       "react-native-keyboard-aware-scroll-view": "^0.9.1",
+      "react-native-keyboard-aware-scrollview": "^2.1.0",
       "react-native-linear-gradient": "^2.5.6",
       "react-native-maps": "^0.27.1",
       "react-native-maps-directions": "^1.8.0",
@@ -88,6 +103,7 @@ npm manifest:
       "react-native-responsive-screen": "^1.4.1",
       "react-native-safe-area-context": "0.7.3",
       "react-native-screens": "~2.2.0",
+      "react-native-selectbox": "^0.1.2",
       "react-native-simple-bottom-sheet": "^1.0.1",
       "react-native-simple-radio-button": "^2.7.4",
       "react-native-step-indicator": "0.0.11",
@@ -95,7 +111,6 @@ npm manifest:
       "react-native-swipeable": "^0.6.0",
       "react-native-tab-view": "^2.14.0",
       "react-native-vector-icons": "^6.6.0",
-      "react-native-document-picker": "^3.5.4",
       "react-native-web": "~0.11.7",
       "react-navigation": "^4.3.8",
       "react-navigation-stack": "^2.3.13",
@@ -107,17 +122,14 @@ npm manifest:
       "rn-viewpager": "^1.2.9",
       "socket.io-client": "^2.3.0",
       "uuid": "^8.1.0",
-      "validate.js": "^0.13.1",
-      "react-native-keyboard-aware-scrollview": "^2.1.0"
+      "validate.js": "^0.13.1"
     },
     "devDependencies": {
       "@babel/core": "^7.8.6",
-      "babel-preset-expo": "~8.1.0",
-      "babel-jest": "~25.2.6",
-      "jest": "~25.2.6",
-      "react-test-renderer": "~16.11.0",
       "@react-native-community/eslint-config": "^0.0.6",
       "babel-eslint": "^10.0.3",
+      "babel-jest": "~25.2.6",
+      "babel-preset-expo": "~8.1.0",
       "eslint": "5",
       "eslint-config-airbnb-base": "^14.0.0",
       "eslint-config-fortech-react": "^1.0.2",
@@ -131,7 +143,9 @@ npm manifest:
       "eslint-plugin-react": "^7.18.0",
       "eslint-plugin-react-hooks": "^2.3.0",
       "eslint-plugin-standard": "^4.0.1",
-      "metro-react-native-babel-preset": "^0.58.0"
+      "jest": "~25.2.6",
+      "metro-react-native-babel-preset": "^0.58.0",
+      "react-test-renderer": "~16.11.0"
     },
     "private": true
   }
@@ -1707,6 +1721,72 @@ Lockfile:
       "@types/yargs" "^15.0.0"
       chalk "^3.0.0"
   
+  "@microsoft/recognizers-text-choice@~1.1.4":
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/@microsoft/recognizers-text-choice/-/recognizers-text-choice-1.1.4.tgz#8e9ae8f804ae49bd57dd6bbf227a2ab0e14a9041"
+    integrity sha512-4CddwFe4RVhZeJgW65ocBrEdeukBMghK8pgI0K0Qy2eA5ysPZQpeZ7BGSDz5QMQei5LPY+QaAQ3CHU+ORHoO7A==
+    dependencies:
+      "@microsoft/recognizers-text" "~1.1.4"
+      grapheme-splitter "^1.0.2"
+  
+  "@microsoft/recognizers-text-date-time@~1.1.4":
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/@microsoft/recognizers-text-date-time/-/recognizers-text-date-time-1.1.4.tgz#d3ccddbc9b9f81bfa564df5b957dbdd740036425"
+    integrity sha512-leMnjN+KYNwNvRD5T4G0ORUzkjlek/BBZDvQIjAujtyrd/pkViUnuouWIPkFT/dbSOxXML8et54CSk2KfHiWIA==
+    dependencies:
+      "@microsoft/recognizers-text" "~1.1.4"
+      "@microsoft/recognizers-text-number" "~1.1.4"
+      "@microsoft/recognizers-text-number-with-unit" "~1.1.4"
+      lodash.isequal "^4.5.0"
+      lodash.tonumber "^4.0.3"
+  
+  "@microsoft/recognizers-text-number-with-unit@~1.1.4":
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/@microsoft/recognizers-text-number-with-unit/-/recognizers-text-number-with-unit-1.1.4.tgz#a7f2614d419adb2fea99e5c324151ea455262aa8"
+    integrity sha512-zl+CfmfWK0x/x+iSgaBAevKTYO0F4+z7SYHAHztaaaGuX8FERw2jmUjSgVetm5KA3EveyCx0XYGU1mRNY8p7Eg==
+    dependencies:
+      "@microsoft/recognizers-text" "~1.1.4"
+      "@microsoft/recognizers-text-number" "~1.1.4"
+      lodash.escaperegexp "^4.1.2"
+      lodash.last "^3.0.0"
+      lodash.max "^4.0.1"
+  
+  "@microsoft/recognizers-text-number@~1.1.4":
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/@microsoft/recognizers-text-number/-/recognizers-text-number-1.1.4.tgz#1fbe0473322e6292bb93f9af86c6ca5ce05212d9"
+    integrity sha512-6EmlR+HR+eJBIX7sQby1vs6LJB64wxLowHaGpIU9OCXFvZ5Nb0QT8qh10rC40v3Mtrz4DpScXfSXr9tWkIO5MQ==
+    dependencies:
+      "@microsoft/recognizers-text" "~1.1.4"
+      bignumber.js "^7.2.1"
+      lodash.escaperegexp "^4.1.2"
+      lodash.sortby "^4.7.0"
+      lodash.trimend "^4.5.1"
+  
+  "@microsoft/recognizers-text-sequence@~1.1.4":
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/@microsoft/recognizers-text-sequence/-/recognizers-text-sequence-1.1.4.tgz#339f38292ba207cd78ee27defeea1ab79206fa5d"
+    integrity sha512-rb5j8/aE7HSOdIxaVfCGFrj0wWPpSq0CuykFg/A/iJNPP+FnAU71bgP5HexrwQcpCsDinauisX7u0DKIChrHRA==
+    dependencies:
+      "@microsoft/recognizers-text" "~1.1.4"
+      grapheme-splitter "^1.0.2"
+  
+  "@microsoft/recognizers-text-suite@1.1.4":
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/@microsoft/recognizers-text-suite/-/recognizers-text-suite-1.1.4.tgz#8adb2128ed3aa60a042be008d4e3449d7128f1df"
+    integrity sha512-hNIaR4M2G0nNeI9WZxt9C0KYh/1vhjeKzX5Ds8XDdT0pxF7zwCSo19WNcPjrVK6aCOeZTw/ULofsAjdu9gSkcA==
+    dependencies:
+      "@microsoft/recognizers-text" "~1.1.4"
+      "@microsoft/recognizers-text-choice" "~1.1.4"
+      "@microsoft/recognizers-text-date-time" "~1.1.4"
+      "@microsoft/recognizers-text-number" "~1.1.4"
+      "@microsoft/recognizers-text-number-with-unit" "~1.1.4"
+      "@microsoft/recognizers-text-sequence" "~1.1.4"
+  
+  "@microsoft/recognizers-text@~1.1.4":
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/@microsoft/recognizers-text/-/recognizers-text-1.1.4.tgz#264530f748b2cad3fac54d53538f88ad2bf99b7e"
+    integrity sha512-hlSVXcaX5i8JcjuUJpVxmy2Z/GxvFXarF0KVySCFop57wNEnrLWMHe4I4DjP866G19VyIKRw+vPA32pkGhZgTg==
+  
   "@mindinventory/react-native-tab-bar-interaction@github:mindinventory/react-native-tab-bar-interaction":
     version "1.0.3"
     resolved "https://codeload.github.com/mindinventory/react-native-tab-bar-interaction/tar.gz/2a365ab7ef712f6443f1510d5eaeb3f4a9bca5b0"
@@ -2817,6 +2897,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.48.tgz#8fd88bd1632cba4a1c8c3e3d7159f08bb95b4b9e"
     integrity sha512-j51egjPa7/i+RdiRuJbPdJ2FIUYYPhvYLjzoYbcMMm62ooO6F94fETG4MTs46zPAF9Brs04OajboA/qTGuz78w==
   
+  bignumber.js@^7.2.1:
+    version "7.2.1"
+    resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-7.2.1.tgz#80c048759d826800807c4bfd521e50edbba57a5f"
+    integrity sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
+  
   bindings@^1.5.0:
     version "1.5.0"
     resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
@@ -3920,7 +4005,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
     integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
   
-  escodegen@^1.11.1:
+  escodegen@^1.11.1, escodegen@^1.12.0:
     version "1.14.3"
     resolved "https://registry.yarnpkg.com/escodegen/-/escodegen-1.14.3.tgz#4e7b81fba61581dc97582ed78cab7f0e8d63f503"
     integrity sha512-qFcX0XJkdg+PB3xjZZG/wKSuT1PnQWx57+TVSjIMmILd2yC/6ByYElPwJnslDsuWuSAp4AwJGumarAAmJch5Kw==
@@ -4375,6 +4460,14 @@ Lockfile:
       path-browserify "^1.0.0"
       url-parse "^1.4.4"
   
+  expo-av@~8.1.0:
+    version "8.1.0"
+    resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-8.1.0.tgz#376e2a821168cd83e997c6dd84350fab6b293f10"
+    integrity sha512-owWxOCyK+dPyT3pF4rDOf2W8Sn8LSEvfw1HvU9xM0wzH7xF0bw3Zs3wcXxvtfhnXAZ5dCDQfvZI5cXk+lml+IQ==
+    dependencies:
+      lodash "^4.17.15"
+      nullthrows "^1.1.0"
+  
   expo-calendar@~8.1.0:
     version "8.1.0"
     resolved "https://registry.yarnpkg.com/expo-calendar/-/expo-calendar-8.1.0.tgz#367d51481a1aad9e3d87459f680398872990af4d"
@@ -4401,7 +4494,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.0.0.tgz#35c600079ee91d38fe4f56375caae6e90f122fdd"
     integrity sha512-1kqZMM8Ez5JT3sTEx8I69fP6NYFLOJjeM6Z63dD/m2NiwvzSADiO5+BhghnWNGN1L3bxbgOjXS6EHtS7CdSfxA==
   
-  expo-document-picker@~8.1.0:
+  expo-document-picker@8.1.0:
     version "8.1.0"
     resolved "https://registry.yarnpkg.com/expo-document-picker/-/expo-document-picker-8.1.0.tgz#53fd2f470974ada19b0dd3f059815c723151c9aa"
     integrity sha512-GSPCNSwgAbRZ021bOf/ogHlbb8ZrL5iHwDx66QZCbzZTtHVTR1UVYRGhuNIjpjCaGLtd3pa0vqYp4dcx6upEVA==
@@ -5059,6 +5152,11 @@ Lockfile:
     version "4.2.4"
     resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
     integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
+  
+  grapheme-splitter@^1.0.2:
+    version "1.0.4"
+    resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
+    integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
   
   growly@^1.3.0:
     version "1.3.0"
@@ -6484,10 +6582,25 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lodash.clone/-/lodash.clone-4.5.0.tgz#195870450f5a13192478df4bc3d23d2dea1907b6"
     integrity sha1-GVhwRQ9aExkkeN9Lw9I9LeoZB7Y=
   
+  lodash.escaperegexp@^4.1.2:
+    version "4.1.2"
+    resolved "https://registry.yarnpkg.com/lodash.escaperegexp/-/lodash.escaperegexp-4.1.2.tgz#64762c48618082518ac3df4ccf5d5886dae20347"
+    integrity sha1-ZHYsSGGAglGKw99Mz11YhtriA0c=
+  
   lodash.isequal@^4.5.0:
     version "4.5.0"
     resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
     integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+  
+  lodash.last@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/lodash.last/-/lodash.last-3.0.0.tgz#242f663112dd4c6e63728c60a3c909d1bdadbd4c"
+    integrity sha1-JC9mMRLdTG5jcoxgo8kJ0b2tvUw=
+  
+  lodash.max@^4.0.1:
+    version "4.0.1"
+    resolved "https://registry.yarnpkg.com/lodash.max/-/lodash.max-4.0.1.tgz#8735566c618b35a9f760520b487ae79658af136a"
+    integrity sha1-hzVWbGGLNan3YFILSHrnllivE2o=
   
   lodash.sortby@^4.7.0:
     version "4.7.0"
@@ -6498,6 +6611,16 @@ Lockfile:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
     integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
+  
+  lodash.tonumber@^4.0.3:
+    version "4.0.3"
+    resolved "https://registry.yarnpkg.com/lodash.tonumber/-/lodash.tonumber-4.0.3.tgz#0b96b31b35672793eb7f5a63ee791f1b9e9025d9"
+    integrity sha1-C5azGzVnJ5Prf1pj7nkfG56QJdk=
+  
+  lodash.trimend@^4.5.1:
+    version "4.5.1"
+    resolved "https://registry.yarnpkg.com/lodash.trimend/-/lodash.trimend-4.5.1.tgz#12804437286b98cad8996b79414e11300114082f"
+    integrity sha1-EoBENyhrmMrYmWt5QU4RMAEUCC8=
   
   lodash.unescape@4.0.1:
     version "4.0.1"
@@ -7155,6 +7278,15 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
     integrity sha1-jZ2+KJZKSsVxLpExZCEHxx6Q7EA=
+  
+  node-nlp-rn@^3.5.2:
+    version "3.5.2"
+    resolved "https://registry.yarnpkg.com/node-nlp-rn/-/node-nlp-rn-3.5.2.tgz#dda3887a6cf6972aac1f5ec766e84f031f5bd4ac"
+    integrity sha512-L8lpD/grLH5vWpK8HwdE/zoTpD/pXfSDmf0blTSi4dcUwdlN6YX+bOwQx9olBu5oC5e6Qea3U/tRywnNs/hSOg==
+    dependencies:
+      "@microsoft/recognizers-text-suite" "1.1.4"
+      escodegen "^1.12.0"
+      esprima "^4.0.1"
   
   node-notifier@^5.2.1:
     version "5.4.3"
@@ -8085,6 +8217,11 @@ Lockfile:
     dependencies:
       react-native-super-grid "2.4.3"
       react-native-vector-icons "6.3.0"
+  
+  react-native-document-picker@3.5.4:
+    version "3.5.4"
+    resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-3.5.4.tgz#4b9f261ea0d52e91d571670caaf55923ceb80f5f"
+    integrity sha512-ZKGAa8ztQ7zA1eE95OCiNsI/Q6fiq1Q3es8MyOEakBkWcX9avWNYaJUrbv/8v80Vo4RzcNxsO3wT6a2hgfpz7A==
   
   react-native-drawer@2.5.1:
     version "2.5.1"
