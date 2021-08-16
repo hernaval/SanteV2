@@ -71,6 +71,9 @@ import MainSetting from "../Screens/Settings/MainSetting"
 import ListVaccin from '../Screens/vaccin/ListVaccin'
 import DetailVaccin from '../Screens/vaccin/DetailVaccin'
 import Loading from "../Screens/Loading"
+
+import FirstPage from '../component/Home/FirstPage'
+
 const NavigationBest4Sante = createStackNavigator(
     { 
         Loading : {
@@ -78,7 +81,13 @@ const NavigationBest4Sante = createStackNavigator(
         },
         MainSetting : {
         screen : MainSetting
-    },
+        },
+        FirstPage: {
+            screen: FirstPage,
+            navigationOption: {
+                title: 'FirstPage'
+            }
+        },
         Signal : {
             screen : Signal
         },

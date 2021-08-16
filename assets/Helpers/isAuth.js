@@ -70,8 +70,9 @@ export default function(ChildComponent) {
 					 this.props.navigation.push("Login");
 				})
 			  } else {
-				this.props.navigation.navigate("Login");
-			   
+				// this.props.navigation.navigate("Login");
+				this.props.navigation.navigate("FirstPage");
+				
 			  }
 			} catch (error) {
 			  // Error retrieving data
