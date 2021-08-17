@@ -7,7 +7,7 @@ import {
     removeOrientationListener as rol
   } from 'react-native-responsive-screen';
 
-export default class FirstPage extends React.Component {
+export default class Menu extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -19,19 +19,12 @@ export default class FirstPage extends React.Component {
         this.setState({
             showMenu: !this.state.showMenu
         })
+        console.log(this.state.showMenu)
     }
-
-    _patient() {
-        this.props.navigation.navigate("Login");
-    }
-
-    _pro() {
-        console.log("Pro")
-    }
-
+    
     render() {
         return(
-            <View style={styles.main_container}>
+            <View>
             {
                 (this.state.showMenu && (
                     <View style={styles.float_menu}>
@@ -59,42 +52,13 @@ export default class FirstPage extends React.Component {
                 )
             }
 
-
-                <Image
-                    style={{position: 'absolute', width: wp("100%"), height: hp("102%"), marginTop: -20}}
-                    resizeMode='cover'
-                    source={require("../../images/blured.jpg")}
-                    blurRadius={1}
-                />
-
-                <View style={styles.contain_menu}>
+            <View style={styles.contain_menu}>
                     <TouchableOpacity
                     style={styles.menu_img}
                     onPress={() => this._clickMenu()}>
                         <Image 
                         source={require("../../images/icons/burger.png")} />
                     </TouchableOpacity>
-                </View>
-
-                <View style={styles.contain_text}>
-                    <Image 
-                    style={styles.logo}
-                    source={require("../../images/Splash(FondBlanc).png")} />
-                    <Text style={styles.main_text}>Se connecter en tant que : </Text>
-                    <TouchableOpacity 
-                    onPress={() => this._patient()}
-                    style={[styles.btn_container, styles.btn_patient]}>
-                        <Text style={styles.text}>Patient(e)</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                    onPress={() => this._pro()}
-                    style={[styles.btn_container, styles.btn_pro]}>
-                        <Text style={styles.text}>Professionnel(le) de santé</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View>
-                    <Text style={styles.bottom_contain}>Best4Santé</Text>
                 </View>
             </View>
         )
