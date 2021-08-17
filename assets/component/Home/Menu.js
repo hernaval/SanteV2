@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, TouchableHighlight, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -24,7 +24,7 @@ export default class Menu extends React.Component {
     
     render() {
         return(
-            <View>
+        <View>
             {
                 (this.state.showMenu && (
                     <View style={styles.float_menu}>
@@ -59,19 +59,13 @@ export default class Menu extends React.Component {
                         <Image 
                         source={require("../../images/icons/burger.png")} />
                     </TouchableOpacity>
-                </View>
             </View>
+        </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    main_container: {
-        marginTop: 20,
-        flex: 1,
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
     contain_menu : {
         flex: 1,
         width: wp("100%")
@@ -82,47 +76,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 20,
         top: 60
-    },
-    contain_text : {
-        flex: 2,
-        alignItems: 'center'
-    },  
-    logo : {
-        width: 150,
-        height: 150,
-        marginTop: -100,
-        marginBottom: 30
-    },
-    main_text : {
-        fontWeight: 'bold',
-        marginTop: 50,
-        fontSize: 20
-    },
-    btn_container : {
-        marginTop: 30,
-        height: 60,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 20,
-        borderRadius: 10,
-        textAlign: 'center',
-        width: wp("90%")
-    },
-    btn_patient : {
-        backgroundColor: "#00C1B4",
-    },
-    btn_pro : {
-        backgroundColor: '#008ac8',
-    },
-    text : {
-        color: "#FFF",
-        fontSize: 18,
-        fontWeight: 'bold'
-    },
-    bottom_contain : {
-        marginBottom: 20,
-        fontSize: 16
     },
     float_menu : {
         position: 'absolute',

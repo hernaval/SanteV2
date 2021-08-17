@@ -26,7 +26,7 @@ export default class FirstPage extends React.Component {
     }
 
     _pro() {
-        console.log("Pro")
+        this.props.navigation.navigate("DashboardProSante");
     }
 
     render() {
@@ -64,7 +64,7 @@ export default class FirstPage extends React.Component {
                     style={{position: 'absolute', width: wp("100%"), height: hp("102%"), marginTop: -20}}
                     resizeMode='cover'
                     source={require("../../images/blured.jpg")}
-                    blurRadius={1}
+                    blurRadius={2}
                 />
 
                 <View style={styles.contain_menu}>

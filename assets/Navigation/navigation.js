@@ -73,6 +73,7 @@ import DetailVaccin from '../Screens/vaccin/DetailVaccin'
 import Loading from "../Screens/Loading"
 
 import FirstPage from '../component/Home/FirstPage'
+import DashboardProSante from '../component/ProSante/DashboardProSante'
 
 const NavigationBest4Sante = createStackNavigator(
     { 
@@ -86,6 +87,12 @@ const NavigationBest4Sante = createStackNavigator(
             screen: FirstPage,
             navigationOption: {
                 title: 'FirstPage'
+            }
+        },
+        DashboardProSante: {
+            screen: DashboardProSante,
+            navigationOption: {
+                title: 'DashboardProSante'
             }
         },
         Signal : {
