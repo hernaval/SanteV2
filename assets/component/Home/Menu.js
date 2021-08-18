@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import {
     widthPercentageToDP as wp,
@@ -7,7 +7,7 @@ import {
     removeOrientationListener as rol
   } from 'react-native-responsive-screen';
 
-export default class Menu extends React.Component {
+export default class Menu extends Component {
     constructor(props) {
         super(props)
         this.state = {

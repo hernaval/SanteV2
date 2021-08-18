@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     main_text : {
         fontWeight: 'bold',
         marginTop: 50,
-        fontSize: 20
+        fontSize: 25
     },
     btn_container : {
         marginTop: 30,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     },
     text : {
         color: "#FFF",
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold'
     },
     bottom_contain : {
@@ -186,12 +186,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     menu_title : {
-        fontSize: 20,
-        marginBottom: 20
+        fontSize: 25,
+        marginBottom: 30
     },
     menu_text : {
-        fontSize: 18,
-        marginBottom: 15,
+        fontSize: 20,
+        marginBottom: 30,
         flexWrap: 'wrap'
     }
 })

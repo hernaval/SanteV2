@@ -120,14 +120,14 @@ const styles = StyleSheet.create({
     },
     part_2 : {
         // marginTop: wp('43%')
-        marginBottom: 250
+        marginBottom: 280
     },
     card_menu : {
         backgroundColor: '#fbfafa',
         padding: 20,
         borderRadius: 5,
         width: wp('43%'),
-        height: 280,
+        height: 250,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -137,26 +137,26 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 5,
         width: wp('90%'),
-        height: 280,
+        height: 250,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
     },
     icon_menu : {
         backgroundColor: "#00C1B4",
-        width: 70,
-        padding: 15,
+        width: 100,
+        padding: 20,
         borderRadius: 70,
         position: 'absolute',
-        top: 60
+        top: 40
     },
     icon_img : {
-        height: 40,
-        width: 40,
+        height: 60,
+        width: 60,
     },
     text_menu : {
         fontSize: 20,
-        marginTop: 80,
+        marginTop: 120,
         textAlign: 'center',
         flexWrap: 'wrap'
     }
