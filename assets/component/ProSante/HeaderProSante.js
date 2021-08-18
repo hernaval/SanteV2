@@ -29,7 +29,7 @@ class HeaderProSante extends Component {
                         <View style={styles.contain_1_2}>
                             <Text style={styles.name_user}>
                                 DR. Pierrot Men
-                            </Text>
+                            </Text> 
                             <Text style={styles.description_user}>
                                 Lorem ipsum
                             </Text>
