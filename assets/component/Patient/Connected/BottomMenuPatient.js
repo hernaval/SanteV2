@@ -7,7 +7,7 @@ import {
     removeOrientationListener as rol
   } from 'react-native-responsive-screen';
 
-export class BottomMenuProSante extends Component {
+export class BottomMenuPatient extends Component {
     constructor(props) {
         super(props)
     }
@@ -24,7 +24,7 @@ export class BottomMenuProSante extends Component {
                     style={styles.touch_bottom}
                     onPress={() => {this._changeTab()}}>
                         <Image style={styles.img_bottom}
-                        source={require("../../images/icons/home.png")}/>
+                        source={require("../../../images/icons/home.png")}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.contain_bottom}>
@@ -32,7 +32,7 @@ export class BottomMenuProSante extends Component {
                     style={styles.touch_bottom}
                     onPress={() => {this._changeTab()}}>
                         <Image style={styles.img_bottom_favoris}
-                        source={require("../../images/icons/Favoris.png")}/>
+                        source={require("../../../images/icons/Favoris.png")}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.contain_bottom}>
@@ -40,7 +40,7 @@ export class BottomMenuProSante extends Component {
                     style={styles.touch_bottom}
                     onPress={() => {this._changeTab()}}>
                         <Image style={styles.img_bottom}
-                        source={require("../../images/icons/messenger.png")}/>
+                        source={require("../../../images/icons/messenger.png")}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.contain_bottom}>
@@ -48,7 +48,7 @@ export class BottomMenuProSante extends Component {
                     style={styles.touch_bottom}
                     onPress={() => {this._changeTab()}}>
                         <Image style={styles.img_bottom}
-                        source={require("../../images/icons/notification.png")}/>
+                        source={require("../../../images/icons/notification.png")}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.contain_bottom}>
@@ -56,7 +56,7 @@ export class BottomMenuProSante extends Component {
                     style={styles.touch_bottom}
                     onPress={() => {this._changeTab()}}>
                         <Image style={styles.img_bottom}
-                        source={require("../../images/icons/Mon-compte.png")}/>
+                        source={require("../../../images/icons/Mon-compte.png")}/>
                     </TouchableOpacity>
                 </View>
             </View>

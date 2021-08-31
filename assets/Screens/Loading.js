@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
         position : "relative",
         top : hp("-25%"),
         color : "#00C1B4",
-        paddingTop: 10
+        paddingTop: 10,
+        marginTop: 60
     },
    
 })

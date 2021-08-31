@@ -73,7 +73,16 @@ import DetailVaccin from '../Screens/vaccin/DetailVaccin'
 import Loading from "../Screens/Loading"
 
 import FirstPage from '../component/Home/FirstPage'
+import ConnexionPatient from '../component/Patient/ConnexionPatient'
+import InscriptionPatient from '../component/Patient/InscriptionPatient'
+import DossierPatient from '../component/Patient/Connected/Dossier/DossierPatient'
+import DocumentPatient from '../component/Patient/Connected/Document/DocumentPatient'
+import DashboardPatient from '../component/Patient/Connected/DashboardPatient'
 import DashboardProSante from '../component/ProSante/DashboardProSante'
+import PatientProSante from '../component/ProSante/DashboardItemProSante/PatientProSante'
+import DetailPatientProSante from '../component/ProSante/DashboardItemProSante/DetailPatientProSante/DetailPatientProSante'
+import RendezVousProSante from '../component/ProSante/DashboardItemProSante/RendezVousProSante'
+import DetailPassSanitaire from '../component/Patient/Connected/Document/DetailPassSanitaire/DetailPassSanitaire'
 
 const NavigationBest4Sante = createStackNavigator(
     { 
@@ -89,10 +98,64 @@ const NavigationBest4Sante = createStackNavigator(
                 title: 'FirstPage'
             }
         },
+        ConnexionPatient : {
+            screen: ConnexionPatient,
+            navigationOption: {
+                title: 'ConnexionPatient'
+            }
+        },
+        InscriptionPatient : {
+            screen: InscriptionPatient,
+            navigationOption: {
+                title: 'InscriptionPatient'
+            }
+        },
+        DossierPatient : {
+            screen: DossierPatient,
+            navigationOption: {
+                title: 'DossierPatient'
+            }
+        },
+        DocumentPatient : {
+            screen: DocumentPatient,
+            navigationOption: {
+                title: 'DocumentPatient'
+            }
+        },
+        DetailPassSanitaire : {
+            screen: DetailPassSanitaire,
+            navigationOption: {
+                title: 'DetailPassSanitaire'
+            }
+        },
+        DashboardPatient: {
+            screen: DashboardPatient,
+            navigationOption: {
+                title: 'DashboardPatient'
+            }
+        },
         DashboardProSante: {
             screen: DashboardProSante,
             navigationOption: {
                 title: 'DashboardProSante'
+            }
+        },
+        PatientProSante : {
+            screen: PatientProSante,
+            navigationOption: {
+                title: 'PatientProSante'
+            }
+        },
+        DetailPatientProSante : {
+            screen: DetailPatientProSante,
+            navigationOption: {
+                title: 'DetailPatientProSante'
+            }
+        },
+        RendezVousProSante : {
+            screen: RendezVousProSante,
+            navigationOption: {
+                title: 'RendezVousProSante'
             }
         },
         Signal : {

@@ -6,6 +6,7 @@ import {
     listenOrientationChange as loc,
     removeOrientationListener as rol
   } from 'react-native-responsive-screen';
+import { Background } from './Background';
 
 export default class FirstPage extends React.Component {
     constructor(props) {
@@ -22,7 +23,7 @@ export default class FirstPage extends React.Component {
     }
 
     _patient() {
-        this.props.navigation.navigate("Login");
+        this.props.navigation.navigate("ConnexionPatient");
     }
 
     _pro() {
@@ -59,13 +60,7 @@ export default class FirstPage extends React.Component {
                 )
             }
 
-
-                <Image
-                    style={{position: 'absolute', width: wp("100%"), height: hp("102%"), marginTop: -20}}
-                    resizeMode='cover'
-                    source={require("../../images/blured.jpg")}
-                    blurRadius={2}
-                />
+                <Background/>
 
                 <View style={styles.contain_menu}>
                     <TouchableOpacity
@@ -132,7 +127,7 @@ const styles = StyleSheet.create({
     main_text : {
         fontWeight: 'bold',
         marginTop: 50,
-        fontSize: 25
+        fontSize: 28
     },
     btn_container : {
         marginTop: 30,
@@ -165,7 +160,10 @@ const styles = StyleSheet.create({
         zIndex: 10,
         top: 40,
         backgroundColor: '#fbfafa',
-        padding: 20,
+        paddingTop: 20,
+        paddingRight: 20,
+        paddingBottom: 20,
+        paddingLeft: 60,
         borderRadius: 5,
         right: 20,
         width: wp('90%')

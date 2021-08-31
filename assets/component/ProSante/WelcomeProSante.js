@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     contain_welcome: {
         flex: 1,
         alignItems: 'center',
-        marginTop: 100
+        marginTop: 20
     },
     text_welcome : {
         fontWeight: '500',

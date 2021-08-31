@@ -1,57 +1,58 @@
 import { StyleSheet, TouchableOpacity, Image, Text, View, SafeAreaView, ScrollView} from "react-native";
 import React from "react";
-import HeaderProSante from "./HeaderProSante";
+import HeaderPatientConnected from "./HeaderPatientConnected";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
     listenOrientationChange as loc,
     removeOrientationListener as rol
   } from 'react-native-responsive-screen';
-import WelcomeProSante from "./WelcomeProSante";
-import { BottomMenuProSante } from "./BottomMenuProSante";
-import { Background } from "../Home/Background";
+import WelcomeProSante from "./../../ProSante/WelcomeProSante";
+import { BottomMenuPatient } from "./BottomMenuPatient";
+import { Background } from "../../Home/Background";
 
-export default class DashboardProSante extends React.Component {
+export default class DashboardPatient extends React.Component {
     constructor(props) {
         super(props)
     }
 
     _pressMenu(route) {
+        if (!route) return false
         this.props.navigation.navigate(route)
     }
     
     render() {
         return(
             <View style={styles.main}>
-                <BottomMenuProSante/>
                 <Background/>
-                
-                <HeaderProSante navigation={this.props.navigation}/>
+                <BottomMenuPatient/>
+
+                <HeaderPatientConnected/>
 
                 <ScrollView style={styles.main_scroll}> 
                 <WelcomeProSante/>
                 <View style={styles.main_dashboard}>
                     <TouchableOpacity 
                     style={styles.card_menu}
-                    onPress={() => this._pressMenu('PatientProSante')}>
+                    onPress={() => this._pressMenu('DossierPatient')}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
-                            source={require("../../images/icons/Mes-patients.png")}/>
+                            source={require("../../../images/icons/Mon-dossier.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Mes patients</Text>
+                            <Text style={styles.text_menu}>Mon Dossier</Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity 
                     style={styles.card_menu}
-                    onPress={() => this._pressMenu(null)}>
+                    onPress={() => this._pressMenu('DocumentPatient')}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
-                            source={require("../../images/icons/Mes-outils-de-gestion.png")}/>
+                            source={require("../../../images/icons/Mes-documents.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Mes outils de gestion</Text>
+                            <Text style={styles.text_menu}>Mes documents</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -62,10 +63,10 @@ export default class DashboardProSante extends React.Component {
                     onPress={() => this._pressMenu(null)}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
-                            source={require("../../images/icons/prescription.png")}/>
+                            source={require("../../../images/icons/Mo-espace-bien-être.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Aide à la prescription</Text>
+                            <Text style={styles.text_menu}>Mon espace bien être</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -74,24 +75,36 @@ export default class DashboardProSante extends React.Component {
                     onPress={() => this._pressMenu(null)}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
-                            source={require("../../images/icons/coronavirus.png")}/>
+                            source={require("../../../images/icons/Rdv-et-téléconsultations.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Campagne de vaccination COVID-19 et autre</Text>
+                            <Text style={styles.text_menu}>Rdv et téléconsultation</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
 
-                <View style={[styles.main_dashboard, styles.part_2]}>
+                <View style={[styles.main_dashboard]}>
                     <TouchableOpacity 
-                    style={styles.card_menu_block}
-                    onPress={() => this._pressMenu('RendezVousProSante')}>
+                    style={styles.card_menu}
+                    onPress={() => this._pressMenu(null)}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
-                            source={require("../../images/icons/Rendez-vous.png")}/>
+                            source={require("../../../images/icons/Contacts.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Rendez-vous</Text>
+                            <Text style={styles.text_menu}>Contacts</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity 
+                    style={styles.card_menu}
+                    onPress={() => this._pressMenu(null)}>
+                        <View style={styles.icon_menu}>
+                            <Image style={styles.icon_img}
+                            source={require("../../../images/icons/Urgences.png")}/>
+                        </View>
+                        <View>
+                            <Text style={styles.text_menu}>Urgences</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -105,7 +118,7 @@ export default class DashboardProSante extends React.Component {
 
 const styles = StyleSheet.create({
     main_scroll : {
-        marginTop: 20
+        marginTop: 30
     },
     main_dashboard : {
         marginLeft: 30,
@@ -120,7 +133,8 @@ const styles = StyleSheet.create({
         marginBottom: 200
     },
     space : {
-        height: hp('15%')
+        height: hp('15%'),
+        marginTop: 150
     },
     card_menu : {
         backgroundColor: '#fbfafa',
@@ -144,15 +158,15 @@ const styles = StyleSheet.create({
     },
     icon_menu : {
         backgroundColor: "#00C1B4",
-        width: 90,
+        width: 80,
         padding: 20,
         borderRadius: 70,
         position: 'absolute',
         top: 40
     },
     icon_img : {
-        height: 50,
-        width: 50,
+        height: 40,
+        width: 40,
     },
     text_menu : {
         fontSize: 20,

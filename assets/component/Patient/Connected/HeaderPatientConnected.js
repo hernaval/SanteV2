@@ -7,7 +7,7 @@ import {
     removeOrientationListener as rol
   } from 'react-native-responsive-screen';
 
-class HeaderProSante extends Component {
+class HeaderPatientConnected extends Component {
     constructor(props) {
         super(props)
     }
@@ -23,12 +23,12 @@ class HeaderProSante extends Component {
                     <View>
                     <TouchableOpacity>
                         <Image style={styles.img_profil}
-                            source={require("../../images/user.png")}/>
+                            source={require("../../../images/user.png")}/>
                     </TouchableOpacity>
                     </View>
                     <View style={styles.contain_1_2}>
                             <Text style={styles.name_user}>
-                                DR. Pierrot Men
+                                Pierrot Men
                             </Text> 
                             <Text style={styles.description_user}>
                                 Lorem ipsum
@@ -40,35 +40,10 @@ class HeaderProSante extends Component {
                    <TouchableOpacity
                      onPress={() => this._clickMenu()}>
                         <Image
-                        source={require("../../images/icons/burger.png")}/>
+                        source={require("../../../images/icons/burger.png")}/>
                     </TouchableOpacity>
                 </View>
             </View>
-            // <View style={styles.main_header}> 
-            //     <View style={styles.contain_1}>
-            //             <View style={styles.contain_1_1}>
-            //                 <TouchableOpacity>
-            //                     <Image style={styles.img_profil}
-            //                     source={require("../../images/user.png")}/>
-            //                 </TouchableOpacity>
-            //             </View>
-            //             <View style={styles.contain_1_2}>
-            //                 <Text style={styles.name_user}>
-            //                     DR. Pierrot Men
-            //                 </Text> 
-            //                 <Text style={styles.description_user}>
-            //                     Lorem ipsum
-            //                 </Text>
-            //             </View>
-            //     </View>
-            //     <View style={styles.contain_2}>
-            //         <TouchableOpacity
-            //          onPress={() => this._clickMenu()}>
-            //             <Image
-            //             source={require("../../images/icons/burger.png")}/>
-            //         </TouchableOpacity>
-            //     </View>
-            // </View>
         )
     }
 }
@@ -91,12 +66,12 @@ const styles = StyleSheet.create({
         borderRadius: 50
     },
     name_user : {
-        fontSize: 23,
+        fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 8
+        marginBottom: 10
     },
     description_user: {
-        fontSize: 20,
+        fontSize: 17,
         paddingLeft: 5
     },
     contain_1_2 : {
@@ -112,4 +87,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default HeaderProSante
+export default HeaderPatientConnected
