@@ -43,7 +43,7 @@ export default class DetailPassSanitaire extends React.Component {
                 <HeaderRoutePatient navigation={this.props.navigation} title="Pass sanitaire" 
                 backRoute="DocumentPatient"/>
 
-                <ScrollView style={{height: hp('90%'), marginTop: 20}}>
+                <ScrollView style={{height: hp('90%'), marginTop: 5}}>
 
                 <View style={styles.main_card}>
                     <View style={styles.block_card_code}>
@@ -88,7 +88,7 @@ export default class DetailPassSanitaire extends React.Component {
                                                 (
                                                     list.realised && (
                                                         <Text style={styles.txt_card, 
-                                                            {color: '#008ac8', fontSize: 22}}>
+                                                            {color: '#008ac8', fontSize: 16}}>
                                                                 Réalisé
                                                         </Text>
                                                     )
@@ -98,7 +98,7 @@ export default class DetailPassSanitaire extends React.Component {
                                                 (
                                                     !list.realised && (
                                                         <Text style={styles.txt_card, 
-                                                            {color: 'red', fontSize: 22}}>
+                                                            {color: 'red', fontSize: 16}}>
                                                                 En attente
                                                         </Text>
                                                     )
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     main_card : {
-        marginTop: 30,
+        marginTop: 10,
         width: wp('90%'),
         backgroundColor: 'whitesmoke',
         minHeight: hp('80%'),
@@ -144,11 +144,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         borderRadius: 10,
-        padding: 30
+        padding: 10
     },
     block_card_code : {
         backgroundColor: 'white',
-        width: '100%',
+        width: '90%',
         padding: 20,
         display: 'flex',
         flexDirection: 'row',
@@ -163,18 +163,18 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: wp('90%'),
+        width: wp('100%'),
         paddingLeft: 30,
         paddingRight: 30,
         paddingTop: 10,
         paddingBottom: 10
     },
     txt_card : {
-        fontSize: 20
+        fontSize: 15
     },
     qr_card : {
-        height: 300,
-        width: 300
+        height: 200,
+        width: '100%'
     },
     space_card : {
         borderBottomWidth: 1,
@@ -188,10 +188,11 @@ const styles = StyleSheet.create({
     title_vaccination : {
         fontWeight: 'bold',
         marginLeft: wp('5%'),
-        fontSize: 23,
-        marginTop: 30
+        fontSize: 18,
+        marginTop: 20,
+        marginLeft: 30
     },
     spacer : {
-        height: hp('15%')
+        height: hp('10%')
     }
 })

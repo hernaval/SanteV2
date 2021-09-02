@@ -56,13 +56,13 @@ export class DossierMedicalPatientProSante extends Component {
 
 const styles = StyleSheet.create({
     main: {
-        marginTop: 30,
-        marginLeft: 30,
-        marginRight: 30,
+        marginTop: 15,
+        marginLeft: 15,
+        marginRight: 15,
     },
     title: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 18,
         marginTop: 20
     },
     block_view: {
@@ -78,15 +78,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
-        height: 130,
+        minHeight: 130,
         borderRadius: 5
     },
     title_block_: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 10
+        marginBottom: 8
     },
     descr_block_: {
-        fontSize: 18,
+        fontSize: 16,
     }
 })

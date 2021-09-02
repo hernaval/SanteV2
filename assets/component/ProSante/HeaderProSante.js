@@ -39,7 +39,7 @@ class HeaderProSante extends Component {
                 <View style={styles.contain_2}>
                    <TouchableOpacity
                      onPress={() => this._clickMenu()}>
-                        <Image
+                        <Image style={{width: 20, height: 20}}
                         source={require("../../images/icons/burger.png")}/>
                     </TouchableOpacity>
                 </View>
@@ -75,40 +75,40 @@ class HeaderProSante extends Component {
 
 const styles = StyleSheet.create({
     main_header: {
-        marginTop: 60,
-        marginLeft: 30,
-        marginRight: 30,
+        marginTop: 30,
+        marginLeft: 20,
+        marginRight: 15,
         marginBottom: 30,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
     img_profil : {
-        width: 70,
-        height: 70,
+        width: 40,
+        height: 40,
         borderWidth: 2,
         borderColor: 'white',
         borderRadius: 50
     },
     name_user : {
-        fontSize: 23,
+        fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 8
+        marginBottom: 0
     },
     description_user: {
-        fontSize: 20,
+        fontSize: 16,
         paddingLeft: 5
     },
     contain_1_2 : {
         marginLeft: 20,
-        paddingTop: 10
+        paddingTop: 0
     },  
     contain_1 : {
         display: 'flex',
         flexDirection: 'row'
     },
     contain_2 : {
-        marginTop: 30
+        marginTop: 15
     }
 })
 

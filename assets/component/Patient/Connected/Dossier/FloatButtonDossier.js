@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     },  
     contain_button: {
         backgroundColor: '#008ac8',
-        width: 80,
-        height: 80,
+        width: 40,
+        height: 40,
         borderRadius: 50,
         display: 'flex',
         justifyContent: 'center',
@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
     txt_button : {
         color: 'white',
         fontWeight: 'normal',
-        fontSize: 60
+        fontSize: 30
     }
 })

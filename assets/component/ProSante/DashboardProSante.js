@@ -105,11 +105,11 @@ export default class DashboardProSante extends React.Component {
 
 const styles = StyleSheet.create({
     main_scroll : {
-        marginTop: 20
+        marginTop: 10
     },
     main_dashboard : {
-        marginLeft: 30,
-        marginRight: 30,
+        marginLeft: 20,
+        marginRight: 20,
         marginTop: 30,
         flex: 1,
         flexDirection: 'row',
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
     card_menu : {
         backgroundColor: '#fbfafa',
         padding: 20,
-        borderRadius: 10,
-        width: wp('43%'),
-        height: 230,
+        borderRadius: 5,
+        width: wp('40%'),
+        minHeight: 130,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -136,27 +136,32 @@ const styles = StyleSheet.create({
         backgroundColor: '#fbfafa',
         padding: 20,
         borderRadius: 10,
-        width: wp('90%'),
-        height: 230,
+        width: wp('87%'),
+        minHeight: 130,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 50
+    },
+    icon_menu : {
+        backgroundColor: "#00C1B4",
+        width: 45,
+        height: 45,
+        padding: 15,
+        borderRadius: 70,
+        position: 'absolute',
+        top: 20,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
     },
-    icon_menu : {
-        backgroundColor: "#00C1B4",
-        width: 90,
-        padding: 20,
-        borderRadius: 70,
-        position: 'absolute',
-        top: 40
-    },
     icon_img : {
-        height: 50,
-        width: 50,
+        height: 22,
+        width: 22,
     },
     text_menu : {
-        fontSize: 20,
-        marginTop: 120,
+        fontSize: 16,
+        marginTop: 60,
         textAlign: 'center',
         flexWrap: 'wrap'
     }

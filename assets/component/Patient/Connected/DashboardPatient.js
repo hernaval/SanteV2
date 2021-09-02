@@ -27,7 +27,7 @@ export default class DashboardPatient extends React.Component {
                 <Background/>
                 <BottomMenuPatient/>
 
-                <HeaderPatientConnected/>
+                <HeaderPatientConnected navigation={this.props.navigation}/>
 
                 <ScrollView style={styles.main_scroll}> 
                 <WelcomeProSante/>
@@ -118,11 +118,11 @@ export default class DashboardPatient extends React.Component {
 
 const styles = StyleSheet.create({
     main_scroll : {
-        marginTop: 30
+        marginTop: 0
     },
     main_dashboard : {
-        marginLeft: 30,
-        marginRight: 30,
+        marginLeft: 20,
+        marginRight: 20,
         marginTop: 30,
         flex: 1,
         flexDirection: 'row',
@@ -139,9 +139,9 @@ const styles = StyleSheet.create({
     card_menu : {
         backgroundColor: '#fbfafa',
         padding: 20,
-        borderRadius: 10,
-        width: wp('43%'),
-        height: 230,
+        borderRadius: 5,
+        width: wp('39%'),
+        minHeight: 130,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -151,26 +151,30 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         width: wp('90%'),
-        height: 230,
+        minHeight: 140,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
     },
     icon_menu : {
         backgroundColor: "#00C1B4",
-        width: 80,
-        padding: 20,
+        width: 45,
+        height: 45,
+        padding: 15,
         borderRadius: 70,
         position: 'absolute',
-        top: 40
+        top: 20,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     icon_img : {
-        height: 40,
-        width: 40,
+        height: 22,
+        width: 22,
     },
     text_menu : {
-        fontSize: 20,
-        marginTop: 120,
+        fontSize: 16,
+        marginTop: 70,
         textAlign: 'center',
         flexWrap: 'wrap'
     }

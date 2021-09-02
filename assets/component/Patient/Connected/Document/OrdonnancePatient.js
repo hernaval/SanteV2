@@ -134,21 +134,21 @@ export class OrdonnancePatient extends Component {
 
 const styles = StyleSheet.create({
     main : {
-        marginTop: 30,
-        marginLeft: 30,
-        marginRight: 30
+        marginTop: 25,
+        marginLeft: 15,
+        marginRight: 15
     },
     scroll_view : {
         height: hp('60%')
     },
     main_title : {
-        fontSize: 23,
+        fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 20
     },
     block : {
         marginBottom: 10,
-        height: 80,
+        minHeight: 80,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -157,15 +157,15 @@ const styles = StyleSheet.create({
         paddingBottom: 10
     },
     spacer: {
-        height: hp("12%"),
-        marginBottom: 100
+        height: hp("5%"),
+        marginBottom: 10
     },
     main_scroll : {
         flex: 1
     },
     block_icon : {
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         borderRadius: 50,
         backgroundColor: '#008AC8',
         display: 'flex',
@@ -173,14 +173,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     icon_img : {
-        width: 24,
-        height: 29
+        width: 13,
+        height: 17
     },
     block_description : {
         marginLeft: 25
     },
     title_doc : {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold'
     },
     block_detail : {
@@ -188,23 +188,26 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: wp('70%'),
-        marginTop: 10
+        marginTop: 5
     },
     contain_search : {
         backgroundColor: '#FFF',
         borderRadius: 5,
-        padding: 20,
+        paddingLeft: 10,
+        paddingTop: 10,
         marginBottom: 20,
-        marginTop: 0,
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        height: 40
     },
     icon_search : {
-        width: 25,
-        height: 25
+        width: 15,
+        height: 15
     },
     input_search : {
-        fontSize: 20,
-        marginLeft: 20
-    }
+        fontSize: 16,
+        marginLeft: 20,
+        position: 'relative',
+        bottom: 5
+    },
 })

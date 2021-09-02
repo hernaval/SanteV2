@@ -37,15 +37,17 @@ export default class FirstPage extends React.Component {
                 (this.state.showMenu && (
                     <View style={styles.float_menu}>
                         <View style={styles.contain_close}>
+                            <Text style={styles.menu_title}>MENU</Text>
                             <TouchableOpacity 
                             style={styles.close_menu}
                             onPress={() => this._clickMenu()}>
-                                <Text 
+                                <Image style={styles.icon_close}
+                                source={require("../../images/icons/cancel.png")} />
+                                {/* <Text 
                                 style={{color: 'red', fontSize: 20, fontWeight: 'bold', width: '100%', textAlign: 'center'}}>
-                                    X</Text>
+                                    X</Text> */}
                             </TouchableOpacity>
                         </View>
-                        <Text style={styles.menu_title}>MENU</Text>
                         <TouchableOpacity>
                             <Text style={styles.menu_text}>Qui sommes-nous ?</Text>
                         </TouchableOpacity>
@@ -66,7 +68,8 @@ export default class FirstPage extends React.Component {
                     <TouchableOpacity
                     style={styles.menu_img}
                     onPress={() => this._clickMenu()}>
-                        <Image 
+                        <Image
+                        style={{width: 20, height: 20}}
                         source={require("../../images/icons/burger.png")} />
                     </TouchableOpacity>
                 </View>
@@ -88,7 +91,7 @@ export default class FirstPage extends React.Component {
                     </TouchableOpacity>
                 </View>
 
-                <View>
+                <View style={{flex: 1, justifyContent: 'flex-end'}}>
                     <Text style={styles.bottom_contain}>Best4Santé</Text>
                 </View>
             </View>
@@ -108,30 +111,31 @@ const styles = StyleSheet.create({
         width: wp("100%")
     },
     menu_img : {
-        width: 40,
-        height: 40,
+        width: 20,
+        height: 20,
         position: 'absolute',
         right: 20,
-        top: 60
+        top: 10
     },
     contain_text : {
-        flex: 2,
-        alignItems: 'center'
+        flex: 10,
+        alignItems: 'center',
+        justifyContent: 'flex-start'
     },  
     logo : {
-        width: 150,
-        height: 150,
-        marginTop: -100,
-        marginBottom: 30
+        width: 100,
+        height: 100,
+        marginTop: 0
     },
     main_text : {
         fontWeight: 'bold',
-        marginTop: 50,
-        fontSize: 28
+        marginTop: 80,
+        marginBottom: 20,
+        fontSize: 20
     },
     btn_container : {
-        marginTop: 30,
-        height: 60,
+        marginTop: 20,
+        height: 50,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
     },
     text : {
         color: "#FFF",
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold'
     },
     bottom_contain : {
@@ -158,38 +162,44 @@ const styles = StyleSheet.create({
     float_menu : {
         position: 'absolute',
         zIndex: 10,
-        top: 40,
-        backgroundColor: '#fbfafa',
+        top: 10,
+        backgroundColor: '#FFFF',
         paddingTop: 20,
         paddingRight: 20,
         paddingBottom: 20,
-        paddingLeft: 60,
+        paddingLeft: 30,
         borderRadius: 5,
-        right: 20,
+        right: 10,
         width: wp('90%')
     },
     contain_close : {
         flex: 1,
-        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        zIndex: 100,
+        flexDirection: 'row',
+        width: '100%'
     },
     close_menu : {
         color: 'red',
-        fontSize: 20,
-        backgroundColor: 'white',
-        width: 40,
-        height: 40,
+        fontSize: 10,
+        width: 20,
+        height: 20,
         borderRadius: 20,
-        textAlign: 'center',
-        flex: 1,
-        justifyContent: 'center'
+        // textAlign: 'center',
+        // flex: 1,
+        // justifyContent: 'center'
     },
+    icon_close : {
+        width: 20,
+        height: 20,
+    },  
     menu_title : {
-        fontSize: 25,
-        marginBottom: 30
+        fontSize: 20,
+        marginBottom: 10
     },
     menu_text : {
-        fontSize: 20,
-        marginBottom: 30,
+        fontSize: 16,
+        marginBottom: 10,
         flexWrap: 'wrap'
     }
 })

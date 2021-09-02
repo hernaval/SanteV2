@@ -23,7 +23,7 @@ export class HeaderRouteProSante extends Component {
             <View style={styles.main_header}>
                 <View>
                     <TouchableOpacity style={{padding: 10,}}  onPress={() => this._back()}>
-                        <Image
+                        <Image style={{height: 8, width: 20, position: 'relative', bottom: 5}}
                         source={require('./../../../images/icons/Retour.png')}/>
                     </TouchableOpacity>
                 </View>
@@ -34,7 +34,7 @@ export class HeaderRouteProSante extends Component {
                 </View>
                 <View>
                     <TouchableOpacity onPress={() => this._clickMenu()}>
-                        <Image
+                        <Image style={{height: 20, width: 20, top: 5, position: 'relative'}}
                         source={require('./../../../images/icons/burger.png')}/>
                     </TouchableOpacity>
                 </View>
@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 60,
-        marginLeft: 30,
-        marginRight: 30
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10
     },
     title_header : {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold'
     }
 })

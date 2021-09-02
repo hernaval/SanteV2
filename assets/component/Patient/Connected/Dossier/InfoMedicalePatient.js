@@ -54,7 +54,7 @@ export class InfoMedicalePatient extends Component {
 
 const styles = StyleSheet.create({
     main : {
-        marginTop: 60,
+        marginTop: 30,
         marginLeft: 30,
         marginRight: 30
     },
@@ -62,24 +62,24 @@ const styles = StyleSheet.create({
         height: hp('60%')
     },
     main_title : {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 20
+        marginBottom: 10
     },
     block : {
         backgroundColor: 'white',
         display: 'flex',
         flexDirection: 'column',
         borderRadius: 5,
-        padding: 20,
-        marginBottom: 30
-    },
-    block_title : {
-        fontSize: 20,
+        padding: 15,
         marginBottom: 10
     },
-    block_value : {
+    block_title : {
         fontSize: 18,
+        marginBottom: 5
+    },
+    block_value : {
+        fontSize: 16,
         color: 'grey'
     },
     spacer: {

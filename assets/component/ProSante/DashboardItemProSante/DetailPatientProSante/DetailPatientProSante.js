@@ -88,7 +88,7 @@ export default class DetailPatientProSante extends React.Component {
                 <HeaderRouteProSante title="Mes patients" 
                 navigation={this.props.navigation} backRoute="PatientProSante"/>
 
-                <ScrollView style={{height: hp('90%'), marginTop: 20}}>
+                <ScrollView style={{height: hp('90%'), marginTop: 0}}>
                 <View style={styles.main_contain}>
                     <View style={styles.block}>
                     <View style={[styles.block_icon]}>
@@ -99,7 +99,7 @@ export default class DetailPatientProSante extends React.Component {
                             <Text style={styles.title_doc}>{this.state.patient.name}</Text>
                         </View>
                         <View style={styles.block_detail}>
-                            <Text style={{fontSize: 18}}>{this.state.patient.description}</Text>
+                            <Text style={{fontSize: 16}}>{this.state.patient.description}</Text>
                         </View> 
                     </View>
                     </View>
@@ -107,7 +107,7 @@ export default class DetailPatientProSante extends React.Component {
 
                 <FlatList
                 horizontal
-                style={{marginTop: 50, marginLeft: 30, marginRight: 30}}
+                style={{marginTop: 10, marginLeft: 15, marginRight: 15}}
                 data={this.state.data}
                 renderItem={({ item: rowData }) => {
                 return (
@@ -157,34 +157,34 @@ const styles = StyleSheet.create({
 
     },
     block : {
-        marginTop: 30,
+        marginTop: 10,
         height: 90,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         padding: 15,
         borderRadius: 10,
-        marginLeft: 20,
-        marginRight: 20
+        marginLeft: 5,
+        marginRight: 10
     },
     block_icon : {
-        width: 60,
-        height: 60,
+        width: 30,
+        height: 30,
         borderRadius: 50,
         display: 'flex',
         justifyContent: 'center',
-        backgroundColor: '#FFFBCD',
+        // backgroundColor: '#FFFBCD',
         alignItems: 'center'
     },
     icon_img : {
-        width: 60,
-        height: 60
+        width: 40,
+        height: 40
     },
     block_description : {
         marginLeft: 25
     },
     title_doc : {
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold'
     },
     block_detail : {
@@ -192,13 +192,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: wp('70%'),
-        marginTop: 10
+        marginTop: 5
     },
     card_scroll : {
-        height: 190,
-        width: 200,
+        height: 130,
+        width: 150,
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 5,
         marginRight: 10,
         display: 'flex',
         flexDirection: 'column',
@@ -207,25 +207,27 @@ const styles = StyleSheet.create({
     },
     card_contain_img : {
         backgroundColor: '#00C1B4',
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         borderRadius: 50,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         position: 'absolute',
-        top: 30
+        top: 20
     },
     card_img : {
-        width: 30,
-        height: 30
+        width: 18,
+        height: 20
     },
     card_title : {
-        fontSize: 20,
+        fontSize: 16,
         color: 'black',
-        fontWeight: 'bold',
+        fontWeight: '500',
         textAlign: 'center',
-        marginTop: 70
+        marginTop: 50,
+        paddingLeft: 10,
+        paddingRight: 10
     },
     spacer: {
         height: hp('15%')

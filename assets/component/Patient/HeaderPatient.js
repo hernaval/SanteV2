@@ -18,14 +18,14 @@ export class HeaderPatient extends Component {
         return(
             <View style={styles.main_header}>
                 <View>
-                    <TouchableOpacity onPress={() => this._back()}>
-                        <Image
+                    <TouchableOpacity onPress={() => this._back()} style={{padding: 10}}>
+                        <Image style={{height: 8, width: 20, position: 'relative', bottom: 5}}
                         source={require('./../../images/icons/Retour.png')}/>
                     </TouchableOpacity>
                 </View>
                 <View>
                     <TouchableOpacity onPress={() => this._clickMenu()}>
-                        <Image
+                        <Image style={{height: 20, width: 20}}
                         source={require('./../../images/icons/burger.png')}/>
                     </TouchableOpacity>
                 </View>
@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 60,
-        marginLeft: 30,
-        marginRight: 30
+        marginTop: 10,
+        marginLeft: 5,
+        marginRight: 15
     }
 })

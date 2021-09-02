@@ -39,9 +39,13 @@ class InscriptionPatient extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
-                <HeaderPatient navigation={this.props.navigation}/>
 
-                <ScrollView>
+                <View style={{position: 'absolute', top: 0, width: wp('100%')}}>
+                    <HeaderPatient navigation={this.props.navigation}/>
+                </View>
+
+                <View style={{marginTop: 50}}>
+                    <ScrollView>
                     <View style={styles.contain_logo}>
                         <Image 
                         style={styles.logo}
@@ -53,7 +57,7 @@ class InscriptionPatient extends React.Component {
 
                         <View style={styles.main_input}>
                             <Image 
-                            style={styles.icon_input}
+                            style={styles.icon_input_user}
                             source={require("../../images/icons/Mon-compte.png")} />
                             <TextInput style={styles.txt_input}
                             autoCapitalize="none"
@@ -65,7 +69,7 @@ class InscriptionPatient extends React.Component {
 
                         <View style={styles.main_input}>
                             <Image 
-                            style={styles.icon_input}
+                            style={styles.icon_input_user}
                             source={require("../../images/icons/Mon-compte.png")} />
                             <TextInput style={styles.txt_input}
                             autoCapitalize="none"
@@ -106,7 +110,7 @@ class InscriptionPatient extends React.Component {
                             checked={this.state.checked} 
                             checkedColor='#00C1B4'
                             uncheckedColor= '#00C1B4'
-                            size={35}
+                            size={20}
                             onPress={() => this._check()} />
                             <Text style={styles.checkbox_text}>
                                 J'accepte la politique
@@ -135,10 +139,11 @@ class InscriptionPatient extends React.Component {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-
-                        <View style={styles.space}></View>
+                        {/* <View style={styles.space}></View> */}
                     </View>
-                </ScrollView>
+                    </ScrollView>
+                </View>
+
             </View>
         )
     }
@@ -146,7 +151,7 @@ class InscriptionPatient extends React.Component {
 
 const styles = StyleSheet.create({
     space : {
-        height: hp('12%')
+        height: hp('5%')
     },
     main : {
         marginTop: 20,
@@ -154,12 +159,11 @@ const styles = StyleSheet.create({
     },
     contain_logo : {
         display: 'flex',
-        alignItems: 'center',
-        marginTop: 80
+        alignItems: 'center'
     },  
     logo : {
-        width: 150,
-        height: 150
+        width: 100,
+        height: 100
     },
     main_scroll : {
         flex: 1,
@@ -168,60 +172,65 @@ const styles = StyleSheet.create({
     txt : {
         fontWeight: 'bold',
         marginTop: 50,
-        fontSize: 28
+        fontSize: 20
     },
     main_input : {
         display: 'flex',
         flexDirection: 'row',
         width: wp('90%'),
         backgroundColor: 'white',
-        height: 70,
+        height: 45,
         marginTop: 25,
         alignItems: 'center',
-        borderRadius: 10,
+        borderRadius: 5,
         paddingLeft: 20,
         paddingRight: 20
     },
+    icon_input_user : {
+        marginRight: 20,
+        width: 17,
+        height: 20
+    },
     icon_input : {
         marginRight: 20,
-        width: 25,
-        height: 31
+        width: 15,
+        height: 20
     },
     icon_mail : {
         marginRight: 20,
-        width: 25,
-        height: 20,
+        width: 20,
+        height: 15,
         position: 'relative',
         top: 3
     },
     txt_input : {
-        fontSize: 20,
+        fontSize: 16,
         position: 'relative',
         top: 3
     },
     checkBox: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 20,
+        marginTop: 5,
         width: wp('90%'),
         marginLeft: -30
     },
     checkbox_text : {
-        fontSize: 20,
+        fontSize: 16,
         position: 'relative',
-        top: 17
+        top: 15
     },
     checkbox_po : {
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold',
         color: '#00C1B4',
         marginLeft: 10,
         position: 'relative',
-        top: 17
+        top: 16
     },
     btn_connexion: {
-        marginTop: 20,
-        height: 70,
+        marginTop: 15,
+        height: 45,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -234,20 +243,22 @@ const styles = StyleSheet.create({
     txt_connexion : {
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 20
+        fontSize: 16
     },
     switch_cnx : {
+        // flex: 1,
         display : 'flex',
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'center',
-        marginTop: 60
+        marginBottom: 30,
+        marginTop: 50
     },
     txt_other : {
-        fontSize: 20
+        fontSize: 16
     },
     se_connecter : {
-        fontSize: 20,
+        fontSize: 16,
         marginLeft: 10,
         color: '#00C1B4',   
         fontWeight: 'bold'

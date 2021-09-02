@@ -28,10 +28,12 @@ class ConnexionPatient extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
+                <View style={{position: 'absolute', top: 0, width: wp('100%')}}>
+                    <HeaderPatient navigation={this.props.navigation}/>
+                </View>
 
-                <HeaderPatient navigation={this.props.navigation}/>
-
-                <ScrollView>
+                <View style={{marginTop: 50, justifyContent: 'flex-start'}}>
+                    <ScrollView>
                     <View style={styles.contain_logo}>
                         <Image 
                         style={styles.logo}
@@ -75,27 +77,74 @@ class ConnexionPatient extends React.Component {
                             </Text>
                         </TouchableOpacity>
 
-                        <View style={styles.switch_cnx}>
-                            <Text style={styles.txt_other}>
-                                Pas encore de compte ?
-                            </Text>
-                            <TouchableOpacity
-                            onPress={() => this._goToSignUp()}>
-                                <Text style={styles.se_connecter}>
-                                    S' inscrire
-                                </Text>
-                            </TouchableOpacity>
+                        <View style={styles.contain_other}>
+                            <Text style={styles.txt_forgot}>Mot de passe oublié</Text>
                         </View>
 
-                        <View style={styles.space}></View>
+                        <View style={styles.other_connexion}>
+                            <View style={styles.contain_icon}>
+                            <Image 
+                                style={styles.icon_other_fb}
+                                source={require("../../images/icons/facebook-app-symbol.png")} />
+                            </View>
+                            <View style={styles.contain_icon}>
+                            <Image 
+                                style={styles.icon_other_gl}
+                                source={require("../../images/icons/google-plus.png")} />
+                            </View>
+                        </View>
+                        
+                        
+                        <View style={styles.switch_cnx}>
+                                    <Text style={styles.txt_other}>
+                                        Pas encore de compte ?
+                                    </Text>
+                                    <TouchableOpacity
+                                    onPress={() => this._goToSignUp()}>
+                                        <Text style={styles.se_connecter}>
+                                            S' inscrire
+                                        </Text>
+                                    </TouchableOpacity>
+                        </View>
+                        {/* <View style={styles.space}></View> */}
                     </View>
-                </ScrollView>
+                    </ScrollView>
+                </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    other_connexion : {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 25
+    },
+    contain_icon : {
+        backgroundColor: 'white',
+        marginLeft: 10,
+        marginRight: 10,
+        padding: 10,
+        width: 40,
+        height: 40,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    icon_other_fb: {
+        height: 20,
+        width: 10
+    },
+    icon_other_gl: {
+        height: 23,
+        width: 23
+    },
+    txt_forgot: {
+        borderBottomColor: 'black',
+        borderBottomWidth: 1
+    },
     space : {
         height: hp('12%')
     },
@@ -105,12 +154,11 @@ const styles = StyleSheet.create({
     },
     contain_logo : {
         display: 'flex',
-        alignItems: 'center',
-        marginTop: 80
+        alignItems: 'center'
     },  
     logo : {
-        width: 150,
-        height: 150
+        width: 100,
+        height: 100
     },
     main_scroll : {
         flex: 1,
@@ -119,34 +167,34 @@ const styles = StyleSheet.create({
     txt : {
         fontWeight: 'bold',
         marginTop: 50,
-        fontSize: 28
+        fontSize: 20
     },
     main_input : {
         display: 'flex',
         flexDirection: 'row',
         width: wp('90%'),
         backgroundColor: 'white',
-        height: 70,
+        height: 45,
         marginTop: 25,
         alignItems: 'center',
-        borderRadius: 10,
+        borderRadius: 5,
         paddingLeft: 20,
         paddingRight: 20
     },
     icon_input : {
         marginRight: 20,
-        width: 25,
-        height: 31
+        width: 15,
+        height: 20
     },
     icon_mail : {
         marginRight: 20,
-        width: 25,
-        height: 20,
+        width: 20,
+        height: 15,
         position: 'relative',
         top: 3
     },
     txt_input : {
-        fontSize: 20,
+        fontSize: 16,
         position: 'relative',
         top: 3
     },
@@ -172,11 +220,11 @@ const styles = StyleSheet.create({
     },
     btn_connexion: {
         marginTop: 25,
-        height: 70,
+        height: 45,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 25,
         borderRadius: 10,
         textAlign: 'center',
         width: wp("90%"),
@@ -185,20 +233,22 @@ const styles = StyleSheet.create({
     txt_connexion : {
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 20
+        fontSize: 16
     },
     switch_cnx : {
+        // flex: 1,
         display : 'flex',
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'center',
-        marginTop: 60
+        marginBottom: 30,
+        marginTop: 50
     },
     txt_other : {
-        fontSize: 20
+        fontSize: 16
     },
     se_connecter : {
-        fontSize: 20,
+        fontSize: 16,
         marginLeft: 10,
         color: '#00C1B4',   
         fontWeight: 'bold'

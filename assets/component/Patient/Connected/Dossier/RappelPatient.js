@@ -88,17 +88,17 @@ export class RappelPatient extends Component {
 
 const styles = StyleSheet.create({
     main : {
-        marginTop: 60,
-        marginLeft: 30,
-        marginRight: 30
+        marginTop: 25,
+        marginLeft: 15,
+        marginRight: 15
     },
     scroll_view : {
         height: hp('60%')
     },
     main_title : {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 20
+        marginBottom: 10
     },
     block : {
         backgroundColor: '#fbfafa',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         borderRadius: 5,
         padding: 20,
-        marginBottom: 30
+        marginBottom: 20
     },
     spacer: {
         height: hp("12%"),
@@ -117,21 +117,23 @@ const styles = StyleSheet.create({
     },
     contain_img_rappel : {
         backgroundColor: '#FFF',
-        width: 45,
-        height: 45,
+        width: 20,
+        height: 20,
         borderRadius: 50,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
     },
     img_rappel : {
-        width: 25,
-        height: 25
+        width: 15,
+        height: 15
     },
     title_rappel: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginLeft: 30
+        marginLeft: 10,
+        flexWrap: 'wrap',
+        textAlign: 'center'
     },
     block_1 : {
         display: 'flex',
@@ -148,19 +150,18 @@ const styles = StyleSheet.create({
     block_2_ : {
         display: 'flex',
         flexDirection: 'row',
-        height: 30,
         justifyContent: 'center',
         alignItems: 'center'
     },
     text_block : {
         flexWrap: 'wrap',
-        fontSize: 18
+        fontSize: 12
     },
     text_detail_hour : {
-        marginLeft: 20,
-        marginRight: 20,
+        marginLeft: 8,
+        marginRight: 8,
         borderRightColor: '#00C1B4',
         borderRightWidth: 1,
-        paddingRight: 20
+        paddingRight: 5
     }
 })

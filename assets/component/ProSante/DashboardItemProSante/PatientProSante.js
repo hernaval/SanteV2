@@ -98,13 +98,13 @@ export default class PatientProSante extends React.Component {
                                         <Text style={styles.title_doc}>{list.name}</Text>
                                     </View>
                                     <View style={styles.block_detail}>
-                                        <Text>{list.description}</Text>
+                                        <Text style={{fontSize: 14}}>{list.description}</Text>
                                     </View> 
                                 </View>
                             </TouchableOpacity>
                         )
                     )}
-                    <View style={{height: hp('15%'), marginBottom: 10}}></View>
+                    <View style={{height: hp('5%'), marginBottom: 10}}></View>
                     </View>
                 </ScrollView>
                 </View>
@@ -118,61 +118,66 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     main_contain : {
-        marginTop: 40,
+        marginTop: 30,
         marginLeft: 30,
         marginRight: 30
     },
     contain_search : {
         backgroundColor: '#FFF',
-        borderRadius: 10,
-        padding: 20,
+        borderRadius: 5,
+        paddingLeft: 10,
+        paddingTop: 10,
         marginBottom: 20,
-        marginTop: 0,
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        height: 40
     },
     icon_search : {
-        width: 25,
-        height: 25
+        width: 15,
+        height: 15
     },
     input_search : {
-        fontSize: 20,
-        marginLeft: 20
+        fontSize: 16,
+        marginLeft: 20,
+        position: 'relative',
+        bottom: 5
     },
     main_title : {
-        fontSize: 23,
+        fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 20,
-        marginTop: 30
+        marginTop: 10
     },
     block : {
         marginBottom: 20,
-        height: 100,
+        minHeight: 80,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 15,
         backgroundColor: 'white',
-        borderRadius: 10
+        borderRadius: 5
     },
     block_icon : {
-        width: 60,
-        height: 60,
+        width: 30,
+        height: 30,
         borderRadius: 50,
-        backgroundColor: '#FFFBCD',
+        // backgroundColor: '#FFFBCD',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
     },
     icon_img : {
-        width: 60,
-        height: 60
+        width: 40,
+        height: 40
     },
     block_description : {
-        marginLeft: 25
+        marginLeft: 20
     },
     title_doc : {
-        fontSize: 23,
+        fontSize: 20,
         fontWeight: 'normal'
     },
     block_detail : {
@@ -180,6 +185,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: wp('70%'),
-        marginTop: 10
+        marginTop: 3
     },
 })

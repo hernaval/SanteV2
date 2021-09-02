@@ -55,7 +55,7 @@ export class CompteRenduVisitePatient extends Component {
                         )
                     ) }
 
-                    <View style={{height: hp('15%'), marginBottom: 10}}></View>
+                    <View style={{height: hp('5%'), marginBottom: 10}}></View>
                 </View>
                 </ScrollView>
 
@@ -66,17 +66,17 @@ export class CompteRenduVisitePatient extends Component {
 
 const styles = StyleSheet.create({
     main : {
-        marginTop: 60,
-        marginLeft: 30,
-        marginRight: 30
+        marginTop: 25,
+        marginLeft: 15,
+        marginRight: 15
     },
     scroll_view : {
         height: hp('60%')
     },
     main_title : {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 20
+        marginBottom: 10
     },
     block : {
         backgroundColor: 'white',
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     block_title : {
-        fontSize: 20,
+        fontSize: 18,
         marginBottom: 10
     },
     contain_block_value : {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },  
     block_value : {
-        fontSize: 18,
+        fontSize: 14,
         color: 'grey'
     },
     spacer: {

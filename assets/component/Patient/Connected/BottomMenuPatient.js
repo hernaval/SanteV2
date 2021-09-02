@@ -39,7 +39,7 @@ export class BottomMenuPatient extends Component {
                     <TouchableOpacity 
                     style={styles.touch_bottom}
                     onPress={() => {this._changeTab()}}>
-                        <Image style={styles.img_bottom}
+                        <Image style={[styles.img_bottom, {width: 20}]}
                         source={require("../../../images/icons/messenger.png")}/>
                     </TouchableOpacity>
                 </View>
@@ -47,7 +47,7 @@ export class BottomMenuPatient extends Component {
                     <TouchableOpacity 
                     style={styles.touch_bottom}
                     onPress={() => {this._changeTab()}}>
-                        <Image style={styles.img_bottom}
+                        <Image style={[styles.img_bottom, {width: 20}]}
                         source={require("../../../images/icons/notification.png")}/>
                     </TouchableOpacity>
                 </View>
@@ -76,18 +76,18 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 30,
-        paddingRight: 30
+        paddingLeft: 20,
+        paddingRight: 20
     },
     touch_bottom : {
         margin: 10
     },
     img_bottom : {
-        width: 33,
-        height: 35
+        width: 17,
+        height: 19
     },
     img_bottom_favoris : {
-        width: 40,
-        height: 35
+        width: 20,
+        height: 18
     } 
 })

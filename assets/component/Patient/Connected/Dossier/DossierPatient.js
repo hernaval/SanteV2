@@ -81,7 +81,7 @@ export default class DossierPatient extends React.Component {
 
                 <FlatList
                 horizontal
-                style={{marginTop: 50, marginLeft: 30, marginRight: 30}}
+                style={{marginTop: 20, marginLeft: 20, marginRight: 20}}
                 data={this.state.data}
                 renderItem={({ item: rowData }) => {
                 return (
@@ -139,10 +139,10 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     card_scroll : {
-        height: 190,
-        width: 200,
+        height: 130,
+        width: 150,
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 5,
         marginRight: 10,
         display: 'flex',
         flexDirection: 'column',
@@ -151,24 +151,26 @@ const styles = StyleSheet.create({
     },
     card_contain_img : {
         backgroundColor: '#00C1B4',
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         borderRadius: 50,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         position: 'absolute',
-        top: 30
+        top: 20
     },
     card_img : {
-        width: 30,
-        height: 30
+        width: 18,
+        height: 20
     },
     card_title : {
-        fontSize: 20,
+        fontSize: 16,
         color: 'black',
-        fontWeight: 'bold',
+        fontWeight: '500',
         textAlign: 'center',
-        marginTop: 70
+        marginTop: 50,
+        paddingLeft: 10,
+        paddingRight: 10
     }
 })
