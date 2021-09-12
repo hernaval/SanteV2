@@ -23,7 +23,7 @@ export class HeaderRoutePatient extends Component {
             <View style={styles.main_header}>
                 <View>
                     <TouchableOpacity style={{padding: 10,}}  onPress={() => this._back()}>
-                        <Image style={{height: 8, width: 20, position: 'relative', bottom: 5}}
+                        <Image style={{height: 8, width: 20, position: 'relative', bottom: 2}}
                         source={require('./../../../images/icons/Retour.png')}/>
                     </TouchableOpacity>
                 </View>

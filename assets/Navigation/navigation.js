@@ -83,6 +83,18 @@ import PatientProSante from '../component/ProSante/DashboardItemProSante/Patient
 import DetailPatientProSante from '../component/ProSante/DashboardItemProSante/DetailPatientProSante/DetailPatientProSante'
 import RendezVousProSante from '../component/ProSante/DashboardItemProSante/RendezVousProSante'
 import DetailPassSanitaire from '../component/Patient/Connected/Document/DetailPassSanitaire/DetailPassSanitaire'
+import EspaceBienEtrePatient from '../component/Patient/Connected/EspaceBienEtre/EspaceBienEtrePatient'
+import ProfilEspaceBienEtrePatient from '../component/Patient/Connected/EspaceBienEtre/ProfilEspaceBienEtrePatient/ProfilEspaceBienEtrePatient'
+import AlimentationEspaceBienEtrePatient from '../component/Patient/Connected/EspaceBienEtre/AlimentationEspaceBienEtrePatient/AlimentationEspaceBienEtrePatient'
+import EnTempsDePreparationPatient from '../component/Patient/Connected/EspaceBienEtre/AlimentationEspaceBienEtrePatient/EnTempsDePreparationPatient'
+import DeSaisonsPatient from '../component/Patient/Connected/EspaceBienEtre/AlimentationEspaceBienEtrePatient/DeSaisonsPatient'
+import DansMonFrigoPatient from '../component/Patient/Connected/EspaceBienEtre/AlimentationEspaceBienEtrePatient/DansMonFrigoPatient'
+import ParRepasPatient from '../component/Patient/Connected/EspaceBienEtre/AlimentationEspaceBienEtrePatient/ParRepasPatient'
+import FormeEspaceBienEtrePatient from '../component/Patient/Connected/EspaceBienEtre/FormeEspaceBienEtrePatient/FormeEspaceBienEtrePatient'
+import TestObservationAlimentationPatient from '../component/Patient/Connected/EspaceBienEtre/AlimentationEspaceBienEtrePatient/TestObservationAlimentationPatient'
+import RdvEtTeleconsultationPatient from '../component/Patient/Connected/RdvEtTeleconsultation/RdvEtTeleconsultationPatient'
+import ValiderRdvEtTeleconsultationPatient from '../component/Patient/Connected/RdvEtTeleconsultation/ValiderRdvEtTeleconsultationPatient'
+import UrgencePatient from '../component/Patient/Connected/Urgence/UrgencePatient'
 
 const NavigationBest4Sante = createStackNavigator(
     { 
@@ -126,6 +138,78 @@ const NavigationBest4Sante = createStackNavigator(
             screen: DetailPassSanitaire,
             navigationOption: {
                 title: 'DetailPassSanitaire'
+            }
+        },
+        RdvEtTeleconsultationPatient : {
+            screen: RdvEtTeleconsultationPatient,
+            navigationOption: {
+                title: 'RdvEtTeleconsultationPatient'
+            }
+        },
+        UrgencePatient : {
+            screen: UrgencePatient,
+            navigationOption: {
+                title: 'UrgencePatient'
+            }
+        },
+        ValiderRdvEtTeleconsultationPatient : {
+            screen: ValiderRdvEtTeleconsultationPatient,
+            navigationOption: {
+                title: 'ValiderRdvEtTeleconsultationPatient'
+            }
+        },
+        EspaceBienEtrePatient : {
+            screen: EspaceBienEtrePatient,
+            navigationOption: {
+                title: 'EspaceBienEtrePatient'
+            }
+        },
+        ProfilEspaceBienEtrePatient : {
+            screen: ProfilEspaceBienEtrePatient,
+            navigationOption: {
+                title: 'ProfilEspaceBienEtrePatient'
+            }
+        },
+        FormeEspaceBienEtrePatient : {
+            screen: FormeEspaceBienEtrePatient,
+            navigationOption: {
+                title: 'FormeEspaceBienEtrePatient'
+            }
+        },
+        AlimentationEspaceBienEtrePatient : {
+            screen: AlimentationEspaceBienEtrePatient,
+            navigationOption: {
+                title: 'AlimentationEspaceBienEtrePatient'
+            }
+        },
+        TestObservationAlimentationPatient : {
+            screen: TestObservationAlimentationPatient,
+            navigationOption: {
+                title: 'TestObservationAlimentationPatient'
+            }
+        },
+        EnTempsDePreparationPatient : {
+            screen: EnTempsDePreparationPatient,
+            navigationOption: {
+                title: 'EnTempsDePreparationPatient'
+            }
+        },
+        DeSaisonsPatient : {
+            screen: DeSaisonsPatient,
+            navigationOption: {
+                title: 'DeSaisonsPatient'
+            }
+        },
+        DansMonFrigoPatient : {
+            screen: DansMonFrigoPatient,
+            navigationOption: {
+                title: 'DansMonFrigoPatient'
+            }
+        },
+        ParRepasPatient : {
+            screen: ParRepasPatient,
+            navigationOption: {
+                title: 'ParRepasPatient'
             }
         },
         DashboardPatient: {

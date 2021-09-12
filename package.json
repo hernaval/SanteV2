@@ -34,6 +34,7 @@
     "expo-permissions": "~12.1.1",
     "expo-sharing": "~9.2.1",
     "expo-task-manager": "~9.2.2",
+    "expo-chart-kit": "~1.2.4",
     "firebase": "8.2.3",
     "moment": "^2.26.0",
     "native-base": "2.12.1",

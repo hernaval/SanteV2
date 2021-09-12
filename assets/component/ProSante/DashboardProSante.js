@@ -136,12 +136,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fbfafa',
         padding: 20,
         borderRadius: 10,
-        width: wp('87%'),
+        width: '100%',
         minHeight: 130,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 50
+        marginRight: 20
     },
     icon_menu : {
         backgroundColor: "#00C1B4",

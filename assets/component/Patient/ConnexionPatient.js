@@ -32,7 +32,7 @@ class ConnexionPatient extends React.Component {
                     <HeaderPatient navigation={this.props.navigation}/>
                 </View>
 
-                <View style={{marginTop: 50, justifyContent: 'flex-start'}}>
+                <View style={{marginTop: 50, justifyContent: 'center'}}>
                     <ScrollView>
                     <View style={styles.contain_logo}>
                         <Image 

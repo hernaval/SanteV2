@@ -114,13 +114,14 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
         position: 'absolute',
-        right: 20,
+        right: 20, 
         top: 10
     },
     contain_text : {
         flex: 10,
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'center',
+        height: '100%',
     },  
     logo : {
         width: 100,

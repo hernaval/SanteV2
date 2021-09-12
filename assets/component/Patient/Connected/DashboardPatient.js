@@ -30,7 +30,7 @@ export default class DashboardPatient extends React.Component {
                 <HeaderPatientConnected navigation={this.props.navigation}/>
 
                 <ScrollView style={styles.main_scroll}> 
-                <WelcomeProSante/>
+                <WelcomeProSante/> 
                 <View style={styles.main_dashboard}>
                     <TouchableOpacity 
                     style={styles.card_menu}
@@ -60,7 +60,7 @@ export default class DashboardPatient extends React.Component {
                 <View style={[styles.main_dashboard]}>
                     <TouchableOpacity 
                     style={styles.card_menu}
-                    onPress={() => this._pressMenu(null)}>
+                    onPress={() => this._pressMenu('EspaceBienEtrePatient')}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
                             source={require("../../../images/icons/Mo-espace-bien-être.png")}/>
@@ -72,7 +72,7 @@ export default class DashboardPatient extends React.Component {
 
                     <TouchableOpacity 
                     style={styles.card_menu}
-                    onPress={() => this._pressMenu(null)}>
+                    onPress={() => this._pressMenu('RdvEtTeleconsultationPatient')}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
                             source={require("../../../images/icons/Rdv-et-téléconsultations.png")}/>
@@ -98,7 +98,7 @@ export default class DashboardPatient extends React.Component {
 
                     <TouchableOpacity 
                     style={styles.card_menu}
-                    onPress={() => this._pressMenu(null)}>
+                    onPress={() => this._pressMenu('UrgencePatient')}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
                             source={require("../../../images/icons/Urgences.png")}/>
