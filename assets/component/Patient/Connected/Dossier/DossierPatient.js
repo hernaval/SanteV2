@@ -17,19 +17,19 @@ const data = [
     {
       imageUrl: require('../../../../images/icons/dossiers/Comptes-rendus-de-mes-visites1.png'),
       imageSecond : require('../../../../images/icons/dossiers/Comptes-rendus-de-mes-visites2.png'),
-      title: "Comptes rendus de mes visites",
+      title: "Reports of my visits",
       order: 1
     },
     {
       imageUrl: require('../../../../images/icons/dossiers/Rappels1.png'),
       imageSecond: require('../../../../images/icons/dossiers/Rappels2.png'),
-      title: "Rappels",
+      title: "Reminders",
       order: 2
     },
     {
         imageUrl: require('../../../../images/icons/dossiers/Informations-médicales2.png'),
         imageSecond: require('../../../../images/icons/dossiers/Informations-médicales1.png'),
-        title: "Informations médicales",
+        title: "Medical informations",
         order: 3
     }
   ];
@@ -77,7 +77,7 @@ export default class DossierPatient extends React.Component {
 
                 <FloatButtonDossier/>
 
-                <HeaderRoutePatient navigation={this.props.navigation} title="Mon dossier"/>
+                <HeaderRoutePatient navigation={this.props.navigation} title="My file"/>
 
                 <FlatList
                 horizontal

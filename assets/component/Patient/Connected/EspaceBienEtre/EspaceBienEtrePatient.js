@@ -23,7 +23,7 @@ export default class EspaceBienEtrePatient extends React.Component {
         return (
             <View style={styles.main}>
                 <Background/>
-                <HeaderRoutePatient navigation={this.props.navigation} title="Mon espace bien-être"/>
+                <HeaderRoutePatient navigation={this.props.navigation} title="My wellness space"/>
                 <ScrollView>
                 <TouchableOpacity 
                 style={[styles.block, styles.block_1]}
@@ -32,7 +32,7 @@ export default class EspaceBienEtrePatient extends React.Component {
                     style={{width: '100%', height: '100%', position: 'absolute', opacity: 0.7}}
                     source={require('./../../../../images/espace_bien_etre/waist-up-portrait-of-handsome-serious-unshaven-male-keeps-hands-together-dressed-in-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer.jpg')}>
                     </ImageBackground>
-                    <Text style={styles.block_title}>Mon profil</Text>    
+                    <Text style={styles.block_title}>My profile</Text>    
                 </TouchableOpacity>
 
                 <TouchableOpacity 
@@ -42,7 +42,7 @@ export default class EspaceBienEtrePatient extends React.Component {
                     style={{width: '100%', height: '100%', position: 'absolute', opacity: 0.7}}
                     source={require('./../../../../images/espace_bien_etre/pexels-ella-olsson-1640777.jpg')}>
                     </ImageBackground>
-                    <Text style={styles.block_title}>Mon alimentation</Text>    
+                    <Text style={styles.block_title}>My diet</Text>    
                 </TouchableOpacity>
 
                 <TouchableOpacity 
@@ -52,7 +52,7 @@ export default class EspaceBienEtrePatient extends React.Component {
                     style={{width: '100%', height: '100%', position: 'absolute', opacity: 0.7}}
                     source={require('./../../../../images/espace_bien_etre/pexels-jonathan-borba-3076513.jpg')}>
                     </ImageBackground>
-                    <Text style={styles.block_title}>Ma forme</Text>    
+                    <Text style={styles.block_title}>My shape</Text>    
                 </TouchableOpacity>
 
                 <View style={{height: hp('10%')}}></View>

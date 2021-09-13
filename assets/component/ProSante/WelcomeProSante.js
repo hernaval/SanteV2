@@ -6,7 +6,7 @@ class WelcomeProSante extends Component {
     render() {
         return (
             <View style={styles.contain_welcome}>
-                <Text style={styles.text_welcome}>Bienvenue sur Best4Santé ! </Text>
+                <Text style={styles.text_welcome}>Welcome to Best4Santé ! </Text>
             </View>
         )
     }

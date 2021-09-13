@@ -16,15 +16,15 @@ const data = [
         illustration: require('./../../../../images/icons/urgences/Icone_Accident.png')
     },
     {
-        title: 'Malaise',
+        title: 'Faintness',
         illustration: require('./../../../../images/icons/urgences/Icone_Malaise.png')
     },
     {
-        title: 'Agression',
+        title: 'Aggression',
         illustration: require('./../../../../images/icons/urgences/Icone_Agression.png')
     },
     {
-        title: 'Détresse',
+        title: 'Distress',
         illustration: require('./../../../../images/icons/urgences/Détresse.png')
     }
 ]
@@ -42,7 +42,7 @@ export default class UrgencePatient extends React.Component{
             <View style={styles.main}>
                 <Background/>
                 <BottomMenuUrgencePatient/>
-                <HeaderRoutePatient navigation={this.props.navigation} title="Urgences"/>
+                <HeaderRoutePatient navigation={this.props.navigation} title="Emergency"/>
                 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20, marginTop: 20}}>
 

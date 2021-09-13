@@ -9,7 +9,7 @@ import {
 
 const data = [
     {
-        title: 'Groupe sanguin',
+        title: 'Blood type',
         value: 'B+'
     },
     {
@@ -17,7 +17,7 @@ const data = [
         value: 'Allergies'
     },
     {
-        title: 'Donneur(se) d\'organe',
+        title: 'Organ donor',
         value: 'Non'
     }
 ]
@@ -31,7 +31,7 @@ export class InfoMedicalePatient extends Component {
         return(
             <View style={styles.main}>
                 <ScrollView style={styles.scroll_view}>
-                <Text style={styles.main_title}>Tous</Text>
+                <Text style={styles.main_title}>All</Text>
 
                 <View style={styles.main_scroll}>
                     { data.map(

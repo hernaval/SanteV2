@@ -18,35 +18,36 @@ export default class RendezVousProSante extends React.Component {
                 {
                     id: 1,
                     name: 'Mr. Gregory Smith',
-                    motif: 'Contrôl médical',
+                    motif: 'Medical check',
                     profile: require('./../../../images/userIcon.png'),
-                    lieu: 'Centre Paris',
+                    lieu: 'Paris Center',
                     heure: '14h',
                     date: '10/01/2021'
                 },
                 {
                     id: 2,
                     name: 'Mr. Gregory Smith',
-                    motif: 'Contrôl médical',
+                    motif: 'Medical check',
                     profile: require('./../../../images/userIcon.png'),
-                    lieu: 'Centre Paris',
+                    lieu: 'Paris Center',
                     heure: '14h',
-                    date: '10/01/2021'                },
+                    date: '10/01/2021'                
+                },
                 {
                     id: 3,
                     name: 'Mr. Gregory Smith',
-                    motif: 'Contrôl médical',
+                    motif: 'Medical check',
                     profile: require('./../../../images/userIcon.png'),
-                    lieu: 'Centre Paris',
+                    lieu: 'Paris Center',
                     heure: '14h',
                     date: '10/01/2021'                
                 },
                 {
                     id: 4,
                     name: 'Mr. Gregory Smith',
-                    motif: 'Contrôl médical',
+                    motif: 'Medical check',
                     profile: require('./../../../images/userIcon.png'),
-                    lieu: 'Centre Paris',
+                    lieu: 'Paris Center',
                     heure: '14h',
                     date: '10/01/2021'                
                 },
@@ -79,7 +80,7 @@ export default class RendezVousProSante extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
-                <HeaderRouteProSante title="Rendez-vous" navigation={this.props.navigation}/>
+                <HeaderRouteProSante title="Appointment" navigation={this.props.navigation}/>
 
                 <View style={styles.main_contain}>
                     <View style={styles.contain_search}>
@@ -88,7 +89,7 @@ export default class RendezVousProSante extends React.Component {
                         source={require("../../../images/icons/documents/search-interface-symbol.png")}
                     />
                     <TextInput style={styles.input_search} 
-                    placeholder="Rechercher"
+                    placeholder="Search"
                     returnKeyType='search'
                     onChangeText={text => this._filterData(text)}/>
                     </View>
@@ -97,7 +98,7 @@ export default class RendezVousProSante extends React.Component {
                     {/* <Text style={styles.main_title}>Tous</Text> */}
 
                     <View style={styles.main_scroll}>
-                        <Text style={styles.txt_date}>Aujourd'hui</Text>
+                        <Text style={styles.txt_date}>Today</Text>
 
                     { this.state.data.map(
                         list => (

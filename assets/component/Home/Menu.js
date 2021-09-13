@@ -39,13 +39,13 @@ export default class Menu extends Component {
                         </View>
                         <Text style={styles.menu_title}>MENU</Text>
                         <TouchableOpacity>
-                            <Text style={styles.menu_text}>Qui sommes-nous ?</Text>
+                            <Text style={styles.menu_text}>Who are we ?</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Text style={styles.menu_text}>Notre engagement ethique des données</Text>
+                            <Text style={styles.menu_text}>Our ethical commitment to data</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Text style={styles.menu_text}>Nous contacter</Text>
+                            <Text style={styles.menu_text}>Contact us</Text>
                         </TouchableOpacity>
                     </View>
                     )

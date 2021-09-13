@@ -34,10 +34,10 @@ export class MeasureTestObservationPatient extends Component {
                 <View style={styles.main_1}>
                     <View style={styles.main_11}>
                         <Text style={styles.text_main}>11.1222</Text>
-                        <Text style={styles.text_main}>ALIMENTS</Text>
+                        <Text style={styles.text_main}>FOODS</Text>
                     </View>
                     <View style={styles.main_11}>
-                        <Text style={styles.text_main}>RESTANTES</Text>
+                        <Text style={styles.text_main}>REMAINING</Text>
                         <View style={[styles.contain_bar, {marginTop: 10}]}>
                             <View style={styles.bar_}></View>                            
                         </View>
@@ -45,27 +45,27 @@ export class MeasureTestObservationPatient extends Component {
                     </View>
                     <View style={styles.main_11}>
                         <Text style={styles.text_main}>11.000</Text>
-                        <Text style={styles.text_main}>EXERCICE</Text>
+                        <Text style={styles.text_main}>EXERCISE</Text>
                     </View>
                 </View>
 
                 <View style={styles.main_1}>
                     <View style={styles.main_11}>
-                        <Text style={styles.text_main}>GLUCIDES</Text>
+                        <Text style={styles.text_main}>CARBOHYDRATES</Text>
                         <View style={styles.contain_bar}>
                             <View style={styles.bar_}></View>                            
                         </View>
                         <Text style={styles.text_main}>145 / 250 g</Text>
                     </View>
                     <View style={styles.main_11}>
-                        <Text style={styles.text_main}>PROTEINES</Text>
+                        <Text style={styles.text_main}>PROTEINS</Text>
                         <View style={styles.contain_bar}>
                             <View style={styles.bar_}></View>                            
                         </View>
                         <Text style={styles.text_main}>145 / 250 g</Text>
                     </View>
                     <View style={styles.main_11}>
-                        <Text style={styles.text_main}>LIPIDES</Text>
+                        <Text style={styles.text_main}>LIPIDS</Text>
                         <View style={styles.contain_bar}>
                             <View style={styles.bar_}></View>                            
                         </View>

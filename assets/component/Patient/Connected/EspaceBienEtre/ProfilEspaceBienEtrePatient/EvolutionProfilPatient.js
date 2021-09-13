@@ -29,7 +29,7 @@ export class EvolutionProfilPatient extends Component {
                 <View>
                 <BarChart
                     data={{
-                    labels: ['Jan', 'Fev', 'Mar', 'Apr', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Dec'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
                         data: [
                         Math.random() * 100,

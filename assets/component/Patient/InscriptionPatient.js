@@ -53,7 +53,7 @@ class InscriptionPatient extends React.Component {
                     </View>
 
                     <View style={styles.main_scroll}>
-                        <Text style={styles.txt}>Inscription</Text>
+                        <Text style={styles.txt}>Registration</Text>
 
                         <View style={styles.main_input}>
                             <Image 
@@ -61,7 +61,7 @@ class InscriptionPatient extends React.Component {
                             source={require("../../images/icons/Mon-compte.png")} />
                             <TextInput style={styles.txt_input}
                             autoCapitalize="none"
-                            placeholder="Prénom"
+                            placeholder="First name"
                             returnKeyType="next"
                             ref={input => { this.lastName = input }}
                             />
@@ -73,7 +73,7 @@ class InscriptionPatient extends React.Component {
                             source={require("../../images/icons/Mon-compte.png")} />
                             <TextInput style={styles.txt_input}
                             autoCapitalize="none"
-                            placeholder="Nom"
+                            placeholder="Last name"
                             returnKeyType="next"
                             ref={input => { this.firstName = input }}
                             />
@@ -86,7 +86,7 @@ class InscriptionPatient extends React.Component {
                             <TextInput style={styles.txt_input}
                             autoCapitalize="none"
                             keyboardType="email-address"
-                            placeholder="Adresse e-mail"
+                            placeholder="E-mail adress"
                             returnKeyType="next"
                             ref={input => { this.email = input }}
                             />
@@ -99,7 +99,7 @@ class InscriptionPatient extends React.Component {
                             <TextInput style={styles.txt_input}
                             autoCapitalize="none"
                             secureTextEntry={true}
-                            placeholder="Mot de passe"
+                            placeholder="Password"
                             returnKeyType="done"
                             ref={input => { this.password = input }}
                             />
@@ -113,7 +113,7 @@ class InscriptionPatient extends React.Component {
                             size={20}
                             onPress={() => this._check()} />
                             <Text style={styles.checkbox_text}>
-                                J'accepte la politique
+                                I accept the policy
                             </Text>
                             <Text style={styles.checkbox_po}>
                                 RGPO
@@ -124,18 +124,18 @@ class InscriptionPatient extends React.Component {
                         style={styles.btn_connexion}
                         onPress={() => this._signUp()}>
                             <Text style={styles.txt_connexion}>
-                                S' inscrire
+                                Register
                             </Text>
                         </TouchableOpacity>
 
                         <View style={styles.switch_cnx}>
                             <Text style={styles.txt_other}>
-                                Vous avez déjà un compte ?
+                                Already have an account ?
                             </Text>
                             <TouchableOpacity
                             onPress={() => this._goToSignIn()}>
                                 <Text style={styles.se_connecter}>
-                                    Connexion
+                                    Log in
                                 </Text>
                             </TouchableOpacity>
                         </View>

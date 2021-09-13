@@ -19,7 +19,7 @@ const data = [
     },
     {
         illustration: require('./../../../../../images/espace_bien_etre/pexels-tina-nord-816377.jpg'),
-        title: "Méditation",
+        title: "Meditation",
     }
 ];
 
@@ -62,7 +62,7 @@ export default class FormeEspaceBienEtrePatient extends React.Component {
             <View style={styles.main}>
                 <Background/>
                 <HeaderRoutePatient navigation={this.props.navigation} 
-                title="Ma forme" backRoute="EspaceBienEtrePatient"/>
+                title="My shape" backRoute="EspaceBienEtrePatient"/>
             <ScrollView style={{height: hp('95%')}}>
                 <View style={styles.main_block}>
                 <ImageBackground
@@ -78,7 +78,7 @@ export default class FormeEspaceBienEtrePatient extends React.Component {
 
                 <View style={styles.block}>
                     <View style={styles.block_head}>
-                        <Text style={styles.block_head_title}>Me défouler</Text>
+                        <Text style={styles.block_head_title}>To let off steam</Text>
                         <Image
                         style={styles.img_arrow}
                         source={arrowRight}
@@ -101,7 +101,7 @@ export default class FormeEspaceBienEtrePatient extends React.Component {
 
                 <View style={styles.block}>
                     <View style={styles.block_head}>
-                        <Text style={styles.block_head_title}>Me renforcer</Text>
+                        <Text style={styles.block_head_title}>To strengthen me</Text>
                         <Image
                         style={styles.img_arrow}
                         source={arrowRight}
@@ -124,7 +124,7 @@ export default class FormeEspaceBienEtrePatient extends React.Component {
 
                 <View style={styles.block}>
                     <View style={styles.block_head}>
-                        <Text style={styles.block_head_title}>Me relaxer</Text>
+                        <Text style={styles.block_head_title}>To relax</Text>
                         <Image
                         style={styles.img_arrow}
                         source={arrowRight}
@@ -167,7 +167,7 @@ export default class FormeEspaceBienEtrePatient extends React.Component {
 
                 <View style={styles.block}>
                     <View style={styles.block_head}>
-                        <Text style={styles.block_head_title}>Podomètre</Text>
+                        <Text style={styles.block_head_title}>Pedometer</Text>
                         <Image
                         style={styles.img_arrow}
                         source={arrowRight}

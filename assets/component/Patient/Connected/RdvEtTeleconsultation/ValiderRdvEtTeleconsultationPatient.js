@@ -16,21 +16,21 @@ const profil = require('./../../../../images/medecin-generaliste.jpg')
 
 const data = [
     {
-        day: 'Mar.',
+        day: 'Tue.',
         date: '07/09',
         hours: [
             '10:00', '10:20', '10:40', '11:00'
         ]
     },
     {
-        day: 'Mer.',
+        day: 'Wed.',
         date: '08/09',
         hours: [
             '10:00', '10:20', '10:40'
         ]
     },
     {
-        day: 'Jeu.',
+        day: 'Thu.',
         date: '09/09',
         hours: []
     }
@@ -85,7 +85,7 @@ export default class ValiderRdvEtTeleconsultationPatient extends React.Component
                 <Background/>
                 <HeaderRoutePatient 
                 navigation={this.props.navigation} 
-                title="Rdv et téléconsultations"
+                title="Appointment and teleconsultations"
                 backRoute="RdvEtTeleconsultationPatient"/>
 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20}}>
@@ -97,7 +97,7 @@ export default class ValiderRdvEtTeleconsultationPatient extends React.Component
                             source={require("../../../../images/icons/documents/search-interface-symbol.png")}
                         />
                         <TextInput style={styles.input_search} 
-                        placeholder="Médecin généraliste"
+                        placeholder="General practitioner"
                         returnKeyType='search'
                         onChangeText={text => this._filterData(text)}/>
                         </View>
@@ -119,40 +119,40 @@ export default class ValiderRdvEtTeleconsultationPatient extends React.Component
                                             Dr Anaelle GUYOT
                                         </Text>
                                         <Text style={styles.speciality_doctor}>
-                                            Médecin généraliste
+                                        General practitioner
                                         </Text>
                                     </View>
                                 </View>
                             </View>
 
                             <View style={styles.block_doctor_2}>
-                                <Text style={styles.label_block_doctor_2}>Adresse :</Text>
+                                <Text style={styles.label_block_doctor_2}>Address :</Text>
                                 <Text style={styles.val__block_doctor_2}>
-                                    Centre de santé Assess Santé
+                                Assess Santé health center
                                 </Text>
                             </View>
 
                             <View style={styles.contain_choice}>
-                            <Text style={styles.label_choice}>Type de Rendez-vous</Text>
+                            <Text style={styles.label_choice}>Type of appointment</Text>
                             <RNPickerSelect
                                 placeholder={{}}
                                 style={styles.select}
                                 onValueChange={(value) => this._selectRendezVous(value)}
                                 items={[
-                                    { label: 'En video', value: 'En video' },
-                                    { label: 'En local', value: 'En local' },
+                                    { label: 'On video', value: 'On video' },
+                                    { label: 'Local', value: 'Local' },
                                 ]}
                             />
                             </View>
 
                             <View style={styles.contain_choice}>
-                            <Text style={styles.label_choice}>Motif de Rendez-vous</Text>
+                            <Text style={styles.label_choice}>Reason for appointment</Text>
                             <RNPickerSelect
                                 placeholder={{}}
                                 onValueChange={(value) => this._selectMotif(value)}
                                 items={[
-                                    { label: 'Téléconsultation générale', value: 'Téléconsultation générale' },
-                                    { label: 'Visite médicale', value: 'Visite médicale' },
+                                    { label: 'General teleconsultation', value: 'General teleconsultation' },
+                                    { label: 'Medical visit', value: 'Medical visit' },
                                 ]}
                             />
                             </View>
@@ -160,7 +160,7 @@ export default class ValiderRdvEtTeleconsultationPatient extends React.Component
                             <View style={styles.block_date_doctor}>
                                 <FontAwesomeIcon color="black" size={16} icon={faChevronLeft}/>
                                 <Text style={{fontSize: 16}}>
-                                    Du 7 au 9 septembre
+                                    September 7 to 9
                                 </Text>
                                 <FontAwesomeIcon color="black" size={16} icon={faChevronRight}/>
                             </View>
@@ -198,7 +198,7 @@ export default class ValiderRdvEtTeleconsultationPatient extends React.Component
 
                                     
                     <TouchableOpacity style={styles.btn_update}>
-                        <Text style={styles.txt_update}>Valider le rendez-vous</Text>
+                        <Text style={styles.txt_update}>Confirm the appointment</Text>
                     </TouchableOpacity>
 
                 </ScrollView>

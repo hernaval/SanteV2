@@ -15,7 +15,7 @@ export class PassSanitairePatient extends Component {
             data : [
                 {
                     id: 1,
-                    title: 'Certificat de vaccination COVID19',
+                    title: 'COVID-19 Vaccination certificate',
                     description: 'Lorem ipsum',
                     date: '10-08-21'
                 }
@@ -52,7 +52,7 @@ export class PassSanitairePatient extends Component {
         return(
             <View style={styles.main}>
                 <ScrollView style={styles.scroll_view}>
-                <Text style={styles.main_title}>Tous les pass sanitaire</Text>
+                <Text style={styles.main_title}>All Health pass</Text>
 
                 <View style={styles.contain_search}>
                 <Image

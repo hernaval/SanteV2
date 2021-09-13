@@ -14,25 +14,25 @@ const data = [
     {
       imageUrl: require('../../../../images/icons/documents/doc-medicaux1.png'),
       imageSecond : require('../../../../images/icons/documents/doc-medicaux2.png'),
-      title: "Dossier médical",
+      title: "Medical record",
       order: 1
     },
     {
       imageUrl: require('../../../../images/icons/documents/ordonnance1.png'),
       imageSecond: require('../../../../images/icons/documents/ordonnance2.png'),
-      title: "Résultats d\'examens",
+      title: "Exam results",
       order: 2
     },
     {
         imageUrl: require('../../../../images/icons/documents/pass-sanitaire1.png'),
         imageSecond: require('../../../../images/icons/documents/pass-sanitaire2.png'),
-        title: "Contrôle des prises en charge sanitaire",
+        title: "Control of health care",
         order: 3
     },
     {
         imageUrl: require('../../../../images/icons/documents/pass-sanitaire1.png'),
         imageSecond: require('../../../../images/icons/documents/pass-sanitaire2.png'),
-        title: "Gestion des documents",
+        title: "Document management",
         order: 4
     }
   ];
@@ -85,7 +85,7 @@ export default class DetailPatientProSante extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
-                <HeaderRouteProSante title="Mes patients" 
+                <HeaderRouteProSante title="My patients" 
                 navigation={this.props.navigation} backRoute="PatientProSante"/>
 
                 <ScrollView style={{height: hp('90%'), marginTop: 0}}>

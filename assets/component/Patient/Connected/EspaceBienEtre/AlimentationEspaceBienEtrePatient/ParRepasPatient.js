@@ -25,7 +25,7 @@ export default class ParRepasPatient extends React.Component {
             <View style={styles.main}>
                 <Background/>
                 <HeaderRoutePatient navigation={this.props.navigation} 
-                title="Par repas" backRoute="AlimentationEspaceBienEtrePatient"/>
+                title="Pe meal" backRoute="AlimentationEspaceBienEtrePatient"/>
 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20}}>
                 <View style={styles.contain_search}>
@@ -34,7 +34,7 @@ export default class ParRepasPatient extends React.Component {
                         source={require("../../../../../images/icons/documents/search-interface-symbol.png")}
                     />
                     <TextInput style={styles.input_search} 
-                    placeholder="Rechercher"
+                    placeholder="Search"
                     returnKeyType='search'
                     onChangeText={text => this._filterData(text)}/>
                 </View>
@@ -46,7 +46,7 @@ export default class ParRepasPatient extends React.Component {
                         source={require('./../../../../../images/espace_bien_etre/pexels-ponyo-sakana-3662126.jpg')}>
                         </ImageBackground>
                         <Text style={styles.text_block}>
-                            Soupe de goulasc
+                            Goulasc soup
                         </Text>
                     </View>
                     <View style={styles.inside_block}>
@@ -55,7 +55,7 @@ export default class ParRepasPatient extends React.Component {
                         source={require('./../../../../../images/espace_bien_etre/pexels-robin-stickel-70497.jpg')}>
                         </ImageBackground>
                         <Text style={styles.text_block}>
-                            Pizza Assiette
+                            Pizza dish
                         </Text>
                     </View>
                 </View>
@@ -67,7 +67,7 @@ export default class ParRepasPatient extends React.Component {
                         source={require('./../../../../../images/espace_bien_etre/pexels-ponyo-sakana-3662126.jpg')}>
                         </ImageBackground>
                         <Text style={styles.text_block}>
-                            Yaourt Fraise
+                            Strawberry yogurt
                         </Text>
                     </View>
                     <View style={styles.inside_block}>
@@ -76,7 +76,7 @@ export default class ParRepasPatient extends React.Component {
                         source={require('./../../../../../images/espace_bien_etre/pexels-alexander-mils-1149300.jpg')}>
                         </ImageBackground>
                         <Text style={styles.text_block}>
-                            Pate Pesto farfalle
+                            Farfalle Pesto Pasta
                         </Text>
                     </View>
                 </View>
@@ -88,7 +88,7 @@ export default class ParRepasPatient extends React.Component {
                         source={require('./../../../../../images/espace_bien_etre/pexels-ponyo-sakana-3662189.jpg')}>
                         </ImageBackground>
                         <Text style={styles.text_block}>
-                            Pain jambon Max Plus
+                            Max Plus Ham Bread
                         </Text>
                     </View>
                     <View style={styles.inside_block}>
@@ -97,7 +97,7 @@ export default class ParRepasPatient extends React.Component {
                         source={require('./../../../../../images/espace_bien_etre/pexels-vlad-bagacian-2267134.jpg')}>
                         </ImageBackground>
                         <Text style={styles.text_block}>
-                            Figure fromage Pain
+                            Figure Cheese Bread
                         </Text>
                     </View>
                 </View>

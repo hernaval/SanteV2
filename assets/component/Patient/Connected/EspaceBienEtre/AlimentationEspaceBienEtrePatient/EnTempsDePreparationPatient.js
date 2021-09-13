@@ -13,22 +13,22 @@ import { faArrowLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons'
 
 const data = [
     {
-        title : 'Soupe de goulasc',
+        title : 'Goulasc soup',
         time : '00 : 20 : 00',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
     },
     {
-        title : 'Soupe de goulasc',
+        title : 'Goulasc soup',
         time : '00 : 20 : 00',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
     },
     {
-        title : 'Pizza Assiette',
+        title : 'Pizza dish',
         time : '00 : 20 : 00',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
     },
     {
-        title : 'Pates pesto farfalle',
+        title : 'Farfalle pesto pasta',
         time : '00 : 20 : 00',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
     }
@@ -52,7 +52,7 @@ export default class EnTempsDePreparationPatient extends React.Component {
             <View style={styles.main}>
                 <Background/>
                 <HeaderRoutePatient navigation={this.props.navigation} 
-                title="En temps de préparation" backRoute="AlimentationEspaceBienEtrePatient"/>
+                title="Preparation time" backRoute="AlimentationEspaceBienEtrePatient"/>
 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20}}>
                 <View style={styles.contain_search}>
@@ -61,7 +61,7 @@ export default class EnTempsDePreparationPatient extends React.Component {
                         source={require("../../../../../images/icons/documents/search-interface-symbol.png")}
                     />
                     <TextInput style={styles.input_search} 
-                    placeholder="Rechercher"
+                    placeholder="Search"
                     returnKeyType='search'
                     onChangeText={text => this._filterData(text)}/>
                 </View>
@@ -88,7 +88,7 @@ export default class EnTempsDePreparationPatient extends React.Component {
                                 source={require("../../../../../images/icons/dossiers/wall-clock.png")}
                                 style={styles.img_rappel}
                                 />
-                                <Text style={styles.txt_time}>Temps restant : </Text>
+                                <Text style={styles.txt_time}>Remaining time : </Text>
                                 <Text style={styles.value_time}>{rowData.time}</Text>
                             </View>
                         </View>

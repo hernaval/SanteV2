@@ -14,22 +14,22 @@ export class DocMedicauxPatient extends Component {
         this.state = {
             data : [
                 {
-                    title: 'Document medicaux.pdf',
+                    title: 'Medical documents.pdf',
                     description: 'Lorem ipsum',
                     date: '10-08-21'
                 },
                 {
-                    title: 'Document medicaux.doc',
+                    title: 'Medical documents.doc',
                     description: 'Lorem ipsum',
                     date: '10-08-21'
                 },
                 {
-                    title: 'Document medicaux.png',
+                    title: 'Medical documents.png',
                     description: 'Lorem ipsum',
                     date: '10-08-21'
                 },
                 {
-                    title: 'Document medicaux.pdf',
+                    title: 'Medical documents.pdf',
                     description: 'Lorem ipsum',
                     date: '10-08-21'
                 }
@@ -90,7 +90,7 @@ export class DocMedicauxPatient extends Component {
         return(
             <View style={styles.main}>
                 <ScrollView style={styles.scroll_view}>
-                <Text style={styles.main_title}>Tous les documents médicaux</Text>
+                <Text style={styles.main_title}>All medical documents</Text>
 
                 <View style={styles.contain_search}>
                 <Image
@@ -98,7 +98,7 @@ export class DocMedicauxPatient extends Component {
                     source={require("../../../../images/icons/documents/search-interface-symbol.png")}
                 />
                 <TextInput style={styles.input_search} 
-                placeholder="Rechercher"
+                placeholder="Search"
                 returnKeyType='search'
                 onChangeText={text => this._filterData(text)}/>
                 </View>

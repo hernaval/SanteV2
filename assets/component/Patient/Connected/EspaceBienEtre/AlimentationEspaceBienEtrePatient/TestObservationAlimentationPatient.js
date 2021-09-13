@@ -141,13 +141,13 @@ export default class TestObservationAlimentationPatient extends React.Component 
 
     _observation() {
         const day = this.state.day
-        if (day == 1) {this.setState({now : 'LUNDI', next :'MAR' })}
-        if (day == 2) {this.setState({now : 'MARDI', next :'MER' })}
-        if (day == 3) {this.setState({now : 'MERCREDI', next :'JEU' })}
-        if (day == 4) {this.setState({now : 'JEUDI', next :'VEN' })}
-        if (day == 5) {this.setState({now : 'VENDREDI', next :'SAM' })}
-        if (day == 6) {this.setState({now : 'SAMEDI', next :'DIM' })}
-        if (day == 7) {this.setState({now : 'DIMANCHE', next :'LUN' })}
+        if (day == 1) {this.setState({now : 'MONDAY', next :'TUE' })}
+        if (day == 2) {this.setState({now : 'TUESDAY', next :'WED' })}
+        if (day == 3) {this.setState({now : 'WEDNESDAY', next :'THU' })}
+        if (day == 4) {this.setState({now : 'THUSDAY', next :'FRI' })}
+        if (day == 5) {this.setState({now : 'FRIDAY', next :'SAT' })}
+        if (day == 6) {this.setState({now : 'SATURDAY', next :'SUN' })}
+        if (day == 7) {this.setState({now : 'SUNDAY', next :'MON' })}
         this.setState({day: day+1})
         if (day == 7) this.setState({day: 1})
     }
@@ -157,7 +157,7 @@ export default class TestObservationAlimentationPatient extends React.Component 
             <View style={styles.main}>
                 <Background/>
                 <HeaderRoutePatient navigation={this.props.navigation} 
-                title="Mon alimentation" backRoute="AlimentationEspaceBienEtrePatient"/>
+                title="My diet" backRoute="AlimentationEspaceBienEtrePatient"/>
 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20}}>
                 <View style={styles.main_head}>
@@ -223,7 +223,7 @@ export default class TestObservationAlimentationPatient extends React.Component 
                             <View style={styles.sign_btn}>
                                 <Text style={styles.sign_btn_txt}>+</Text>
                             </View>
-                            <Text style={styles.text_btn}>Ajouter</Text>
+                            <Text style={styles.text_btn}>Add</Text>
                         </TouchableOpacity>
                     </View>
                 );

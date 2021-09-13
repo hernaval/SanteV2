@@ -11,15 +11,15 @@ import { HeaderRoutePatient } from '../../HeaderRoutePatient'
 
 const data = [
     {
-        name: '1ère dose',
-        realised: true,
+        name: '1st dose',
+        achieved: true,
         date: '01/10/2021',
         centre: 'Paris'
     },
     {
-        name: '2ème dose',
+        name: '2nd dose',
         date: '11/12/2021',
-        realised: false,
+        achieved: false,
         centre: 'Paris'
     }
 ]
@@ -40,7 +40,7 @@ export default class DetailPassSanitaire extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
-                <HeaderRoutePatient navigation={this.props.navigation} title="Pass sanitaire" 
+                <HeaderRoutePatient navigation={this.props.navigation} title="Health pass" 
                 backRoute="DocumentPatient"/>
 
                 <ScrollView style={{height: hp('90%'), marginTop: 5}}>
@@ -54,11 +54,11 @@ export default class DetailPassSanitaire extends React.Component {
                     </View>
                     <View style={styles.block_card}>
                         <View style={styles.item_card}>
-                            <Text style={styles.txt_card}>Nom</Text>
+                            <Text style={styles.txt_card}>Name</Text>
                             <Text style={styles.txt_card}>Joyce Jones</Text>
                         </View>
                         <View style={styles.item_card}>
-                            <Text style={styles.txt_card}>Date de naissance</Text>
+                            <Text style={styles.txt_card}>Date of birth</Text>
                             <Text style={styles.txt_card}>10/01/2021</Text>
                         </View>
                         <View style={styles.item_card}>
@@ -66,7 +66,7 @@ export default class DetailPassSanitaire extends React.Component {
                             <Text style={styles.txt_card}>21 ans</Text>
                         </View>
                         <View style={styles.item_card}>
-                            <Text style={styles.txt_card}>Sexe</Text>
+                            <Text style={styles.txt_card}>Gender</Text>
                             <Text style={styles.txt_card}>Homme</Text>
                         </View>
                     </View>
@@ -74,7 +74,7 @@ export default class DetailPassSanitaire extends React.Component {
                     <View>
                         <Text style={styles.title_vaccination}>Vaccination</Text>
                         <View style={styles.item_card}>
-                            <Text style={styles.txt_card}>Type de vaccination</Text>
+                            <Text style={styles.txt_card}>Vaccine type</Text>
                             <Text style={styles.txt_card}>Pfiz OY</Text>
                         </View>
 
@@ -86,20 +86,20 @@ export default class DetailPassSanitaire extends React.Component {
                                             <Text style={styles.txt_card}>{list.name}</Text>
                                             {
                                                 (
-                                                    list.realised && (
+                                                    list.achieved && (
                                                         <Text style={styles.txt_card, 
                                                             {color: '#008ac8', fontSize: 16}}>
-                                                                Réalisé
+                                                                Achieved
                                                         </Text>
                                                     )
                                                 )
                                             }
                                             {
                                                 (
-                                                    !list.realised && (
+                                                    !list.achieved && (
                                                         <Text style={styles.txt_card, 
                                                             {color: 'red', fontSize: 16}}>
-                                                                En attente
+                                                                Waiting
                                                         </Text>
                                                     )
                                                 )
@@ -107,11 +107,11 @@ export default class DetailPassSanitaire extends React.Component {
 
                                         </View>
                                         <View style={styles.item_card}>
-                                            <Text style={styles.txt_card}>Date d'injection</Text>
+                                            <Text style={styles.txt_card}>Date of injection</Text>
                                             <Text style={styles.txt_card}>{list.date}</Text>
                                         </View>
                                         <View style={styles.item_card}>
-                                            <Text style={styles.txt_card}>Centre</Text>
+                                            <Text style={styles.txt_card}>Center</Text>
                                             <Text style={styles.txt_card}>{list.centre}</Text>
                                         </View>
                                     </View>

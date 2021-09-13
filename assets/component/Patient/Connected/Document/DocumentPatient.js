@@ -17,19 +17,19 @@ const data = [
     {
       imageUrl: require('../../../../images/icons/documents/doc-medicaux1.png'),
       imageSecond : require('../../../../images/icons/documents/doc-medicaux2.png'),
-      title: "Doc médicaux",
+      title: "Medical documents",
       order: 1
     },
     {
       imageUrl: require('../../../../images/icons/documents/ordonnance1.png'),
       imageSecond: require('../../../../images/icons/documents/ordonnance2.png'),
-      title: "Ordonnances",
+      title: "Prescriptions",
       order: 2
     },
     {
         imageUrl: require('../../../../images/icons/documents/pass-sanitaire1.png'),
         imageSecond: require('../../../../images/icons/documents/pass-sanitaire2.png'),
-        title: "Pass sanitaire",
+        title: "Health pass",
         order: 3
     }
   ];
@@ -75,7 +75,7 @@ export default class DocumentPatient extends React.Component {
             <View style={styles.main}>
                 <Background/>
                 <FloatButtonDocument/>
-                <HeaderRoutePatient navigation={this.props.navigation} title="Mes documents"/>
+                <HeaderRoutePatient navigation={this.props.navigation} title="My documents"/>
 
                 <FlatList
                 horizontal

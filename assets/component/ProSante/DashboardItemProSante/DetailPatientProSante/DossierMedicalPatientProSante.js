@@ -15,37 +15,37 @@ export class DossierMedicalPatientProSante extends Component {
     render() {
         return (
             <View style={styles.main}>
-                <Text style={styles.title}>Tous</Text>
+                <Text style={styles.title}>All</Text>
 
                 <View style={styles.block_view}>
                     <View style={styles.block_}>
-                        <Text style={styles.title_block_}>Antécédant</Text>
+                        <Text style={styles.title_block_}>Antecedent</Text>
                         <Text style={styles.descr_block_}>Lorem ipsum, dolor</Text>
                     </View>
                     <View style={styles.block_}>
-                        <Text style={styles.title_block_}>Allergie</Text>
+                        <Text style={styles.title_block_}>Allergy</Text>
                         <Text style={styles.descr_block_}>Lorem ipsum, dolor</Text>
                     </View>
                 </View>
 
                 <View style={styles.block_view}>
                     <View style={styles.block_}>
-                        <Text style={styles.title_block_}>Dossier 3</Text>
+                        <Text style={styles.title_block_}>Record 3</Text>
                         <Text style={styles.descr_block_}>Lorem ipsum, dolor</Text>
                     </View>
                     <View style={styles.block_}>
-                        <Text style={styles.title_block_}>Dossier 4</Text>
+                        <Text style={styles.title_block_}>Record 4</Text>
                         <Text style={styles.descr_block_}>Lorem ipsum, dolor</Text>
                     </View>
                 </View>
 
                 <View style={styles.block_view}>
                     <View style={styles.block_}>
-                        <Text style={styles.title_block_}>Dossier 5</Text>
+                        <Text style={styles.title_block_}>Record 5</Text>
                         <Text style={styles.descr_block_}>Lorem ipsum, dolor</Text>
                     </View>
                     <View style={styles.block_}>
-                        <Text style={styles.title_block_}>Dossier 6</Text>
+                        <Text style={styles.title_block_}>Record 6</Text>
                         <Text style={styles.descr_block_}>Lorem ipsum, dolor</Text>
                     </View>
                 </View>

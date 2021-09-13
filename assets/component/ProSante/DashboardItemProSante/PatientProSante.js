@@ -68,7 +68,7 @@ export default class PatientProSante extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
-                <HeaderRouteProSante title="Mes patients" navigation={this.props.navigation}/>
+                <HeaderRouteProSante title="My patients" navigation={this.props.navigation}/>
                 
                 <View style={styles.main_contain}>
                     <View style={styles.contain_search}>
@@ -77,13 +77,13 @@ export default class PatientProSante extends React.Component {
                         source={require("../../../images/icons/documents/search-interface-symbol.png")}
                     />
                     <TextInput style={styles.input_search} 
-                    placeholder="Rechercher"
+                    placeholder="Search"
                     returnKeyType='search'
                     onChangeText={text => this._filterData(text)}/>
                     </View>
 
                     <ScrollView style={{height: hp('80%')}}>
-                    <Text style={styles.main_title}>Tous</Text>
+                    <Text style={styles.main_title}>All</Text>
 
                     <View style={styles.main_scroll}>
                     { this.state.data.map(

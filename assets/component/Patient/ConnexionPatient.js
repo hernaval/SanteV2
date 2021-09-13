@@ -41,7 +41,7 @@ class ConnexionPatient extends React.Component {
                     </View>
 
                     <View style={styles.main_scroll}>
-                        <Text style={styles.txt}>Connexion</Text>
+                        <Text style={styles.txt}>Log in</Text>
 
                         <View style={styles.main_input}>
                             <Image 
@@ -50,7 +50,7 @@ class ConnexionPatient extends React.Component {
                             <TextInput style={styles.txt_input}
                             autoCapitalize="none"
                             keyboardType="email-address"
-                            placeholder="Adresse e-mail"
+                            placeholder="E-mail adress"
                             returnKeyType="next"
                             ref={input => { this.email = input }}
                             />
@@ -63,7 +63,7 @@ class ConnexionPatient extends React.Component {
                             <TextInput style={styles.txt_input}
                             autoCapitalize="none"
                             secureTextEntry={true}
-                            placeholder="Mot de passe"
+                            placeholder="Password"
                             returnKeyType="done"
                             ref={input => { this.password = input }}
                             />
@@ -73,12 +73,12 @@ class ConnexionPatient extends React.Component {
                         style={styles.btn_connexion}
                         onPress={() => this._signIn()}>
                             <Text style={styles.txt_connexion}>
-                                Se connecter
+                                Connect
                             </Text>
                         </TouchableOpacity>
 
                         <View style={styles.contain_other}>
-                            <Text style={styles.txt_forgot}>Mot de passe oublié</Text>
+                            <Text style={styles.txt_forgot}>Forgot your password</Text>
                         </View>
 
                         <View style={styles.other_connexion}>
@@ -97,12 +97,12 @@ class ConnexionPatient extends React.Component {
                         
                         <View style={styles.switch_cnx}>
                                     <Text style={styles.txt_other}>
-                                        Pas encore de compte ?
+                                    No account yet ?
                                     </Text>
                                     <TouchableOpacity
                                     onPress={() => this._goToSignUp()}>
                                         <Text style={styles.se_connecter}>
-                                            S' inscrire
+                                            Register
                                         </Text>
                                     </TouchableOpacity>
                         </View>

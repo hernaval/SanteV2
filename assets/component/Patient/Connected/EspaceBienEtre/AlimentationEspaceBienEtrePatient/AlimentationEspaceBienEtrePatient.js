@@ -14,15 +14,15 @@ import { faArrowLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons'
 const data = [
     {
       illustration: require('./../../../../../images/espace_bien_etre/pexels-ponyo-sakana-3662126.jpg'),
-      title: "Qu'est ce qu'un repas équilibré ?",
+      title: "What is a balanced meal ?",
     },
     {
         illustration: require('./../../../../../images/espace_bien_etre/pexels-alexander-mils-1149300.jpg'),
-        title: "Boire, quantité et qualité",
+        title: "Drink, quantity and quality",
     },
     {
         illustration: require('./../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg'),
-        title: "Contacter un/une nutritionniste",
+        title: "Contact a nutritionist",
     }
 ];
 
@@ -42,13 +42,13 @@ export default class AlimentationEspaceBienEtrePatient extends React.Component {
     _observation(day) {
         var now = ''
         var next = ''
-        if (day == 1) {now = 'LUNDI'; next = 'MAR'}
-        if (day == 2) {now = 'MARDI'; next = 'MER'}
-        if (day == 3) {now = 'MERCREDI'; next = 'JEU'}
-        if (day == 4) {now = 'JEUDI'; next = 'VEN'}
-        if (day == 5) {now = 'VENDREDI'; next = 'SAM'}
-        if (day == 6) {now = 'SAMEDI'; next = 'DIM'}
-        if (day == 7) {now = 'DIMANCHE'; next = 'LUN'}
+        if (day == 1) {now = 'MONDAY'; next = 'TUE'}
+        if (day == 2) {now = 'TUESDAY'; next = 'WED'}
+        if (day == 3) {now = 'WEDNESDAY'; next = 'THU'}
+        if (day == 4) {now = 'THUSDAY'; next = 'FRI'}
+        if (day == 5) {now = 'FRIDAY'; next = 'SAT'}
+        if (day == 6) {now = 'SATURDAY'; next = 'SUN'}
+        if (day == 7) {now = 'SUNDAY'; next = 'MON'}
         this.props.navigation.navigate('TestObservationAlimentationPatient', {
             day,
             now,
@@ -61,7 +61,7 @@ export default class AlimentationEspaceBienEtrePatient extends React.Component {
             <View style={styles.main}>
                 <Background/>
                 <HeaderRoutePatient navigation={this.props.navigation} 
-                title="Mon alimentation" backRoute="EspaceBienEtrePatient"/>
+                title="My diet" backRoute="EspaceBienEtrePatient"/>
             <ScrollView style={{height: hp('95%')}}>
                 <View style={styles.main_block}>
                 <ImageBackground
@@ -76,17 +76,17 @@ export default class AlimentationEspaceBienEtrePatient extends React.Component {
                 </View>
 
                 <View style={styles.block}>
-                    <Text style={styles.block_title}>Mon journal</Text>
+                    <Text style={styles.block_title}>My diary</Text>
                     <View style={styles.block_detail}>
                         <View style={styles.contain_profil}>
-                            <Text style={styles.title_profil}>Mon journal 1</Text>
+                            <Text style={styles.title_profil}>My diary 1</Text>
                         </View>
                         <View style={styles.contain_profil}>
                             <FontAwesomeIcon color="black" size={16} icon={faChevronRight}/>
                         </View>
                     </View>
                     <TouchableOpacity style={styles.btn_update}>
-                        <Text style={styles.txt_update}>Ajouter</Text>
+                        <Text style={styles.txt_update}>Add</Text>
                     </TouchableOpacity>
                 </View>    
 
@@ -99,57 +99,57 @@ export default class AlimentationEspaceBienEtrePatient extends React.Component {
                 </View>
 
                 <View style={styles.block}>
-                    <Text style={styles.block_title}>Test d'observation</Text>
-                    <Text style={styles.block_title}> - une semaine dans mon assiette</Text>
+                    <Text style={styles.block_title}>Observation test</Text>
+                    <Text style={styles.block_title}> - a week on my plate</Text>
                     <View style={styles.block_calendar}>
                         <TouchableOpacity 
                         onPress={() => this._observation(1)}
                         style={styles.list_calendar}>
-                            <Text style={styles.value_calendar}>LU</Text>
+                            <Text style={styles.value_calendar}>MON</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => this._observation(2)}
                         style={styles.list_calendar}>
-                            <Text style={styles.value_calendar}>MA</Text>
+                            <Text style={styles.value_calendar}>TUE</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => this._observation(3)}
                         style={styles.list_calendar}>
-                            <Text style={styles.value_calendar}>ME</Text>
+                            <Text style={styles.value_calendar}>WED</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => this._observation(4)}
                         style={styles.list_calendar}>
-                            <Text style={styles.value_calendar}>JE</Text>
+                            <Text style={styles.value_calendar}>THU</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => this._observation(5)}
                         style={styles.list_calendar}>
-                            <Text style={styles.value_calendar}>VE</Text>
+                            <Text style={styles.value_calendar}>FRI</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => this._observation(6)}
                         style={styles.list_calendar}>
-                            <Text style={styles.value_calendar}>SA</Text>
+                            <Text style={styles.value_calendar}>SAT</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => this._observation(7)}
                         style={styles.list_calendar}>
-                            <Text style={styles.value_calendar}>DI</Text>
+                            <Text style={styles.value_calendar}>SUN</Text>
                         </TouchableOpacity>
                     </View>
                 </View>  
 
 
                 <View style={styles.block}>
-                    <Text style={styles.block_title}>Mes recettes</Text>
+                    <Text style={styles.block_title}>My recipes</Text>
 
                     <TouchableOpacity onPress={() => this._click('DeSaisonsPatient')}
                      style={styles.block_detail}>
                         <View style={styles.contain_profil}>
                             <Image style={styles.icon_img}
                             source={require("../../../../../images/espace_bien_etre/Cloud-Snow-Sunny.png")}/>
-                            <Text style={styles.title_profil}>De saisons</Text>
+                            <Text style={styles.title_profil}>Seasonal</Text>
                         </View>
                         <View style={styles.contain_profil}>
                             <FontAwesomeIcon color="black" size={16} icon={faChevronRight}/>
@@ -161,7 +161,7 @@ export default class AlimentationEspaceBienEtrePatient extends React.Component {
                         <View style={styles.contain_profil}>
                             <Image style={styles.icon_img}
                             source={require("../../../../../images/espace_bien_etre/fish.png")}/>
-                            <Text style={styles.title_profil}>Par repas</Text>
+                            <Text style={styles.title_profil}>Per meal</Text>
                         </View>
                         <View style={styles.contain_profil}>
                             <FontAwesomeIcon color="black" size={16} icon={faChevronRight}/>
@@ -173,7 +173,7 @@ export default class AlimentationEspaceBienEtrePatient extends React.Component {
                         <View style={styles.contain_profil}>
                             <Image style={styles.icon_img}
                             source={require("../../../../../images/espace_bien_etre/time.png")}/>
-                            <Text style={styles.title_profil}>En temps de préparation</Text>
+                            <Text style={styles.title_profil}>In preparation time</Text>
                         </View>
                         <View style={styles.contain_profil}>
                             <FontAwesomeIcon color="black" size={16} icon={faChevronRight}/>
@@ -185,7 +185,7 @@ export default class AlimentationEspaceBienEtrePatient extends React.Component {
                         <View style={styles.contain_profil}>
                             <Image style={{height: 18, width: 14, marginRight: 14}}
                             source={require("../../../../../images/espace_bien_etre/refrigerator-outline.png")}/>
-                            <Text style={styles.title_profil}>Dans mon frigo</Text>
+                            <Text style={styles.title_profil}>In my fridge</Text>
                         </View>
                         <View style={styles.contain_profil}>
                             <FontAwesomeIcon color="black" size={16} icon={faChevronRight}/>
@@ -196,7 +196,7 @@ export default class AlimentationEspaceBienEtrePatient extends React.Component {
 
                 <View style={{backgroundColor: 'whitesmoke', paddingTop: 10, paddingBottom: 10, marginTop: 20}}>
                     <Text style={[styles.block_title, {marginLeft: 20, marginTop: 20, marginBottom: 10}]}>
-                        Mes conseils adaptés
+                        My adapted advice
                     </Text>
 
                     <FlatList

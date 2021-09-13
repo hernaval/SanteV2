@@ -9,20 +9,20 @@ import {
 
 const data = [
     {
-        title: 'Médicament',
+        title: 'Medicine',
         description: 'Malox, Paracetamole',
         hour: '14h30',
         day: 'Lu-Ma-Me'
     },
     {
-        title: 'Rendez-vous avec Dr. Jean Mark',
-        description: 'Contrôle Lorem Ipsum',
+        title: 'Appointment with Dr. Jean Mark',
+        description: 'Control Lorem Ipsum',
         hour: '14h',
         day: '11-08-21'
     },
     {
-        title: 'Rendez-vous avec Dr. Jean Mark',
-        description: 'Contrôle Lorem Ipsum',
+        title: 'Appointment with Dr. Jean Mark',
+        description: 'Control Lorem Ipsum',
         hour: '14h',
         day: '11-08-21'
     },
@@ -37,7 +37,7 @@ export class RappelPatient extends Component {
         return(
             <View style={styles.main}>
                 <ScrollView style={styles.scroll_view}>
-                <Text style={styles.main_title}>Tous les rappels</Text>
+                <Text style={styles.main_title}>All reminders</Text>
 
                 <View style={styles.main_scroll}>
                     { data.map(

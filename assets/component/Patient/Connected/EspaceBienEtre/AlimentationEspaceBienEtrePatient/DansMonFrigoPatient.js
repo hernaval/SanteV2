@@ -13,11 +13,11 @@ import { faArrowLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons'
 
 const data = [
     {
-        title: 'Légumes',
+        title: 'Vegetables',
         order: 1
     },
     {
-        title: 'Viandes',
+        title: 'Meats',
         order: 2
     },
     {
@@ -25,7 +25,7 @@ const data = [
         order: 3
     },
     {
-        title: 'Jus',
+        title: 'Juice',
         order: 4
     },
 ]
@@ -33,51 +33,51 @@ const data = [
 const legumes = [
     {
         designation : 'Courgette',
-        poids: '250 grammes',
+        poids: '250 grams',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg'),
     },
     {
-        designation : 'Carotte',
-        poids: '250 grammes',
+        designation : 'Carrot',
+        poids: '250 grams',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg'),
     },
     {
-        designation : 'Choux',
-        poids: '250 grammes',
+        designation : 'Cabbage',
+        poids: '250 grams',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg'),
     }
 ]
 
 const viandes = [
     {
-        designation : 'Viande hachée',
-        poids: '250 grammes',
+        designation : 'Minced meat',
+        poids: '250 grams',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg'),
     },
     {
-        designation : 'Viande en filet',
-        poids: '250 grammes',
+        designation : 'Fillet meat',
+        poids: '250 grams',
         illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg'),
     }
 ]
 
 const fruits = [
     {
-        designation : 'Pomme',
-        poids: '250 grammes',
+        designation : 'Apple',
+        poids: '250 grams',
         illustration: require('../../../../../images/espace_bien_etre/pexels-vlad-bagacian-2267134.jpg'),
     },
     {
-        designation : 'Ananas',
-        poids: '250 grammes',
+        designation : 'Pineapple',
+        poids: '250 grams',
         illustration: require('../../../../../images/espace_bien_etre/pexels-vlad-bagacian-2267134.jpg'),
     }
 ]
 
 const jus = [
     {
-        designation : 'Jus de citron',
-        poids: '250 grammes',
+        designation : 'Lemon juice',
+        poids: '250 grams',
         illustration: require('../../../../../images/espace_bien_etre/pexels-alexander-mils-1149300.jpg'),
     },
 
@@ -126,7 +126,7 @@ export default class DansMonFrigoPatient extends React.Component {
             <View style={styles.main}>
                 <Background/>
                 <HeaderRoutePatient navigation={this.props.navigation} 
-                title="Dans mon frigo" backRoute="AlimentationEspaceBienEtrePatient"/>
+                title="In my fridge" backRoute="AlimentationEspaceBienEtrePatient"/>
 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20}}>
                 <View style={styles.contain_search}>
@@ -135,13 +135,13 @@ export default class DansMonFrigoPatient extends React.Component {
                         source={require("../../../../../images/icons/documents/search-interface-symbol.png")}
                     />
                     <TextInput style={styles.input_search} 
-                    placeholder="Rechercher"
+                    placeholder="Search"
                     returnKeyType='search'
                     onChangeText={text => this._filterData(text)}/>
                 </View>
 
                 <Text style={{fontSize: 20}}>
-                    Catégories
+                    Categories
                 </Text>
 
                 <FlatList

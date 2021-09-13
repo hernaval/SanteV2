@@ -49,13 +49,13 @@ export default class FirstPage extends React.Component {
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity>
-                            <Text style={styles.menu_text}>Qui sommes-nous ?</Text>
+                            <Text style={styles.menu_text}>Who are we ?</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Text style={styles.menu_text}>Notre engagement ethique des données</Text>
+                            <Text style={styles.menu_text}>Our ethical commitment to data</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Text style={styles.menu_text}>Nous contacter</Text>
+                            <Text style={styles.menu_text}>Contact us</Text>
                         </TouchableOpacity>
                     </View>
                     )
@@ -78,16 +78,16 @@ export default class FirstPage extends React.Component {
                     <Image 
                     style={styles.logo}
                     source={require("../../images/Splash(FondBlanc).png")} />
-                    <Text style={styles.main_text}>Se connecter en tant que : </Text>
+                    <Text style={styles.main_text}>Log in as : </Text>
                     <TouchableOpacity 
                     onPress={() => this._patient()}
                     style={[styles.btn_container, styles.btn_patient]}>
-                        <Text style={styles.text}>Patient(e)</Text>
+                        <Text style={styles.text}>Patient</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                     onPress={() => this._pro()}
                     style={[styles.btn_container, styles.btn_pro]}>
-                        <Text style={styles.text}>Professionnel(le) de santé</Text>
+                        <Text style={styles.text}>Health care professional</Text>
                     </TouchableOpacity>
                 </View>
 

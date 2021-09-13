@@ -13,15 +13,15 @@ import { EvolutionProfilPatient } from './EvolutionProfilPatient';
 const data = [
     {
       illustration: require('./../../../../../images/espace_bien_etre/pexels-anthony-shkraba-4662345.jpg'),
-      title: "Me stabiliser",
+      title: "To stabilize myself",
     },
     {
         illustration: require('./../../../../../images/espace_bien_etre/pexels-pixabay-416809.jpg'),
-        title: "Perdre du poids",
+        title: "To Lose weight",
     },
     {
         illustration: require('./../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg'),
-        title: "Prendre du poids",
+        title: "To gain weight",
     }
 ];
 
@@ -38,7 +38,7 @@ export default class ProfilEspaceBienEtrePatient extends React.Component {
             <View style={styles.main}>
                 <Background/>
                 <HeaderRoutePatient navigation={this.props.navigation} 
-                title="Mon profil" backRoute="EspaceBienEtrePatient"/>
+                title="My profile" backRoute="EspaceBienEtrePatient"/>
             <ScrollView style={{height: hp('95%')}}>
                 <View style={styles.main_block}>
                 <ImageBackground
@@ -53,7 +53,7 @@ export default class ProfilEspaceBienEtrePatient extends React.Component {
                 </View>
 
                 <View style={styles.block}>
-                    <Text style={styles.block_title}>Mon Profil</Text>
+                    <Text style={styles.block_title}>My Profile</Text>
                     <View style={styles.block_detail}>
                         <View style={styles.contain_profil}>
                             <Text style={styles.title_profil}>AGE</Text>
@@ -61,19 +61,19 @@ export default class ProfilEspaceBienEtrePatient extends React.Component {
                             <Text style={styles.value_profil}>33 ans</Text>
                         </View>
                         <View style={styles.contain_profil}>
-                            <Text style={styles.title_profil}>TAILLE</Text>
+                            <Text style={styles.title_profil}>HEIGHT</Text>
                             <Text style={styles.bar_profil}></Text>
                             <Text style={styles.value_profil}>170 cm</Text>
                         </View>
                     </View>
                     <View style={styles.block_detail}>
                         <View style={styles.contain_profil}>
-                            <Text style={styles.title_profil}>SEXE</Text>
+                            <Text style={styles.title_profil}>GENDER</Text>
                             <Text style={styles.bar_profil}></Text>
                             <Text style={styles.value_profil}>Homme</Text>
                         </View>
                         <View style={styles.contain_profil}>
-                            <Text style={styles.title_profil}>POIDS</Text>
+                            <Text style={styles.title_profil}>WEIGHT</Text>
                             <Text style={styles.bar_profil}></Text>
                             <Text style={styles.value_profil}>65 kg</Text>
                         </View>
@@ -84,13 +84,13 @@ export default class ProfilEspaceBienEtrePatient extends React.Component {
                     <View style={styles.contain_graph}>
                         <View style={styles.block_graph}>
                             <View style={[styles.block_graph_1, {backgroundColor: '#008ac8'}]}>
-                                <Text style={styles.text_graph_1}>Sous-poids</Text>
+                                <Text style={styles.text_graph_1}>Underweight</Text>
                             </View>
                             <View style={[styles.block_graph_1, {backgroundColor: '#00C1B4'}]}>
                                 <Text style={styles.text_graph_1}>Normal</Text>
                             </View>
                             <View style={[styles.block_graph_1, {backgroundColor: '#f933b3'}]}>
-                                <Text style={styles.text_graph_1}>Surpoids</Text>
+                                <Text style={styles.text_graph_1}>Overweight</Text>
                             </View>
                         </View>
                         <View style={styles.block_graph_value}>
@@ -103,9 +103,9 @@ export default class ProfilEspaceBienEtrePatient extends React.Component {
                 </View>
 
                 <View style={styles.block}>
-                    <Text style={styles.block_title}>Mes mensurations</Text>
+                    <Text style={styles.block_title}>My measurements</Text>
                     <View style={styles.block_mensu}>
-                        <Text style={styles.title_profil}>Tour de taille : </Text>
+                        <Text style={styles.title_profil}>Waistline : </Text>
                         <Text style={styles.value_profil}>25 mm</Text>
                     </View>
                     <View style={styles.block_mensu}>
@@ -113,14 +113,14 @@ export default class ProfilEspaceBienEtrePatient extends React.Component {
                         <Text style={styles.value_profil}>25 mm</Text>
                     </View>
                     <View style={styles.block_mensu}>
-                        <Text style={styles.title_profil}>Cuisse : </Text>
+                        <Text style={styles.title_profil}>Thigh : </Text>
                         <Text style={styles.value_profil}>15 mm</Text>
                     </View>
                 </View> 
 
                 <View>
                     <Text style={[styles.block_title, {marginLeft: 20, marginTop: 20, marginBottom: 10}]}>
-                        Bien dans mon corps
+                        Well in my body
                     </Text>
 
                     <FlatList
@@ -143,12 +143,12 @@ export default class ProfilEspaceBienEtrePatient extends React.Component {
                 </View>
 
                 <View style={styles.block}>
-                    <Text style={styles.block_title}>Mon évolution</Text>
+                    <Text style={styles.block_title}>My progress</Text>
                     <EvolutionProfilPatient/>
                 </View> 
                 
                 <TouchableOpacity style={styles.btn_update}>
-                    <Text style={styles.txt_update}>Mettre à jour</Text>
+                    <Text style={styles.txt_update}>Update</Text>
                 </TouchableOpacity>
 
                 <View style={{height: hp('5%')}}></View>

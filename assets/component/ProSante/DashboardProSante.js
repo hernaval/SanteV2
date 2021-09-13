@@ -39,7 +39,7 @@ export default class DashboardProSante extends React.Component {
                             source={require("../../images/icons/Mes-patients.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Mes patients</Text>
+                            <Text style={styles.text_menu}>My patients</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -51,7 +51,7 @@ export default class DashboardProSante extends React.Component {
                             source={require("../../images/icons/Mes-outils-de-gestion.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Mes outils de gestion</Text>
+                            <Text style={styles.text_menu}>My management tools</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -65,7 +65,7 @@ export default class DashboardProSante extends React.Component {
                             source={require("../../images/icons/prescription.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Aide à la prescription</Text>
+                            <Text style={styles.text_menu}>Prescription assistance</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -77,7 +77,7 @@ export default class DashboardProSante extends React.Component {
                             source={require("../../images/icons/coronavirus.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Campagne de vaccination COVID-19 et autre</Text>
+                            <Text style={styles.text_menu}>COVID-19 vaccination campaign and otherse</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -91,7 +91,7 @@ export default class DashboardProSante extends React.Component {
                             source={require("../../images/icons/Rendez-vous.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Rendez-vous</Text>
+                            <Text style={styles.text_menu}>Appointment</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

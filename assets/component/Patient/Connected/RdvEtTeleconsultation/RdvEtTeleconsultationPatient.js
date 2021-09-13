@@ -13,9 +13,9 @@ const data = [
     {
         médecin: 'Dr Anaelle GUYOT',
         profil: require('./../../../../images/medecin-generaliste.jpg'),
-        specialité: 'Médecin généraliste',
-        disponibilité : 'Disponible dans 1h',
-        adresse: 'Centre de santé Assess Santé',
+        specialité: 'General practitioner',
+        disponibilité : 'Available in 1h',
+        adresse: 'Assess Santé health center',
         day: 'Mar',
         date: '07/09',
         hours : [
@@ -25,9 +25,9 @@ const data = [
     {
         médecin: 'Dr Anaelle GUYOT',
         profil: require('./../../../../images/medecin-generaliste.jpg'),
-        specialité: 'Médecin généraliste',
-        disponibilité : 'Disponible dans 1h',
-        adresse: 'Centre de santé Assess Santé',
+        specialité: 'General practitioner',
+        disponibilité : 'Available in 1h',
+        adresse: 'Assess Santé health center',
         day: 'Mer',
         date: '08/09',
         hours : [
@@ -37,9 +37,9 @@ const data = [
     {
         médecin: 'Dr Anaelle GUYOT',
         profil: require('./../../../../images/medecin-generaliste.jpg'),
-        specialité: 'Médecin généraliste',
-        disponibilité : 'Disponible dans 1h',
-        adresse: 'Centre de santé Assess Santé',
+        specialité: 'General practitioner',
+        disponibilité : 'Available in 1h',
+        adresse: 'Assess Santé health center',
         day: 'Jeu',
         date: '09/09',
         hours : [
@@ -68,7 +68,7 @@ export default class RdvEtTeleconsultationPatient extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
-                <HeaderRoutePatient navigation={this.props.navigation} title="Rdv et téléconsultations"/>
+                <HeaderRoutePatient navigation={this.props.navigation} title="Appointment and teleconsultations"/>
 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20}}>
                     <View style={styles.contain_search}>
@@ -79,7 +79,7 @@ export default class RdvEtTeleconsultationPatient extends React.Component {
                             source={require("../../../../images/icons/documents/search-interface-symbol.png")}
                         />
                         <TextInput style={styles.input_search} 
-                        placeholder="Médecin généraliste"
+                        placeholder="General practitioner"
                         returnKeyType='search'
                         onChangeText={text => this._filterData(text)}/>
                         </View>

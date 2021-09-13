@@ -9,22 +9,22 @@ import {
 
 const data = [
     {
-        title: 'Compte rendu 1',
+        title: 'Report 1',
         description: 'Lorem ipsum, dolor asit',
         date: '10-08-21'
     },
     {
-        title: 'Compte rendu 2',
+        title: 'Report 2',
         description: 'Lorem ipsum, dolor asit',
         date: '10-08-21'
     },
     {
-        title: 'Compte rendu 3',
+        title: 'Report 3',
         description: 'Lorem ipsum, dolor asit',
         date: '10-08-21'
     },
     {
-        title: 'Compte rendu 4',
+        title: 'Report 4',
         description: 'Lorem ipsum, dolor asit',
         date: '10-08-21'
     }
@@ -39,7 +39,7 @@ export class CompteRenduVisitePatient extends Component {
         return(
             <View style={styles.main}>
                 <ScrollView style={styles.scroll_view}>
-                <Text style={styles.main_title}>Tous</Text>
+                <Text style={styles.main_title}>All</Text>
 
                 <View style={styles.main_scroll}>
 

@@ -13,53 +13,53 @@ import { faArrowLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons'
 
 const data = [
     {
-        title: 'Hiver',
+        title: 'Winter',
         list : [
             {
-                title: 'Soupe aux 5 légumes',
+                title: '5 vegetable soup',
                 illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
             },
             {
-                title: 'Soupe aux 5 légumes',
+                title: '5 vegetable soup',
                 illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
             }
         ]
     },
     {
-        title: 'Printemps',
+        title: 'Spring',
         list : [
             {
-                title: 'Merlan au bouillon parisien',
+                title: 'Whiting in Parisian broth',
                 illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
             },
             {
-                title: 'Carpaccio de merlan',
+                title: 'Whiting carpaccio',
                 illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
             }
         ]
     },
     {
-        title: 'Eté',
+        title: 'Summer',
         list : [
             {
-                title: 'Courgette à la vapeur',
+                title: 'Steamed zucchini',
                 illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
             },
             {
-                title: 'Caviar d\'aubergine',
+                title: 'Eggplant caviar',
                 illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
             }
         ]
     },
     {
-        title: 'Automne',
+        title: 'Autumn',
         list : [
             {
-                title: 'Potiron au four',
+                title: 'Baked pumpkin',
                 illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
             },
             {
-                title: 'Poêlée de girolles',
+                title: 'Pan-fried chanterelles',
                 illustration: require('../../../../../images/espace_bien_etre/pexels-cats-coming-406152.jpg')
             }
         ]
@@ -79,7 +79,7 @@ export default class DeSaisonsPatient extends React.Component {
             <View style={styles.main}>
                 <Background/>
                 <HeaderRoutePatient navigation={this.props.navigation} 
-                title="De saisons" backRoute="AlimentationEspaceBienEtrePatient"/>
+                title="My seasons" backRoute="AlimentationEspaceBienEtrePatient"/>
 
                 <ScrollView style={{height: hp('95%')}}>
 
@@ -120,7 +120,7 @@ export default class DeSaisonsPatient extends React.Component {
                             <View style={styles.sign_btn}>
                                 <Text style={styles.sign_btn_txt}>+</Text>
                             </View>
-                            <Text style={styles.text_btn}>Ajouter</Text>
+                            <Text style={styles.text_btn}>Add</Text>
                         </View>
                     </View>
                 );

@@ -40,7 +40,7 @@ export default class DashboardPatient extends React.Component {
                             source={require("../../../images/icons/Mon-dossier.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Mon Dossier</Text>
+                            <Text style={styles.text_menu}>My files</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -52,7 +52,7 @@ export default class DashboardPatient extends React.Component {
                             source={require("../../../images/icons/Mes-documents.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Mes documents</Text>
+                            <Text style={styles.text_menu}>My records</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -66,7 +66,7 @@ export default class DashboardPatient extends React.Component {
                             source={require("../../../images/icons/Mo-espace-bien-être.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Mon espace bien être</Text>
+                            <Text style={styles.text_menu}>My wellness space</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -78,7 +78,7 @@ export default class DashboardPatient extends React.Component {
                             source={require("../../../images/icons/Rdv-et-téléconsultations.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Rdv et téléconsultation</Text>
+                            <Text style={styles.text_menu}>Appointment and teleconsultation</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -104,7 +104,7 @@ export default class DashboardPatient extends React.Component {
                             source={require("../../../images/icons/Urgences.png")}/>
                         </View>
                         <View>
-                            <Text style={styles.text_menu}>Urgences</Text>
+                            <Text style={styles.text_menu}>Emergency</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

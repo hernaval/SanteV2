@@ -20,10 +20,10 @@ export class AppFormePatient extends Component {
                     <Text style={styles.illustration_text}>AA</Text>
                 </View>
             </View>
-            <Text style={styles.app_text}>Application</Text>
-            <Text style={styles.app_text}>adaptée</Text>
+            <Text style={styles.app_text}>Suitable</Text>
+            <Text style={styles.app_text}>application</Text>
             <TouchableOpacity style={styles.app_install}>
-                <Text style={styles.app_txt_install}>Installer</Text>
+                <Text style={styles.app_txt_install}>Install</Text>
             </TouchableOpacity>
             </View>
         )
