@@ -12,6 +12,7 @@ import { DocMedicauxPatient } from './DocMedicauxPatient'
 import { FloatButtonDocument } from "./FloatButtonDocument"
 import { OrdonnancePatient } from './OrdonnancePatient'
 import { PassSanitairePatient } from './PassSanitairePatient'
+import { BottomMenuPatient } from "./../BottomMenuPatient";
 
 const data = [
     {
@@ -74,6 +75,7 @@ export default class DocumentPatient extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
+                <BottomMenuPatient/>
                 <FloatButtonDocument/>
                 <HeaderRoutePatient navigation={this.props.navigation} title="My documents"/>
 

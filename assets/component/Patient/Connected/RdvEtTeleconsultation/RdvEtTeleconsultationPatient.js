@@ -8,6 +8,8 @@ import {
   } from 'react-native-responsive-screen' 
 import { HeaderRoutePatient } from '../HeaderRoutePatient'
 import { Background } from '../../../Home/Background'
+import { BottomMenuPatient } from "./../BottomMenuPatient";
+
 
 const data = [
     {
@@ -68,6 +70,7 @@ export default class RdvEtTeleconsultationPatient extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
+                <BottomMenuPatient/>
                 <HeaderRoutePatient navigation={this.props.navigation} title="Appointment and teleconsultations"/>
 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20}}>

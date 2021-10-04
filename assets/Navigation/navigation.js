@@ -77,6 +77,7 @@ import ConnexionPatient from '../component/Patient/ConnexionPatient'
 import InscriptionPatient from '../component/Patient/InscriptionPatient'
 import DossierPatient from '../component/Patient/Connected/Dossier/DossierPatient'
 import DocumentPatient from '../component/Patient/Connected/Document/DocumentPatient'
+import ContactsPatient from '../component/Patient/Connected/Contact/ContactsPatient'
 import DashboardPatient from '../component/Patient/Connected/DashboardPatient'
 import DashboardProSante from '../component/ProSante/DashboardProSante'
 import PatientProSante from '../component/ProSante/DashboardItemProSante/PatientProSante'
@@ -132,6 +133,12 @@ const NavigationBest4Sante = createStackNavigator(
             screen: DocumentPatient,
             navigationOption: {
                 title: 'DocumentPatient'
+            }
+        },
+        ContactsPatient : {
+            screen: ContactsPatient,
+            navigationOption: {
+                title: 'ContactsPatient'
             }
         },
         DetailPassSanitaire : {

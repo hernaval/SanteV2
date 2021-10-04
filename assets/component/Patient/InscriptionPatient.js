@@ -116,7 +116,7 @@ class InscriptionPatient extends React.Component {
                                 I accept the policy
                             </Text>
                             <Text style={styles.checkbox_po}>
-                                RGPO
+                                RGPD
                             </Text>
                         </View>
 

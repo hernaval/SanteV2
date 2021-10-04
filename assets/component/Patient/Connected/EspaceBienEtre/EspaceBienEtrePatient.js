@@ -8,6 +8,7 @@ import {
   } from 'react-native-responsive-screen' 
 import { Background } from '../../../Home/Background';
 import { HeaderRoutePatient } from '../HeaderRoutePatient'
+import { BottomMenuPatient } from "./../BottomMenuPatient";
 
 export default class EspaceBienEtrePatient extends React.Component {
     constructor(props) {
@@ -23,6 +24,7 @@ export default class EspaceBienEtrePatient extends React.Component {
         return (
             <View style={styles.main}>
                 <Background/>
+                <BottomMenuPatient/>
                 <HeaderRoutePatient navigation={this.props.navigation} title="My wellness space"/>
                 <ScrollView>
                 <TouchableOpacity 
@@ -55,7 +57,7 @@ export default class EspaceBienEtrePatient extends React.Component {
                     <Text style={styles.block_title}>My shape</Text>    
                 </TouchableOpacity>
 
-                <View style={{height: hp('10%')}}></View>
+                <View style={{height: hp('13%')}}></View>
                 </ScrollView>
             </View>
         )

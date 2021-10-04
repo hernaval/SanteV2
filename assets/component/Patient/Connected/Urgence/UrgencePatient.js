@@ -8,7 +8,9 @@ import {
   } from 'react-native-responsive-screen' 
 import { HeaderRoutePatient } from '../HeaderRoutePatient'
 import { Background } from '../../../Home/Background'
-import { BottomMenuUrgencePatient } from "./BottomMenuUrgencePatient";
+// import { BottomMenuUrgencePatient } from "./BottomMenuUrgencePatient";
+import { BottomMenuPatient } from "./../BottomMenuPatient";
+
 
 const data = [
     {
@@ -41,7 +43,7 @@ export default class UrgencePatient extends React.Component{
         return(
             <View style={styles.main}>
                 <Background/>
-                <BottomMenuUrgencePatient/>
+                <BottomMenuPatient/>
                 <HeaderRoutePatient navigation={this.props.navigation} title="Emergency"/>
                 
                 <ScrollView style={{height: hp('95%'), marginLeft: 20, marginRight: 20, marginTop: 20}}>

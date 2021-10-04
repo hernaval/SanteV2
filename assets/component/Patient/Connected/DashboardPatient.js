@@ -86,7 +86,7 @@ export default class DashboardPatient extends React.Component {
                 <View style={[styles.main_dashboard]}>
                     <TouchableOpacity 
                     style={styles.card_menu}
-                    onPress={() => this._pressMenu(null)}>
+                    onPress={() => this._pressMenu('ContactsPatient')}>
                         <View style={styles.icon_menu}>
                             <Image style={styles.icon_img}
                             source={require("../../../images/icons/Contacts.png")}/>

@@ -12,6 +12,8 @@ import { InfoMedicalePatient } from './InfoMedicalePatient';
 import { RappelPatient } from './RappelPatient';
 import { FloatButtonDossier } from "./FloatButtonDossier"
 import { Background } from '../../../Home/Background';
+import { BottomMenuPatient } from "./../BottomMenuPatient";
+
 
 const data = [
     {
@@ -74,7 +76,7 @@ export default class DossierPatient extends React.Component {
         return(
             <View style={styles.main}>
                 <Background/>
-
+                <BottomMenuPatient/>
                 <FloatButtonDossier/>
 
                 <HeaderRoutePatient navigation={this.props.navigation} title="My file"/>
